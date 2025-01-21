@@ -1,0 +1,53 @@
+.contactUs {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contactUs h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  background: var(--gradient-h);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.socials {
+  margin-top: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 75px;
+}
+
+.social {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid var(--primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.social.insta {
+  background-color: var(--primary);
+}
+
+.social:hover {
+  width: 150px;
+  height: 150px;
+}
+
+.socialWrapper {
+  width: 175px;
+  height: 175px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
