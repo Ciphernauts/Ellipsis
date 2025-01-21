@@ -1,0 +1,25 @@
+.aboutus {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.aboutus h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  background: var(--gradient-h);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.desc{
+  width: 900px;
+  margin: 56px 0 0 0;
+}
+
+.desc b {
+  color: var(--primary);
+}
