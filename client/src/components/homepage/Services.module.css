@@ -1,0 +1,81 @@
+.services {
+  width: 100%;
+  height: 100vh;
+  background: var(--gradient-h);
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+  z-index: 0;
+}
+
+.services::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    transparent 60%,
+    rgba(255, 255, 255, 0.07) 66%,
+    rgba(255, 255, 255, 0.2) 74%,
+    rgba(255, 255, 255, 0.9) 95%,
+    var(--light) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.desc {
+  color: var(--light);
+  width: 350px;
+  margin-top: 116px;
+  font-weight: 300;
+  z-index: 2;
+}
+
+.desc h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--light);
+}
+
+.desc p {
+  margin-top: 22px;
+}
+
+.cards {
+  width: 115vh;
+  margin-top: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5vh;
+  z-index: 2;
+}
+
+.service {
+  width: 48vh;
+  height: 48vh;
+  border-radius: 4%;
+  padding: 0 24px;
+  background-color: var(--light);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.iconContainer {
+  width: 100px;
+  height: 100px;
+  background-color: var(--dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service h2 {
+  font-size: 20px;
+  margin: 18px 0 10px 0;
+}
