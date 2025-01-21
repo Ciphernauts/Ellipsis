@@ -1,0 +1,24 @@
+.hero {
+  width: 100%;
+  height: 100vh;
+  padding-top: 45px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 70px;
+}
+
+.hero h1 {
+  font-size: 50px;
+  font-weight: 800;
+  background: var(--gradient-h);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  width: 520px;
+  font-weight: 300;
+  margin: 17px 0 46px 0;
+}
