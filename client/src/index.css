@@ -185,7 +185,7 @@ a {
 }
 
 a:hover {
-  color: var(--primary);
+  color: inherit;
 }
 
 /* Lists */
