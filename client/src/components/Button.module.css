@@ -1,0 +1,60 @@
+.button {
+  padding: 0 40px;
+  border-radius: 22px;
+  text-wrap: nowrap;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+/* SIZES */
+
+.medium {
+  height: 50px;
+}
+
+.large {
+  height: 55px;
+}
+
+/* FILLED COLORS */
+
+.dark.filled {
+  background-color: var(--dark);
+}
+
+.dark:hover {
+  background-color: var(--primary);
+}
+
+.primary.filled {
+  background-color: var(--primary);
+}
+
+.primary:hover {
+  background-color: var(--dark);
+}
+
+/* OUTLINED COLORS */
+
+.dark.outlined {
+  background-color: transparent;
+  border: 3px solid var(--dark);
+  color: var(--dark);
+}
+
+.dark.outlined:hover {
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+.primary.outlined {
+  background-color: transparent;
+  border: 3px solid var(--primary);
+  color: var(--primary);
+}
+
+.primary.outlined:hover {
+  background-color: var(--primary);
+  color: var(--light);
+}
