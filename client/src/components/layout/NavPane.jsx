@@ -12,8 +12,8 @@ import ArrowIcon from "../icons/ArrowIcon";
 
 export default function NavPane() {
   const [toggleDropdown, setToggleDropdown] = useState({
-    "safety-trends": true,
-    timeline: true,
+    "safety-trends": false,
+    timeline: false,
   });
 
   const handleToggle = (key) => {
@@ -22,10 +22,6 @@ export default function NavPane() {
       [key]: !prevState[key],
     }));
   };
-
-  useEffect(() => {
-    console.log(toggleDropdown);
-  }, [toggleDropdown]);
 
   return (
     <nav className={styles.navpane}>

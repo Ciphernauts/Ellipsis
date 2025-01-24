@@ -11,9 +11,9 @@ export default function ArrowIcon({ className }) {
       <path
         d="M1.5 1.16666L7.33333 6.99999L1.5 12.8333"
         stroke="var(--primary)"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
