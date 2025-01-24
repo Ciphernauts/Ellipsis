@@ -1,14 +1,26 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/layout/Layout";
 import HomePage from "./pages/HomePage";
-import { Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-      </Routes>
-    </>
+    <Routes>
+      {/* Route without nav pane */}
+      <Route path="/" element={<HomePage />} />
+
+      {/* Routes with nav pane */}
+      <Route element={<Layout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/safety-trends" element={<Dashboard />} />
+        <Route path="/timeline" element={<Dashboard />} />
+        <Route path="/alert-history" element={<Dashboard />} />
+        <Route path="/construction-sites" element={<Dashboard />} />
+        <Route path="/cameras" element={<Dashboard />} />
+      </Route>
+    </Routes>
   );
-}
+};
 
 export default App;
