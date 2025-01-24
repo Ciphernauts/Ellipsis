@@ -1,9 +1,9 @@
-export default function Logo() {
+export default function Logo({ size = 50 }) {
   return (
     <div className="logo">
       <svg
-        width="50px"
-        height="50px"
+        width={size}
+        height={size}
         viewBox="0 0 100 100"
         version="1.1"
         id="svg1"
