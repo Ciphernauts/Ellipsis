@@ -1,0 +1,46 @@
+.card {
+  background-color: var(--light);
+  padding: 15px 19px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.card h2 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 26px;
+}
+
+.overall {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overall .percentage {
+  position: absolute;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+}
+
+.breakdown .section .percentage {
+  align-items: flex-start;
+}
+
+.breakdown .section .progressBar {
+  margin-top: 4px;
+}
