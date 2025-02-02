@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./NavPane.module.css";
-import Logo from "../icons/Logo";
+import img from "../../assets/Icon_black_png.png";
 import { NavLink } from "react-router-dom";
 import NPDashboardIcon from "../icons/NPDashboardIcon";
 import NPSafetyTrendsIcon from "../icons/NPSafetyTrendsIcon";
@@ -25,7 +25,7 @@ export default function NavPane() {
 
   return (
     <nav className={styles.navpane}>
-      <Logo size={40} />
+      <img src={img} alt="" />
       <div className={styles.list}>
         <NavLink to="/dashboard">
           {({ isActive }) => (
@@ -49,7 +49,11 @@ export default function NavPane() {
                 <NPSafetyTrendsIcon />
                 <p>Safety Trends</p>
                 <ArrowIcon
-                  className={`${styles.arrowIcon} ${isActive && toggleDropdown["safety-trends"] ? styles.rotate : ""}`}
+                  className={`${styles.arrowIcon} ${
+                    isActive && toggleDropdown["safety-trends"]
+                      ? styles.rotate
+                      : ""
+                  }`}
                 />
               </div>
 
@@ -138,7 +142,9 @@ export default function NavPane() {
                 <NPTimelineIcon />
                 <p>Timeline</p>
                 <ArrowIcon
-                  className={`${styles.arrowIcon} ${isActive && toggleDropdown["timeline"] ? styles.rotate : ""}`}
+                  className={`${styles.arrowIcon} ${
+                    isActive && toggleDropdown["timeline"] ? styles.rotate : ""
+                  }`}
                 />
               </div>
               {/* Dropdown Menu */}

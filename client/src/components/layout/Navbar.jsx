@@ -1,5 +1,5 @@
 import styles from "./Navbar.module.css";
-import Logo from "../icons/Logo";
+import img from "../../assets/Icon_black_png.png";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 
@@ -7,7 +7,7 @@ export default function LandingPage() {
   return (
     <div className={styles.navbar}>
       <div className={styles.brand}>
-        <Logo size={50} />
+        <img src={img} alt="" />
         <p className={styles.logoName}>Ellipsis</p>
       </div>
       <div className={styles.navlinks}>
