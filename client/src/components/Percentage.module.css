@@ -1,0 +1,18 @@
+.percentage {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.percentage .label {
+  color: var(--primary);
+}
+
+.number {
+  line-height: 1.2em;
+}
+
+.symbol {
+  margin-left: 3px;
+}
