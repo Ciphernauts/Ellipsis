@@ -9,6 +9,7 @@ export default function Dashboard() {
       <main>
         <div className={styles.row}>
           <SafetyScoreCard />
+          <SafetyScoreTrends />
         </div>
       </main>
     </div>

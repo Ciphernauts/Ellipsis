@@ -5,8 +5,17 @@
   align-items: center;
 }
 
+.percentage.hasLabel2 {
+  align-items: flex-start;
+}
+
 .percentage .label {
   color: var(--primary);
+}
+
+.percentage div {
+  display: flex;
+  align-items: center;
 }
 
 .number {
@@ -14,5 +23,10 @@
 }
 
 .symbol {
-  margin-left: 3px;
+  margin: 0 0 0 3px;
+  line-height: normal;
+}
+
+.label2 {
+  margin: 0 3px 0 0;
 }

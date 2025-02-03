@@ -1,0 +1,88 @@
+.card {
+  flex-grow: 2;
+  background-color: var(--light);
+  padding: 15px 19px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.card .header {
+  font-size: 12px;
+  font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card h2 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.timeOption {
+  padding: 4px 11px;
+  background-color: var(--neutral);
+  border-radius: 15px;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: normal;
+  word-wrap: normal;
+  cursor: pointer;
+}
+
+.timeOption.active {
+  background-color: var(--secondary);
+  font-weight: 400;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content > div {
+  height: 100%;
+  width: fit-content;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.growthContainer {
+  font-size: 11px;
+}
+
+.growthContainer.growth {
+  color: #0fd7a5;
+}
+
+.growthContainer.decline {
+  color: #d21616;
+}
+
+.growthContainer span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.growthContainer.growth span .arrow {
+  transform: rotateZ(-90deg);
+}
+
+.growthContainer.decline span .arrow {
+  transform: rotateZ(90deg);
+}
