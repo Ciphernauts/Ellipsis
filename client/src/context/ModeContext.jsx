@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const ModeContext = createContext();
 
@@ -6,7 +6,7 @@ export const useMode = () => useContext(ModeContext);
 
 export function ModeProvider({ children }) {
   // Set "General" as the default mode
-  const [mode, setMode] = useState("General");
+  const [mode, setMode] = useState('General');
 
   // Uncomment this when the API is developed
   // useEffect(() => {

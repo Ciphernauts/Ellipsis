@@ -31,8 +31,8 @@ dd {
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role="list"],
-ol[role="list"] {
+ul[role='list'],
+ol[role='list'] {
   list-style: none;
 }
 
@@ -112,7 +112,7 @@ textarea:not([rows]) {
   --gradient-v: linear-gradient(0deg, var(--primary) 0%, var(--secondary) 100%);
 
   /* Typography */
-  --font-family: "Inter", sans-serif;
+  --font-family: 'Inter', sans-serif;
   --font-size-base: 16px;
   --font-size-large: 18px;
   --font-size-small: 14px;

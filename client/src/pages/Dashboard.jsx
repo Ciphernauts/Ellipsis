@@ -1,6 +1,6 @@
-import SafetyScoreCard from "../components/dashboard/SafetyScoreCard";
-import SafetyScoreTrends from "../components/dashboard/SafetyScoreTrends";
-import styles from "./Dashboard.module.css";
+import SafetyScoreCard from '../components/dashboard/SafetyScoreCard';
+import SafetyScoreTrends from '../components/dashboard/SafetyScoreTrends';
+import styles from './Dashboard.module.css';
 
 export default function Dashboard() {
   return (
