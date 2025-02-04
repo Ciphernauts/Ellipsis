@@ -1,0 +1,100 @@
+.card {
+  width: 707px;
+  padding: 23px 10px 23px 19px;
+  display: flex;
+}
+
+.titleCard {
+  width: 149px;
+  height: 234px;
+  padding: 16px 20px;
+  background: var(--background-color);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.titleCard h2 {
+  font-size: 20px;
+}
+
+.titleCard div div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.titleCard div div .percentage {
+  position: absolute;
+  margin-top: 10px;
+}
+
+.titleCard div p {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+}
+
+.complianceCards {
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.complianceCard {
+  padding: 6px 0;
+  height: 224px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.complianceTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.iconContainer {
+  width: 44px;
+  height: 44px;
+  background-color: var(--dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.complianceTitle h3 {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+}
+
+.complianceCardScore {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.complianceCardScore .percentage {
+  position: absolute;
+}
+
+.complianceCardDesc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 125px;
+  height: 22px;
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.3;
+}
