@@ -211,3 +211,9 @@ button {
 button:hover {
   background-color: var(--secondary);
 }
+
+.dashboardCard {
+  background-color: var(--light);
+  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 15px;
+}

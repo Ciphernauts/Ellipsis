@@ -1,12 +1,10 @@
 .card {
   flex-grow: 2;
-  background-color: var(--light);
-  padding: 15px 19px;
-  border-radius: 15px;
+  padding: 15px 19px 7px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
+  gap: 10px;
 }
 
 .card .header {

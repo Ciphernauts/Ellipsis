@@ -1,12 +1,11 @@
 .layout {
   height: 100%;
-  background-color: var(--background-color);
   display: flex;
 }
 
 .main {
   width: 100%;
-  margin: 20px 27px 0 340px;
+  margin: 20px 27px 28px 340px;
 }
 
 .main h1 {

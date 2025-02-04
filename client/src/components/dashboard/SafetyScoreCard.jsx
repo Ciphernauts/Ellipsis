@@ -50,7 +50,7 @@ export default function SafetyScoreCard() {
   ];
 
   return (
-    <div className={styles.card}>
+    <div className={`${'dashboardCard'} ${styles.card}`}>
       <h2>Safety Score Overview</h2>
       <div className={styles.content}>
         <div className={styles.overall}>
@@ -59,7 +59,7 @@ export default function SafetyScoreCard() {
             label='Overall avg'
             className={styles.percentage}
           />
-          <PieChart width={160} height={160} title='Safety Score' fill='black'>
+          <PieChart width={160} height={160} title='Safety Score'>
             <Pie
               data={chartData}
               innerRadius={60}
@@ -67,7 +67,6 @@ export default function SafetyScoreCard() {
               cornerRadius={10}
               paddingAngle={-15}
               startAngle={0}
-              fill='black'
               stroke='none'
               dataKey='value'
             >

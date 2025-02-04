@@ -1,8 +1,6 @@
 .card {
   flex-grow: 1;
-  background-color: var(--light);
   padding: 15px 19px;
-  border-radius: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -15,10 +13,10 @@
 }
 
 .content {
+  min-width: 270px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 26px;
 }
 
 .overall {

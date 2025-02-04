@@ -115,7 +115,7 @@ export default function SafetyScoreTrends() {
   const growthColor = growth.positive ? '#0FD7A5' : '#D21616';
 
   return (
-    <div className={styles.card}>
+    <div className={`${'dashboardCard'} ${styles.card}`}>
       <div className={styles.header}>
         <h2>Safety Score Trends</h2>
         <div className={styles.options}>
