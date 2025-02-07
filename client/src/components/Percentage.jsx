@@ -1,25 +1,25 @@
-import styles from "./Percentage.module.css";
+import styles from './Percentage.module.css';
 
 export default function Percentage({
   number = 0,
-  label = "",
+  label = '',
   numberSize = 34,
-  numberWeight = 700,
+  numberWeight = 800,
   symbolSize = 14,
   labelSize = 12,
   labelWeight = 500,
-  label2 = "",
+  label2 = '',
   label2size = 12,
   label2weight = 600,
-  className = "",
+  className = '',
 }) {
   return (
     <div
       className={`${styles.percentage} ${className} ${
-        label2 !== "" ? styles.hasLabel2 : ""
+        label2 !== '' ? styles.hasLabel2 : ''
       }`}
     >
-      {label !== "" && (
+      {label !== '' && (
         <div
           className={styles.label}
           style={{
@@ -31,7 +31,7 @@ export default function Percentage({
         </div>
       )}
       <div>
-        {label2 !== "" && (
+        {label2 !== '' && (
           <span
             className={styles.label2}
             style={{

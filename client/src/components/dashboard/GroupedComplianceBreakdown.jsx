@@ -54,8 +54,6 @@ export default function GroupedComplianceBreakdown({ title, data }) {
     harness: 'Safety rope compliance rate at height',
   };
 
-  console.log(transformedData);
-
   return (
     <div className={`${'dashboardCard'} ${styles.card}`}>
       <div className={styles.titleCard}>
