@@ -1,0 +1,28 @@
+.duration {
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.hours,
+.minutes {
+  font-weight: 500;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.number {
+  line-height: normal;
+}
+
+.hours .number {
+  font-size: 39px;
+  font-weight: 800;
+}
+
+.minutes .number {
+  font-size: 31px;
+  font-weight: 800;
+}
