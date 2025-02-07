@@ -15,8 +15,8 @@ export default function HeroSection() {
           Keep your workers safe with an AI-powered system for real-time hazard
           detection and compliance monitoring.
         </p>
-        <Link to="/register">
-          <Button size="large" text="Get Started" />
+        <Link to='/register'>
+          <Button size='large' text='Get Started' />
         </Link>
       </div>
     </div>

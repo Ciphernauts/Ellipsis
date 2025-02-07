@@ -17,6 +17,11 @@
   height: 55px;
 }
 
+.small {
+  height: 32px;
+  padding: 6px 20px;
+}
+
 /* FILLED COLORS */
 
 .dark.filled {

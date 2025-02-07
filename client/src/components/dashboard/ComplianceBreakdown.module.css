@@ -1,0 +1,7 @@
+.breakdown {
+  width: 100%;
+  min-width: 630px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

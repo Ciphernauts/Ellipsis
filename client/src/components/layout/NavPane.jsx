@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import styles from "./NavPane.module.css";
-import Logo from "../icons/Logo";
-import { NavLink } from "react-router-dom";
-import NPDashboardIcon from "../icons/NPDashboardIcon";
-import NPSafetyTrendsIcon from "../icons/NPSafetyTrendsIcon";
-import NPTimelineIcon from "../icons/NPTimelineIcon";
-import NPAlertHistoryIcon from "../icons/NPAlertHistoryIcon";
-import NPConstructionSitesIcon from "../icons/NPConstructionSitesIcon";
-import NPCamerasIcon from "../icons/NPCamerasIcon";
-import ArrowIcon from "../icons/ArrowIcon";
+import { useEffect, useState } from 'react';
+import styles from './NavPane.module.css';
+import img from '../../assets/Icon_black_png.png';
+import { NavLink } from 'react-router-dom';
+import NPDashboardIcon from '../icons/NPDashboardIcon';
+import NPSafetyTrendsIcon from '../icons/NPSafetyTrendsIcon';
+import NPTimelineIcon from '../icons/NPTimelineIcon';
+import NPAlertHistoryIcon from '../icons/NPAlertHistoryIcon';
+import NPConstructionSitesIcon from '../icons/NPConstructionSitesIcon';
+import NPCamerasIcon from '../icons/NPCamerasIcon';
+import ArrowIcon from '../icons/ArrowIcon';
 
 export default function NavPane() {
   const [toggleDropdown, setToggleDropdown] = useState({
-    "safety-trends": true,
-    timeline: true,
+    'safety-trends': false,
+    'timeline': false,
   });
 
   const handleToggle = (key) => {
@@ -23,18 +23,14 @@ export default function NavPane() {
     }));
   };
 
-  useEffect(() => {
-    console.log(toggleDropdown);
-  }, [toggleDropdown]);
-
   return (
     <nav className={styles.navpane}>
-      <Logo size={40} />
+      <img src={img} alt='' />
       <div className={styles.list}>
-        <NavLink to="/dashboard">
+        <NavLink to='/dashboard'>
           {({ isActive }) => (
             <div
-              className={`${styles.navlink} ${isActive ? styles.active : ""}`}
+              className={`${styles.navlink} ${isActive ? styles.active : ''}`}
             >
               <NPDashboardIcon />
               <p>Dashboard</p>
@@ -43,85 +39,89 @@ export default function NavPane() {
           )}
         </NavLink>
 
-        <NavLink to="/safety-trends">
+        <NavLink to='/safety-trends'>
           {({ isActive }) => (
             <>
               <div
-                className={`${styles.navlink} ${isActive ? styles.active : ""}`}
-                onClick={() => handleToggle("safety-trends")} // Pass the key for this dropdown
+                className={`${styles.navlink} ${isActive ? styles.active : ''}`}
+                onClick={() => handleToggle('safety-trends')} // Pass the key for this dropdown
               >
                 <NPSafetyTrendsIcon />
                 <p>Safety Trends</p>
                 <ArrowIcon
-                  className={`${styles.arrowIcon} ${isActive && toggleDropdown["safety-trends"] ? styles.rotate : ""}`}
+                  className={`${styles.arrowIcon} ${
+                    isActive && toggleDropdown['safety-trends']
+                      ? styles.rotate
+                      : ''
+                  }`}
                 />
               </div>
 
               {/* Dropdown Menu */}
-              {isActive && toggleDropdown["safety-trends"] && (
+              {isActive && toggleDropdown['safety-trends'] && (
                 <ul className={styles.dropdown}>
                   <NavLink
-                    to={"/safety-trends/overall"}
+                    to={'/safety-trends/overall'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Overall Safety</li>
                   </NavLink>
                   <li className={styles.sectionHeader}>PPE Detection</li>
                   <NavLink
-                    to={"/safety-trends/helmet"}
+                    to={'/safety-trends/helmet'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Helmet</li>
                   </NavLink>
                   <NavLink
-                    to={"/safety-trends/footwear"}
+                    to={'/safety-trends/footwear'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Footwear</li>
                   </NavLink>
                   <NavLink
-                    to={"/safety-trends/vest"}
+                    to={'/safety-trends/vest'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Vest</li>
                   </NavLink>
                   <NavLink
-                    to={"/safety-trends/gloves"}
+                    to={'/safety-trends/gloves'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Gloves</li>
                   </NavLink>
                   <NavLink
-                    to={"/safety-trends/scaffolding"}
+                    to={'/safety-trends/scaffolding'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Scaffolding</li>
                   </NavLink>
                   <li className={styles.sectionHeader}>Fall Protection</li>
                   <NavLink
-                    to={"/safety-trends/guardrails"}
+                    to={'/safety-trends/guardrails'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Guardrails</li>
                   </NavLink>
                   <NavLink
-                    to={"/safety-trends/harness"}
+                    to={'/safety-trends/harness'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Harness</li>
@@ -132,34 +132,36 @@ export default function NavPane() {
           )}
         </NavLink>
 
-        <NavLink to="/timeline">
+        <NavLink to='/timeline'>
           {({ isActive }) => (
             <>
               <div
-                className={`${styles.navlink} ${isActive ? styles.active : ""}`}
-                onClick={() => handleToggle("timeline")} // Pass the key for this dropdown
+                className={`${styles.navlink} ${isActive ? styles.active : ''}`}
+                onClick={() => handleToggle('timeline')} // Pass the key for this dropdown
               >
                 <NPTimelineIcon />
                 <p>Timeline</p>
                 <ArrowIcon
-                  className={`${styles.arrowIcon} ${isActive && toggleDropdown["timeline"] ? styles.rotate : ""}`}
+                  className={`${styles.arrowIcon} ${
+                    isActive && toggleDropdown['timeline'] ? styles.rotate : ''
+                  }`}
                 />
               </div>
               {/* Dropdown Menu */}
-              {isActive && toggleDropdown["timeline"] && (
+              {isActive && toggleDropdown['timeline'] && (
                 <ul className={styles.dropdown}>
                   <NavLink
-                    to={"/timeline/calendar"}
+                    to={'/timeline/calendar'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Calendar</li>
                   </NavLink>
                   <NavLink
-                    to={"/timeline/sessions"}
+                    to={'/timeline/sessions'}
                     className={({ isActive }) =>
-                      `${styles.subNavlink} ${isActive ? styles.active : ""}`
+                      `${styles.subNavlink} ${isActive ? styles.active : ''}`
                     }
                   >
                     <li>Sessions</li>
@@ -170,10 +172,10 @@ export default function NavPane() {
           )}
         </NavLink>
 
-        <NavLink to="/alert-history">
+        <NavLink to='/alert-history'>
           {({ isActive }) => (
             <div
-              className={`${styles.navlink} ${isActive ? styles.active : ""}`}
+              className={`${styles.navlink} ${isActive ? styles.active : ''}`}
             >
               <NPAlertHistoryIcon />
               <p>Alert History</p>
@@ -182,10 +184,10 @@ export default function NavPane() {
           )}
         </NavLink>
 
-        <NavLink to="/construction-sites">
+        <NavLink to='/construction-sites'>
           {({ isActive }) => (
             <div
-              className={`${styles.navlink} ${isActive ? styles.active : ""}`}
+              className={`${styles.navlink} ${isActive ? styles.active : ''}`}
             >
               <NPConstructionSitesIcon />
               <p>Construction Sites</p>
@@ -194,10 +196,10 @@ export default function NavPane() {
           )}
         </NavLink>
 
-        <NavLink to="/cameras">
+        <NavLink to='/cameras'>
           {({ isActive }) => (
             <div
-              className={`${styles.navlink} ${isActive ? styles.active : ""}`}
+              className={`${styles.navlink} ${isActive ? styles.active : ''}`}
             >
               <NPCamerasIcon />
               <p>Cameras</p>
