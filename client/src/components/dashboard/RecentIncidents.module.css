@@ -1,0 +1,69 @@
+.card {
+  width: 100%;
+  height: 100%;
+  max-height: 270px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card h2 {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.incidents {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.incident {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.incident .bullet {
+  width: 10px;
+  height: 10px;
+  min-width: 10px;
+  background-color: #f9d75c;
+  border-radius: 50%;
+}
+
+.incident.critical .bullet {
+  background-color: #d21616;
+}
+
+.incident .desc {
+  width: 100%;
+  height: 100%;
+  background-color: #f9d75c;
+  padding: 7px 14px;
+  border-radius: 7px;
+  line-height: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+.incident.critical .desc {
+  background-color: #d21616;
+  color: var(--light);
+}
+
+.incident .desc .name {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.incident .desc .severity {
+  font-size: 9px;
+}

@@ -10,6 +10,22 @@ main {
 }
 
 .row {
+  width: 100%;
   display: flex;
   gap: 20px;
+  align-items: stretch;
+}
+
+.column {
+  width: 50%;
+  max-width: 570px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 1500px) {
+  .dashboard {
+    width: 1138px;
+  }
 }
