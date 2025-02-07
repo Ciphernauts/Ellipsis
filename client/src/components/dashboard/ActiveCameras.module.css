@@ -1,0 +1,18 @@
+.card {
+  width: 45%;
+  height: 75px;
+  padding: 4px 12px 11px 12px;
+}
+
+.card h2 {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.number {
+  font-size: 39px;
+  font-weight: 800;
+  line-height: normal;
+  display: flex;
+  justify-content: center;
+}
