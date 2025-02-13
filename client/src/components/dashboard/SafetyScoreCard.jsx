@@ -4,22 +4,7 @@ import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 import styles from './SafetyScoreCard.module.css';
 import ProgressBar from '../ProgressBar';
 
-export default function SafetyScoreCard() {
-  // Placeholder data
-  const data = {
-    ppe: {
-      helmet: 97.3,
-      vest: 74.9,
-      footwear: 86.9,
-      gloves: 94.7,
-    },
-    fall: {
-      scaffolding: 77.0,
-      guardrails: 51.8,
-      harness: 87.5,
-    },
-  };
-
+export default function SafetyScoreCard({ data }) {
   // Helper function to calculate the average of an object
   const calculateAverage = (values) => {
     const sum = Object.values(values).reduce((acc, value) => acc + value, 0);
