@@ -1,28 +1,56 @@
-.duration {
+/* LARGE */
+
+.duration.large {
   line-height: 28px;
   display: flex;
   align-items: center;
   gap: 7px;
 }
 
-.hours,
-.minutes {
+.large .hours,
+.large .minutes {
   font-weight: 500;
   display: flex;
   align-items: flex-end;
   gap: 3px;
 }
 
-.number {
+.large .hours .number,
+.large .minutes .number {
   line-height: normal;
 }
 
-.hours .number {
+.large .hours .number {
   font-size: 39px;
   font-weight: 800;
 }
 
-.minutes .number {
+.large .minutes .number {
   font-size: 31px;
   font-weight: 800;
+}
+
+/* SMALL */
+
+.duration.small {
+  line-height: normal;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.small .hours,
+.small .minutes,
+.small .seconds {
+  font-size: 11px;
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.small .hours .number,
+.small .minutes .number,
+.small .seconds .number {
+  font-size: 13px;
 }
