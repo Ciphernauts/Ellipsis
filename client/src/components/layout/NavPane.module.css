@@ -31,9 +31,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 
-.active {
+.navlink.active {
   background-color: var(--light);
   font-weight: 500;
 }
@@ -67,6 +68,10 @@ li ul {
 
 .subNavlink:hover {
   color: var(--primary);
+}
+
+.subNavlink.active {
+  font-weight: 500;
 }
 
 .sectionHeader {

@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: 40px;
+  transition: 0.4s;
 }
 
 .modes {
@@ -24,6 +25,13 @@
   display: flex;
   align-items: center;
   gap: 15px;
+}
+
+.user.paneOpen {
+  visibility: hidden;
+  width: 26vw;
+  max-width: 448px;
+  min-width: 260px;
 }
 
 .user img {

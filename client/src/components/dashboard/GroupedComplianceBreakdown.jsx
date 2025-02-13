@@ -1,5 +1,6 @@
 import styles from './GroupedComplianceBreakdown.module.css';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { capitalizeFirstLetter } from '../../utils/helpers';
 import Percentage from '../Percentage';
 import HelmetIcon from '../icons/HelmetIcon';
 import VestIcon from '../icons/VestIcon';
@@ -39,10 +40,6 @@ export default function GroupedComplianceBreakdown({ title, data }) {
     guardrails: <GuardrailsIcon />,
     harness: <HarnessIcon />,
   };
-
-  function capitalizeFirstLetter(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }
 
   const descriptions = {
     helmet: 'Helmet compliance rate',

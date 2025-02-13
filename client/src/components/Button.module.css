@@ -1,10 +1,12 @@
 .button {
+  width: fit-content;
   padding: 0 40px;
   border-radius: 22px;
   text-wrap: nowrap;
   transition: 0.2s;
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
 /* SIZES */
@@ -15,6 +17,9 @@
 
 .large {
   height: 55px;
+}
+.large.icon {
+  padding: 0 30px;
 }
 
 .small {

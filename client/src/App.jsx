@@ -1,9 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
-import { ModeProvider } from './context/ModeContext'; // Import the ModeProvider
+import TimelineCalendar from './pages/TimelineCalendar';
+import { ModeProvider } from './context/ModeContext';
 
 const App = () => {
   return (
@@ -16,7 +21,15 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/safety-trends' element={<Dashboard />} />
-          <Route path='/timeline' element={<Dashboard />} />
+
+          {/* Redirect from /timeline to /timeline/calendar */}
+          <Route
+            path='/timeline'
+            element={<Navigate to='/timeline/calendar' replace />}
+          />
+
+          <Route path='/timeline/calendar' element={<TimelineCalendar />} />
+
           <Route path='/alert-history' element={<Dashboard />} />
           <Route path='/construction-sites' element={<Dashboard />} />
           <Route path='/cameras' element={<Dashboard />} />

@@ -14,6 +14,7 @@ export default function SessionDuration() {
       <Duration
         hours={data.duration.hours}
         minutes={data.duration.minutes}
+        size='large'
         className={styles.duration}
       />
     </div>

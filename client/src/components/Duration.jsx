@@ -1,8 +1,14 @@
 import styles from './Duration.module.css';
 
-export default function Duration({ hours, minutes, className = '' }) {
+export default function Duration({
+  hours,
+  minutes,
+  seconds,
+  size = 'small',
+  className = '',
+}) {
   return (
-    <div className={`${styles.duration} ${className}`}>
+    <div className={`${styles.duration} ${className} ${styles[size]}`}>
       <div className={styles.hours}>
         <span className={styles.number}>{hours}</span>
         <span>h</span>
@@ -11,6 +17,12 @@ export default function Duration({ hours, minutes, className = '' }) {
         <span className={styles.number}>{minutes}</span>
         <span>m</span>
       </div>
+      {size === 'small' && (
+        <div className={styles.seconds}>
+          <span className={styles.number}>{seconds}</span>
+          <span>s</span>
+        </div>
+      )}
     </div>
   );
 }

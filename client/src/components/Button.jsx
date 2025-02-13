@@ -8,29 +8,38 @@ export default function Button({
   text = 'Button',
   to = null,
   onClick = null,
+  className = '',
+  icon = null,
 }) {
   const buttonClass = [
     styles.button,
     styles[size],
     styles[color],
     fill ? styles.filled : styles.outlined,
+    icon && styles.icon,
+    className,
   ]
     .filter(Boolean)
     .join(' ');
 
+  const content = (
+    <>
+      {icon && <span className={styles.icon}>{icon}</span>}
+      {text}
+    </>
+  );
+
   if (to) {
-    // Render as a Link if `to` is provided
     return (
       <Link to={to} className={buttonClass}>
-        {text}
+        {content}
       </Link>
     );
   }
 
-  // Render as a standard button if `to` is not provided
   return (
     <button className={buttonClass} onClick={onClick}>
-      {text}
+      {content}
     </button>
   );
 }
