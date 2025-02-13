@@ -4,7 +4,7 @@ import { useMode } from '../../context/ModeContext';
 import Button from '../Button';
 import ProfilePic from '../../assets/profile.png';
 
-export default function Header() {
+export default function Header({ showRightPane = false }) {
   const { mode } = useMode(); // Access mode from context
 
   return (
@@ -13,7 +13,7 @@ export default function Header() {
         <span>{mode ? mode : 'Loading...'} mode</span>
         <Button size='small' color='primary' fill={false} text='Change Mode' />
       </div>
-      <div className={styles.user}>
+      <div className={`${styles.user} ${showRightPane && styles.paneOpen} `}>
         Hi, User
         <img src={ProfilePic} alt='profile picture' />
       </div>
