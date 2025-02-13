@@ -1,0 +1,137 @@
+.timelineCalendar {
+  width: 43vw;
+  height: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.arrowButton {
+  width: 35px;
+  height: 35px;
+  background: none;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.arrowButton:hover {
+  background-color: var(--neutral);
+}
+
+.prevArrow {
+  transform: rotateY(180deg);
+}
+
+.monthSelector {
+  width: 100%;
+}
+
+.year {
+  text-align: center;
+  color: var(--secondary);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.months {
+  width: 100%;
+  font-size: 15px;
+  font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.month {
+  width: 117px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.month:hover:not(.month.active) {
+  color: var(--primary);
+}
+
+.month.selected {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.month.active {
+  color: var(--primary);
+}
+
+.daysOfWeek {
+  width: 100%;
+  margin: 42px 0 21px 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.daysOfWeek span {
+  width: 69px;
+  text-align: center;
+  color: var(--primary);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  gap: 10px;
+}
+
+.day {
+  width: 100%;
+  height: 55px;
+  padding: 5px 9px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 300;
+  display: flex;
+  transition: 0.2s;
+}
+
+.day.currentMonth {
+  background-color: var(--light);
+}
+
+.day.otherMonth {
+  color: var(--neutral);
+}
+
+.day.today {
+  background-color: var(--primary);
+  color: var(--light);
+  font-weight: 700;
+}
+
+.day.yet {
+  color: var(--neutral);
+}
+
+.day.currentMonth:not(.yet):hover {
+  background-color: var(--neutral);
+  cursor: pointer;
+}
+
+.day.active:not(.otherMonth) {
+  background-color: var(--secondary);
+  color: var(--dark);
+  font-weight: 600;
+}
+
+@media (max-width: 1200px) {
+  .timelineCalendar {
+    width: 37vw;
+  }
+}
