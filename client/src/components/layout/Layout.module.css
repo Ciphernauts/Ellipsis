@@ -55,7 +55,7 @@
   margin-top: 20px;
   margin-right: 23px;
   border-radius: 15px;
-  box-shadow: none;
+  box-shadow: none !important;
   /* padding: 20px 0 20px 7px; this is extra padding, bcs theres already some padding with react sliding pane */
   font-size: 13px;
   pointer-events: all;
