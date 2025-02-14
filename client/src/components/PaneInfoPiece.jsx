@@ -1,11 +1,18 @@
 import React from 'react';
 import styles from './PaneInfoPiece.module.css';
 
-export default function PaneInfoPiece({ name, value }) {
+export default function PaneInfoPiece({
+  name,
+  value,
+  className,
+  fontSize = 13,
+}) {
   return (
-    <div className={styles.infoPiece}>
-      <p className={styles.infoName}>{name}</p>
-      <p className={styles.infoValue}>{value}</p>
+    <div className={`${styles.infoPiece} ${className}`}>
+      <span className={styles.infoName}>{name}</span>
+      <span className={styles.infoValue} style={{ fontSize: `${fontSize}px` }}>
+        {value}
+      </span>
     </div>
   );
 }

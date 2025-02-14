@@ -67,28 +67,27 @@ export default function CalendarInfoPane({ data, className }) {
 
   // Create chart data from the passed down data
   const trendsData = data.trends
-    .map((trend) => {
-      if (trend.date) {
-        // For month trends (with date property)
-        const dateObj = new Date(trend.date);
-        const date = dateObj.getDate(); // Extract day (1-31)
-        const month = dateObj.toLocaleString('en-US', { month: 'short' }); // Extract short month name (e.g., "Feb")
+    ? data.trends
+        .map((trend) => {
+          if (trend.date) {
+            const dateObj = new Date(trend.date);
+            const date = dateObj.getDate();
+            const month = dateObj.toLocaleString('en-US', { month: 'short' });
+            return { interval: `${date} ${month}`, score: trend.score };
+          } else if (trend.time) {
+            return { interval: trend.time, score: trend.score };
+          }
+          return null;
+        })
+        .filter((item) => item !== null)
+    : [];
 
-        return { interval: `${date} ${month}`, score: trend.score };
-      } else if (trend.time) {
-        // For day trends (with time property)
-        return { interval: trend.time, score: trend.score };
-      }
-      return null; // Default return value in case of unexpected structure
-    })
-    .filter((item) => item !== null); // Filter out any null values
-
-  const safetyDistributionData = Object.entries(
-    data.safetyScoreDistribution
-  ).map(([key, value]) => ({
-    name: key.charAt(0).toUpperCase() + key.slice(1),
-    value: value,
-  }));
+  const safetyDistributionData = data.safetyScoreDistribution
+    ? Object.entries(data.safetyScoreDistribution).map(([key, value]) => ({
+        name: capitalizeFirstLetter(key),
+        value: value,
+      }))
+    : [];
 
   const top3Categories = [
     { title: 'Top 3 Improvements', key: 'improvements' },
@@ -205,7 +204,6 @@ export default function CalendarInfoPane({ data, className }) {
               data={safetyDistributionData}
               margin={{ top: 20, right: 0, left: 0, bottom: 65 }} // Ensure labels don't get cut off
             >
-              <Tooltip />
               <Bar
                 dataKey='value'
                 fill='var(--primary)'
@@ -251,28 +249,33 @@ export default function CalendarInfoPane({ data, className }) {
             <div className={styles.top3} key={key}>
               <h2>{title}</h2>
               <ul>
-                {data.top3[key].map((item) => (
-                  <li
-                    key={item.name}
-                    className={item.positive ? styles.up : styles.down}
-                  >
-                    <PaneInfoPiece
-                      name={capitalizeFirstLetter(item.name)}
-                      value={
-                        <span>
-                          <ArrowIcon
-                            className={`${styles.arrow} ${item.positive ? styles.up : styles.down}`}
-                          />
-                          <Percentage
-                            number={item.value}
-                            numberSize={22}
-                            symbolSize={15}
-                          />
-                        </span>
-                      }
-                    />
-                  </li>
-                ))}
+                {/* Ensure data.top3[key] exists before rendering the list */}
+                {data.top3 && data.top3[key] && data.top3[key].length > 0 ? (
+                  data.top3[key].map((item) => (
+                    <li
+                      key={item.name}
+                      className={item.positive ? styles.up : styles.down}
+                    >
+                      <PaneInfoPiece
+                        name={capitalizeFirstLetter(item.name)}
+                        value={
+                          <span>
+                            <ArrowIcon
+                              className={`${styles.arrow} ${item.positive ? styles.up : styles.down}`}
+                            />
+                            <Percentage
+                              number={item.value}
+                              numberSize={22}
+                              symbolSize={15}
+                            />
+                          </span>
+                        }
+                      />
+                    </li>
+                  ))
+                ) : (
+                  <li>No data available</li>
+                )}
               </ul>
             </div>
           ))}

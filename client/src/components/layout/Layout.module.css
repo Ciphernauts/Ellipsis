@@ -30,18 +30,6 @@
   padding: 1rem;
 }
 
-.toggleButton {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 15px;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
 .paneOverlay {
   background-color: transparent !important;
   pointer-events: none;
@@ -73,4 +61,13 @@
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.72px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 15px; /* 35 to align with h1 */
+  right: 15px;
+  width: fit-content;
+  padding: 10px;
+  cursor: pointer;
 }

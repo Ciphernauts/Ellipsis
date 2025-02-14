@@ -11,7 +11,3 @@
   color: var(--primary);
   letter-spacing: 0.4px;
 }
-
-.infoPiece .infoValue {
-  font-size: 13px;
-}
