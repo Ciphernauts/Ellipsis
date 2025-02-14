@@ -8,6 +8,7 @@ import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import TimelineCalendar from './pages/TimelineCalendar';
+import TimelineSessions from './pages/TimelineSessions';
 import { ModeProvider } from './context/ModeContext';
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
           />
 
           <Route path='/timeline/calendar' element={<TimelineCalendar />} />
+          <Route path='/timeline/sessions' element={<TimelineSessions />} />
 
           <Route path='/alert-history' element={<Dashboard />} />
           <Route path='/construction-sites' element={<Dashboard />} />

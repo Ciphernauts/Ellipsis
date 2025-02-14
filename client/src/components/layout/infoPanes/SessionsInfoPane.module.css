@@ -1,0 +1,73 @@
+.pane {
+  width: 100%;
+  background-color: var(--light);
+  padding: 20px 0;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.snapshotsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  /* margin: 0 -30px 0 -50px; change this number to adjust lesses margin for snapshots carousel */
+  margin: 0 -32px 0 -32px; /* 32px is default react-sliding-pane padding */
+}
+
+.snapshotsSection h2 {
+  /* margin-left: 50px; also this */
+  margin-left: 32px; /* deafault padding as well */
+}
+
+.snapshots {
+  width: 100%;
+  height: fit-content;
+  position: relative;
+  overflow: hidden;
+}
+
+.snapshotItem {
+  /* padding-right: 10px; */
+  padding: 0 5px;
+  width: fit-content;
+}
+
+.snapshotItem img {
+  width: fit-content;
+  height: 200px; /* to adjust snapshot size */
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.infoBlock .row {
+  display: flex;
+}
+
+.timestamp .infoValue {
+  font-size: 12px;
+}
+
+.trendsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.chartContainer {
+  margin: 0 0 0 -40px;
+}
+
+.distributionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}

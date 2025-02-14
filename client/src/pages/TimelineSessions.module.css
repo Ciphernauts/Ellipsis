@@ -1,0 +1,79 @@
+.timelineSessions {
+  width: 100%;
+  transition: 0.2s;
+}
+
+.timelineSessions.paneOpen {
+  width: 43vw;
+}
+
+.sessionsTable {
+  width: 100%;
+  border-spacing: 0 8px;
+}
+
+.row {
+  height: 48px;
+}
+
+.tableHeader {
+  background-color: var(--primary);
+  color: var(--light);
+}
+
+.tableHeader .row th {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tableBody {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.tableBody .row {
+  text-align: center;
+  background-color: var(--light);
+  cursor: pointer;
+}
+
+.tableBody .row:hover {
+  background-color: var(--neutral);
+}
+
+.tableBody .row.active {
+  background-color: var(--secondary);
+}
+
+.sessionId {
+  font-weight: 600;
+}
+
+.tableBody tr td .timeValues {
+  font-size: 12px;
+  line-height: 8px;
+  display: flex;
+  flex-direction: column;
+  color: var(--Primary, #006684);
+  gap: 9px;
+}
+
+.row td:first-child,
+.row th:first-child {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-left: 10px;
+}
+
+.row td:last-child,
+.row th:last-child {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding-right: 10px;
+}
+
+@media (max-width: 1200px) {
+  .timelineSessions.paneOpen {
+    width: 37vw;
+  }
+}
