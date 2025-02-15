@@ -23,9 +23,3 @@ main {
   flex-direction: column;
   gap: 20px;
 }
-
-@media (min-width: 1500px) {
-  .dashboard {
-    width: 1138px;
-  }
-}

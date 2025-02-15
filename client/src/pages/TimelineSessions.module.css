@@ -1,10 +1,5 @@
 .timelineSessions {
   width: 100%;
-  transition: 0.2s;
-}
-
-.timelineSessions.paneOpen {
-  width: 43vw;
 }
 
 .sessionsTable {
@@ -70,10 +65,4 @@
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   padding-right: 10px;
-}
-
-@media (max-width: 1200px) {
-  .timelineSessions.paneOpen {
-    width: 37vw;
-  }
 }

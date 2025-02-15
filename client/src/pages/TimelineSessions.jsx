@@ -242,9 +242,7 @@ export default function TimelineSessions() {
   };
 
   return (
-    <div
-      className={`${styles.timelineSessions} ${isPaneOpen && styles.paneOpen}`}
-    >
+    <div className={styles.timelineSessions}>
       <h1>Sessions</h1>
       {loading ? (
         <p>Loading...</p>
