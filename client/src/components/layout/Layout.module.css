@@ -18,6 +18,11 @@
   margin-bottom: 30px;
 }
 
+.header {
+  width: 100%;
+  max-width: 1138px;
+}
+
 .contentContainer {
   display: flex;
   flex-grow: 1;
@@ -25,9 +30,15 @@
 }
 
 .content {
+  max-width: 1138px;
   flex-grow: 1;
   overflow-y: auto;
-  padding: 1rem;
+  transition: 0.3s;
+}
+
+.content.paneOpen,
+.header.paneOpen {
+  padding-right: 310px;
 }
 
 .paneOverlay {
@@ -70,4 +81,24 @@
   width: fit-content;
   padding: 10px;
   cursor: pointer;
+}
+
+@media (min-width: 1160px) {
+  .content.paneOpen,
+  .header.paneOpen {
+    padding-right: 350px;
+  }
+}
+
+@media (min-width: 1270px) {
+  .content.paneOpen,
+  .header.paneOpen {
+    padding-right: 380px;
+  }
+}
+
+@media (min-width: 1500px) {
+  .main {
+    align-items: center;
+  }
 }

@@ -5,7 +5,7 @@ import img from '../../assets/Icon_black_png.png';
 import NPDashboardIcon from '../icons/NPDashboardIcon';
 import NPSafetyTrendsIcon from '../icons/NPSafetyTrendsIcon';
 import NPTimelineIcon from '../icons/NPTimelineIcon';
-import NPAlertHistoryIcon from '../icons/NPAlertHistoryIcon';
+import NPIncidentsIcon from '../icons/NPIncidentsIcon';
 import NPConstructionSitesIcon from '../icons/NPConstructionSitesIcon';
 import NPCamerasIcon from '../icons/NPCamerasIcon';
 import ArrowIcon from '../icons/ArrowIcon';
@@ -27,6 +27,7 @@ export default function NavPane() {
   // Check if any of the dropdown sub-items are active
   const isSafetyTrendsActive = location.pathname.startsWith('/safety-trends');
   const isTimelineActive = location.pathname.startsWith('/timeline');
+  const isIncidentsActive = location.pathname.startsWith('/incidents');
 
   return (
     <nav className={styles.navpane}>
@@ -160,18 +161,38 @@ export default function NavPane() {
           </ul>
         )}
 
-        {/* Other Navigation Items */}
-        <NavLink to='/alert-history'>
-          {({ isActive }) => (
-            <div
-              className={`${styles.navlink} ${isActive ? styles.active : ''}`}
+        {/* Timeline (Dropdown) */}
+        <div
+          className={`${styles.navlink} ${isIncidentsActive ? styles.active : ''}`}
+          onClick={() => handleToggle('incidents')}
+        >
+          <NPIncidentsIcon />
+          <p>Incidents</p>
+          <ArrowIcon
+            className={`${styles.arrowIcon} ${toggleDropdown['incidents'] ? styles.rotate : ''}`}
+          />
+        </div>
+
+        {toggleDropdown['incidents'] && (
+          <ul className={styles.dropdown}>
+            <NavLink
+              to='/incidents/incident-trends'
+              className={({ isActive }) =>
+                `${styles.subNavlink} ${isActive ? styles.active : ''}`
+              }
             >
-              <NPAlertHistoryIcon />
-              <p>Alert History</p>
-              <ArrowIcon />
-            </div>
-          )}
-        </NavLink>
+              <li>Incident Trends</li>
+            </NavLink>
+            <NavLink
+              to='/incidents/incident-history'
+              className={({ isActive }) =>
+                `${styles.subNavlink} ${isActive ? styles.active : ''}`
+              }
+            >
+              <li>Incident History</li>
+            </NavLink>
+          </ul>
+        )}
 
         <NavLink to='/construction-sites'>
           {({ isActive }) => (

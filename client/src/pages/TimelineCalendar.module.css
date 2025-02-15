@@ -1,5 +1,6 @@
 .timelineCalendar {
   width: 43vw;
+  max-width: 100%;
   height: 100%;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -132,6 +133,6 @@
 
 @media (max-width: 1200px) {
   .timelineCalendar {
-    width: 37vw;
+    width: 39vw;
   }
 }

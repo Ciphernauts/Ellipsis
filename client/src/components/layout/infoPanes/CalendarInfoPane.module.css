@@ -78,6 +78,10 @@
   width: 100%;
 }
 
+.top3 h2 {
+  height: 36px;
+}
+
 .top3 ul {
   display: flex;
   flex-direction: column;

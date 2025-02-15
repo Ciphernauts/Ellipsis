@@ -18,6 +18,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { capitalizeFirstLetter } from '../../../utils/helpers';
+import CustomTooltip from '../../CustomTooltip';
 
 export default function SessionsInfoPane({ data }) {
   if (!data) {
@@ -140,14 +141,12 @@ export default function SessionsInfoPane({ data }) {
                   />
                 </linearGradient>
               </defs>
-
               <CartesianGrid
                 strokeDasharray='3 3'
                 vertical={true}
                 horizontal={false}
                 stroke='var(--neutral)'
               />
-
               <XAxis
                 dataKey='interval'
                 fontSize={11}
@@ -160,7 +159,7 @@ export default function SessionsInfoPane({ data }) {
                 fontWeight={600}
                 tick={{ fill: 'var(--neutral)' }}
               />
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />} />{' '}
               <Area
                 type='monotone'
                 dataKey='score'

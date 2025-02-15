@@ -120,8 +120,8 @@ export default function Footer() {
             </Link>
           </li>
           <li className={styles.listItem}>
-            <Link to='/alert-history' className={styles.link}>
-              Alert History
+            <Link to='/incidents' className={styles.link}>
+              Incidents
             </Link>
           </li>
         </ul>

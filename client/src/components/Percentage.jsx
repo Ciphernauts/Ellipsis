@@ -5,6 +5,7 @@ export default function Percentage({
   label = '',
   numberSize = 34,
   numberWeight = 800,
+  symbol = '%',
   symbolSize = 14,
   labelSize = 12,
   labelWeight = 500,
@@ -57,7 +58,7 @@ export default function Percentage({
             fontSize: symbolSize,
           }}
         >
-          %
+          {symbol}
         </span>
       </div>
     </div>

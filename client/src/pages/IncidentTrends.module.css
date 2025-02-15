@@ -1,4 +1,4 @@
-.dashboard {
+.incidentTrends {
   width: 100%;
 }
 
@@ -14,12 +14,4 @@ main {
   display: flex;
   gap: 20px;
   align-items: stretch;
-}
-
-.column {
-  width: 50%;
-  max-width: 570px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
