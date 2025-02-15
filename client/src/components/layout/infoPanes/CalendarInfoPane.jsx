@@ -21,6 +21,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { capitalizeFirstLetter } from '../../../utils/helpers';
+import CustomTooltip from '../../CustomTooltip';
 
 export default function CalendarInfoPane({ data, className }) {
   // const [currentSlide, setCurrentSlide] = useState(0);
@@ -166,14 +167,12 @@ export default function CalendarInfoPane({ data, className }) {
                   />
                 </linearGradient>
               </defs>
-
               <CartesianGrid
                 strokeDasharray='3 3'
                 vertical={true}
                 horizontal={false}
                 stroke='var(--neutral)'
               />
-
               <XAxis
                 dataKey='interval'
                 fontSize={11}
@@ -186,7 +185,7 @@ export default function CalendarInfoPane({ data, className }) {
                 fontWeight={600}
                 tick={{ fill: 'var(--neutral)' }}
               />
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />} />
               <Area
                 type='monotone'
                 dataKey='score'
