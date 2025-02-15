@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import SlidingPane from 'react-sliding-pane';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
-import NavPane from './Navpane';
+import NavPane from './NavPane';
 import Header from './Header';
 import CalendarInfoPane from './infoPanes/CalendarInfoPane';
 import SessionsInfoPane from './infoPanes/SessionsInfoPane';
@@ -16,21 +16,15 @@ const Layout = () => {
   const showRightPane = [
     '/timeline/calendar',
     '/timeline/sessions',
-    '/alert-history',
+    '/incident-history',
     '/construction-sites',
   ].includes(location.pathname);
 
   useEffect(() => {
     setPaneData(null);
-
-    // Force the pane to always be open for /timeline/calendar
     if (location.pathname === '/timeline/calendar') {
       setIsPaneOpen(true);
-    } else if (location.pathname === '/timeline/sessions') {
-      setIsPaneOpen(false);
-    } else if (location.pathname === '/alert-history') {
-      setIsPaneOpen(false);
-    } else if (location.pathname === '/construction-sites') {
+    } else {
       setIsPaneOpen(false);
     }
   }, [location.pathname]); // Re-run this when route changes
@@ -50,7 +44,7 @@ const Layout = () => {
         return <CalendarInfoPane data={paneData} />;
       case '/timeline/sessions':
         return <SessionsInfoPane data={paneData} />;
-      case '/alert-history':
+      case '/incident-history':
         return <p>Recent Alerts</p>;
       case '/construction-sites':
         return <p>Construction Sites</p>;
@@ -63,8 +57,13 @@ const Layout = () => {
     <div className={styles.layout}>
       <NavPane />
       <div className={styles.main}>
-        <Header showRightPane={isPaneOpen} />
-        <main className={styles.content}>
+        <Header
+          showRightPane={isPaneOpen}
+          className={`${styles.header} ${isPaneOpen ? styles.paneOpen : ''}`}
+        />
+        <main
+          className={`${styles.content} ${isPaneOpen ? styles.paneOpen : ''}`}
+        >
           <Outlet
             context={{
               setPaneData,

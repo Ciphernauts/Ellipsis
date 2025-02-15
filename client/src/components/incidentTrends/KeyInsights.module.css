@@ -1,0 +1,12 @@
+.card {
+  width: 30%;
+  padding: 15px 19px 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card h2 {
+  font-size: 14px;
+  font-weight: 500;
+}

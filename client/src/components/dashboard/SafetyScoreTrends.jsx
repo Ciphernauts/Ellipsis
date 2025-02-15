@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from 'recharts';
+import CustomTooltip from '../CustomTooltip';
 
 export default function SafetyScoreTrends({ data }) {
   const [timeframe, setTimeframe] = useState('24 hours');
@@ -126,7 +127,7 @@ export default function SafetyScoreTrends({ data }) {
               fontWeight={600}
               tick={{ fill: 'var(--neutral)' }}
             />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} />
             <Area
               type='monotone'
               dataKey='score'

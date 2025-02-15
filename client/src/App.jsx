@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import TimelineCalendar from './pages/TimelineCalendar';
 import TimelineSessions from './pages/TimelineSessions';
+import IncidentTrends from './pages/IncidentTrends';
 import { ModeProvider } from './context/ModeContext';
 
 const App = () => {
@@ -32,7 +33,21 @@ const App = () => {
           <Route path='/timeline/calendar' element={<TimelineCalendar />} />
           <Route path='/timeline/sessions' element={<TimelineSessions />} />
 
-          <Route path='/alert-history' element={<Dashboard />} />
+          {/* Redirect from /incidents to /incidents/incident-trends */}
+          <Route
+            path='/incidents'
+            element={<Navigate to='/incidents/incident-trends' replace />}
+          />
+
+          <Route
+            path='/incidents/incident-trends'
+            element={<IncidentTrends />}
+          />
+          <Route
+            path='/incidents/incident-history'
+            element={<IncidentTrends />}
+          />
+
           <Route path='/construction-sites' element={<Dashboard />} />
           <Route path='/cameras' element={<Dashboard />} />
         </Route>
