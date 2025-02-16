@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import TimelineCalendar from './pages/TimelineCalendar';
 import TimelineSessions from './pages/TimelineSessions';
 import IncidentTrends from './pages/IncidentTrends';
+import IncidentHistory from './pages/IncidentHistory';
 import { ModeProvider } from './context/ModeContext';
 
 const App = () => {
@@ -45,7 +46,7 @@ const App = () => {
           />
           <Route
             path='/incidents/incident-history'
-            element={<IncidentTrends />}
+            element={<IncidentHistory />}
           />
 
           <Route path='/construction-sites' element={<Dashboard />} />

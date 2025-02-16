@@ -1,0 +1,63 @@
+.pane {
+  width: 100%;
+  background-color: var(--light);
+  padding: 20px 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.snapshotImage {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.infoPieceDropdown {
+  gap: 3px;
+}
+
+.statusDropdown {
+  width: 100%;
+  height: 35px;
+  border-radius: 8px;
+  border: 1px solid var(--neutral);
+  padding: 0 0 0 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.statusDropdown option {
+  cursor: pointer;
+}
+
+.statusDropdown:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.infoBlock .row {
+  display: flex;
+}
+
+.timestamp .infoValue {
+  font-size: 12px;
+}
+
+.deviceInfoPiece {
+  gap: 4px;
+}
+
+.deviceInfoPiece span {
+  height: 17px;
+}
