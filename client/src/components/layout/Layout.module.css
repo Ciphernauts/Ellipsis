@@ -9,6 +9,7 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 .main h1 {
@@ -21,12 +22,6 @@
 .header {
   width: 100%;
   max-width: 1138px;
-}
-
-.contentContainer {
-  display: flex;
-  flex-grow: 1;
-  overflow: hidden;
 }
 
 .content {
@@ -90,7 +85,7 @@
   }
 }
 
-@media (min-width: 1270px) {
+@media (min-width: 1230px) {
   .content.paneOpen,
   .header.paneOpen {
     padding-right: 380px;

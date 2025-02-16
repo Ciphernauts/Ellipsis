@@ -7,6 +7,7 @@ import Header from './Header';
 import CalendarInfoPane from './infoPanes/CalendarInfoPane';
 import SessionsInfoPane from './infoPanes/SessionsInfoPane';
 import styles from './Layout.module.css';
+import IncidentsInfoPane from './infoPanes/IncidentsInfoPane';
 
 const Layout = () => {
   const location = useLocation();
@@ -16,7 +17,7 @@ const Layout = () => {
   const showRightPane = [
     '/timeline/calendar',
     '/timeline/sessions',
-    '/incident-history',
+    '/incidents/incident-history',
     '/construction-sites',
   ].includes(location.pathname);
 
@@ -27,25 +28,31 @@ const Layout = () => {
     } else {
       setIsPaneOpen(false);
     }
-  }, [location.pathname]); // Re-run this when route changes
+  }, [location.pathname]);
 
   useEffect(() => {
     document.body.style.backgroundColor = 'var(--background-color)';
     return () => {
       document.body.style.backgroundColor = 'var(--light)';
     };
-  }, []);
+  });
 
   const getRightPaneContent = () => {
-    if (!paneData) return null;
+    if (!showRightPane) return null;
 
     switch (location.pathname) {
       case '/timeline/calendar':
         return <CalendarInfoPane data={paneData} />;
       case '/timeline/sessions':
         return <SessionsInfoPane data={paneData} />;
-      case '/incident-history':
-        return <p>Recent Alerts</p>;
+      case '/incidents/incident-history':
+        return (
+          <IncidentsInfoPane
+            data={paneData}
+            setIncidentData={setPaneData}
+            setIsPaneOpen={setIsPaneOpen}
+          />
+        );
       case '/construction-sites':
         return <p>Construction Sites</p>;
       default:
@@ -81,7 +88,9 @@ const Layout = () => {
           hideHeader={true}
           width='26vw'
           padding='66px 51px'
-          onRequestClose={() => setIsPaneOpen(false)}
+          onRequestClose={() => {
+            setIsPaneOpen(false);
+          }}
         >
           {location.pathname !== '/timeline/calendar' && (
             <span
@@ -104,7 +113,7 @@ const Layout = () => {
               </svg>
             </span>
           )}
-          {getRightPaneContent() || <div />}
+          {getRightPaneContent()}
         </SlidingPane>
       )}
     </div>
