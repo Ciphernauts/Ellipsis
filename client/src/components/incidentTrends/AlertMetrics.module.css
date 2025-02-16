@@ -80,7 +80,7 @@
 
 .metricValue.open {
   background-color: #f2b9b9;
-  color: #d21616;
+  color: #b91515;
 }
 
 .metricValue.resolved {
@@ -90,7 +90,7 @@
 
 .metricValue.false {
   background-color: #ffecb3;
-  color: #d6a000;
+  color: #c09000;
 }
 
 .metricValue.constructionSite {
