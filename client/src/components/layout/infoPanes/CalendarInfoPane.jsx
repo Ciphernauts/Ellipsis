@@ -107,15 +107,16 @@ export default function CalendarInfoPane({ data, className }) {
             // ref={sliderContainerRef}
           >
             <Slider {...settings} className={styles.snapshots}>
-              {data.snapshots.map((item, index) => (
-                <div key={index} className={`${styles.snapshotItem}`}>
-                  <img
-                    src={item}
-                    alt={`Snapshot ${index + 1}`}
-                    className={styles.snapshotImage}
-                  />
-                </div>
-              ))}
+              {data.snapshots &&
+                data.snapshots.map((item, index) => (
+                  <div key={index} className={`${styles.snapshotItem}`}>
+                    <img
+                      src={item}
+                      alt={`Snapshot ${index + 1}`}
+                      className={styles.snapshotImage}
+                    />
+                  </div>
+                ))}
             </Slider>
           </div>
         </div>
@@ -135,12 +136,16 @@ export default function CalendarInfoPane({ data, className }) {
             <PaneInfoPiece
               name='Duration'
               value={
-                <Duration
-                  hours={data.duration.hours}
-                  minutes={data.duration.minutes}
-                  seconds={data.duration.seconds}
-                  size='small'
-                />
+                data.duration ? (
+                  <Duration
+                    hours={data.duration.hours}
+                    minutes={data.duration.minutes}
+                    seconds={data.duration.seconds}
+                    size='small'
+                  />
+                ) : (
+                  'Loading duration...'
+                )
               }
             />
           </div>
@@ -248,8 +253,7 @@ export default function CalendarInfoPane({ data, className }) {
             <div className={styles.top3} key={key}>
               <h2>{title}</h2>
               <ul>
-                {/* Ensure data.top3[key] exists before rendering the list */}
-                {data.top3 && data.top3[key] && data.top3[key].length > 0 ? (
+                {data.top3 && data.top3[key] ? (
                   data.top3[key].map((item) => (
                     <li
                       key={item.name}

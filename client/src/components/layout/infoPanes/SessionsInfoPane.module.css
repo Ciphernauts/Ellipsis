@@ -52,10 +52,6 @@
   display: flex;
 }
 
-.timestamp .infoValue {
-  font-size: 12px;
-}
-
 .trendsSection {
   display: flex;
   flex-direction: column;
