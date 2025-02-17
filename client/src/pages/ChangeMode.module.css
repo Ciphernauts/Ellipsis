@@ -1,0 +1,56 @@
+/* .changeMode {
+} */
+
+.modesContainer {
+  width: 80%;
+  height: 75vh;
+  min-width: 680px;
+  min-height: 560px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.mode {
+  height: 100%;
+  background-color: var(--light);
+  border-radius: 15px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.2s;
+}
+
+.mode.active {
+  background-color: var(--secondary);
+}
+
+.mode:not(.active):hover {
+  background-color: var(--neutral);
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+  background-color: var(--dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mode h2 {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 0.32px;
+}
+
+.mode p {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+}

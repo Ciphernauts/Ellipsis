@@ -11,7 +11,13 @@ export default function Header({ showRightPane = false, className }) {
     <div className={`${styles.header} ${className}`}>
       <div className={styles.modes}>
         <span>{mode ? mode : 'Loading...'} mode</span>
-        <Button size='small' color='primary' fill={false} text='Change Mode' />
+        <Button
+          size='small'
+          color='primary'
+          fill={false}
+          text='Change Mode'
+          to={'/change-mode'}
+        />
       </div>
       {!showRightPane && (
         <div className={`${styles.user} ${showRightPane && styles.paneOpen} `}>
