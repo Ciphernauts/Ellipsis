@@ -420,21 +420,27 @@ export default function IncidentHistory() {
                 <div
                   className={`${styles.details} ${isPaneOpen ? styles.paneOpen : ''}`}
                 >
-                  <span className={styles.time}>
-                    {formatTime(incident.time)}
-                  </span>
-                  <span className={styles.date}>
-                    {formatDate(incident.time)}
-                  </span>
-                  <span className={styles.status}>
-                    <span
-                      className={
-                        styles[incident.status.toLowerCase().replace(' ', '')]
-                      }
-                    >
-                      {incident.status}
+                  {incident.status && (
+                    <span className={styles.status}>
+                      <span
+                        className={
+                          styles[incident.status.toLowerCase().replace(' ', '')]
+                        }
+                      >
+                        {incident.status}
+                      </span>
                     </span>
-                  </span>
+                  )}
+                  {incident.time && (
+                    <>
+                      <span className={styles.date}>
+                        {formatDate(incident.time)}
+                      </span>
+                      <span className={styles.time}>
+                        {formatTime(incident.time)}
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             ))}
