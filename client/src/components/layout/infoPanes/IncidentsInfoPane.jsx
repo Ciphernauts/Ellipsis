@@ -4,13 +4,8 @@ import styles from './IncidentsInfoPane.module.css';
 import PaneInfoPiece from '../../PaneInfoPiece';
 import DroneIcon from '../../icons/DroneIcon';
 import CameraIcon from '../../icons/CameraIcon';
-import DefaultImage from '../../../assets/DefaultImage.png';
 
-export default function IncidentsInfoPane({
-  data,
-  allIncidents,
-  setIncidentData,
-}) {
+export default function IncidentsInfoPane({ data, setIncidentData }) {
   const [status, setStatus] = useState('');
   const [updating, setUpdating] = useState(false);
 
@@ -25,27 +20,20 @@ export default function IncidentsInfoPane({
     setStatus(newStatus);
     setUpdating(true);
 
-    if (data) {
-      const updatedData = { ...data, status: newStatus };
-      setIncidentData(updatedData);
+    try {
+      const response = await axios.patch(`/api/incidents/${data.id}`, {
+        status: newStatus,
+      });
+      const updatedIncidentFromServer = response.data;
 
-      try {
-        const response = await axios.patch(`/api/incidents/${data.id}`, {
-          status: newStatus,
-        });
-        const updatedIncidentFromServer = response.data;
-
-        const updatedIncidentsFromServer = allIncidents.map((incident) =>
-          incident.id === data.id ? updatedIncidentFromServer : incident
-        );
-        setIncidentData(updatedIncidentsFromServer);
-      } catch (error) {
-        console.error('Error updating status:', error);
-        setStatus(data.status);
-        alert('Error updating status. Please try again.');
-      } finally {
-        setUpdating(false);
-      }
+      // Update the local state directly
+      setIncidentData({ ...data, status: updatedIncidentFromServer.status });
+    } catch (error) {
+      console.error('Error updating status:', error);
+      setStatus(data.status); // Revert to the previous status in case of an error
+      alert('Error updating status. Please try again.');
+    } finally {
+      setUpdating(false);
     }
   };
 

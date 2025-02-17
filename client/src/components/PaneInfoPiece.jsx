@@ -11,7 +11,7 @@ export default function PaneInfoPiece({
     <div className={`${styles.infoPiece} ${className}`}>
       <span className={styles.infoName}>{name}</span>
       <span className={styles.infoValue} style={{ fontSize: `${fontSize}px` }}>
-        {value}
+        {value ? value : 'N/A'}
       </span>
     </div>
   );

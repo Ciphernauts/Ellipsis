@@ -71,7 +71,7 @@ export default function SessionsInfoPane({ data }) {
         <div className={styles.snapshotsSection}>
           <h2>Snapshot Gallery</h2>
           <div className={`${styles.sliderContainer}`}>
-            {snapshots.length > 0 ? (
+            {data.snapshots && data.snapshots.length > 0 ? (
               <Slider {...settings} className={styles.snapshots}>
                 {snapshots.map((item, index) => (
                   <div key={index} className={`${styles.snapshotItem}`}>
@@ -84,7 +84,7 @@ export default function SessionsInfoPane({ data }) {
                 ))}
               </Slider>
             ) : (
-              <p>No snapshots available</p>
+              <p>No snapshots available.</p>
             )}
           </div>
         </div>
@@ -94,12 +94,16 @@ export default function SessionsInfoPane({ data }) {
             <PaneInfoPiece
               name='Duration'
               value={
-                <Duration
-                  hours={duration.hours}
-                  minutes={duration.minutes}
-                  seconds={duration.seconds}
-                  size='small'
-                />
+                data.duration ? (
+                  <Duration
+                    hours={duration.hours}
+                    minutes={duration.minutes}
+                    seconds={duration.seconds}
+                    size='small'
+                  />
+                ) : (
+                  'Loading duration...'
+                )
               }
             />
           </div>
@@ -140,7 +144,7 @@ export default function SessionsInfoPane({ data }) {
         </div>
         <div className={styles.trendsSection}>
           <h2>Trends</h2>
-          {trendsData.length > 0 ? (
+          {trendsData && trendsData.length > 0 ? (
             <ResponsiveContainer
               width='115%'
               height={182}
@@ -196,12 +200,12 @@ export default function SessionsInfoPane({ data }) {
               </AreaChart>
             </ResponsiveContainer>
           ) : (
-            <p>No trend data available</p>
+            <p>No trends data available.</p>
           )}
         </div>
         <div className={styles.distributionSection}>
           <h2>Safety Score Distribution</h2>
-          {safetyDistributionData.length > 0 ? (
+          {safetyDistributionData && safetyDistributionData.length > 0 ? (
             <ResponsiveContainer width='100%' height={300}>
               <BarChart
                 data={safetyDistributionData}
@@ -245,7 +249,7 @@ export default function SessionsInfoPane({ data }) {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p>No distribution data available</p>
+            <p>No safety score distribution data available.</p>
           )}
         </div>
       </div>

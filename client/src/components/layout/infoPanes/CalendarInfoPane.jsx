@@ -24,46 +24,15 @@ import { capitalizeFirstLetter } from '../../../utils/helpers';
 import CustomTooltip from '../../CustomTooltip';
 
 export default function CalendarInfoPane({ data, className }) {
-  // const [currentSlide, setCurrentSlide] = useState(0);
-  // const [maxItems, setMaxItems] = useState(3);
-  // const sliderContainerRef = useRef(null);
-
   if (!data) return <div className={styles.pane}>Loading...</div>;
-
-  // Calculate max items dynamically
-  // const calculateMaxItems = () => {
-  //   if (sliderContainerRef.current) {
-  //     const parentWidth = sliderContainerRef.current.offsetWidth;
-  //     const itemWidth = 221; // Adjust this based on your image size
-  //     const bufferWidth = 10;
-  //     setMaxItems(Math.floor((parentWidth - bufferWidth) / itemWidth));
-  //   }
-  // };
-
-  // Recalculate on mount and resize
-
-  // useEffect(() => {
-  //   calculateMaxItems();
-  //   window.addEventListener('resize', calculateMaxItems);
-  //   return () => window.removeEventListener('resize', calculateMaxItems);
-  // }, []);
-
-  // const slideStart = currentSlide === 0;
-  // const slideEnd = currentSlide >= data.snapshots.length - maxItems;
 
   const settings = {
     speed: 300,
     slidesToScroll: 1,
     centerMode: true,
-    // infinite: false,
     infinite: true,
-    // nextArrow: slideEnd ? <NextArrow hidden={true} /> : <NextArrow />,
-    // prevArrow: slideStart ? <PrevArrow hidden={true} /> : <PrevArrow />,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    // beforeChange: (cur, next) => {
-    //   setCurrentSlide(next);
-    // },
   };
 
   // Create chart data from the passed down data
@@ -99,17 +68,14 @@ export default function CalendarInfoPane({ data, className }) {
     <div className={`${styles.pane} ${className}`}>
       <h1>{data.name}</h1>
       <div className={styles.content}>
+        {/* Snapshots Section */}
         <div className={styles.snapshotsSection}>
           <h2>Snapshot Gallery</h2>
-          <div
-            // className={`${styles.sliderContainer} ${slideStart ? styles.start : ''} ${slideEnd ? styles.end : ''}`}
-            className={`${styles.sliderContainer}`}
-            // ref={sliderContainerRef}
-          >
-            <Slider {...settings} className={styles.snapshots}>
-              {data.snapshots &&
-                data.snapshots.map((item, index) => (
-                  <div key={index} className={`${styles.snapshotItem}`}>
+          {data.snapshots && data.snapshots.length > 0 ? (
+            <div className={styles.sliderContainer}>
+              <Slider {...settings} className={styles.snapshots}>
+                {data.snapshots.map((item, index) => (
+                  <div key={index} className={styles.snapshotItem}>
                     <img
                       src={item}
                       alt={`Snapshot ${index + 1}`}
@@ -117,9 +83,14 @@ export default function CalendarInfoPane({ data, className }) {
                     />
                   </div>
                 ))}
-            </Slider>
-          </div>
+              </Slider>
+            </div>
+          ) : (
+            <p>No snapshots available.</p>
+          )}
         </div>
+
+        {/* Info Block */}
         <div className={styles.infoBlock}>
           <div className={styles.row}>
             <PaneInfoPiece name='Safety score' value={data.safetyScore} />
@@ -150,111 +121,129 @@ export default function CalendarInfoPane({ data, className }) {
             />
           </div>
         </div>
+
+        {/* Trends Section */}
         <div className={styles.trendsSection}>
           <h2>Trends</h2>
-          <ResponsiveContainer
-            width='115%'
-            height={182}
-            className={styles.chartContainer}
-          >
-            <AreaChart data={trendsData}>
-              <defs>
-                <linearGradient id='colorGradient' x1='0' y1='0' x2='0' y2='1'>
-                  <stop
-                    offset='20%'
-                    stopColor='var(--primary)'
-                    stopOpacity={1}
-                  />
-                  <stop
-                    offset='100%'
-                    stopColor='var(--primary)'
-                    stopOpacity={0}
-                  />
-                </linearGradient>
-              </defs>
-              <CartesianGrid
-                strokeDasharray='3 3'
-                vertical={true}
-                horizontal={false}
-                stroke='var(--neutral)'
-              />
-              <XAxis
-                dataKey='interval'
-                fontSize={11}
-                fontWeight={600}
-                tick={{ fill: 'var(--neutral)' }}
-              />
-              <YAxis
-                domain={[80, 90]}
-                fontSize={11}
-                fontWeight={600}
-                tick={{ fill: 'var(--neutral)' }}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Area
-                type='monotone'
-                dataKey='score'
-                stroke='none'
-                fill='url(#colorGradient)'
-                fillOpacity={1}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+          {trendsData && trendsData.length > 0 ? (
+            <ResponsiveContainer
+              width='115%'
+              height={182}
+              className={styles.chartContainer}
+            >
+              <AreaChart data={trendsData}>
+                <defs>
+                  <linearGradient
+                    id='colorGradient'
+                    x1='0'
+                    y1='0'
+                    x2='0'
+                    y2='1'
+                  >
+                    <stop
+                      offset='20%'
+                      stopColor='var(--primary)'
+                      stopOpacity={1}
+                    />
+                    <stop
+                      offset='100%'
+                      stopColor='var(--primary)'
+                      stopOpacity={0}
+                    />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  strokeDasharray='3 3'
+                  vertical={true}
+                  horizontal={false}
+                  stroke='var(--neutral)'
+                />
+                <XAxis
+                  dataKey='interval'
+                  fontSize={11}
+                  fontWeight={600}
+                  tick={{ fill: 'var(--neutral)' }}
+                />
+                <YAxis
+                  domain={[80, 90]}
+                  fontSize={11}
+                  fontWeight={600}
+                  tick={{ fill: 'var(--neutral)' }}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Area
+                  type='monotone'
+                  dataKey='score'
+                  stroke='none'
+                  fill='url(#colorGradient)'
+                  fillOpacity={1}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          ) : (
+            <p>No trends data available.</p>
+          )}
         </div>
+
+        {/* Safety Score Distribution Section */}
         <div className={styles.distributionSection}>
           <h2>Safety Score Distribution</h2>
-          <ResponsiveContainer width='100%' height={300}>
-            <BarChart
-              data={safetyDistributionData}
-              margin={{ top: 20, right: 0, left: 0, bottom: 65 }} // Ensure labels don't get cut off
-            >
-              <Bar
-                dataKey='value'
-                fill='var(--primary)'
-                background={{
-                  fill: 'var(--background-color)',
-                  radius: [25, 25, 25, 25],
-                }}
-                radius={[25, 25, 25, 25]}
-                barSize={15}
-                label={({ x, width, value, name, viewBox }) => (
-                  <>
-                    {/* Top Label (At the top of the background bar) */}
-                    <text
-                      x={x + width / 2}
-                      y={15}
-                      fill='var(--primary)'
-                      textAnchor='middle'
-                      fontSize='10px'
-                      fontWeight='400'
-                    >
-                      {value}
-                    </text>
-                    {/* Bottom Label (Below each bar) */}
-                    <text
-                      x={x + width / 2}
-                      y={viewBox.y + viewBox.height + 5}
-                      fill='var(--dark)'
-                      textAnchor='end'
-                      fontSize='11px'
-                      fontWeight='400'
-                      transform={`rotate(-90, ${x + width / 2}, ${viewBox.y + viewBox.height + 5})`}
-                    >
-                      {name}
-                    </text>
-                  </>
-                )}
-              />
-            </BarChart>
-          </ResponsiveContainer>
+          {safetyDistributionData && safetyDistributionData.length > 0 ? (
+            <ResponsiveContainer width='100%' height={300}>
+              <BarChart
+                data={safetyDistributionData}
+                margin={{ top: 20, right: 0, left: 0, bottom: 65 }}
+              >
+                <Bar
+                  dataKey='value'
+                  fill='var(--primary)'
+                  background={{
+                    fill: 'var(--background-color)',
+                    radius: [25, 25, 25, 25],
+                  }}
+                  radius={[25, 25, 25, 25]}
+                  barSize={15}
+                  label={({ x, width, value, name, viewBox }) => (
+                    <>
+                      <text
+                        x={x + width / 2}
+                        y={15}
+                        fill='var(--primary)'
+                        textAnchor='middle'
+                        fontSize='10px'
+                        fontWeight='400'
+                      >
+                        {value}
+                      </text>
+                      <text
+                        x={x + width / 2}
+                        y={viewBox.y + viewBox.height + 5}
+                        fill='var(--dark)'
+                        textAnchor='end'
+                        fontSize='11px'
+                        fontWeight='400'
+                        transform={`rotate(-90, ${x + width / 2}, ${viewBox.y + viewBox.height + 5})`}
+                      >
+                        {name}
+                      </text>
+                    </>
+                  )}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <p>No safety score distribution data available.</p>
+          )}
         </div>
+
+        {/* Top 3 Improvements and Declines Section */}
         <div className={styles.top3Section}>
           {top3Categories.map(({ title, key }) => (
             <div className={styles.top3} key={key}>
               <h2>{title}</h2>
-              <ul>
-                {data.top3 && data.top3[key] ? (
-                  data.top3[key].map((item) => (
+              {data.top3 && data.top3[key] && data.top3[key].length > 0 ? (
+                <ul>
+                  {data.top3[key].map((item) => (
                     <li
                       key={item.name}
                       className={item.positive ? styles.up : styles.down}
@@ -275,14 +264,16 @@ export default function CalendarInfoPane({ data, className }) {
                         }
                       />
                     </li>
-                  ))
-                ) : (
-                  <li>No data available</li>
-                )}
-              </ul>
+                  ))}
+                </ul>
+              ) : (
+                <p>No {key} data available.</p>
+              )}
             </div>
           ))}
         </div>
+
+        {/* Download Report Button */}
         <div className={styles.buttonContainer}>
           <Button
             text='Download Report'
