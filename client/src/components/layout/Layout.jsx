@@ -6,8 +6,9 @@ import NavPane from './NavPane';
 import Header from './Header';
 import CalendarInfoPane from './infoPanes/CalendarInfoPane';
 import SessionsInfoPane from './infoPanes/SessionsInfoPane';
-import styles from './Layout.module.css';
 import IncidentsInfoPane from './infoPanes/IncidentsInfoPane';
+import ConstructionSitesInfoPane from './infoPanes/ConstructionSitesInfoPane';
+import styles from './Layout.module.css';
 
 const Layout = () => {
   const location = useLocation();
@@ -47,14 +48,15 @@ const Layout = () => {
         return <SessionsInfoPane data={paneData} />;
       case '/incidents/incident-history':
         return (
-          <IncidentsInfoPane
-            data={paneData}
-            setIncidentData={setPaneData}
-            setIsPaneOpen={setIsPaneOpen}
-          />
+          <IncidentsInfoPane data={paneData} setIncidentData={setPaneData} />
         );
       case '/construction-sites':
-        return <p>Construction Sites</p>;
+        return (
+          <ConstructionSitesInfoPane
+            data={paneData}
+            setSiteData={setPaneData}
+          />
+        );
       default:
         return null;
     }

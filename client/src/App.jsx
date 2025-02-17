@@ -12,6 +12,7 @@ import TimelineSessions from './pages/TimelineSessions';
 import IncidentTrends from './pages/IncidentTrends';
 import IncidentHistory from './pages/IncidentHistory';
 import { ModeProvider } from './context/ModeContext';
+import ConstructionSites from './pages/ConstructionSites';
 
 const App = () => {
   return (
@@ -49,7 +50,7 @@ const App = () => {
             element={<IncidentHistory />}
           />
 
-          <Route path='/construction-sites' element={<Dashboard />} />
+          <Route path='/construction-sites' element={<ConstructionSites />} />
           <Route path='/cameras' element={<Dashboard />} />
         </Route>
       </Routes>
