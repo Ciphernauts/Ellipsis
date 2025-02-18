@@ -187,35 +187,58 @@ export default function TimelineSessions() {
   // PLACEHOLDER DATA
 
   const placeholderSessionData = {
-    sessionId: 'S0027',
-    constructionSites: ['Site A', 'Site B'],
-    cameras: ['Camera 1', 'Camera 2'],
-    snapshots: [
-      'https://picsum.photos/300/200?random=10',
-      'https://picsum.photos/300/200?random=11',
-      'https://picsum.photos/300/200?random=12',
+    constructionSites: [
+      { id: 1, name: 'Riverside Apartments Project' },
+      { id: 2, name: 'Hilltop Heights Construction' },
+      { id: 3, name: 'Downtown Mall Construction' },
+      { id: 4, name: 'Northside Office Tower' },
+      { id: 5, name: 'Westside Residential Complex' },
+      { id: 6, name: 'Eastside Industrial Park' },
+      { id: 7, name: 'Southside Stadium Renovation' },
     ],
-    mode: 'General',
-    duration: { hours: 1, minutes: 10, seconds: 9 },
-    startTime: '2024-12-20T14:30:24Z',
-    endTime: '2024-12-20T15:40:33Z',
-    safetyScore: 87.5,
-    progress: '+2.3%',
-    totalIncidents: 12,
-    criticalIncidents: 0,
-    trends: [
-      { time: '08:00', score: 86 },
-      { time: '09:00', score: 86 },
-      { time: '10:00', score: 85 },
-      { time: '13:00', score: 86 },
-      { time: '14:00', score: 87 },
-      { time: '15:00', score: 88 },
-      { time: '17:00', score: 89 },
+    cameras: [
+      { id: 1, name: 'DJI Matrice 300 RTK' },
+      { id: 2, name: 'FLIR Quasar 4K IR PTZ' },
+      { id: 3, name: 'Axis P1448-LE' },
+      { id: 4, name: 'Anafi USA' },
+      { id: 5, name: 'Autel Robotics EVO II Pro' },
+      { id: 6, name: 'Skydio 2+' },
+      { id: 7, name: 'Bosch FLEXIDOME IP starlight 8000i' },
+      { id: 8, name: 'Hikvision DS-2CD2387G2-LU' },
+      { id: 9, name: 'DJI Inspire 3' },
+      { id: 10, name: 'Sony SNC-VM772R' },
     ],
-    safetyScoreDistribution: {
-      helmet: 86,
-      footwear: 92,
-      vest: 78,
+    sessionDetails: {
+      sessionId: 'S0027',
+      constructionSite: { id: 1, name: 'Riverside Apartments Project' }, // Updated to match expected structure
+      camera: { id: 1, name: 'DJI Matrice 300 RTK' }, // Updated to match expected structure
+      snapshots: [
+        'https://picsum.photos/300/200?random=10',
+        'https://picsum.photos/300/200?random=11',
+        'https://picsum.photos/300/200?random=12',
+      ],
+      mode: 'General',
+      duration: { hours: 1, minutes: 10, seconds: 9 },
+      startTime: '2024-12-20T14:30:24Z',
+      endTime: '2024-12-20T15:40:33Z',
+      safetyScore: 87.5,
+      progress: '+2.3%',
+      totalIncidents: 12,
+      criticalIncidents: 0,
+      trends: [
+        { time: '08:00', score: 86 },
+        { time: '09:00', score: 86 },
+        { time: '10:00', score: 85 },
+        { time: '13:00', score: 86 },
+        { time: '14:00', score: 87 },
+        { time: '15:00', score: 88 },
+        { time: '17:00', score: 89 },
+      ],
+      safetyScoreDistribution: {
+        helmet: 86,
+        footwear: 92,
+        vest: 78,
+      },
     },
   };
 

@@ -3,10 +3,41 @@
   background-color: var(--light);
   padding: 20px 0;
 }
+
 .content {
   display: flex;
   flex-direction: column;
   gap: 25px;
+}
+
+.dropdowns {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.infoPieceDropdown {
+  gap: 3px;
+}
+
+.dropdown {
+  width: 100%;
+  height: 35px;
+  border-radius: 8px;
+  border: 1px solid var(--neutral);
+  padding: 0 0 0 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.dropdown option {
+  cursor: pointer;
+}
+
+.dropdown:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
 .snapshotsSection {

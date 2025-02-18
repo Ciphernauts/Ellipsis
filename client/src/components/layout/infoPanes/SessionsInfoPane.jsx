@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -21,19 +22,30 @@ import { capitalizeFirstLetter } from '../../../utils/helpers';
 import CustomTooltip from '../../CustomTooltip';
 
 export default function SessionsInfoPane({ data }) {
-  if (!data) {
-    return (
-      <div className={styles.pane}>
-        <p>Loading session details...</p>
-      </div>
-    );
-  }
+  const [selectedSite, setSelectedSite] = useState(null);
+  const [selectedCamera, setSelectedCamera] = useState(null);
+  const [updating, setUpdating] = useState(false);
+
+  // Set default values for selectedSite and selectedCamera when data changes
+  useEffect(() => {
+    if (data) {
+      // Set selectedSite to the construction site ID if it exists, otherwise null
+      setSelectedSite(data.sessionDetails.constructionSite?.id || null);
+      // Set selectedCamera to the camera ID if it exists, otherwise null
+      setSelectedCamera(data.sessionDetails.camera?.id || null);
+    }
+  }, [data]);
 
   // Check if required data exists, use defaults if not
-  const safetyScoreDistribution = data.safetyScoreDistribution || {};
-  const trends = data.trends || [];
-  const snapshots = data.snapshots || [];
-  const duration = data.duration || { hours: 0, minutes: 0, seconds: 0 };
+  const safetyScoreDistribution =
+    data?.sessionDetails?.safetyScoreDistribution || {};
+  const trends = data?.sessionDetails?.trends || [];
+  const snapshots = data?.sessionDetails?.snapshots || [];
+  const duration = data?.sessionDetails?.duration || {
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  };
 
   const settings = {
     speed: 300,
@@ -49,8 +61,12 @@ export default function SessionsInfoPane({ data }) {
     return isoString.replace('T', ' ').replace('Z', '');
   };
 
-  const startTime = data.startTime ? formatTimestamp(data.startTime) : '';
-  const endTime = data.endTime ? formatTimestamp(data.endTime) : '';
+  const startTime = data?.sessionDetails?.startTime
+    ? formatTimestamp(data.sessionDetails.startTime)
+    : '';
+  const endTime = data?.sessionDetails?.endTime
+    ? formatTimestamp(data.sessionDetails.endTime)
+    : '';
 
   const trendsData = trends.map((trend) => ({
     interval: trend.time,
@@ -64,14 +80,116 @@ export default function SessionsInfoPane({ data }) {
     })
   );
 
+  const handleSiteChange = async (event) => {
+    const newSite = parseInt(event.target.value, 10);
+    setSelectedSite(newSite);
+    setUpdating(true);
+
+    try {
+      await updateSession(newSite, selectedCamera);
+    } catch (error) {
+      console.error('Error updating site:', error);
+      setSelectedSite(data.sessionDetails.constructionSite?.id || null); // Revert to the previous site in case of an error
+      alert('Error updating site. Please try again.');
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleCameraChange = async (event) => {
+    const newCamera = parseInt(event.target.value, 10);
+    setSelectedCamera(newCamera);
+    setUpdating(true);
+
+    try {
+      await updateSession(selectedSite, newCamera);
+    } catch (error) {
+      console.error('Error updating camera:', error);
+      setSelectedCamera(data.sessionDetails.camera?.id || null); // Revert to the previous camera in case of an error
+      alert('Error updating camera. Please try again.');
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const updateSession = async (siteId, cameraId) => {
+    try {
+      const response = await axios.patch(`/api/sessions/${data.sessionId}`, {
+        constructionSiteId: siteId,
+        cameraId: cameraId,
+      });
+
+      if (response.data) {
+        // Update the local state directly
+        data.sessionDetails.constructionSite = data.constructionSites.find(
+          (site) => site.id === siteId
+        );
+        data.sessionDetails.camera = data.cameras.find(
+          (camera) => camera.id === cameraId
+        );
+      }
+    } catch (error) {
+      console.error('Failed to update session:', error);
+      throw new Error('Failed to update session');
+    }
+  };
+
+  if (!data) {
+    return (
+      <div className={styles.pane}>
+        <p>Loading session details...</p>
+      </div>
+    );
+  }
+
   return (
     <div className={`${styles.pane}`}>
-      <h1>{data.sessionId || 'Session Details'}</h1>
+      <h1>{data?.sessionDetails?.sessionId || 'Session Details'}</h1>
       <div className={styles.content}>
+        <div className={styles.dropdowns}>
+          <PaneInfoPiece
+            name='Construction Site'
+            value={
+              <select
+                value={selectedSite || ''}
+                onChange={handleSiteChange}
+                className={styles.dropdown}
+                disabled={updating}
+              >
+                <option value=''>Select Construction Site</option>
+                {data.constructionSites.map((site) => (
+                  <option key={site.id} value={site.id}>
+                    {site.name}
+                  </option>
+                ))}
+              </select>
+            }
+            className={styles.infoPieceDropdown}
+          />
+          <PaneInfoPiece
+            name='Camera'
+            value={
+              <select
+                value={selectedCamera || ''}
+                onChange={handleCameraChange}
+                className={styles.dropdown}
+                disabled={updating}
+              >
+                <option value=''>Select Camera</option>
+                {data.cameras.map((camera) => (
+                  <option key={camera.id} value={camera.id}>
+                    {camera.name}
+                  </option>
+                ))}
+              </select>
+            }
+            className={styles.infoPieceDropdown}
+          />
+        </div>
         <div className={styles.snapshotsSection}>
           <h2>Snapshot Gallery</h2>
           <div className={`${styles.sliderContainer}`}>
-            {data.snapshots && data.snapshots.length > 0 ? (
+            {snapshots.length > 0 ? (
               <Slider {...settings} className={styles.snapshots}>
                 {snapshots.map((item, index) => (
                   <div key={index} className={`${styles.snapshotItem}`}>
@@ -90,11 +208,14 @@ export default function SessionsInfoPane({ data }) {
         </div>
         <div className={styles.infoBlock}>
           <div className={styles.row}>
-            <PaneInfoPiece name='Mode' value={data.mode || 'N/A'} />
+            <PaneInfoPiece
+              name='Mode'
+              value={data?.sessionDetails?.mode || 'N/A'}
+            />
             <PaneInfoPiece
               name='Duration'
               value={
-                data.duration ? (
+                duration ? (
                   <Duration
                     hours={duration.hours}
                     minutes={duration.minutes}
@@ -124,27 +245,27 @@ export default function SessionsInfoPane({ data }) {
           <div className={styles.row}>
             <PaneInfoPiece
               name='Safety score'
-              value={data.safetyScore || 'N/A'}
+              value={data?.sessionDetails?.safetyScore || 'N/A'}
             />
             <PaneInfoPiece
               name='Session Progress'
-              value={data.progress || 'N/A'}
+              value={data?.sessionDetails?.progress || 'N/A'}
             />
           </div>
           <div className={styles.row}>
             <PaneInfoPiece
               name='Total incidents'
-              value={data.totalIncidents || 0}
+              value={data?.sessionDetails?.totalIncidents || 0}
             />
             <PaneInfoPiece
               name='Critical incidents'
-              value={data.criticalIncidents || 0}
+              value={data?.sessionDetails?.criticalIncidents || 0}
             />
           </div>
         </div>
         <div className={styles.trendsSection}>
           <h2>Trends</h2>
-          {trendsData && trendsData.length > 0 ? (
+          {trendsData.length > 0 ? (
             <ResponsiveContainer
               width='115%'
               height={182}
@@ -189,7 +310,7 @@ export default function SessionsInfoPane({ data }) {
                   fontWeight={600}
                   tick={{ fill: 'var(--neutral)' }}
                 />
-                <Tooltip content={<CustomTooltip />} />{' '}
+                <Tooltip content={<CustomTooltip />} />
                 <Area
                   type='monotone'
                   dataKey='score'
@@ -205,7 +326,7 @@ export default function SessionsInfoPane({ data }) {
         </div>
         <div className={styles.distributionSection}>
           <h2>Safety Score Distribution</h2>
-          {safetyDistributionData && safetyDistributionData.length > 0 ? (
+          {safetyDistributionData.length > 0 ? (
             <ResponsiveContainer width='100%' height={300}>
               <BarChart
                 data={safetyDistributionData}
