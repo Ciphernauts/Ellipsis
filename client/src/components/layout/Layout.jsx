@@ -92,12 +92,16 @@ const Layout = () => {
           padding='66px 51px'
           onRequestClose={() => {
             setIsPaneOpen(false);
+            setPaneData(null);
           }}
         >
           {location.pathname !== '/timeline/calendar' && (
             <span
               className={styles.closeButton}
-              onClick={() => setIsPaneOpen(false)}
+              onClick={() => {
+                setIsPaneOpen(false);
+                setPaneData(null);
+              }}
             >
               <svg
                 width='27px'
