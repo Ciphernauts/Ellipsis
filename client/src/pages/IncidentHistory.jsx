@@ -15,6 +15,12 @@ export default function IncidentHistory() {
     severity: 'All',
   });
 
+  useEffect(() => {
+    if (!isPaneOpen) {
+      setSelectedIncidentId(null); // Clear selection when pane closes
+    }
+  }, [isPaneOpen]);
+
   // Helper function to format time as HH:MM am/pm
   const formatTime = (dateString) => {
     const date = new Date(dateString);

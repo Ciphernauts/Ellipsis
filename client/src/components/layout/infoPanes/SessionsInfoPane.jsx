@@ -30,11 +30,15 @@ export default function SessionsInfoPane({ data }) {
   useEffect(() => {
     if (data) {
       // Set selectedSite to the construction site ID if it exists, otherwise null
-      setSelectedSite(data.sessionDetails.constructionSite?.id || null);
+      setSelectedSite(data.sessionDetails?.constructionSite?.id || null);
       // Set selectedCamera to the camera ID if it exists, otherwise null
-      setSelectedCamera(data.sessionDetails.camera?.id || null);
+      setSelectedCamera(data.sessionDetails?.camera?.id || null);
     }
   }, [data]);
+
+  // Provide default values for constructionSites and cameras
+  const constructionSites = data?.constructionSites || [];
+  const cameras = data?.cameras || [];
 
   // Check if required data exists, use defaults if not
   const safetyScoreDistribution =
@@ -89,7 +93,7 @@ export default function SessionsInfoPane({ data }) {
       await updateSession(newSite, selectedCamera);
     } catch (error) {
       console.error('Error updating site:', error);
-      setSelectedSite(data.sessionDetails.constructionSite?.id || null); // Revert to the previous site in case of an error
+      setSelectedSite(data.sessionDetails?.constructionSite?.id || null); // Revert to the previous site in case of an error
       alert('Error updating site. Please try again.');
     } finally {
       setUpdating(false);
@@ -105,7 +109,7 @@ export default function SessionsInfoPane({ data }) {
       await updateSession(selectedSite, newCamera);
     } catch (error) {
       console.error('Error updating camera:', error);
-      setSelectedCamera(data.sessionDetails.camera?.id || null); // Revert to the previous camera in case of an error
+      setSelectedCamera(data.sessionDetails?.camera?.id || null); // Revert to the previous camera in case of an error
       alert('Error updating camera. Please try again.');
     } finally {
       setUpdating(false);
@@ -121,10 +125,10 @@ export default function SessionsInfoPane({ data }) {
 
       if (response.data) {
         // Update the local state directly
-        data.sessionDetails.constructionSite = data.constructionSites.find(
+        data.sessionDetails.constructionSite = constructionSites.find(
           (site) => site.id === siteId
         );
-        data.sessionDetails.camera = data.cameras.find(
+        data.sessionDetails.camera = cameras.find(
           (camera) => camera.id === cameraId
         );
       }
@@ -157,7 +161,7 @@ export default function SessionsInfoPane({ data }) {
                 disabled={updating}
               >
                 <option value=''>Select Construction Site</option>
-                {data.constructionSites.map((site) => (
+                {constructionSites.map((site) => (
                   <option key={site.id} value={site.id}>
                     {site.name}
                   </option>
@@ -176,7 +180,7 @@ export default function SessionsInfoPane({ data }) {
                 disabled={updating}
               >
                 <option value=''>Select Camera</option>
-                {data.cameras.map((camera) => (
+                {cameras.map((camera) => (
                   <option key={camera.id} value={camera.id}>
                     {camera.name}
                   </option>

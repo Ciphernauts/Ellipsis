@@ -8,6 +8,12 @@ export default function TimelineSessions() {
   const [loading, setLoading] = useState(true);
   const [selectedSessionId, setSelectedSessionId] = useState(null);
 
+  useEffect(() => {
+    if (!isPaneOpen) {
+      setSelectedSessionId(null); // Clear selection when pane closes
+    }
+  }, [isPaneOpen]);
+
   // CODE TO FETCH
   // useEffect(() => {
   //   const fetchSessions = async () => {

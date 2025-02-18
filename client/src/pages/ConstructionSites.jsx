@@ -28,6 +28,12 @@ export default function ConstructionSites() {
     return `${day}${daySuffix} ${month} ${time}`;
   };
 
+  useEffect(() => {
+    if (!isPaneOpen) {
+      setSelectedSiteId(null); // Clear selection when pane closes
+    }
+  }, [isPaneOpen]);
+
   // Helper function to get the suffix for the day (st, nd, rd, th)
   const getDaySuffix = (day) => {
     if (day > 3 && day < 21) return 'th'; // 11th, 12th, 13th, etc.
