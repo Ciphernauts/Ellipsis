@@ -1,16 +1,22 @@
 import styles from './Header.module.css';
-import React from 'react';
-import { useMode } from '../../context/ModeContext';
+import React, { useEffect } from 'react';
+import { useApp } from '../../context/AppContext';
 import Button from '../Button';
-import ProfilePic from '../../assets/profile.png';
+import ProfilePic from '../../assets/UserDefaultImage.png';
 
 export default function Header({ showRightPane = false, className }) {
-  const { mode } = useMode(); // Access mode from context
+  const { mode, user, fetchMode, fetchProfile, isLoading } = useApp();
+
+  // Fetch mode and user profile when the component mounts
+  useEffect(() => {
+    fetchMode();
+    fetchProfile();
+  }, []);
 
   return (
     <div className={`${styles.header} ${className}`}>
       <div className={styles.modes}>
-        <span>{mode ? mode : 'Loading...'} mode</span>
+        <span>{isLoading || !mode ? 'Loading mode...' : `${mode} mode`}</span>
         <Button
           size='small'
           color='primary'
@@ -20,9 +26,16 @@ export default function Header({ showRightPane = false, className }) {
         />
       </div>
       {!showRightPane && (
-        <div className={`${styles.user} ${showRightPane && styles.paneOpen} `}>
-          Hi, User
-          <img src={ProfilePic} alt='profile picture' />
+        <div className={`${styles.user} ${showRightPane && styles.paneOpen}`}>
+          Hi, {isLoading || !user?.username ? 'User' : user.username}
+          <img
+            src={
+              isLoading || !user?.profilePicture
+                ? ProfilePic
+                : user.profilePicture
+            }
+            alt='profile picture'
+          />
         </div>
       )}
     </div>
