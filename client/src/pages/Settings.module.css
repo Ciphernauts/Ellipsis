@@ -1,0 +1,305 @@
+.settingsContainer {
+  background-color: var(--light);
+  border-radius: 10px;
+  padding: 20px 40px;
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
+  gap: 70px;
+  border-bottom: 2px solid var(--secondary);
+  margin-bottom: 30px;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  border: none;
+  color: var(--secondary);
+  background: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+
+.tabs button:hover {
+  background-color: var(--background-color);
+}
+
+.tabs button.active {
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  transform: translateY(2px);
+}
+
+.tabContent {
+  margin-bottom: 20px;
+}
+
+.profileSettings {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.profileDetails {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputField label {
+  margin-bottom: 8px;
+}
+
+.inputContainer {
+  height: 46px;
+  border: 1px solid var(--neutral);
+  padding: 0 10px 0 0;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.inputContainer.disabled {
+  border: none;
+  background-color: var(--background-color);
+}
+
+.inputContainer input {
+  height: 100%;
+  width: 100%;
+  padding: 0 0 0 18px;
+  border: none;
+  background: none;
+}
+
+.inputContainer input:focus {
+  outline: none;
+}
+
+.inputContainer input:read-only {
+  color: #727272;
+  /* color: var(--primary); */
+}
+
+.inputContainer input:nth-of-type(2) {
+  height: 60%;
+  border-left: 1px solid var(--neutral);
+  border-radius: 0;
+  margin-left: 10px;
+}
+
+.editIcon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.editIcon svg path {
+  fill: var(--primary) !important;
+}
+
+.editIcon svg path {
+  transition: 0.2s;
+}
+
+.editIcon:hover svg path {
+  fill: var(--secondary) !important;
+}
+
+.inputContainer button {
+  background: none;
+}
+
+.errorMessage {
+  color: #b91515;
+}
+
+.deleteAccount p {
+  width: fit-content;
+  color: var(--secondary);
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.deleteAccount .deleteLine {
+  color: var(--primary);
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.deleteAccount .deleteLine span {
+  font-weight: 600;
+}
+
+.deleteAccount .deleteLine:hover {
+  color: var(--secondary);
+}
+
+.pfpDetails {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.profilePicture {
+  position: relative;
+  text-align: center;
+}
+
+.profilePicture img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.editPictureButton {
+  position: absolute;
+  bottom: 9px;
+  right: 9px;
+  padding: 5px 6px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.editPictureButton:hover {
+  background-color: var(--secondary);
+}
+
+.systemPreferences {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dropdownField {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dropdownRow {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}
+
+.dropdownField select {
+  width: 100%;
+  height: 46px;
+  border: 1px solid var(--neutral);
+  color: var(--primary);
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.dropdownField select:hover {
+  background-color: var(--background-color);
+  border: 1px solid var(--background-color);
+}
+
+.dropdownField select:focus {
+  outline: none;
+}
+
+.dropdownField p {
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+.notifications {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggleField {
+  padding: 10px 8px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggleField:hover {
+  background-color: var(--background-color);
+}
+
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+}
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--neutral);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--light);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+.toggleSwitch input:checked + .slider {
+  background-color: var(--primary);
+}
+.toggleSwitch input:focus + .slider {
+  box-shadow: 0 0 1px var(--primary);
+}
+.toggleSwitch input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.buttons .button {
+  width: 180px;
+  justify-content: center;
+}

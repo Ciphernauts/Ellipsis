@@ -8,6 +8,8 @@ import NPTimelineIcon from '../icons/NPTimelineIcon';
 import NPIncidentsIcon from '../icons/NPIncidentsIcon';
 import NPConstructionSitesIcon from '../icons/NPConstructionSitesIcon';
 import NPCamerasIcon from '../icons/NPCamerasIcon';
+import NPSettingsIcon from '../icons/NPSettingsIcon';
+import NPLogOutIcon from '../icons/NPLogOutIcon';
 import ArrowIcon from '../icons/ArrowIcon';
 
 export default function NavPane() {
@@ -217,6 +219,31 @@ export default function NavPane() {
             </div>
           )}
         </NavLink>
+
+        <div className={styles.bottomLinks}>
+          <NavLink to='/settings'>
+            {({ isActive }) => (
+              <div
+                className={`${styles.navlink} ${isActive ? styles.active : ''}`}
+              >
+                <NPSettingsIcon />
+                <p>Settings</p>
+                <ArrowIcon />
+              </div>
+            )}
+          </NavLink>
+          <NavLink to='/logout'>
+            {({ isActive }) => (
+              <div
+                className={`${styles.navlink} ${isActive ? styles.active : ''}`}
+              >
+                <NPLogOutIcon />
+                <p>Log Out</p>
+                <ArrowIcon />
+              </div>
+            )}
+          </NavLink>
+        </div>
       </div>
     </nav>
   );

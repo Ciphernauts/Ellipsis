@@ -4,6 +4,7 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import { AppProvider } from './context/AppContext';
 import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
@@ -11,13 +12,13 @@ import TimelineCalendar from './pages/TimelineCalendar';
 import TimelineSessions from './pages/TimelineSessions';
 import IncidentTrends from './pages/IncidentTrends';
 import IncidentHistory from './pages/IncidentHistory';
-import { ModeProvider } from './context/ModeContext';
 import ConstructionSites from './pages/ConstructionSites';
 import ChangeMode from './pages/ChangeMode';
+import Settings from './pages/Settings';
 
 const App = () => {
   return (
-    <ModeProvider>
+    <AppProvider>
       <Routes>
         {/* Route without nav pane */}
         <Route path='/' element={<HomePage />} />
@@ -54,9 +55,11 @@ const App = () => {
           <Route path='/construction-sites' element={<ConstructionSites />} />
           <Route path='/cameras' element={<Dashboard />} />
           <Route path='/change-mode' element={<ChangeMode />} />
+
+          <Route path='/settings' element={<Settings />} />
         </Route>
       </Routes>
-    </ModeProvider>
+    </AppProvider>
   );
 };
 

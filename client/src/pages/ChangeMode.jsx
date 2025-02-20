@@ -5,11 +5,10 @@ import EntryModeIcon from '../components/icons/EntryModeIcon';
 import HeightModeIcon from '../components/icons/HeightModeIcon';
 import WorkshopModeIcon from '../components/icons/WorkshopModeIcon';
 import Button from '../components/Button';
-import ArrowIcon from '../components/icons/ArrowIcon';
-import { useMode } from '../context/ModeContext'; // Adjust the path if needed
+import { useApp } from '../context/AppContext';
 
 export default function ChangeMode() {
-  const { mode: activeMode, isLoading, updateMode } = useMode();
+  const { mode: activeMode, isLoading, updateMode } = useApp();
 
   const modes = [
     {
