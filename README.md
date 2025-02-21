@@ -7,6 +7,8 @@ A real-time safety compliance monitoring system designed to detect and address c
 - **Phase 1 (PPE Detection)**: Person, Helmet, No Helmet, Vest, No Vest, Glove, No Glove, Shoe, No Shoe
 - **Phase 2 (Fall Protection Monitoring)**: Person, Harness, No Harness, Guardrail, Good Scaffolding, Damaged Scaffolding
 
+More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#performance-metrics 
+
 **Note**: This repository currently focuses exclusively on the website and mobile app components of the project. Computer vision/object detection is being run on Google Colab. 
 
 ## Tech Stack
