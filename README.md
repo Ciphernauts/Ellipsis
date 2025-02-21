@@ -4,7 +4,7 @@ A real-time safety compliance monitoring system designed to detect and address c
 
 ### YOLOv11x Object Detection Classes By Phase:
 
-- **Phase 1 (PPE Detection)**: Person, Helmet, No Helmet, Vest, No Vest, Glove, No Glove, Shoe,No Shoe
+- **Phase 1 (PPE Detection)**: Person, Helmet, No Helmet, Vest, No Vest, Glove, No Glove, Shoe, No Shoe
 - **Phase 2 (Fall Protection Monitoring)**: Person, Harness, No Harness, Guardrail, Good Scaffolding, Damaged Scaffolding
 
 **Note**: This repository currently focuses exclusively on the website and mobile app components of the project. Computer vision/object detection is being run on Google Colab. 
