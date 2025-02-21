@@ -10,6 +10,7 @@ A real-time safety compliance monitoring system designed to detect and address c
 - **Backend**: Node.js, Express
 - **Database**: PostgreSQL, MongoDB
 - **Linting & Formatting**: ESLint, Prettier
+- **Computer Vision**: YOLOv11x
 
 ## Setup
 
