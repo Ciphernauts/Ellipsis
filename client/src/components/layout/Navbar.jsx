@@ -1,27 +1,50 @@
+import React from 'react';
 import styles from './Navbar.module.css';
 import img from '../../assets/Icon_black_png.png';
 import Button from '../Button';
-import { Link } from 'react-router-dom';
 
-export default function LandingPage() {
+const Navbar = ({ scrollToSection, refs }) => {
   return (
     <div className={styles.navbar}>
-      <div className={styles.brand}>
+      <a href='/' className={styles.brand}>
         <img src={img} alt='' />
         <p className={styles.logoName}>Ellipsis</p>
-      </div>
+      </a>
       <div className={styles.navlinks}>
-        <Link to='/services' className={styles.link}>
+        <a
+          href='#services'
+          className={styles.link}
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToSection(refs.servicesRef);
+          }}
+        >
           Services
-        </Link>
-        <Link to='/about' className={styles.link}>
+        </a>
+        <a
+          href='#about'
+          className={styles.link}
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToSection(refs.aboutRef, 20);
+          }}
+        >
           About
-        </Link>
-        <Link to='/contact' className={styles.link}>
+        </a>
+        <a
+          href='#contact'
+          className={styles.link}
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToSection(refs.contactRef);
+          }}
+        >
           Contact
-        </Link>
+        </a>
         <Button color='primary' fill={false} text='Log In' to='/login' />
       </div>
     </div>
   );
-}
+};
+
+export default Navbar;

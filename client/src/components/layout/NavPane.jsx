@@ -33,7 +33,9 @@ export default function NavPane() {
 
   return (
     <nav className={styles.navpane}>
-      <img src={img} alt='' />
+      <a href='/'>
+        <img src={img} alt='' />
+      </a>
       <div className={styles.list}>
         <NavLink to='/dashboard'>
           {({ isActive }) => (
