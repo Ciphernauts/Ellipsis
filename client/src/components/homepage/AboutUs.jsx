@@ -9,7 +9,7 @@ export default function AboutUs() {
       email: 'mailto:am407@uowmail.edu.au',
     },
     {
-      name: 'Hadiyya Sakkir',
+      name: 'Hadiyya Mattumathodi',
       linkedinUrl:
         'https://www.linkedin.com/in/hadiyya-s-mattummathodi-b345831a9',
       githubUrl: 'https://github.com/HadiyyaMattummathodi',

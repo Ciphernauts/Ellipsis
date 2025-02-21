@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import styles from './HomePage.module.css';
 import Navbar from '../components/layout/Navbar';
 import HeroSection from '../components/homepage/HeroSection';
 import Services from '../components/homepage/Services';
