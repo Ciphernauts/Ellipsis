@@ -214,6 +214,11 @@ button:hover {
   background-color: var(--secondary);
 }
 
+.homepageSectionContainer {
+  width: 100%;
+  max-width: 1100px;
+}
+
 .dashboardCard {
   background-color: var(--light);
   box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.05);
