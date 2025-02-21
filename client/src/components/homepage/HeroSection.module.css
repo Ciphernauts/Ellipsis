@@ -1,12 +1,18 @@
-.hero {
+.heroContainer {
   width: 100%;
   height: 100vh;
-  padding-top: 45px;
+  padding: 45px 20px 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 70px;
+  justify-content: space-around;
+  /* gap: 70px; */
 }
 
 .hero h1 {
