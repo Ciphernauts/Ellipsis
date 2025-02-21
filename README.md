@@ -2,7 +2,12 @@
 
 A real-time safety compliance monitoring system designed to detect and address construction site hazards using computer vision developed by The Ciphernauts. The system features a website and mobile app, both equipped with dashboards, for real-time monitoring and reporting.
 
-**Note**: This repository focuses exclusively on the website and mobile app components of the project.
+### YOLOv11x Object Detection Classes By Phase:
+
+- **Phase 1 (PPE Detection)**: Person, Helmet, No Helmet, Vest, No Vest, Glove, No Glove, Shoe,No Shoe
+- **Phase 2 (Fall Protection Monitoring)**: Person, Harness, No Harness, Guardrail, Good Scaffolding, Damaged Scaffolding
+
+**Note**: This repository currently focuses exclusively on the website and mobile app components of the project. Computer vision/object detection is being run on Google Colab. 
 
 ## Tech Stack
 
