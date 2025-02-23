@@ -1,0 +1,113 @@
+.pwaLayout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+.navPaneOverlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+}
+
+.main {
+  margin: 10px 10px 60px 10px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.main h1 {
+  font-size: 23px;
+  font-weight: 500;
+  letter-spacing: 1.28px;
+  margin-bottom: 16px;
+}
+
+.content {
+  flex-grow: 1;
+  overflow-y: auto;
+  transition: 0.3s;
+}
+
+.footer {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--neutral);
+  padding: 0 15px;
+  border-radius: 40px 40px 0 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 21;
+  transition: 0.3s ease;
+}
+
+.footer.navPaneOpen {
+  background-color: var(--background-color);
+}
+
+.footerItem {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerItem.active,
+.footerItem:active {
+  background-color: var(--dark);
+}
+
+.footerItem.active path,
+.footerItem:active path {
+  fill: var(--background-color);
+}
+
+.footerItem.active path:nth-of-type(1),
+.footerItem:active path:nth-of-type(1) {
+  stroke: var(--background-color);
+}
+
+.navPaneOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease; /* Add transition for opacity */
+  opacity: 0; /* Initially hidden */
+  pointer-events: none; /* Prevent interaction when hidden */
+}
+
+.navPaneOverlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.closeNavPaneButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.open {
+  transform: translateX(100%);
+}

@@ -18,6 +18,7 @@
 .large {
   height: 55px;
 }
+
 .large.icon {
   padding: 0 30px;
 }
@@ -32,18 +33,24 @@
 
 .dark.filled {
   background-color: var(--dark);
+  color: var(--light);
 }
 
-.dark:hover {
+.dark:hover,
+.dark:active {
   background-color: var(--primary);
+  color: var(--light);
 }
 
 .primary.filled {
   background-color: var(--primary);
+  color: var(--light);
 }
 
-.primary:hover {
+.primary:hover,
+.primary:active {
   background-color: var(--dark);
+  color: var(--light);
 }
 
 /* OUTLINED COLORS */
@@ -54,7 +61,8 @@
   color: var(--dark);
 }
 
-.dark.outlined:hover {
+.dark.outlined:hover,
+.dark.outlined:active {
   background-color: var(--dark);
   color: var(--light);
 }
@@ -65,7 +73,8 @@
   color: var(--primary);
 }
 
-.primary.outlined:hover {
+.primary.outlined:hover,
+.primary.outlined:active {
   background-color: var(--primary);
   color: var(--light);
 }

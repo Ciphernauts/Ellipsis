@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function BuildingGraphic() {
+export default function BuildingGraphic({ className }) {
   return (
     <svg
       width='300px'
@@ -10,6 +10,7 @@ export default function BuildingGraphic() {
       id='svg1'
       xmlns='http://www.w3.org/2000/svg'
       xmlns:svg='http://www.w3.org/2000/svg'
+      className={className}
     >
       <g id='layer1' transform='translate(-82.665754,-49.973177)'>
         <path

@@ -7,7 +7,7 @@ export default function HeroSection() {
   return (
     <div className={styles.heroContainer}>
       <div className={`${'homepageSectionContainer'} ${styles.hero}`}>
-        <BuildingGraphic />
+        <BuildingGraphic className={styles.graphic} />
         <div>
           <h1>
             Smart Safety<br></br>Solutions for Smarter<br></br>Construction

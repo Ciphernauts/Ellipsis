@@ -111,7 +111,7 @@ textarea:not([rows]) {
     var(--primary) 0%,
     var(--secondary) 100%
   );
-  --gradient-v: linear-gradient(0deg, var(--primary) 0%, var(--secondary) 100%);
+  --gradient-v: linear-gradient(0deg, var(--secondary) 0%, var(--primary) 100%);
 
   /* Typography */
   --font-family: 'Inter', sans-serif;
@@ -138,7 +138,7 @@ html {
 body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
-  background-color: var(--background-color);
+  background-color: var(--light);
   color: var(--dark);
   line-height: 1.6;
   overflow-x: hidden;

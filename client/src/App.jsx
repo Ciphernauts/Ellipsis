@@ -5,8 +5,11 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import { isPWA } from './utils/isPWA';
 import Layout from './components/layout/Layout';
+import PWALayout from './components/layout/PWALayout';
 import HomePage from './pages/HomePage';
+import OnboardingPage from './pages/OnboardingPage';
 import Dashboard from './pages/Dashboard';
 import TimelineCalendar from './pages/TimelineCalendar';
 import TimelineSessions from './pages/TimelineSessions';
@@ -17,14 +20,21 @@ import ChangeMode from './pages/ChangeMode';
 import Settings from './pages/Settings';
 
 const App = () => {
+  const isStandalone = isPWA();
+  console.log('is PWA: ', isStandalone);
+
   return (
     <AppProvider>
       <Routes>
         {/* Route without nav pane */}
-        <Route path='/' element={<HomePage />} />
+        <Route
+          path='/'
+          element={isStandalone ? <OnboardingPage /> : <HomePage />}
+        />
 
         {/* Routes with nav pane */}
-        <Route element={<Layout />}>
+        <Route element={isStandalone ? <PWALayout /> : <Layout />}>
+          <Route path='/test' />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/safety-trends' element={<Dashboard />} />
 
@@ -55,7 +65,6 @@ const App = () => {
           <Route path='/construction-sites' element={<ConstructionSites />} />
           <Route path='/cameras' element={<Dashboard />} />
           <Route path='/change-mode' element={<ChangeMode />} />
-
           <Route path='/settings' element={<Settings />} />
         </Route>
       </Routes>
