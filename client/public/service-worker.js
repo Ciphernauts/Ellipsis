@@ -1,11 +1,5 @@
 const CACHE_NAME = 'my-pwa-cache-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/src/main.jsx',
-  '/src/App.jsx',
-  '/manifest.json',
-];
+const urlsToCache = ['/', '/index.html', '/main.js', '/styles.css'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -15,6 +9,8 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((response) => response || fetch(event.request))
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
   );
 });
