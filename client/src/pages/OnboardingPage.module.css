@@ -1,0 +1,101 @@
+.onboarding {
+  min-width: 100vw;
+  min-height: 100vh;
+  background: var(--gradient-v);
+  position: relative;
+  overflow: hidden;
+}
+
+.bgVector {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.bgVector svg {
+  width: 90%;
+  height: 60%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.buildingGraphic {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -90%);
+  z-index: 1;
+}
+
+.desc {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 1;
+  color: var(--light);
+  text-align: center;
+  font-weight: 300;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.desc h1 {
+  color: var(--light);
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.desc p {
+  margin: 10px 0 20px 0;
+}
+
+.desc .buttonContainer {
+  font-size: 14px;
+}
+
+@media (min-width: 354px) {
+  .bgVector svg {
+    width: 80%;
+  }
+}
+
+@media (min-width: 386px) {
+  .bgVector svg {
+    width: 70%;
+  }
+}
+
+@media (min-width: 443px) {
+  .bgVector svg {
+    display: none;
+  }
+}
+
+@media (min-width: 700px) {
+  .buildingGraphic {
+    width: 320px;
+    height: 350px;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+  }
+
+  .desc {
+    top: 50%;
+    right: 10%;
+    left: auto;
+    transform: translate(0, -50%);
+  }
+
+  .desc p {
+    margin: 10px 0 40px 0;
+  }
+}

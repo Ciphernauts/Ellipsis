@@ -111,7 +111,7 @@ textarea:not([rows]) {
     var(--primary) 0%,
     var(--secondary) 100%
   );
-  --gradient-v: linear-gradient(0deg, var(--primary) 0%, var(--secondary) 100%);
+  --gradient-v: linear-gradient(0deg, var(--secondary) 0%, var(--primary) 100%);
 
   /* Typography */
   --font-family: 'Inter', sans-serif;
