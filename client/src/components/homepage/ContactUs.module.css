@@ -14,7 +14,7 @@
 }
 
 .contactUs h2 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 800;
   background: var(--gradient-h);
   -webkit-background-clip: text;
@@ -45,7 +45,8 @@
   background-color: var(--primary);
 }
 
-.social:hover {
+.social:hover,
+.social:active {
   width: 150px;
   height: 150px;
 }
@@ -56,4 +57,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 798px) {
+  .contactUsContainer {
+    height: fit-content;
+    padding: 100px 50px;
+  }
+
+  .socials {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+@media (max-width: 580px) {
+  .socials {
+    flex-direction: column;
+    gap: 0;
+  }
 }

@@ -12,7 +12,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  /* gap: 70px; */
+  gap: 70px;
 }
 
 .hero h1 {
@@ -27,4 +27,35 @@
   width: 520px;
   font-weight: 300;
   margin: 17px 0 46px 0;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    width: 600px;
+    /* width: 100vw; */
+    padding: 0 60px;
+  }
+
+  .hero h1 {
+    width: 100%;
+    font-size: 35px;
+  }
+
+  .hero p {
+    width: 100%;
+  }
+
+  .graphic {
+    display: none;
+  }
+
+  .hero a {
+    align-self: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero {
+    padding: 0 15px;
+  }
 }

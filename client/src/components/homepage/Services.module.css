@@ -1,4 +1,5 @@
 .servicesContainer {
+  position: relative;
   width: 100%;
   height: 100vh;
   min-height: 694px;
@@ -42,7 +43,7 @@
 }
 
 .desc h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 800;
   color: var(--light);
 }
@@ -51,19 +52,9 @@
   margin-top: 22px;
 }
 
-/* .cards {
-  width: 115vh;
-  margin-top: 56px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5vh;
-  z-index: 2;
-} */
-
 .cards {
   width: 65%;
   height: 85vh;
-  /* min-width: 680px; */
   min-height: 640px;
   max-height: 675px;
   display: grid;
@@ -71,20 +62,6 @@
   grid-template-rows: 1fr 1fr;
   gap: 25px;
 }
-
-/* .service {
-  width: 48vh;
-  height: 48vh;
-  border-radius: 4%;
-  padding: 0 24px;
-  background-color: var(--light);
-  font-size: 13px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-} */
 
 .service {
   background-color: var(--light);
@@ -114,4 +91,50 @@
 .service h2 {
   font-size: 20px;
   margin: 18px 0 10px 0;
+}
+
+@media (max-width: 940px) {
+  .servicesContainer,
+  .servicesContainer::after {
+    height: 1000px;
+    max-height: 1000px;
+  }
+
+  .services {
+    padding: 30px 70px 0 70px;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .desc {
+    width: 100%;
+  }
+
+  .cards {
+    width: 100%;
+  }
+}
+
+@media (max-width: 671px) {
+  .servicesContainer,
+  .servicesContainer::after {
+    height: 1700px;
+    max-height: 1700px;
+  }
+
+  .services {
+    padding: 30px 50px 0 50px;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .service {
+    padding: 30px 34px;
+  }
+}
+
+@media (max-width: 520px) {
+  .services {
+    padding: 30px 35px 0 35px;
+  }
 }
