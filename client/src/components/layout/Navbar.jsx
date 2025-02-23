@@ -41,7 +41,13 @@ const Navbar = ({ scrollToSection, refs }) => {
         >
           Contact
         </a>
-        <Button color='primary' fill={false} text='Log In' to='/login' />
+        <Button
+          color='primary'
+          fill={false}
+          text='Log In'
+          to='/login'
+          className={styles.button}
+        />
       </div>
     </div>
   );

@@ -31,7 +31,8 @@
   letter-spacing: 0.3px;
 }
 
-.listItem:hover {
+.listItem:hover,
+.listItem:active {
   color: var(--secondary);
   cursor: pointer;
 }
@@ -51,8 +52,11 @@
 }
 
 .listItem:hover path,
+.listItem:active path,
 .listItem:hover rect,
-.listitem:hover a {
+.listItem:active rect,
+.listitem:hover a,
+.listitem:active a {
   stroke: var(--secondary);
   color: var(--secondary) !important;
 }
@@ -94,4 +98,36 @@
 .pjLogo {
   width: 70px;
   height: 65.5px;
+}
+
+@media (max-width: 818px) {
+  .footer h3 {
+    font-size: 25px;
+  }
+  .listItem {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 789px) {
+  .footer {
+    height: fit-content;
+    padding: 50px;
+    flex-wrap: wrap;
+  }
+  .footerItemLast {
+    margin: 0 70px;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer {
+    padding: 50px 35px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: center;
+  }
+  .footerItemLast {
+    margin: 0;
+  }
 }

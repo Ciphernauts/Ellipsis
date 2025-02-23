@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import styles from './NavPane.module.css';
 import img from '../../assets/Icon_black_png.png';
+import { useApp } from '../../context/AppContext';
 import NPDashboardIcon from '../icons/NPDashboardIcon';
 import NPSafetyTrendsIcon from '../icons/NPSafetyTrendsIcon';
 import NPTimelineIcon from '../icons/NPTimelineIcon';
@@ -11,8 +12,37 @@ import NPCamerasIcon from '../icons/NPCamerasIcon';
 import NPSettingsIcon from '../icons/NPSettingsIcon';
 import NPLogOutIcon from '../icons/NPLogOutIcon';
 import ArrowIcon from '../icons/ArrowIcon';
+import CrossIcon from '../icons/CrossIcon';
+import Button from '../Button';
 
-export default function NavPane() {
+// PWA-specific component
+function PWATopSection({ toggle }) {
+  const { mode, fetchMode } = useApp();
+
+  useEffect(() => {
+    fetchMode();
+  }, [fetchMode]);
+
+  return (
+    <div className={styles.navpaneHeader}>
+      <img src={img} alt='Logo' />
+      <div className={styles.desc}>
+        <h2>Ellipsis</h2>
+        <p>{!mode ? 'Loading mode...' : `${mode} mode`}</p>
+      </div>
+      <span
+        className={styles.closeButton}
+        onClick={() => {
+          toggle(false);
+        }}
+      >
+        <CrossIcon size='26px' />
+      </span>
+    </div>
+  );
+}
+
+export default function NavPane({ isPWA = false, toggle, className }) {
   const location = useLocation();
   const [toggleDropdown, setToggleDropdown] = useState({
     'safety-trends': false,
@@ -31,13 +61,24 @@ export default function NavPane() {
   const isTimelineActive = location.pathname.startsWith('/timeline');
   const isIncidentsActive = location.pathname.startsWith('/incidents');
 
+  // Function to handle link clicks and close the pane
+  const handleLinkClick = () => {
+    if (isPWA) {
+      toggle(false);
+    }
+  };
+
   return (
-    <nav className={styles.navpane}>
-      <a href='/'>
-        <img src={img} alt='' />
-      </a>
+    <nav className={`${styles.navpane} ${isPWA && styles.mobile} ${className}`}>
+      {isPWA ? (
+        <PWATopSection toggle={toggle} />
+      ) : (
+        <a href='/'>
+          <img src={img} alt='Logo' />
+        </a>
+      )}
       <div className={styles.list}>
-        <NavLink to='/dashboard'>
+        <NavLink to='/dashboard' onClick={handleLinkClick}>
           {({ isActive }) => (
             <div
               className={`${styles.navlink} ${isActive ? styles.active : ''}`}
@@ -68,6 +109,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Overall Safety</li>
             </NavLink>
@@ -77,6 +119,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Helmet</li>
             </NavLink>
@@ -85,6 +128,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Footwear</li>
             </NavLink>
@@ -93,6 +137,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Vest</li>
             </NavLink>
@@ -101,6 +146,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Gloves</li>
             </NavLink>
@@ -109,6 +155,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Scaffolding</li>
             </NavLink>
@@ -118,6 +165,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Guardrails</li>
             </NavLink>
@@ -126,6 +174,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Harness</li>
             </NavLink>
@@ -151,6 +200,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Calendar</li>
             </NavLink>
@@ -159,13 +209,14 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Sessions</li>
             </NavLink>
           </ul>
         )}
 
-        {/* Timeline (Dropdown) */}
+        {/* Incidents (Dropdown) */}
         <div
           className={`${styles.navlink} ${isIncidentsActive ? styles.active : ''}`}
           onClick={() => handleToggle('incidents')}
@@ -184,6 +235,7 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Incident Trends</li>
             </NavLink>
@@ -192,13 +244,14 @@ export default function NavPane() {
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
+              onClick={handleLinkClick}
             >
               <li>Incident History</li>
             </NavLink>
           </ul>
         )}
 
-        <NavLink to='/construction-sites'>
+        <NavLink to='/construction-sites' onClick={handleLinkClick}>
           {({ isActive }) => (
             <div
               className={`${styles.navlink} ${isActive ? styles.active : ''}`}
@@ -210,7 +263,7 @@ export default function NavPane() {
           )}
         </NavLink>
 
-        <NavLink to='/cameras'>
+        <NavLink to='/cameras' onClick={handleLinkClick}>
           {({ isActive }) => (
             <div
               className={`${styles.navlink} ${isActive ? styles.active : ''}`}
@@ -221,9 +274,17 @@ export default function NavPane() {
             </div>
           )}
         </NavLink>
-
+        {isPWA && (
+          <Button
+            text='Change Mode'
+            size='medium'
+            className={styles.changeMode}
+            to='/change-mode'
+            onClick={handleLinkClick}
+          />
+        )}
         <div className={styles.bottomLinks}>
-          <NavLink to='/settings'>
+          <NavLink to='/settings' onClick={handleLinkClick}>
             {({ isActive }) => (
               <div
                 className={`${styles.navlink} ${isActive ? styles.active : ''}`}
@@ -234,7 +295,7 @@ export default function NavPane() {
               </div>
             )}
           </NavLink>
-          <NavLink to='/logout'>
+          <NavLink to='/logout' onClick={handleLinkClick}>
             {({ isActive }) => (
               <div
                 className={`${styles.navlink} ${isActive ? styles.active : ''}`}

@@ -40,7 +40,6 @@ export default function Footer() {
               target='_blank'
               className={styles.socialWrapper}
             >
-              {' '}
               <span className={styles.iconContainer}>
                 <svg
                   width='27'
@@ -68,7 +67,6 @@ export default function Footer() {
               target='_blank'
               className={styles.socialWrapper}
             >
-              {' '}
               <span className={styles.iconContainer}>
                 <svg
                   width='30px'

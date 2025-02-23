@@ -38,3 +38,23 @@
 .link:hover {
   color: var(--primary);
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .brand img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .navlinks a:not(.button) {
+    display: none;
+  }
+
+  .button {
+    padding: 0 30px;
+    height: 45px;
+  }
+}

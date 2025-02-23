@@ -11,6 +11,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  transition: 0.3s ease;
 }
 
 .navpane img {
@@ -43,7 +44,8 @@
   font-weight: 500;
 }
 
-.navlink:hover {
+.navlink:hover,
+.navlink:active {
   background-color: var(--background-color);
 }
 
@@ -95,4 +97,68 @@ li ul {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile {
+  top: 0;
+  left: -80%;
+  width: 80%;
+  height: 100%;
+  font-size: 15px;
+}
+
+.navpaneHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.navpaneHeader .desc {
+  width: 100%;
+  margin: 3px 0 0 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.navpaneHeader .desc h2 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.navpaneHeader .desc p {
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.mobile .list {
+  margin-top: 20px;
+}
+
+.mobile .navlink {
+  height: 45px;
+}
+
+.mobile .navlink p {
+  width: 100%;
+  padding: 0 20px;
+}
+
+.mobile .bottomLinks {
+  margin-top: 0;
+  margin-bottom: 35px;
+}
+
+.mobile .changeMode {
+  padding: 20px 40px;
+  margin: auto auto 10px auto;
+}
+
+@media (max-width: 335px) {
+  .mobile {
+    font-size: 14px;
+  }
 }
