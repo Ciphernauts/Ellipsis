@@ -18,6 +18,8 @@ import IncidentHistory from './pages/IncidentHistory';
 import ConstructionSites from './pages/ConstructionSites';
 import ChangeMode from './pages/ChangeMode';
 import Settings from './pages/Settings';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 const App = () => {
   const isStandalone = isPWA();
@@ -31,6 +33,8 @@ const App = () => {
           path='/'
           element={isStandalone ? <OnboardingPage /> : <HomePage />}
         />
+        <Route path='/Register' element={<Register />} />
+        <Route path='/Login' element={<Login />} />
 
         {/* Routes with nav pane */}
         <Route element={isStandalone ? <PWALayout /> : <Layout />}>
