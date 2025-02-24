@@ -34,7 +34,7 @@ function Login() {
         <WaveBackground className={styles.waveBackground} />
       </div>
 
-      <NavBar bgTransparent={true} />
+      <NavBar homepage={false} />
 
       <div className={styles.registerContainer}>
         <div className={styles.welcomeSection}>
