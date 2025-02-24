@@ -1,0 +1,225 @@
+/* Base styles */
+.registerPage {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.waveBackgroundContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vw;
+  max-height: 100vh;
+  z-index: -1;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.waveBackground {
+  position: relative;
+  width: 100%;
+  height: 110%;
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+}
+
+/* Layout */
+.registerContainer {
+  display: flex;
+  height: 100vh;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Welcome Section */
+.welcomeSection {
+  position: fixed;
+  bottom: 50vh;
+  left: 12vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: transparent;
+  padding: 1rem;
+  transform: translateY(50%);
+}
+
+.welcomeTitle {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 50px;
+  letter-spacing: -0.45px;
+  color: var(--light);
+}
+
+.welcomeText {
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.8px;
+  color: var(--light);
+  max-width: 400px;
+}
+
+/* Form Section */
+.formSection {
+  position: fixed;
+  bottom: 43vh;
+  right: 34vw;
+  width: 100%;
+  max-width: 310px;
+  background: transparent;
+  padding: 2rem;
+  border-radius: 7px;
+  text-align: center;
+  transform: translateX(50%) translateY(50%);
+}
+
+.formTitle {
+  margin-bottom: 1rem;
+  color: var(--dark);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+/* Form Styles */
+.registerForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.inputWrapper {
+  height: 49px;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  padding: 0 0.6rem;
+  background-color: var(--neutral);
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+.inputWrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.7rem;
+  padding: 0.5rem 2.5rem 0.5rem 0.5rem;
+  background: none;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inputWrapper input::placeholder {
+  color: var(--primary);
+  opacity: 1;
+  font-size: 0.8rem;
+}
+
+.inputWrapper img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.eyeIcon {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+
+.errorMessage {
+  position: absolute;
+  color: #b91515;
+  font-size: 0.65rem;
+  text-align: left;
+  margin-bottom: -62px;
+}
+
+/* Login Redirect */
+.loginRedirect {
+  margin-top: 0.1rem;
+  font-size: 0.7rem;
+  text-align: left;
+}
+
+.loginLink {
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.loginLink:hover {
+  text-decoration: underline;
+}
+
+/* Button Styles */
+.registerForm button {
+  width: 70%;
+  max-width: 150px;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  border-radius: 15px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .formSection {
+    width: 90%;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .registerContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+  }
+
+  .inputWrapper {
+    max-width: 100%;
+  }
+}
+
+/* Override browser autofill styles */
+.inputWrapper input:-webkit-autofill,
+.inputWrapper input:-webkit-autofill:hover,
+.inputWrapper input:-webkit-autofill:focus,
+.inputWrapper input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--neutral) inset !important;
+  -webkit-text-fill-color: var(--dark) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
