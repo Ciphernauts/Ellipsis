@@ -1,126 +1,127 @@
-.loginPage {
+/* Base styles */
+.registerPage {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* Prevent scrolling */
-  font-family: 'Inter', sans-serif;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
-/* Background SVG */
-.waveBackground {
+.waveBackgroundContainer {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100vw;
+  max-height: 100vh;
   z-index: -1;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.waveBackground {
+  position: relative;
+  width: 100%;
+  height: 110%;
   animation: float 5s ease-in-out infinite;
 }
 
-/* Floating animation */
 @keyframes float {
   0%,
   100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(20px);
   }
 }
 
-/* Overall container layout */
-.loginContainer {
+/* Layout */
+.registerContainer {
   display: flex;
   height: 100vh;
-  justify-content: flex-start; /* Move everything to the right */
+  justify-content: flex-start;
   align-items: center;
-  padding-left: 140px; /* Adjust to move further right */
 }
 
-/* Left Side - Welcome Section */
+/* Welcome Section */
 .welcomeSection {
-  flex: 1;
+  position: fixed;
+  bottom: 50vh;
+  left: 12vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
   background-color: transparent;
-  height: 100%;
   padding: 1rem;
-  margin-left: 80px;
-  max-width: 400px;
+  transform: translateY(50%);
 }
 
 .welcomeTitle {
-  display: flex;
-  align-items: left;
-  font-size: 45px;
-  font-weight: 800;
+  font-size: 40px;
+  font-weight: 700;
   line-height: 50px;
   letter-spacing: -0.45px;
   color: var(--light);
 }
 
 .welcomeText {
-  font-size: 18px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  text-align: left;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.8px;
   color: var(--light);
   max-width: 400px;
 }
 
-/* Right Side - Form Section */
+/* Form Section */
 .formSection {
-  flex: 1;
+  position: fixed;
+  bottom: 43vh;
+  right: 34vw;
+  width: 100%;
+  max-width: 310px;
   background: transparent;
   padding: 2rem;
   border-radius: 7px;
   text-align: center;
-  width: 100%;
-  max-width: 310px;
-  margin: 0 auto;
-  margin-top: 80px;
+  transform: translateX(50%) translateY(50%);
 }
 
 .formTitle {
-  text-align: center;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--dark);
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
 
-/* Form Layout */
-.loginForm {
+/* Form Styles */
+.registerForm {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1.1rem;
 }
 
-/* Input Wrapper */
 .inputWrapper {
+  height: 49px;
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
   border-radius: 15px;
-  padding: 0.5rem;
+  padding: 0 0.6rem;
   background-color: var(--neutral);
   position: relative;
   width: 100%;
-  box-sizing: border-box;
   max-width: 300px;
-  overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* Input Field */
 .inputWrapper input {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 1rem;
+  font-size: 0.7rem;
   padding: 0.5rem 2.5rem 0.5rem 0.5rem;
   background-color: var(--neutral);
   width: 100%;
@@ -129,14 +130,12 @@
   white-space: nowrap;
 }
 
-/* Style for input placeholder text */
 .inputWrapper input::placeholder {
   color: var(--primary);
   opacity: 1;
   font-size: 0.8rem;
 }
 
-/* Icon Inside Input */
 .inputWrapper img {
   width: 20px;
   height: 20px;
@@ -156,34 +155,34 @@
   height: 20px;
 }
 
-/* Error Messages */
 .errorMessage {
-  color: red;
+  position: absolute;
+  color: #b91515;
+  font-size: 0.65rem;
+  text-align: left;
+  margin-bottom: -62px;
+}
+
+/* Login Redirect */
+.loginRedirect {
+  margin-top: 0.1rem;
   font-size: 0.7rem;
   text-align: left;
-  margin-top: -0.5rem;
 }
 
-/* Register Redirect */
-.registerRedirect {
-  margin-top: 0.1rem;
-  font-size: 0.8rem;
-  text-align: left;
-}
-
-.registerLink {
-  color: #007bff;
-  font-weight: 600;
+.loginLink {
+  color: var(--primary);
+  font-weight: 700;
   cursor: pointer;
   text-decoration: none;
 }
 
-.registerLink:hover {
+.loginLink:hover {
   text-decoration: underline;
 }
 
-/* Login Button */
-.loginForm button {
+/* Button Styles */
+.registerForm button {
   width: 70%;
   max-width: 150px;
   margin: 0 auto;
@@ -204,7 +203,7 @@
 }
 
 @media (max-width: 480px) {
-  .loginContainer {
+  .registerContainer {
     flex-direction: column;
     align-items: center;
     padding: 1.5rem;
@@ -220,7 +219,7 @@
 .inputWrapper input:-webkit-autofill:hover,
 .inputWrapper input:-webkit-autofill:focus,
 .inputWrapper input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px var(--neutral) inset !important; /* Match your input background color */
-  -webkit-text-fill-color: var(--dark) !important; /* Match your text color */
-  transition: background-color 5000s ease-in-out 0s; /* Prevent background color change */
+  -webkit-box-shadow: 0 0 0 1000px var(--neutral) inset !important;
+  -webkit-text-fill-color: var(--dark) !important;
+  transition: background-color 5000s ease-in-out 0s;
 }

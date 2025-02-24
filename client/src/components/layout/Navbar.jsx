@@ -3,9 +3,11 @@ import styles from './Navbar.module.css';
 import img from '../../assets/Icon_black_png.png';
 import Button from '../Button';
 
-const Navbar = ({ scrollToSection, refs }) => {
+const Navbar = ({ scrollToSection, refs, bgTransparent = false }) => {
   return (
-    <div className={styles.navbar}>
+    <div
+      className={`${styles.navbar} ${bgTransparent && styles.bgTransparent}`}
+    >
       <a href='/' className={styles.brand}>
         <img src={img} alt='' />
         <p className={styles.logoName}>Ellipsis</p>

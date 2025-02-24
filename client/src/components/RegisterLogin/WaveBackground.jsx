@@ -2,10 +2,8 @@ const WaveBackground = ({ className }) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='1440'
-      height='895'
       viewBox='0 0 1440 895'
-      fill='none'
+      preserveAspectRatio='none'
       className={className}
     >
       <path

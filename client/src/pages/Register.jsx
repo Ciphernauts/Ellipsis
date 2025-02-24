@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './register.module.css';
+import styles from './LoginRegister.module.css';
 import Button from '../components/Button';
 import NavBar from '../components/layout/Navbar';
 import WaveBackground from '../components/RegisterLogin/WaveBackground';
-
-import emailIcon from '../Assets/email_icon.svg';
-import userIcon from '../Assets/username_icon.svg';
-import passwordIcon from '../Assets/password_icon.svg';
-import eyeIcon from '../Assets/eye_icon.svg'; // Import the eye icon
+import emailIcon from '../assets/email_icon.svg';
+import userIcon from '../assets/username_icon.svg';
+import passwordIcon from '../assets/password_icon.svg';
+import eyeIcon from '../assets/eye_icon.svg';
 
 function Register() {
   const navigate = useNavigate();
@@ -18,7 +17,7 @@ function Register() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: 'onChange', // Changed from 'onBlur' to 'onChange' for real-time validation
+    mode: 'onChange',
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -34,11 +33,11 @@ function Register() {
 
   return (
     <div className={styles.registerPage}>
-      <div className={styles.waveBackground}>
-        <WaveBackground />
+      <div className={styles.waveBackgroundContainer}>
+        <WaveBackground className={styles.waveBackground} />
       </div>
 
-      <NavBar />
+      <NavBar bgTransparent={true} />
 
       <div className={styles.registerContainer}>
         <div className={styles.welcomeSection}>
@@ -69,12 +68,12 @@ function Register() {
                 })}
               />
               <img src={emailIcon} alt='Email Icon' />
+              {errors.email && (
+                <span className={styles.errorMessage}>
+                  {errors.email.message}
+                </span>
+              )}
             </div>
-            {errors.email && (
-              <span className={styles.errorMessage}>
-                {errors.email.message}
-              </span>
-            )}
 
             {/* Username Field */}
             <div className={styles.inputWrapper}>
@@ -92,12 +91,12 @@ function Register() {
                 })}
               />
               <img src={userIcon} alt='Username Icon' />
+              {errors.username && (
+                <span className={styles.errorMessage}>
+                  {errors.username.message}
+                </span>
+              )}
             </div>
-            {errors.username && (
-              <span className={styles.errorMessage}>
-                {errors.username.message}
-              </span>
-            )}
 
             {/* Password Field */}
             <div className={styles.inputWrapper}>
@@ -120,12 +119,12 @@ function Register() {
                 onClick={togglePasswordVisibility}
                 style={{ cursor: 'pointer' }}
               />
+              {errors.password && (
+                <span className={styles.errorMessage}>
+                  {errors.password.message}
+                </span>
+              )}
             </div>
-            {errors.password && (
-              <span className={styles.errorMessage}>
-                {errors.password.message}
-              </span>
-            )}
 
             <p className={styles.loginRedirect}>
               Already have an account?{' '}

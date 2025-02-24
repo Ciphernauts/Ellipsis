@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './login.module.css';
+import styles from './LoginRegister.module.css';
 import Button from '../components/Button';
 import NavBar from '../components/layout/Navbar';
 import WaveBackground from '../components/RegisterLogin/WaveBackground';
-
 import emailIcon from '../Assets/email_icon.svg';
 import passwordIcon from '../Assets/password_icon.svg';
 import eyeIcon from '../Assets/eye_icon.svg';
@@ -16,7 +15,7 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onChange' }); // Changed from 'onBlur' to 'onChange'
+  } = useForm({ mode: 'onChange' });
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -25,19 +24,19 @@ function Login() {
   };
 
   const onSubmit = (data) => {
-    console.log('Login Data:', data);
+    console.log('Login Data:', data); // Replace with API call when ready
     navigate('/dashboard');
   };
 
   return (
-    <div className={styles.loginPage}>
-      <div className={styles.waveBackground}>
-        <WaveBackground />
+    <div className={styles.registerPage}>
+      <div className={styles.waveBackgroundContainer}>
+        <WaveBackground className={styles.waveBackground} />
       </div>
 
-      <NavBar />
+      <NavBar bgTransparent={true} />
 
-      <div className={styles.loginContainer}>
+      <div className={styles.registerContainer}>
         <div className={styles.welcomeSection}>
           <h1 className={styles.welcomeTitle}>Welcome Back!</h1>
           <p className={styles.welcomeText}>
@@ -48,7 +47,10 @@ function Login() {
         <div className={styles.formSection}>
           <h2 className={styles.formTitle}>LOGIN</h2>
 
-          <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className={styles.registerForm}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {/* Email Field */}
             <div className={styles.inputWrapper}>
               <input
@@ -63,12 +65,12 @@ function Login() {
                 })}
               />
               <img src={emailIcon} alt='Email Icon' />
+              {errors.email && (
+                <span className={styles.errorMessage}>
+                  {errors.email.message}
+                </span>
+              )}
             </div>
-            {errors.email && (
-              <span className={styles.errorMessage}>
-                {errors.email.message}
-              </span>
-            )}
 
             {/* Password Field */}
             <div className={styles.inputWrapper}>
@@ -86,26 +88,21 @@ function Login() {
                 onClick={togglePasswordVisibility}
                 style={{ cursor: 'pointer' }}
               />
+              {errors.password && (
+                <span className={styles.errorMessage}>
+                  {errors.password.message}
+                </span>
+              )}
             </div>
-            {errors.password && (
-              <span className={styles.errorMessage}>
-                {errors.password.message}
-              </span>
-            )}
 
-            <p className={styles.registerRedirect}>
+            <p className={styles.loginRedirect}>
               Don't have an account?{' '}
-              <Link to='/register' className={styles.registerLink}>
+              <Link to='/register' className={styles.loginLink}>
                 Register
               </Link>
             </p>
 
-            <Button
-              type='submit'
-              text='Login'
-              className={styles.loginButton}
-              disabled={!isValid}
-            />
+            <Button type='submit' text='Login' disabled={!isValid} />
           </form>
         </div>
       </div>
