@@ -1,55 +1,49 @@
 import styles from './GroupedComplianceBreakdown.module.css';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { capitalizeFirstLetter } from '../../utils/helpers';
+import {
+  capitalizeFirstLetter,
+  calculateAverageScore,
+  mapToPieData,
+} from '../../utils/helpers';
 import Percentage from '../Percentage';
-import HelmetIcon from '../icons/HelmetIcon';
-import VestIcon from '../icons/VestIcon';
-import BootsIcon from '../icons/BootsIcon';
-import GlovesIcon from '../icons/GlovesIcon';
-import ScaffoldingIcon from '../icons/ScaffoldingIcon';
-import GuardrailsIcon from '../icons/GuardrailsIcon';
-import HarnessIcon from '../icons/HarnessIcon';
+import {
+  HelmetIcon,
+  BootsIcon,
+  VestIcon,
+  GlovesIcon,
+  ScaffoldingIcon,
+  GuardrailsIcon,
+  HarnessIcon,
+} from '../icons/ComplianceIcons';
+
+const icons = {
+  helmet: <HelmetIcon />,
+  vest: <VestIcon />,
+  footwear: <BootsIcon />,
+  gloves: <GlovesIcon />,
+  scaffolding: <ScaffoldingIcon />,
+  guardrails: <GuardrailsIcon />,
+  harness: <HarnessIcon />,
+};
+
+const descriptions = {
+  helmet: 'Helmet compliance rate',
+  vest: 'Vest compliance rate',
+  footwear: 'Safety belt compliance rate',
+  gloves: 'Gloves compliance rate in workshops',
+  scaffolding: 'Safe scaffolding rate',
+  guardrails: 'Guardrail coverage rate on high edges',
+  harness: 'Safety rope compliance rate at height',
+};
 
 export default function GroupedComplianceBreakdown({ title, data }) {
-  function mapToPieData(data) {
-    return data.map((item) => ({
-      name: item.name,
-      pieData: [
-        { name: 'Total', value: 100 - item.value },
-        { name: 'Score', value: item.value },
-      ],
-    }));
-  }
-
   const transformedData = mapToPieData(data);
-
-  const averageScore =
-    data.reduce((acc, item) => acc + item.value, 0) / data.length;
+  const averageScore = calculateAverageScore(data);
 
   const avgPieData = [
     { name: 'Total', value: 100 - averageScore },
     { name: 'Score', value: averageScore },
   ];
-
-  const icons = {
-    helmet: <HelmetIcon />,
-    vest: <VestIcon />,
-    footwear: <BootsIcon />,
-    gloves: <GlovesIcon />,
-    scaffolding: <ScaffoldingIcon />,
-    guardrails: <GuardrailsIcon />,
-    harness: <HarnessIcon />,
-  };
-
-  const descriptions = {
-    helmet: 'Helmet compliance rate',
-    vest: 'Vest compliance rate',
-    footwear: 'Safety belt compliance rate',
-    gloves: 'Gloves compliance rate in workshops',
-    scaffolding: 'Safe scaffolding rate',
-    guardrails: 'Guardrail coverage rate on high edges',
-    harness: 'Safety rope compliance rate at height',
-  };
 
   return (
     <div className={`${'dashboardCard'} ${styles.card}`}>

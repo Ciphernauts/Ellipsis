@@ -30,3 +30,9 @@
 .label2 {
   margin: 0 3px 0 0;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .symbol {
+  margin: 0 0 0 1px;
+}

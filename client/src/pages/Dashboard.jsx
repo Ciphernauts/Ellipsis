@@ -8,7 +8,7 @@ import ActiveCameras from '../components/dashboard/ActiveCameras';
 import RecentIncidents from '../components/dashboard/RecentIncidents';
 import styles from './Dashboard.module.css';
 
-export default function Dashboard() {
+export default function Dashboard({ isPWA = false }) {
   const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
@@ -175,22 +175,34 @@ export default function Dashboard() {
   if (!dashboardData) return <div>Loading...</div>;
 
   return (
-    <div className={styles.dashboard}>
+    <div className={`${styles.dashboard} ${isPWA ? styles.mobile : ''}`}>
       <h1>Dashboard</h1>
       <main>
         <div className={styles.row}>
-          <SafetyScoreCard data={dashboardData.safetyScore} />
-          <SafetyScoreTrends data={dashboardData.trends} />
+          <SafetyScoreCard data={dashboardData.safetyScore} isPWA={isPWA} />
+          <SafetyScoreTrends data={dashboardData.trends} isPWA={isPWA} />
         </div>
         <div className={styles.row}>
-          <ComplianceBreakdown data={dashboardData.complianceBreakdown} />
+          <ComplianceBreakdown
+            data={dashboardData.complianceBreakdown}
+            className={styles.complianceBreakdown}
+            isPWA={isPWA}
+          />
           <div className={styles.column}>
-            <Snapshots data={dashboardData.snapshots} />
+            {!isPWA && <Snapshots data={dashboardData.snapshots} />}
+
             <div className={styles.row}>
-              <SessionDuration data={dashboardData.sessionDuration} />
-              <ActiveCameras data={dashboardData.activeCameras} />
+              <SessionDuration
+                data={dashboardData.sessionDuration}
+                isPWA={isPWA}
+              />
+              <ActiveCameras data={dashboardData.activeCameras} isPWA={isPWA} />
             </div>
-            <RecentIncidents data={dashboardData.recentIncidents} />
+            <RecentIncidents
+              data={dashboardData.recentIncidents}
+              className={styles.recentIncidents}
+              isPWA={isPWA}
+            />
           </div>
         </div>
       </main>

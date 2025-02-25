@@ -39,7 +39,10 @@ const App = () => {
         {/* Routes with nav pane */}
         <Route element={isStandalone ? <PWALayout /> : <Layout />}>
           <Route path='/test' />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route
+            path='/dashboard'
+            element={<Dashboard isPWA={isStandalone} />}
+          />
           <Route path='/safety-trends' element={<Dashboard />} />
 
           {/* Redirect from /timeline to /timeline/calendar */}

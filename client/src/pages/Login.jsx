@@ -5,9 +5,9 @@ import styles from './LoginRegister.module.css';
 import Button from '../components/Button';
 import NavBar from '../components/layout/Navbar';
 import WaveBackground from '../components/RegisterLogin/WaveBackground';
-import emailIcon from '../Assets/email_icon.svg';
-import passwordIcon from '../Assets/password_icon.svg';
-import eyeIcon from '../Assets/eye_icon.svg';
+import emailIcon from '../assets/email_icon.svg';
+import passwordIcon from '../assets/password_icon.svg';
+import eyeIcon from '../assets/eye_icon.svg';
 
 function Login() {
   const navigate = useNavigate();

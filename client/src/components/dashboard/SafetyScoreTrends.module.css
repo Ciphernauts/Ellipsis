@@ -84,3 +84,61 @@
 .growthContainer.decline span .arrow {
   transform: rotateZ(90deg);
 }
+
+.chartContainer {
+  margin: 0 -20px -10px -50px;
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile.card {
+  padding: 15px 12px 7px;
+}
+
+.mobile .header {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.mobile .header .options {
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.mobile .timeOption {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.mobile .content {
+  flex-direction: column;
+}
+
+.mobile .content > div {
+  width: 100%;
+  flex-direction: row;
+  padding: 11px 5px;
+  order: 2;
+}
+
+.mobile .content > .chartContainer {
+  width: 100%;
+  order: 1;
+  margin: 0 0 -10px -60px;
+}
+
+.mobile .growthContainer {
+  width: 82px;
+}
+
+.mobile .growthContainer > p {
+  font-size: 10px;
+}
+
+@media (min-width: 500px) {
+  .mobile .content > .chartContainer {
+    margin: 0 0 -10px -78px;
+  }
+}

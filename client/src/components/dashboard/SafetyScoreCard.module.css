@@ -43,3 +43,45 @@
 .breakdown .section .progressBar {
   margin-top: 4px;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile.card {
+  padding: 0;
+}
+
+.mobile .content {
+  flex-direction: column;
+}
+
+.mobile .content h2 {
+  margin-top: 11px;
+}
+
+.mobile .breakdown {
+  width: 100%;
+  margin-top: 15px;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.mobile .breakdown .section {
+  width: 100%;
+  height: 85px;
+  background-color: var(--neutral);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+}
+
+.mobile .breakdown .section .progressBar {
+  margin: 0;
+}
+
+.mobile .breakdown .section .percentage {
+  align-items: center;
+}

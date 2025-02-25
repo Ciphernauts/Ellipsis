@@ -4,7 +4,7 @@ import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 import styles from './SafetyScoreCard.module.css';
 import ProgressBar from '../ProgressBar';
 
-export default function SafetyScoreCard({ data }) {
+export default function SafetyScoreCard({ data, isPWA = false }) {
   // Helper function to calculate the average of an object
   const calculateAverage = (values) => {
     const sum = Object.values(values).reduce((acc, value) => acc + value, 0);
@@ -35,8 +35,10 @@ export default function SafetyScoreCard({ data }) {
   ];
 
   return (
-    <div className={`${'dashboardCard'} ${styles.card}`}>
-      <h2>Safety Score Overview</h2>
+    <div
+      className={`${!isPWA ? 'dashboardCard' : ''} ${styles.card} ${isPWA ? styles.mobile : ''}`}
+    >
+      {!isPWA && <h2>Safety Score Overview</h2>}
       <div className={styles.content}>
         <div className={styles.overall}>
           <Percentage
@@ -44,14 +46,19 @@ export default function SafetyScoreCard({ data }) {
             label='Overall avg'
             className={styles.percentage}
           />
-          <PieChart width={160} height={160} title='Safety Score'>
+          <PieChart
+            width={isPWA ? 180 : 160}
+            height={isPWA ? 180 : 160}
+            title='Safety Score'
+          >
             <Pie
               data={chartData}
-              innerRadius={60}
-              outerRadius={80}
+              innerRadius={isPWA ? 68 : 60}
+              outerRadius={isPWA ? 90 : 80}
               cornerRadius={10}
               paddingAngle={-15}
-              startAngle={0}
+              startAngle={-180}
+              endAngle={180}
               stroke='none'
               dataKey='value'
             >
@@ -65,34 +72,39 @@ export default function SafetyScoreCard({ data }) {
             </Pie>
           </PieChart>
         </div>
-        <div className={styles.breakdown}>
-          <div className={styles.section}>
-            <Percentage
-              number={ppeWeighted}
-              label='PPE Detection'
-              numberSize={22}
-              symbolSize={16}
-              className={styles.percentage}
-            />
-            <ProgressBar
-              progress={ppeWeighted}
-              className={styles.progressBar}
-            />
+        {isPWA && <h2>Safety Score Overview</h2>}
+        {!isPWA && (
+          <div className={styles.breakdown}>
+            <div className={styles.section}>
+              <Percentage
+                number={ppeWeighted}
+                label='PPE Detection'
+                numberSize={22}
+                symbolSize={16}
+                labelWeight={600}
+                className={styles.percentage}
+              />
+              <ProgressBar
+                progress={ppeWeighted}
+                className={styles.progressBar}
+              />
+            </div>
+            <div className={styles.section}>
+              <Percentage
+                number={fallWeighted}
+                label='Fall Protection'
+                numberSize={22}
+                symbolSize={16}
+                labelWeight={600}
+                className={styles.percentage}
+              />
+              <ProgressBar
+                progress={fallWeighted}
+                className={styles.progressBar}
+              />
+            </div>
           </div>
-          <div className={styles.section}>
-            <Percentage
-              number={fallWeighted}
-              label='Fall Protection'
-              numberSize={22}
-              symbolSize={16}
-              className={styles.percentage}
-            />
-            <ProgressBar
-              progress={fallWeighted}
-              className={styles.progressBar}
-            />
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

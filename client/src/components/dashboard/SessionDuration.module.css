@@ -13,3 +13,20 @@
   display: flex;
   justify-content: center;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile {
+  width: 59%;
+  height: 100%;
+  background-color: var(--neutral);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile h2 {
+  margin-bottom: 4px;
+  text-align: center;
+}
