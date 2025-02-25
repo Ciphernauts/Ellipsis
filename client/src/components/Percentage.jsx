@@ -1,4 +1,5 @@
 import styles from './Percentage.module.css';
+import { isPWA } from '../utils/isPWA';
 
 export default function Percentage({
   number = 0,
@@ -14,11 +15,12 @@ export default function Percentage({
   label2weight = 600,
   className = '',
 }) {
+  const isStandalone = isPWA();
   return (
     <div
       className={`${styles.percentage} ${className} ${
         label2 !== '' ? styles.hasLabel2 : ''
-      }`}
+      } ${isStandalone ? styles.mobile : ''}`}
     >
       {label !== '' && (
         <div

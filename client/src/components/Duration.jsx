@@ -6,9 +6,12 @@ export default function Duration({
   seconds,
   size = 'small',
   className = '',
+  isPWA = false,
 }) {
   return (
-    <div className={`${styles.duration} ${className} ${styles[size]}`}>
+    <div
+      className={`${styles.duration} ${className} ${styles[size]} ${isPWA ? styles.mobile : ''}`}
+    >
       <div className={styles.hours}>
         <span className={styles.number}>{hours}</span>
         <span>h</span>

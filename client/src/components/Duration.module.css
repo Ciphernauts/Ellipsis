@@ -54,3 +54,30 @@
 .small .seconds .number {
   font-size: 13px;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile.large {
+  font-size: 13px;
+  gap: 3px;
+}
+
+.mobile.large .hours,
+.mobile.large .minutes {
+  gap: 1px;
+}
+
+.mobile.large .hours .number {
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.mobile.large .minutes span:not(.number) {
+  line-height: normal;
+  margin-bottom: 3px;
+}
+
+.mobile.large .minutes .number {
+  font-weight: 700;
+  font-size: 25px;
+}

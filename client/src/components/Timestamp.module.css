@@ -26,3 +26,38 @@
   font-size: 11px;
   font-weight: 300;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile.timestamp {
+  width: 32px;
+  min-width: 0;
+}
+
+.mobile .time {
+  font-size: 13px;
+}
+
+.mobile .amPm {
+  font-size: 10px;
+}
+
+.mobile .date {
+  font-size: 9px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+@media (max-width: 340px) {
+  .mobile.timestamp {
+    width: 29px;
+  }
+  .mobile .fullTime {
+    line-height: normal;
+    gap: 0;
+    flex-direction: column;
+  }
+  .mobile .time {
+    font-size: 12px;
+  }
+}

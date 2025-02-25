@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./ProgressBar.module.css";
+import React from 'react';
+import styles from './ProgressBar.module.css';
 
 export default function ProgressBar({
   progress = 100,
-  width = "100px",
-  color = "var(--primary)",
-  className = "",
+  width = '100px',
+  color = 'var(--primary)',
+  className = '',
 }) {
   return (
     <div

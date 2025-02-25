@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 import CustomTooltip from '../CustomTooltip';
 
-export default function SafetyScoreTrends({ data }) {
+export default function SafetyScoreTrends({ data, isPWA = false }) {
   const [timeframe, setTimeframe] = useState('24 hours');
 
   const chartData = useMemo(() => data.chart[timeframe] || [], [timeframe]);
@@ -31,7 +31,9 @@ export default function SafetyScoreTrends({ data }) {
   const growthColor = growth.positive ? '#0FD7A5' : '#D21616';
 
   return (
-    <div className={`${'dashboardCard'} ${styles.card}`}>
+    <div
+      className={`${'dashboardCard'} ${styles.card} ${isPWA ? styles.mobile : ''}`}
+    >
       <div className={styles.header}>
         <h2>Safety Score Trends</h2>
         <div className={styles.options}>
@@ -59,8 +61,8 @@ export default function SafetyScoreTrends({ data }) {
               <ArrowIcon color={growthColor} className={styles.arrow} />
               <Percentage
                 number={growth.number}
-                numberSize={22}
-                symbolSize={15}
+                numberSize={isPWA ? 20 : 22}
+                symbolSize={isPWA ? 13 : 15}
               />
             </span>
             <p>
@@ -81,8 +83,10 @@ export default function SafetyScoreTrends({ data }) {
               number={data.best[timeframe].score}
               label='Best Metric'
               label2={data.best[timeframe].name}
-              numberSize={20}
-              symbolSize={16}
+              label2size={isPWA ? 11 : 12}
+              label2weight={isPWA ? 500 : 600}
+              numberSize={isPWA ? 19 : 20}
+              symbolSize={isPWA ? 12 : 16}
             />
           </div>
           <div className={styles.bestMetricContainer}>
@@ -90,12 +94,18 @@ export default function SafetyScoreTrends({ data }) {
               number={data.worst[timeframe].score}
               label='Worst Metric'
               label2={data.worst[timeframe].name}
-              numberSize={20}
-              symbolSize={16}
+              label2size={isPWA ? 11 : 12}
+              label2weight={isPWA ? 500 : 600}
+              numberSize={isPWA ? 19 : 20}
+              symbolSize={isPWA ? 12 : 16}
             />
           </div>
         </div>
-        <ResponsiveContainer width='100%' height={182}>
+        <ResponsiveContainer
+          width={isPWA ? '119%' : '100%'}
+          height={182}
+          className={styles.chartContainer}
+        >
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id='colorGradient' x1='0' y1='0' x2='0' y2='1'>
