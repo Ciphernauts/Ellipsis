@@ -11,28 +11,47 @@ db_user = "postgres"  # Replace with your username
 db_password = "root"  # Replace with your password
 
 # Initialize YOLO model
-model = YOLO("server/src/assets/best (5).pt")  # Replace with your model path
+model = YOLO("server/best.pt")  # Replace with your model path
+
+def check_db_connection():
+    """
+    Checks if the connection to the database is successful.
+    """
+    try:
+        conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password)
+        cur = conn.cursor()
+        cur.execute("SELECT 1")
+        conn.close()
+        print("Database connection successful.")
+    except Exception as e:
+        print(f"Database connection failed: {e}")
+
+# Check database connection
+check_db_connection()
+print("Checked database connection.")
 
 # Connect to PostgreSQL
 conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password)
 cur = conn.cursor()
+print("Connected to PostgreSQL.")
 
-# Create table if it doesn't exist
-cur.execute("""
-CREATE TABLE IF NOT EXISTS object_detections (
-    Timestamp TIMESTAMP,
-    Person INTEGER,
-    Helmet INTEGER,
-    No_Helmet INTEGER,
-    Vest INTEGER,
-    No_Vest INTEGER,
-    Glove INTEGER,
-    No_Glove INTEGER,
-    Shoe INTEGER,
-    Shoe_No INTEGER
-)
-""")
-conn.commit()
+# # Create table if it doesn't exist
+# cur.execute("""
+# CREATE TABLE IF NOT EXISTS object_detections (
+#     Timestamp TIMESTAMP,
+#     Person INTEGER,
+#     Helmet INTEGER,
+#     No_Helmet INTEGER,
+#     Vest INTEGER,
+#     No_Vest INTEGER,
+#     Glove INTEGER,
+#     No_Glove INTEGER,
+#     Shoe INTEGER,
+#     No_Shoe INTEGER
+# )
+# """)
+# conn.commit()
+# print("Ensured table exists.")
 
 def process_frame(frame):
     """
@@ -47,13 +66,13 @@ def process_frame(frame):
     counts = {
         "Person": 0,
         "Helmet": 0,
-        "No_Helmet": 0,
+        "No Helmet": 0,
         "Vest": 0,
-        "No_Vest": 0,  # Use 'No_Vest' with an underscore
+        "No Vest": 0, 
         "Glove": 0,
-        "No_Glove": 0,
+        "No Glove": 0,
         "Shoe": 0,
-        "Shoe_No": 0
+        "No Shoe": 0
     }
 
     # Count detected objects
@@ -67,15 +86,17 @@ def process_frame(frame):
 
     # Insert data into the database
     cur.execute("""
-    INSERT INTO object_detections (Timestamp, Person, Helmet, No_Helmet, Vest, No_Vest, Glove, No_Glove, Shoe, Shoe_No)
+    INSERT INTO phase_1_detections (Timestamp, Person, Helmet, No_Helmet, Vest, No_Vest, Glove, No_Glove, Shoe, No_Shoe)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """, (timestamp, counts["Person"], counts["Helmet"], counts["No_Helmet"], counts["Vest"], counts["No_Vest"],
-          counts["Glove"], counts["No_Glove"], counts["Shoe"], counts["Shoe_No"]))
+    """, (timestamp, counts["Person"], counts["Helmet"], counts["No Helmet"], counts["Vest"], counts["No Vest"],
+          counts["Glove"], counts["No Glove"], counts["Shoe"], counts["No Shoe"]))
     conn.commit()
+    print("Processed frame and updated database.")
 
 # Example usage with manual frame extraction
-video_path = "server/src/assets/011_15fps.mp4"  # Replace with your video path
+video_path = "server/011_15fps.mp4"  # Replace with your video path
 cap = cv2.VideoCapture(video_path)
+print("Opened video file.")
 
 while(cap.isOpened()):
     ret, frame = cap.read()
@@ -85,7 +106,9 @@ while(cap.isOpened()):
         break
 
 cap.release()
+print("Released video capture.")
 
 # Close the database connection
 cur.close()
 conn.close()
+print("Closed database connection.")
