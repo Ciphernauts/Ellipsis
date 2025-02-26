@@ -21,7 +21,7 @@ import {
 import { capitalizeFirstLetter } from '../../../utils/helpers';
 import CustomTooltip from '../../CustomTooltip';
 
-export default function SessionsInfoPane({ data }) {
+export default function SessionsInfoPane({ data, isPWA = false }) {
   const [selectedSite, setSelectedSite] = useState(null);
   const [selectedCamera, setSelectedCamera] = useState(null);
   const [updating, setUpdating] = useState(false);
@@ -52,6 +52,7 @@ export default function SessionsInfoPane({ data }) {
   };
 
   const settings = {
+    arrows: !isPWA,
     speed: 300,
     slidesToScroll: 1,
     centerMode: true,
@@ -147,7 +148,7 @@ export default function SessionsInfoPane({ data }) {
   }
 
   return (
-    <div className={`${styles.pane}`}>
+    <div className={`${styles.pane} ${isPWA ? styles.mobile : ''}`}>
       <h1>{data?.sessionDetails?.sessionId || 'Session Details'}</h1>
       <div className={styles.content}>
         <div className={styles.dropdowns}>
@@ -225,6 +226,7 @@ export default function SessionsInfoPane({ data }) {
                     minutes={duration.minutes}
                     seconds={duration.seconds}
                     size='small'
+                    isPWA={isPWA}
                   />
                 ) : (
                   'Loading duration...'
@@ -236,12 +238,12 @@ export default function SessionsInfoPane({ data }) {
             <PaneInfoPiece
               name='Start'
               value={formatTimestamp(startTime)}
-              fontSize={12}
+              fontSize={isPWA ? 13 : 12}
             />
             <PaneInfoPiece
               name='End'
               value={formatTimestamp(endTime)}
-              fontSize={12}
+              fontSize={isPWA ? 13 : 12}
             />
           </div>
         </div>

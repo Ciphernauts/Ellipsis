@@ -51,8 +51,14 @@ const App = () => {
             element={<Navigate to='/timeline/calendar' replace />}
           />
 
-          <Route path='/timeline/calendar' element={<TimelineCalendar />} />
-          <Route path='/timeline/sessions' element={<TimelineSessions />} />
+          <Route
+            path='/timeline/calendar'
+            element={<TimelineCalendar isPWA={isStandalone} />}
+          />
+          <Route
+            path='/timeline/sessions'
+            element={<TimelineSessions isPWA={isStandalone} />}
+          />
 
           {/* Redirect from /incidents to /incidents/incident-trends */}
           <Route

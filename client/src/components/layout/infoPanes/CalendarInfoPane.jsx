@@ -23,10 +23,17 @@ import {
 import { capitalizeFirstLetter } from '../../../utils/helpers';
 import CustomTooltip from '../../CustomTooltip';
 
-export default function CalendarInfoPane({ data, className }) {
+export default function CalendarInfoPane({ data, isPWA = false, className }) {
   if (!data) return <div className={styles.pane}>Loading...</div>;
 
+  // Provide default handleFunctions if not provided
+  const handleFunctions = data.handleFunctions || {
+    prev: () => {},
+    next: () => {},
+  };
+
   const settings = {
+    arrows: !isPWA,
     speed: 300,
     slidesToScroll: 1,
     centerMode: true,
@@ -65,8 +72,22 @@ export default function CalendarInfoPane({ data, className }) {
   ];
 
   return (
-    <div className={`${styles.pane} ${className}`}>
-      <h1>{data.name}</h1>
+    <div
+      className={`${styles.pane} ${className} ${isPWA ? styles.mobile : ''}`}
+    >
+      <div className={styles.header}>
+        {isPWA && (
+          <span onClick={handleFunctions.prev} className={styles.arrowButton}>
+            <ArrowIcon className={styles.prevArrow} />
+          </span>
+        )}
+        <h1>{data.name}</h1>
+        {isPWA && (
+          <span onClick={handleFunctions.next} className={styles.arrowButton}>
+            <ArrowIcon />
+          </span>
+        )}
+      </div>
       <div className={styles.content}>
         {/* Snapshots Section */}
         <div className={styles.snapshotsSection}>
@@ -113,6 +134,7 @@ export default function CalendarInfoPane({ data, className }) {
                     minutes={data.duration.minutes}
                     seconds={data.duration.seconds}
                     size='small'
+                    isPWA={isPWA}
                   />
                 ) : (
                   'Loading duration...'

@@ -2,8 +2,9 @@ import React, { useState, useEffect, act } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import styles from './TimelineCalendar.module.css';
 import ArrowIcon from '../components/icons/ArrowIcon';
+import Button from '../components/Button';
 
-export default function TimelineCalendar() {
+export default function TimelineCalendar({ isPWA = false }) {
   const { setPaneData } = useOutletContext(); // Get setter from Layout
   const [calendarData, setCalendarData] = useState(null);
 
@@ -12,7 +13,7 @@ export default function TimelineCalendar() {
   const [year, setYear] = useState(currentDate.getFullYear());
 
   const [activeSelection, setActiveSelection] = useState({
-    month: month,
+    month: isPWA ? null : month,
     day: null,
   });
 
@@ -35,6 +36,51 @@ export default function TimelineCalendar() {
       setMonth(newMonth);
     }
   };
+
+  const handleDayNext = () => {
+    if (!activeSelection.day) return;
+
+    const currentDate = new Date(activeSelection.day);
+    const nextDate = new Date(currentDate);
+    nextDate.setDate(currentDate.getDate() + 1);
+
+    const formattedDate = `${nextDate.getFullYear()}-${(nextDate.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${nextDate.getDate().toString().padStart(2, '0')}`;
+
+    setActiveSelection({ month: null, day: formattedDate });
+  };
+
+  const handleDayPrev = () => {
+    if (!activeSelection.day) return;
+
+    const currentDate = new Date(activeSelection.day);
+    const prevDate = new Date(currentDate);
+    prevDate.setDate(currentDate.getDate() - 1);
+
+    const formattedDate = `${prevDate.getFullYear()}-${(prevDate.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${prevDate.getDate().toString().padStart(2, '0')}`;
+
+    setActiveSelection({ month: null, day: formattedDate });
+  };
+
+  // Dynamically set handleFunctions based on activeSelection
+  const handleFunctions = activeSelection.day
+    ? {
+        next: handleDayNext,
+        prev: handleDayPrev,
+      }
+    : {
+        next: () => {
+          handleNext();
+          handleMonthClick((month + 1) % 12, false, true);
+        },
+        prev: () => {
+          handlePrev();
+          handleMonthClick((month - 1 + 12) % 12, true);
+        },
+      };
 
   const getMonthName = (m) => {
     return new Date(year, m, 1).toLocaleString('default', { month: 'long' });
@@ -123,7 +169,6 @@ export default function TimelineCalendar() {
       return;
     }
 
-    // Format the date as YYYY-MM-DD without using toISOString
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
       .toString()
       .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
@@ -133,7 +178,7 @@ export default function TimelineCalendar() {
     setActiveSelection({ month: null, day: formattedDate });
   };
 
-  // PLAACEHOLDER DATA
+  // Placeholder data
 
   useEffect(() => {
     const fetchedData = {
@@ -1152,99 +1197,112 @@ export default function TimelineCalendar() {
       } else console.log('day not found');
     }
 
-    console.log(newData);
-
-    if (newData) setPaneData(newData);
+    if (newData) setPaneData({ ...newData, handleFunctions: handleFunctions });
   }, [activeSelection, calendarData]);
 
   return (
-    <div className={styles.timelineCalendar}>
+    <div className={`${styles.timelineCalendar} ${isPWA ? styles.mobile : ''}`}>
       <h1>Calendar</h1>
-      <div className={styles.monthSelector}>
-        <div className={styles.year}>{year}</div>
-        <div className={styles.months}>
-          <button onClick={handlePrev} className={styles.arrowButton}>
-            <ArrowIcon className={styles.prevArrow} />
-          </button>
+      <div className={styles.calendarContent}>
+        <div className={styles.monthSelector}>
+          <div className={styles.year}>{year}</div>
+          <div className={styles.months}>
+            <button onClick={handlePrev} className={styles.arrowButton}>
+              <ArrowIcon className={styles.prevArrow} />
+            </button>
 
-          <span
-            className={`${styles.month} ${activeSelection.month === (month - 1 + 12) % 12 ? styles.active : ''}`}
-            onClick={() => {
-              handlePrev();
-              handleMonthClick((month - 1 + 12) % 12, true);
-            }}
-          >
-            {getMonthName((month - 1 + 12) % 12)}
-          </span>
+            {!isPWA && (
+              <span
+                className={`${styles.month} ${!isPWA && activeSelection.month === (month - 1 + 12) % 12 ? styles.active : ''}`}
+                onClick={() => {
+                  handlePrev();
+                  !isPWA && handleMonthClick((month - 1 + 12) % 12, true);
+                }}
+              >
+                {getMonthName((month - 1 + 12) % 12)}
+              </span>
+            )}
 
-          <span
-            className={`${styles.month} ${styles.selected} ${activeSelection.month === month ? styles.active : ''}`}
-            onClick={() => handleMonthClick((month + 12) % 12)}
-          >
-            {getMonthName(month)}
-          </span>
+            <span
+              className={`${styles.month} ${styles.selected} ${!isPWA && activeSelection.month === month ? styles.active : ''}`}
+              onClick={() => !isPWA && handleMonthClick((month + 12) % 12)}
+            >
+              {getMonthName(month)}
+            </span>
 
-          <span
-            className={`${styles.month} ${activeSelection.month === (month + 1) % 12 ? styles.active : ''}`}
-            onClick={() => {
-              handleNext();
-              handleMonthClick((month + 1) % 12, false, true);
-            }}
-          >
-            {getMonthName((month + 1) % 12)}
-          </span>
+            {!isPWA && (
+              <span
+                className={`${styles.month} ${!isPWA && activeSelection.month === (month + 1) % 12 ? styles.active : ''}`}
+                onClick={() => {
+                  handleNext();
+                  !isPWA && handleMonthClick((month + 1) % 12, false, true);
+                }}
+              >
+                {getMonthName((month + 1) % 12)}
+              </span>
+            )}
 
-          <button onClick={handleNext} className={styles.arrowButton}>
-            <ArrowIcon />
-          </button>
+            <button onClick={handleNext} className={styles.arrowButton}>
+              <ArrowIcon />
+            </button>
+          </div>
+        </div>
+
+        {/* Days of the Week */}
+        <div className={styles.daysOfWeek}>
+          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
+            <span key={day}>{day}</span>
+          ))}
+        </div>
+
+        {/* Days Grid */}
+        <div className={styles.days}>
+          {generateCalendarDays().map((date, index) => (
+            <span
+              key={index}
+              className={`${styles.day} ${
+                date.currentMonth ? styles.currentMonth : styles.otherMonth
+              } ${
+                date.currentMonth &&
+                date.day === currentDate.getDate() &&
+                month === currentDate.getMonth() &&
+                year === currentDate.getFullYear()
+                  ? styles.today
+                  : ''
+              } ${
+                (date.currentMonth &&
+                  date.day > currentDate.getDate() &&
+                  month === currentDate.getMonth() &&
+                  year === currentDate.getFullYear()) ||
+                (month > currentDate.getMonth() &&
+                  year === currentDate.getFullYear()) ||
+                year > currentDate.getFullYear()
+                  ? styles.yet
+                  : ''
+              } ${
+                !isPWA &&
+                activeSelection.day ===
+                  `${year}-${(month + 1).toString().padStart(2, '0')}-${date.day
+                    .toString()
+                    .padStart(2, '0')}`
+                  ? styles.active
+                  : ''
+              }`}
+              onClick={() => handleDayClick(new Date(year, month, date.day))}
+            >
+              {date.day}
+            </span>
+          ))}
         </div>
       </div>
-
-      {/* Days of the Week */}
-      <div className={styles.daysOfWeek}>
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-          <span key={day}>{day}</span>
-        ))}
-      </div>
-
-      {/* Days Grid */}
-      <div className={styles.days}>
-        {generateCalendarDays().map((date, index) => (
-          <span
-            key={index}
-            className={`${styles.day} ${
-              date.currentMonth ? styles.currentMonth : styles.otherMonth
-            } ${
-              date.currentMonth &&
-              date.day === currentDate.getDate() &&
-              month === currentDate.getMonth() &&
-              year === currentDate.getFullYear()
-                ? styles.today
-                : ''
-            } ${
-              (date.currentMonth &&
-                date.day > currentDate.getDate() &&
-                month === currentDate.getMonth() &&
-                year === currentDate.getFullYear()) ||
-              (month > currentDate.getMonth() &&
-                year === currentDate.getFullYear()) ||
-              year > currentDate.getFullYear()
-                ? styles.yet
-                : ''
-            } ${
-              activeSelection.day ===
-              `${year}-${(month + 1).toString().padStart(2, '0')}-${date.day
-                .toString()
-                .padStart(2, '0')}`
-                ? styles.active
-                : ''
-            }`}
-            onClick={() => handleDayClick(new Date(year, month, date.day))}
-          >
-            {date.day}
-          </span>
-        ))}
-      </div>
+      {isPWA && (
+        <Button
+          text='Month Stats'
+          icon2={<ArrowIcon />}
+          onClick={() => handleMonthClick((month + 12) % 12)}
+          className={styles.monthStats}
+        />
+      )}
     </div>
   );
 }
