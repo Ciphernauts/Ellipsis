@@ -16,6 +16,13 @@ export default function Percentage({
   className = '',
 }) {
   const isStandalone = isPWA();
+
+  // Adjust font sizes if the app is in standalone mode
+  const adjustedNumberSize = isStandalone ? numberSize - 2 : numberSize;
+  const adjustedSymbolSize = isStandalone ? symbolSize - 2 : symbolSize;
+  const adjustedLabelSize = isStandalone ? labelSize - 2 : labelSize;
+  const adjustedLabel2size = isStandalone ? label2size - 2 : label2size;
+
   return (
     <div
       className={`${styles.percentage} ${className} ${
@@ -26,7 +33,7 @@ export default function Percentage({
         <div
           className={styles.label}
           style={{
-            fontSize: labelSize,
+            fontSize: adjustedLabelSize,
             fontWeight: labelWeight,
           }}
         >
@@ -38,7 +45,7 @@ export default function Percentage({
           <span
             className={styles.label2}
             style={{
-              fontSize: label2size,
+              fontSize: adjustedLabel2size,
               fontWeight: label2weight,
             }}
           >
@@ -48,7 +55,7 @@ export default function Percentage({
         <span
           className={styles.number}
           style={{
-            fontSize: numberSize,
+            fontSize: adjustedNumberSize,
             fontWeight: numberWeight,
           }}
         >
@@ -57,7 +64,7 @@ export default function Percentage({
         <span
           className={styles.symbol}
           style={{
-            fontSize: symbolSize,
+            fontSize: adjustedSymbolSize,
           }}
         >
           {symbol}

@@ -47,15 +47,15 @@ export default function SafetyScoreCard({ data, isPWA = false }) {
             className={styles.percentage}
           />
           <PieChart
-            width={isPWA ? 180 : 160}
-            height={isPWA ? 180 : 160}
+            width={isPWA ? 200 : 160}
+            height={isPWA ? 200 : 160}
             title='Safety Score'
           >
             <Pie
               data={chartData}
-              innerRadius={isPWA ? 68 : 60}
-              outerRadius={isPWA ? 90 : 80}
-              cornerRadius={10}
+              innerRadius={isPWA ? 73 : 60}
+              outerRadius={isPWA ? 100 : 80}
+              cornerRadius={15}
               paddingAngle={-15}
               startAngle={-180}
               endAngle={180}

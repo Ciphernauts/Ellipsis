@@ -147,10 +147,11 @@ li ul {
 .mobile .navlink p {
   width: 100%;
   padding: 0 20px;
+  font-size: 13px;
 }
 
 .mobile .subNavlink {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .mobile .bottomLinks {
@@ -161,6 +162,7 @@ li ul {
 .mobile .changeMode {
   padding: 20px 40px;
   margin: auto auto 10px auto;
+  font-size: 13px;
 }
 
 @media (max-width: 335px) {
