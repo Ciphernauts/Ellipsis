@@ -21,8 +21,9 @@
 
 .mobile {
   width: 36%;
-  height: 84px;
+  /* height: 84px; */
   min-height: 84px;
+  padding: 7px 10px 14px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;

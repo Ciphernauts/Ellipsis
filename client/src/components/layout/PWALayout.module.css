@@ -22,7 +22,8 @@
 }
 
 .main {
-  margin: 10px 10px 70px 10px;
+  margin: 10px 10px 0 10px;
+  padding-bottom: 60px;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -58,7 +59,7 @@
 
 .footer {
   width: 100%;
-  height: 50px;
+  height: 60px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -78,8 +79,8 @@
 }
 
 .footerItem {
-  width: 38px;
-  height: 38px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -88,7 +89,7 @@
 
 .footerItem.active,
 .footerItem:active {
-  background-color: var(--dark);
+  background-color: var(--primary);
 }
 
 .footerItem.active path,

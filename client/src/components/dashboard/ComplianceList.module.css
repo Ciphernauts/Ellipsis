@@ -1,5 +1,6 @@
 .dataList {
-  padding: 10px;
+  height: auto;
+  padding: 10px 10px 13px 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;

@@ -1,6 +1,5 @@
 .breakdown {
   width: 100%;
-  height: 350px;
   min-width: 630px;
   display: flex;
   flex-direction: column;
@@ -11,15 +10,15 @@
 
 .mobile {
   min-width: 100%;
-  height: 545px;
+  min-height: 570px;
 }
 
-.avgs {
+.mobile .avgs {
   display: flex;
   gap: 13px;
 }
 
-.titleCard {
+.mobile .titleCard {
   width: 100%;
   height: 100%;
   padding: 16px 0;
@@ -31,12 +30,12 @@
   align-items: center;
 }
 
-.titleCard h2 {
+.mobile .titleCard h2 {
   font-size: 15px;
   font-weight: 700;
 }
 
-.titleCard div {
+.mobile .titleCard div {
   width: 100%;
   position: relative;
   display: flex;
@@ -44,12 +43,12 @@
   justify-content: center;
 }
 
-.titleCard div .percentage {
+.mobile .titleCard div .percentage {
   position: absolute;
   margin-top: 19px;
 }
 
-.titleCard p {
+.mobile .titleCard p {
   font-size: 10px;
   font-weight: 600;
   color: var(--primary);
@@ -57,13 +56,13 @@
 }
 
 /* Options styling */
-.options {
+.mobile .options {
   display: flex;
   justify-content: center;
   gap: 16px;
 }
 
-.option {
+.mobile .option {
   cursor: pointer;
   padding: 6px 20px;
   font-size: 12px;
@@ -75,7 +74,7 @@
     color 0.2s;
 }
 
-.option.active {
+.mobile .option.active {
   color: var(--light);
   background-color: var(--primary);
 }
