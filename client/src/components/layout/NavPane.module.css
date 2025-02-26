@@ -106,7 +106,8 @@ li ul {
   left: -80%;
   width: 80%;
   height: 100%;
-  font-size: 16px;
+  font-size: 15px;
+  z-index: 10;
 }
 
 .navpaneHeader {
@@ -139,12 +140,17 @@ li ul {
 }
 
 .mobile .navlink {
-  height: 50px;
+  height: 55px;
+  border-radius: 11px;
 }
 
 .mobile .navlink p {
   width: 100%;
   padding: 0 20px;
+}
+
+.mobile .subNavlink {
+  font-size: 14px;
 }
 
 .mobile .bottomLinks {

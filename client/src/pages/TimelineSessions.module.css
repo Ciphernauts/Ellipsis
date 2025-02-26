@@ -66,3 +66,13 @@
   border-bottom-right-radius: 15px;
   padding-right: 10px;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .tableHeader .row th {
+  font-weight: 500;
+}
+
+.mobile .tableBody tr td .timeValues {
+  font-size: 11px;
+}

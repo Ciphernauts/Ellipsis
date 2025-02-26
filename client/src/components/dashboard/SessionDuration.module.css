@@ -19,7 +19,6 @@
 .mobile {
   width: 59%;
   height: 100%;
-  background-color: var(--neutral);
   display: flex;
   flex-direction: column;
   justify-content: center;
