@@ -34,12 +34,17 @@
   min-width: 0;
 }
 
+.mobile .fullTime {
+  line-height: normal;
+}
+
 .mobile .time {
   font-size: 13px;
 }
 
 .mobile .amPm {
   font-size: 10px;
+  font-weight: 400;
 }
 
 .mobile .date {
