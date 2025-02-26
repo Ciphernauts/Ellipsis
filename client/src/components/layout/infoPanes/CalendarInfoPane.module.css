@@ -135,3 +135,43 @@
   display: flex;
   justify-content: center;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .snapshotItem img {
+  height: 250px;
+}
+
+.mobile .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.mobile h1 {
+  margin: 0 !important;
+}
+
+.mobile .arrowButton {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.mobile .arrowButton:focus {
+  background-color: var(--background-color);
+}
+
+.mobile .arrowButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mobile .prevArrow {
+  transform: rotate(180deg);
+}

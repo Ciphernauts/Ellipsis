@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import styles from './TimelineSessions.module.css';
 
-export default function TimelineSessions() {
-  const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
+export default function TimelineSessions({ isPWA = false }) {
+  const { setPaneData, isPaneOpen, setIsPaneOpen } = useOutletContext();
   const [sessionData, setSessionData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSessionId, setSelectedSessionId] = useState(null);
@@ -261,9 +261,9 @@ export default function TimelineSessions() {
       setSelectedSessionId(id);
 
       try {
-        // Simulating API call with placeholder data
+        // Set paneData first, then open the pane
         setPaneData(placeholderSessionData);
-        setIsPaneOpen(true);
+        setTimeout(() => setIsPaneOpen(true), 100); // Small delay to ensure state updates
       } catch (error) {
         console.error('Error fetching session details:', error);
       }
@@ -271,7 +271,7 @@ export default function TimelineSessions() {
   };
 
   return (
-    <div className={styles.timelineSessions}>
+    <div className={`${styles.timelineSessions} ${isPWA ? styles.mobile : ''}`}>
       <h1>Sessions</h1>
       {loading ? (
         <p>Loading...</p>
@@ -280,12 +280,13 @@ export default function TimelineSessions() {
           <thead className={styles.tableHeader}>
             <tr className={styles.row}>
               <th>Session ID</th>
-              {!isPaneOpen && (
-                <>
-                  <th>Safety Score</th>
-                  <th>Mode</th>
-                </>
-              )}
+              {isPaneOpen ||
+                (!isPWA && (
+                  <>
+                    <th>Safety Score</th>
+                    {!isPWA && <th>Mode</th>}
+                  </>
+                ))}
               <th>Time</th>
             </tr>
           </thead>
@@ -297,12 +298,13 @@ export default function TimelineSessions() {
                 onClick={() => handleSessionClick(session.sessionId)}
               >
                 <td className={styles.sessionId}>{session.sessionId}</td>
-                {!isPaneOpen && (
-                  <>
-                    <td>{session.safetyScore}</td>
-                    <td>{session.mode}</td>
-                  </>
-                )}
+                {isPaneOpen ||
+                  (!isPWA && (
+                    <>
+                      <td>{session.safetyScore}</td>
+                      {!isPWA && <td>{session.mode}</td>}
+                    </>
+                  ))}
                 <td>
                   <div className={styles.timeValues}>
                     <span>{session.startTime}</span>

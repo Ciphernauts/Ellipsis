@@ -10,6 +10,7 @@ export default function Button({
   onClick = null,
   className = '',
   icon = null,
+  icon2 = null,
 }) {
   const buttonClass = [
     styles.button,
@@ -26,6 +27,7 @@ export default function Button({
     <>
       {icon && <span className={styles.icon}>{icon}</span>}
       {text}
+      {icon2 && <span className={styles.icon}>{icon2}</span>}
     </>
   );
 

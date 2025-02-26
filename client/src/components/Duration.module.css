@@ -81,3 +81,13 @@
   font-weight: 700;
   font-size: 25px;
 }
+
+.mobile .hours,
+.mobile .minutes,
+.mobile .seconds {
+  font-size: 13px;
+}
+
+.mobile.small .number {
+  font-size: 15px;
+}
