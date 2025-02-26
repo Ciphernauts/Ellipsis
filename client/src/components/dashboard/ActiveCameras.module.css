@@ -22,7 +22,7 @@
 .mobile {
   width: 36%;
   /* height: 84px; */
-  /* min-height: 84px; */
+  min-height: 84px;
   padding: 9px 10px 16px 10px;
   display: flex;
   flex-direction: column;

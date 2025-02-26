@@ -18,7 +18,7 @@
 
 .mobile {
   width: 59%;
-  /* min-height: 84px; */
+  min-height: 84px;
   padding: 16px 12px 11px 12px;
   display: flex;
   flex-direction: column;
