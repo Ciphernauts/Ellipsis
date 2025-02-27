@@ -8,8 +8,9 @@ import WaveBackground from '../components/RegisterLogin/WaveBackground';
 import emailIcon from '../assets/email_icon.svg';
 import passwordIcon from '../assets/password_icon.svg';
 import eyeIcon from '../assets/eye_icon.svg';
+import logo from '../assets/Icon_black_png.png';
 
-function Login() {
+function Login({ isPWA = false }) {
   const navigate = useNavigate();
   const {
     register,
@@ -29,12 +30,11 @@ function Login() {
   };
 
   return (
-    <div className={styles.registerPage}>
+    <div className={`${styles.registerPage} ${isPWA ? styles.mobile : ''}`}>
       <div className={styles.waveBackgroundContainer}>
         <WaveBackground className={styles.waveBackground} />
       </div>
-
-      <NavBar homepage={false} />
+      {!isPWA && <NavBar homepage={false} />}
 
       <div className={styles.registerContainer}>
         <div className={styles.welcomeSection}>
@@ -43,6 +43,7 @@ function Login() {
             To continue, please enter your login details.
           </p>
         </div>
+        <img src={logo} alt='Logo' className={styles.logo} />
 
         <div className={styles.formSection}>
           <h2 className={styles.formTitle}>LOGIN</h2>
@@ -102,7 +103,12 @@ function Login() {
               </Link>
             </p>
 
-            <Button type='submit' text='Login' disabled={!isValid} />
+            <Button
+              type='submit'
+              text='Login'
+              disabled={!isValid}
+              color={isPWA ? 'primary' : 'dark'}
+            />
           </form>
         </div>
       </div>
