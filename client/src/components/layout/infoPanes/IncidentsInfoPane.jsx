@@ -5,7 +5,11 @@ import PaneInfoPiece from '../../PaneInfoPiece';
 import DroneIcon from '../../icons/DroneIcon';
 import CameraIcon from '../../icons/CameraIcon';
 
-export default function IncidentsInfoPane({ data, setIncidentData }) {
+export default function IncidentsInfoPane({
+  data,
+  setIncidentData,
+  isPWA = false,
+}) {
   const [status, setStatus] = useState('');
   const [updating, setUpdating] = useState(false);
 
@@ -50,10 +54,10 @@ export default function IncidentsInfoPane({ data, setIncidentData }) {
   }
 
   return (
-    <div className={`${styles.pane}`}>
+    <div className={`${styles.pane} ${isPWA ? styles.mobile : ''}`}>
       <h1>{data.name}</h1>
       <div className={styles.content}>
-        {data.snapshot && (
+        {data.snapshot && !isPWA && (
           <img
             src={data.snapshot}
             alt={`Snapshot of ${data.site}`}

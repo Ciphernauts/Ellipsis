@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import styles from './IncidentHistory.module.css';
 import DefaultImage from '../assets/DefaultImage.png';
 
-export default function IncidentHistory() {
+export default function IncidentHistory({ isPWA = false }) {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
   const [data, setData] = useState({ incidents: [], filters: {} });
   const [loading, setLoading] = useState(true);
@@ -31,14 +31,23 @@ export default function IncidentHistory() {
     });
   };
 
-  // Helper function to format date as "31st December 2024"
+  // Helper function to format date based on isPWA
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const year = date.getFullYear();
-    const daySuffix = getDaySuffix(day);
-    return `${day}${daySuffix} ${month} ${year}`;
+    if (isPWA) {
+      // Format as DD-MM-YYYY for PWA
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    } else {
+      // Format as "31st December 2024" for non-PWA
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'long' });
+      const year = date.getFullYear();
+      const daySuffix = getDaySuffix(day);
+      return `${day}${daySuffix} ${month} ${year}`;
+    }
   };
 
   // Helper function to get the suffix for the day (st, nd, rd, th)
@@ -322,7 +331,7 @@ export default function IncidentHistory() {
 
   return (
     <div
-      className={`${styles.incidentHistory} ${isPaneOpen ? styles.paneOpen : ''}`}
+      className={`${styles.incidentHistory} ${isPaneOpen ? styles.paneOpen : ''} ${isPWA ? styles.mobile : ''}`}
     >
       <h1>Incident History</h1>
       {loading ? (
@@ -332,7 +341,7 @@ export default function IncidentHistory() {
           <div
             className={`${styles.filters} ${isPaneOpen ? styles.paneOpen : ''}`}
           >
-            <div className={styles.filterGroup}>
+            <div className={`${styles.filterGroup} ${styles.constructionSite}`}>
               <label htmlFor='constructionSite'>Construction Site</label>
               <select
                 id='constructionSite'
@@ -415,8 +424,21 @@ export default function IncidentHistory() {
                     className={`${styles.incidentName} ${isPaneOpen ? styles.paneOpen : ''}`}
                   >
                     {incident.name}
-                    {incident.isCritical && (
+                    {!isPWA && incident.isCritical && (
                       <span className={styles.criticalBadge}>Critical</span>
+                    )}
+                    {isPWA && incident.status && (
+                      <span className={styles.status}>
+                        <span
+                          className={
+                            styles[
+                              incident.status.toLowerCase().replace(' ', '')
+                            ]
+                          }
+                        >
+                          {incident.status.substring(0, 1)}
+                        </span>
+                      </span>
                     )}
                   </div>
                   {!isPaneOpen && (
@@ -426,7 +448,11 @@ export default function IncidentHistory() {
                 <div
                   className={`${styles.details} ${isPaneOpen ? styles.paneOpen : ''}`}
                 >
-                  {incident.status && (
+                  {isPWA && incident.isCritical && (
+                    <span className={styles.criticalBadge}>Critical</span>
+                  )}
+
+                  {!isPWA && incident.status && (
                     <span className={styles.status}>
                       <span
                         className={

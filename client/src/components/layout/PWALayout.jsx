@@ -10,6 +10,7 @@ import SlidingPane from 'react-sliding-pane';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 import CalendarInfoPane from './infoPanes/CalendarInfoPane';
 import SessionsInfoPane from './infoPanes/SessionsInfoPane';
+import IncidentsInfoPane from './infoPanes/IncidentsInfoPane';
 
 const PWALayout = () => {
   const location = useLocation();
@@ -18,6 +19,9 @@ const PWALayout = () => {
   const [isInfoPaneOpen, setIsInfoPaneOpen] = useState(false);
   const [paneData, setPaneData] = useState(null);
   const [overlayOpacity, setOverlayOpacity] = useState(0); // Control background color opacity
+
+  const isIncidentsPageActive =
+    location.pathname === '/incidents/incident-history';
 
   const toggleNavPane = () => {
     setIsNavPaneOpen(!isNavPaneOpen);
@@ -68,7 +72,11 @@ const PWALayout = () => {
         return <SessionsInfoPane data={paneData} isPWA={true} />;
       case '/incidents/incident-history':
         return (
-          <IncidentsInfoPane data={paneData} setIncidentData={setPaneData} />
+          <IncidentsInfoPane
+            data={paneData}
+            setIncidentData={setPaneData}
+            isPWA={true}
+          />
         );
       case '/construction-sites':
         return (
@@ -96,13 +104,27 @@ const PWALayout = () => {
       </div>
 
       {/* Main Content */}
-      <div className={styles.main}>
+      <div
+        className={`${styles.main} ${isInfoPaneOpen ? styles.mainInfoOpen : ''}`}
+      >
         {/* Back Button */}
-        {/* <div className={styles.backButtonContainer}> */}
-        <div className={styles.backButton} onClick={handleBack}>
-          <ArrowIcon size='25px' />
-        </div>
-        {/* </div> */}
+        {!isInfoPaneOpen || (isIncidentsPageActive && isInfoPaneOpen) ? (
+          <div
+            className={`${styles.backButton} ${isInfoPaneOpen ? styles.fixedBackButton : ''}`}
+            onClick={() =>
+              isInfoPaneOpen ? handleInfoPaneClose() : handleBack()
+            }
+          >
+            <ArrowIcon size='25px' />
+          </div>
+        ) : (
+          <div
+            className={styles.backButton}
+            onClick={() => (isInfoPaneOpen ? setIsInfoPaneOpen(false) : '')}
+          >
+            <ArrowIcon size='25px' />
+          </div>
+        )}
 
         <main className={styles.content}>
           <Outlet
@@ -144,32 +166,48 @@ const PWALayout = () => {
           </NavLink>
         </footer>
       </div>
+
       {/* Custom Overlay */}
-      <div
-        className={styles.paneOverlay}
-        style={{
-          backgroundColor: `rgba(204, 224, 230, ${overlayOpacity})`,
-          transition: 'background-color 0.3s ease',
-        }}
-      />
+      {isInfoPaneOpen && isIncidentsPageActive ? (
+        <div className={styles.imgOverlay}>
+          {paneData?.snapshot ? (
+            <img src={paneData.snapshot} alt='' />
+          ) : (
+            <p>No image available</p>
+          )}
+        </div>
+      ) : (
+        <div
+          className={styles.paneOverlay}
+          style={{
+            backgroundColor: `rgba(204, 224, 230, ${overlayOpacity})`,
+            transition: 'background-color 0.3s ease',
+          }}
+        />
+      )}
+
       {/* Info Pane */}
       <SlidingPane
-        className={`${styles.slidingPane} ${isInfoPaneOpen ? '' : styles.infoClose}`}
-        overlayClassName={styles.defaultOverlay}
+        className={`${styles.slidingPane} ${isInfoPaneOpen ? '' : styles.infoClose} ${
+          isIncidentsPageActive && paneData?.snapshot ? styles.imgPane : ''
+        }`}
+        overlayClassName={`${styles.defaultOverlay} ${isIncidentsPageActive ? styles.incDefaultOverlay : ''}`}
         isOpen={isInfoPaneOpen && !!paneData}
         from='bottom'
         width='100%'
         hideHeader={true}
         onRequestClose={handleInfoPaneClose}
       >
-        <div
-          className={styles.infoPaneBackButton}
-          onClick={() =>
-            isInfoPaneOpen ? setIsInfoPaneOpen(false) : handleBack()
-          }
-        >
-          <ArrowIcon size='25px' />
-        </div>
+        {!isIncidentsPageActive && (
+          <div
+            className={styles.infoPaneBackButton}
+            onClick={() =>
+              isInfoPaneOpen ? setIsInfoPaneOpen(false) : handleBack()
+            }
+          >
+            <ArrowIcon size='25px' />
+          </div>
+        )}
 
         {paneData && getRightPaneContent()}
       </SlidingPane>
