@@ -68,11 +68,11 @@ const App = () => {
 
           <Route
             path='/incidents/incident-trends'
-            element={<IncidentTrends />}
+            element={<IncidentTrends isPWA={isStandalone} />}
           />
           <Route
             path='/incidents/incident-history'
-            element={<IncidentHistory />}
+            element={<IncidentHistory isPWA={isStandalone} />}
           />
 
           <Route path='/construction-sites' element={<ConstructionSites />} />
