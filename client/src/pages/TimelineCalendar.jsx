@@ -4,6 +4,14 @@ import styles from './TimelineCalendar.module.css';
 import ArrowIcon from '../components/icons/ArrowIcon';
 import Button from '../components/Button';
 
+// TimelineCalendar: Main component function.
+// isPWA: Prop to determine if the component is used in a Progressive Web App.
+// setPaneData: Function from context to set data in a parent component.
+// calendarData: State to hold calendar data.
+// currentDate: Current date object.
+// month, year: State to track the current month and year.
+// activeSelection: State to track the selected month or day.
+
 export default function TimelineCalendar({ isPWA = false }) {
   const { setPaneData } = useOutletContext(); // Get setter from Layout
   const [calendarData, setCalendarData] = useState(null);
@@ -16,6 +24,8 @@ export default function TimelineCalendar({ isPWA = false }) {
     month: isPWA ? null : month,
     day: null,
   });
+
+  // Navigation Handlers - Functions to navigate between months and days.
 
   const handlePrev = () => {
     const newMonth = month - 1;
@@ -65,7 +75,7 @@ export default function TimelineCalendar({ isPWA = false }) {
     setActiveSelection({ month: null, day: formattedDate });
   };
 
-  // Dynamically set handleFunctions based on activeSelection
+  // Dynamically set handleFunctions based on activeSelection - Determines which navigation functions to use based on the active selection.
   const handleFunctions = activeSelection.day
     ? {
         next: handleDayNext,
@@ -85,6 +95,12 @@ export default function TimelineCalendar({ isPWA = false }) {
   const getMonthName = (m) => {
     return new Date(year, m, 1).toLocaleString('default', { month: 'long' });
   };
+
+  // Utility Functions
+
+  // getMonthName: Returns the name of a month.
+  // generateCalendarDays: Generates the days to display in the calendar.
+  // isFutureMonth: Checks if a month is in the future.
 
   const generateCalendarDays = () => {
     const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 (Sunday) - 6 (Saturday)
@@ -139,6 +155,11 @@ export default function TimelineCalendar({ isPWA = false }) {
     );
   };
 
+  // Event Handlers
+
+  // handleMonthClick: Handles clicks on month names.
+  // handleDayClick: Handles clicks on days.
+
   const handleMonthClick = (clickedMonth, isPrev = false, isNext = false) => {
     const targetYear =
       isPrev && clickedMonth === 11
@@ -178,6 +199,10 @@ export default function TimelineCalendar({ isPWA = false }) {
     setActiveSelection({ month: null, day: formattedDate });
   };
 
+  // Data Fetching and Effects
+  // 
+  // useEffect: Fetches placeholder data on mount and updates pane data when the active selection changes.
+
   // Placeholder data
 
   useEffect(() => {
@@ -190,17 +215,17 @@ export default function TimelineCalendar({ isPWA = false }) {
           'https://picsum.photos/300/200?random=3',
           'https://picsum.photos/300/200?random=4',
         ],
-        safetyScore: 87.5,
-        progress: '+6.5%',
-        totalIncidents: 96,
-        criticalIncidents: 1,
+        safetyScore: 87.5, //avg of every compliance metric
+        progress: '+6.5%', //from last month
+        totalIncidents: 96, //1,1,0.5,0.5
+        criticalIncidents: 1, //
         duration: {
-          hours: 5,
-          minutes: 27,
-          seconds: 12,
+          hours: 5,//
+          minutes: 27,//
+          seconds: 12,//
         },
         trends: [
-          { date: '2025-02-01', score: 85.2 },
+          { date: '2025-02-01', score: 85.2 }, //
           { date: '2025-02-02', score: 86.5 },
           { date: '2025-02-03', score: 84.3 },
           { date: '2025-02-04', score: 85.7 },
@@ -219,9 +244,9 @@ export default function TimelineCalendar({ isPWA = false }) {
           footwear: 22.9,
           vest: 16.2,
           gloves: 12.4,
-          scaffolding: 11.3,
-          guardrails: 23.1,
-          harness: 18.5,
+          scaffolding: 11.3, //
+          guardrails: 23.1, //
+          harness: 18.5, //
         },
         top3: {
           improvements: [
@@ -1199,6 +1224,12 @@ export default function TimelineCalendar({ isPWA = false }) {
 
     if (newData) setPaneData({ ...newData, handleFunctions: handleFunctions });
   }, [activeSelection, calendarData]);
+
+  // Render
+
+  // Renders the calendar UI with month navigation, days of the week, and days grid.
+  // isPWA: Adjusts the UI for Progressive Web App mode.
+  // Button: Displays a button for month stats in PWA mode
 
   return (
     <div className={`${styles.timelineCalendar} ${isPWA ? styles.mobile : ''}`}>

@@ -154,8 +154,8 @@ export default function ConstructionSites() {
           'https://picsum.photos/id/238/200/150',
           'https://picsum.photos/id/239/200/150',
         ],
-        lastReport: '2025-01-01T03:21:00Z',
-        isActive: true,
+        lastReport: '2025-01-01T03:21:00Z', //scan recent session and check which is the most recent for this construction site
+        isActive: true, //updating function
         safetyscore: 92,
         duration: { hours: 8, minutes: 0, seconds: 0 },
         totalIncidents: 15,
