@@ -4,6 +4,14 @@ import styles from './TimelineCalendar.module.css';
 import ArrowIcon from '../components/icons/ArrowIcon';
 import Button from '../components/Button';
 
+// TimelineCalendar: Main component function.
+// isPWA: Prop to determine if the component is used in a Progressive Web App.
+// setPaneData: Function from context to set data in a parent component.
+// calendarData: State to hold calendar data.
+// currentDate: Current date object.
+// month, year: State to track the current month and year.
+// activeSelection: State to track the selected month or day.
+
 export default function TimelineCalendar({ isPWA = false }) {
   const { setPaneData } = useOutletContext(); // Get setter from Layout
   const [calendarData, setCalendarData] = useState(null);
@@ -16,6 +24,8 @@ export default function TimelineCalendar({ isPWA = false }) {
     month: isPWA ? null : month,
     day: null,
   });
+
+  // Navigation Handlers - Functions to navigate between months and days.
 
   const handlePrev = () => {
     const newMonth = month - 1;
@@ -65,7 +75,7 @@ export default function TimelineCalendar({ isPWA = false }) {
     setActiveSelection({ month: null, day: formattedDate });
   };
 
-  // Dynamically set handleFunctions based on activeSelection
+  // Dynamically set handleFunctions based on activeSelection - Determines which navigation functions to use based on the active selection.
   const handleFunctions = activeSelection.day
     ? {
         next: handleDayNext,
@@ -85,6 +95,12 @@ export default function TimelineCalendar({ isPWA = false }) {
   const getMonthName = (m) => {
     return new Date(year, m, 1).toLocaleString('default', { month: 'long' });
   };
+
+  // Utility Functions
+
+  // getMonthName: Returns the name of a month.
+  // generateCalendarDays: Generates the days to display in the calendar.
+  // isFutureMonth: Checks if a month is in the future.
 
   const generateCalendarDays = () => {
     const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 (Sunday) - 6 (Saturday)
@@ -139,6 +155,11 @@ export default function TimelineCalendar({ isPWA = false }) {
     );
   };
 
+  // Event Handlers
+
+  // handleMonthClick: Handles clicks on month names.
+  // handleDayClick: Handles clicks on days.
+
   const handleMonthClick = (clickedMonth, isPrev = false, isNext = false) => {
     const targetYear =
       isPrev && clickedMonth === 11
@@ -177,6 +198,10 @@ export default function TimelineCalendar({ isPWA = false }) {
 
     setActiveSelection({ month: null, day: formattedDate });
   };
+
+  // Data Fetching and Effects
+  // 
+  // useEffect: Fetches placeholder data on mount and updates pane data when the active selection changes.
 
   // Placeholder data
 
@@ -1199,6 +1224,12 @@ export default function TimelineCalendar({ isPWA = false }) {
 
     if (newData) setPaneData({ ...newData, handleFunctions: handleFunctions });
   }, [activeSelection, calendarData]);
+
+  // Render
+
+  // Renders the calendar UI with month navigation, days of the week, and days grid.
+  // isPWA: Adjusts the UI for Progressive Web App mode.
+  // Button: Displays a button for month stats in PWA mode
 
   return (
     <div className={`${styles.timelineCalendar} ${isPWA ? styles.mobile : ''}`}>
