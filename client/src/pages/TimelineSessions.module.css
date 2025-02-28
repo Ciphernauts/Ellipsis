@@ -77,7 +77,7 @@
 .mobile td,
 .mobile th {
   height: fit-content;
-  padding: 12px 0;
+  padding: 15px 0;
 }
 
 .mobile .tableHeader .row th {
@@ -86,4 +86,5 @@
 
 .mobile .tableBody tr td .timeValues {
   font-size: 11px;
+  gap: 11px;
 }
