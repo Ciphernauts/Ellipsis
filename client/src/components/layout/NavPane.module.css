@@ -144,6 +144,10 @@ li ul {
   border-radius: 11px;
 }
 
+.mobile .lastLink {
+  margin-bottom: 20px;
+}
+
 .mobile .navlink p {
   width: 100%;
   padding: 0 20px;
@@ -164,10 +168,4 @@ li ul {
   padding: 20px 40px;
   margin: auto auto 10px auto;
   font-size: 13px;
-}
-
-@media (max-width: 335px) {
-  .mobile {
-    font-size: 14px;
-  }
 }

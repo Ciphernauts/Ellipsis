@@ -169,7 +169,8 @@
 }
 
 .mobile .viewOptions {
-  font-size: 13px;
+  height: 45px;
+  font-size: 12px;
 }
 
 .mobile.card .viewOptions div {

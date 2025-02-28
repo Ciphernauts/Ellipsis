@@ -110,7 +110,7 @@
 
 .mobile {
   gap: 13px;
-  padding: 8px 12px 7px;
+  padding: 15px 12px 9px;
 }
 
 .mobile .header {
@@ -150,12 +150,16 @@
 
 .mobile .metricValue {
   width: 100%;
-  max-height: 55px;
+  /* max-height: 55px; */
   padding: 15px 10px;
-  font-size: 25px;
+  font-size: 23px;
   line-height: normal;
 }
 
 .mobile .constructionSite .metricValue {
-  font-size: 15px;
+  font-size: 14px;
+}
+
+.mobile .metricLabel {
+  font-size: 11px;
 }

@@ -138,6 +138,10 @@
 
 /* -------------------- APP STYLES --------------------  */
 
+.mobile {
+  margin: 0 -14px 0 -14px;
+}
+
 .mobile .snapshotItem img {
   height: 250px;
 }

@@ -33,7 +33,7 @@
   align-items: center;
   padding: 10px;
   margin-bottom: 10px;
-  z-index: 8;
+  z-index: 1;
   transition: 0.3s;
 }
 
@@ -43,10 +43,6 @@
 
 .backButton.fixedBackButton path {
   stroke: var(--light);
-}
-
-.backButton.infoBackButton {
-  position: fixed;
 }
 
 .backButton svg {
@@ -67,7 +63,6 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
   background-color: var(--neutral);
   padding: 0 15px;
   border-radius: 40px 40px 0 0;
@@ -144,11 +139,12 @@
 .defaultOverlay {
   background-color: transparent !important;
   overflow: auto;
+  z-index: 2;
 }
 
 .incDefaultOverlay {
   height: fit-content;
-  overflow-y: none;
+  overflow-y: hidden;
 }
 
 .paneOverlay {
@@ -157,9 +153,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 0; /* Ensure the overlay is above other content */
-  pointer-events: none; /* Allow clicks to pass through when opacity is 0 */
+  z-index: 1;
+  pointer-events: none;
 }
+
 .imgOverlay {
   width: 100vw;
   height: 100vh;
@@ -181,16 +178,16 @@
 }
 
 .imgOverlay img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  min-width: 100%;
+  height: 40vh;
   object-fit: cover;
 }
 
 .imgOverlay p {
-  height: 100vh;
   color: #a3a3a3;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 17vh;
 }
 
 .slidingPane {
@@ -203,18 +200,26 @@
   border-radius: 52px 52px 0 0;
   box-shadow: none !important;
   font-size: 13px;
+  z-index: 4;
   pointer-events: all;
 }
 
-.imgPane {
-  position: sticky;
-  margin-top: 250px;
-  min-height: calc(100vh - 250px);
-  border-radius: 40px 40px 0 0;
+.incidentSlidingPane {
+  background: none;
 }
 
-.infoClose.slidingPane {
-  display: none;
+.insidePane {
+  height: fit-content;
+  position: relative;
+  background: var(--light);
+  margin-top: 25vh;
+  min-height: calc(100vh - 35vh);
+  border-radius: 40px 40px 0 0;
+  padding: 20px 18px 55px 18px;
+  box-shadow: none !important;
+  font-size: 13px;
+  pointer-events: all;
+  overflow-y: auto;
 }
 
 .slidingPane > div {
@@ -222,15 +227,21 @@
   overflow-x: hidden;
 }
 
-.slidingPane h1 {
-  font-size: 28px;
+.incidentSlidingPane > div {
+  padding: 0;
+}
+
+.slidingPane h1,
+.insidePane h1 {
+  font-size: 25px;
   font-weight: 500;
   letter-spacing: 1.28px;
   text-align: center;
   margin-bottom: 30px;
 }
 
-.slidingPane h2 {
+.slidingPane h2,
+.insidePane h2 {
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.72px;
@@ -253,4 +264,8 @@
   height: 28px;
   z-index: 50;
   transform: scaleX(-1);
+}
+
+.infoClose.insidePane {
+  display: none;
 }
