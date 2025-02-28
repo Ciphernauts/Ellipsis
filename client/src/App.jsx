@@ -33,8 +33,8 @@ const App = () => {
           path='/'
           element={isStandalone ? <OnboardingPage /> : <HomePage />}
         />
-        <Route path='/Register' element={<Register />} />
-        <Route path='/Login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
 
         {/* Routes with nav pane */}
         <Route element={isStandalone ? <PWALayout /> : <Layout />}>
