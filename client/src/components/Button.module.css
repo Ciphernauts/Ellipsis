@@ -12,15 +12,15 @@
 /* SIZES */
 
 .medium {
-  height: 50px;
+  /* height: 50px; */
 }
 
 .large {
-  height: 55px;
+  /* height: 55px; */
 }
 
 .large.icon {
-  padding: 0 30px;
+  /* padding: 0 30px; */
 }
 
 .small {
@@ -77,4 +77,10 @@
 .primary.outlined:focus {
   background-color: var(--primary);
   color: var(--light);
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile.button {
+  padding: 15px 40px;
 }

@@ -175,3 +175,14 @@
 .mobile .prevArrow {
   transform: rotate(180deg);
 }
+
+.mobile .top3 ul {
+  height: fit-content;
+  margin: 10px 0;
+  gap: 14px;
+}
+
+.mobile .top3 ul li {
+  height: auto;
+  padding: 10px 15px;
+}
