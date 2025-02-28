@@ -210,7 +210,7 @@ export default function TimelineCalendar({ isPWA = false }) {
       month: {
         name: 'February',
         snapshots: [
-          'https://picsum.photos/300/200?random=1',
+          'https://postimg.cc/ykdQtypY',
           'https://picsum.photos/300/200?random=2',
           'https://picsum.photos/300/200?random=3',
           'https://picsum.photos/300/200?random=4',
