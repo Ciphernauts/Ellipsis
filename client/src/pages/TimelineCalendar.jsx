@@ -190,17 +190,17 @@ export default function TimelineCalendar({ isPWA = false }) {
           'https://picsum.photos/300/200?random=3',
           'https://picsum.photos/300/200?random=4',
         ],
-        safetyScore: 87.5,
-        progress: '+6.5%',
-        totalIncidents: 96,
-        criticalIncidents: 1,
+        safetyScore: 87.5, //avg of every compliance metric
+        progress: '+6.5%', //from last month
+        totalIncidents: 96, //1,1,0.5,0.5
+        criticalIncidents: 1, //
         duration: {
-          hours: 5,
-          minutes: 27,
-          seconds: 12,
+          hours: 5,//
+          minutes: 27,//
+          seconds: 12,//
         },
         trends: [
-          { date: '2025-02-01', score: 85.2 },
+          { date: '2025-02-01', score: 85.2 }, //
           { date: '2025-02-02', score: 86.5 },
           { date: '2025-02-03', score: 84.3 },
           { date: '2025-02-04', score: 85.7 },
@@ -219,9 +219,9 @@ export default function TimelineCalendar({ isPWA = false }) {
           footwear: 22.9,
           vest: 16.2,
           gloves: 12.4,
-          scaffolding: 11.3,
-          guardrails: 23.1,
-          harness: 18.5,
+          scaffolding: 11.3, //
+          guardrails: 23.1, //
+          harness: 18.5, //
         },
         top3: {
           improvements: [
