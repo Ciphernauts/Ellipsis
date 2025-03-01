@@ -91,3 +91,14 @@
   -ms-transform: translateX(16px);
   transform: translateX(16px);
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile {
+  width: auto;
+  margin: 0 -14px 0 -14px;
+}
+
+.mobile .status {
+  font-size: 12px;
+}

@@ -178,7 +178,7 @@
 
 .mobile .daysOfWeek span {
   width: auto;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .mobile .days {
@@ -190,6 +190,7 @@
 .mobile .day {
   max-width: 50px;
   height: 50px;
+  font-size: 13px;
   border-radius: 50%;
   padding: 0;
   justify-content: center;
@@ -202,6 +203,7 @@
 
 .mobile .monthStats {
   margin: 40px auto 0;
+  font-size: 14px;
   display: flex;
   justify-content: space-around;
   gap: 12px;

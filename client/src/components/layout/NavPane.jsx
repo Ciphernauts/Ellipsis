@@ -263,7 +263,11 @@ export default function NavPane({ isPWA = false, toggle, className }) {
           )}
         </NavLink>
 
-        <NavLink to='/cameras' onClick={handleLinkClick}>
+        <NavLink
+          to='/cameras'
+          onClick={handleLinkClick}
+          className={styles.lastLink}
+        >
           {({ isActive }) => (
             <div
               className={`${styles.navlink} ${isActive ? styles.active : ''}`}
@@ -295,7 +299,11 @@ export default function NavPane({ isPWA = false, toggle, className }) {
               </div>
             )}
           </NavLink>
-          <NavLink to='/logout' onClick={handleLinkClick}>
+          <NavLink
+            to='/logout'
+            onClick={handleLinkClick}
+            className={styles.lastLink}
+          >
             {({ isActive }) => (
               <div
                 className={`${styles.navlink} ${isActive ? styles.active : ''}`}

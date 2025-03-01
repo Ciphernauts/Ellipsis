@@ -10,6 +10,9 @@ import SlidingPane from 'react-sliding-pane';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 import CalendarInfoPane from './infoPanes/CalendarInfoPane';
 import SessionsInfoPane from './infoPanes/SessionsInfoPane';
+import IncidentsInfoPane from './infoPanes/IncidentsInfoPane';
+import ConstructionSitesInfoPane from './infoPanes/ConstructionSitesInfoPane';
+import { isPWA } from '../../utils/isPWA';
 
 const PWALayout = () => {
   const location = useLocation();
@@ -17,26 +20,22 @@ const PWALayout = () => {
   const [isNavPaneOpen, setIsNavPaneOpen] = useState(false);
   const [isInfoPaneOpen, setIsInfoPaneOpen] = useState(false);
   const [paneData, setPaneData] = useState(null);
-  const [overlayOpacity, setOverlayOpacity] = useState(0); // Control background color opacity
+  const [overlayOpacity, setOverlayOpacity] = useState(0);
 
-  const toggleNavPane = () => {
-    setIsNavPaneOpen(!isNavPaneOpen);
-  };
+  const isIncidentsPageActive =
+    location.pathname === '/incidents/incident-history';
 
-  const handleBack = () => {
-    navigate(-1);
-  };
+  const toggleNavPane = () => setIsNavPaneOpen(!isNavPaneOpen);
+  const handleBack = () => navigate(-1);
 
   const handleInfoPaneOpen = (data) => {
     setPaneData(data);
-    setIsInfoPaneOpen(true); // Open the Info Pane
+    setIsInfoPaneOpen(true);
   };
 
   const handleInfoPaneClose = () => {
     setIsInfoPaneOpen(false);
-    setTimeout(() => {
-      setPaneData(null); // Clear pane data after the pane has closed
-    }, 300); // Adjust the delay to match the pane's closing animation duration
+    setTimeout(() => setPaneData(null), 300);
   };
 
   useEffect(() => {
@@ -44,20 +43,22 @@ const PWALayout = () => {
     return () => {
       document.body.style.backgroundColor = 'var(--light)';
     };
-  });
+  }, []);
 
-  // Reset the Info Pane when the location changes
   useEffect(() => {
     setIsInfoPaneOpen(false);
     setPaneData(null);
   }, [location.pathname]);
 
   useEffect(() => {
-    if (isInfoPaneOpen && !!paneData) {
-      setOverlayOpacity(1); // Set background color opacity to 0.5 when pane opens
-    } else {
-      setOverlayOpacity(0); // Set background color opacity to 0 when pane closes
-    }
+    document.body.style.overflow = isInfoPaneOpen ? 'hidden' : 'visible';
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  }, [isInfoPaneOpen]);
+
+  useEffect(() => {
+    setOverlayOpacity(isInfoPaneOpen && paneData ? 1 : 0);
   }, [isInfoPaneOpen, paneData]);
 
   const getRightPaneContent = () => {
@@ -68,15 +69,14 @@ const PWALayout = () => {
         return <SessionsInfoPane data={paneData} isPWA={true} />;
       case '/incidents/incident-history':
         return (
-          <IncidentsInfoPane data={paneData} setIncidentData={setPaneData} />
-        );
-      case '/construction-sites':
-        return (
-          <ConstructionSitesInfoPane
+          <IncidentsInfoPane
             data={paneData}
-            setSiteData={setPaneData}
+            setIncidentData={setPaneData}
+            isPWA={true}
           />
         );
+      case '/construction-sites':
+        return <ConstructionSitesInfoPane data={paneData} isPWA={isPWA} />;
       default:
         return null;
     }
@@ -84,7 +84,6 @@ const PWALayout = () => {
 
   return (
     <div className={styles.pwaLayout}>
-      {/* NavPane Overlay */}
       <div
         className={`${styles.navPaneOverlay} ${isNavPaneOpen && styles.active}`}
       >
@@ -95,21 +94,33 @@ const PWALayout = () => {
         />
       </div>
 
-      {/* Main Content */}
-      <div className={styles.main}>
-        {/* Back Button */}
-        {/* <div className={styles.backButtonContainer}> */}
-        <div className={styles.backButton} onClick={handleBack}>
-          <ArrowIcon size='25px' />
-        </div>
-        {/* </div> */}
+      <div
+        className={`${styles.main} ${isInfoPaneOpen ? styles.mainInfoOpen : ''}`}
+      >
+        {!isInfoPaneOpen || (isIncidentsPageActive && isInfoPaneOpen) ? (
+          <div
+            className={`${styles.backButton} ${isInfoPaneOpen ? styles.fixedBackButton : ''}`}
+            onClick={() =>
+              isInfoPaneOpen ? handleInfoPaneClose() : handleBack()
+            }
+          >
+            <ArrowIcon size='25px' />
+          </div>
+        ) : (
+          <div
+            className={styles.backButton}
+            onClick={() => setIsInfoPaneOpen(false)}
+          >
+            <ArrowIcon size='25px' />
+          </div>
+        )}
 
         <main className={styles.content}>
           <Outlet
             context={{
               setPaneData: handleInfoPaneOpen,
               isPaneOpen: isInfoPaneOpen,
-              setIsPaneOpen: setIsInfoPaneOpen, // Add this line
+              setIsPaneOpen: setIsInfoPaneOpen,
             }}
           />
         </main>
@@ -117,15 +128,12 @@ const PWALayout = () => {
         <footer
           className={`${styles.footer} ${isNavPaneOpen && styles.navPaneOpen}`}
         >
-          {/* Hamburger Icon */}
           <span
             className={`${styles.footerItem} ${isNavPaneOpen ? styles.active : ''}`}
             onClick={toggleNavPane}
           >
             <HamburgerIcon size='25px' />
           </span>
-
-          {/* Home Icon */}
           <NavLink
             to='/dashboard'
             className={`${styles.footerItem} ${location.pathname === '/dashboard' && !isNavPaneOpen ? styles.active : ''}`}
@@ -133,8 +141,6 @@ const PWALayout = () => {
           >
             <HomeIcon />
           </NavLink>
-
-          {/* Profile Icon */}
           <NavLink
             to='/settings'
             className={`${styles.footerItem} ${location.pathname === '/settings' && !isNavPaneOpen ? styles.active : ''}`}
@@ -144,34 +150,51 @@ const PWALayout = () => {
           </NavLink>
         </footer>
       </div>
-      {/* Custom Overlay */}
-      <div
-        className={styles.paneOverlay}
-        style={{
-          backgroundColor: `rgba(204, 224, 230, ${overlayOpacity})`,
-          transition: 'background-color 0.3s ease',
-        }}
-      />
-      {/* Info Pane */}
+
+      {isInfoPaneOpen && isIncidentsPageActive ? (
+        <div className={styles.imgOverlay}>
+          {paneData?.snapshot ? (
+            <img src={paneData.snapshot} alt='' />
+          ) : (
+            <p>No image available</p>
+          )}
+        </div>
+      ) : (
+        <div
+          className={styles.paneOverlay}
+          style={{
+            backgroundColor: `rgba(204, 224, 230, ${overlayOpacity})`,
+            transition: 'background-color 0.3s ease',
+          }}
+        />
+      )}
+
       <SlidingPane
-        className={`${styles.slidingPane} ${isInfoPaneOpen ? '' : styles.infoClose}`}
-        overlayClassName={styles.defaultOverlay}
+        className={`${isIncidentsPageActive ? styles.incidentSlidingPane : styles.slidingPane} ${isInfoPaneOpen ? '' : styles.infoClose}`}
+        overlayClassName={`${styles.defaultOverlay} ${isIncidentsPageActive ? styles.incDefaultOverlay : ''}`}
         isOpen={isInfoPaneOpen && !!paneData}
         from='bottom'
         width='100%'
         hideHeader={true}
         onRequestClose={handleInfoPaneClose}
       >
-        <div
-          className={styles.infoPaneBackButton}
-          onClick={() =>
-            isInfoPaneOpen ? setIsInfoPaneOpen(false) : handleBack()
-          }
-        >
-          <ArrowIcon size='25px' />
-        </div>
-
-        {paneData && getRightPaneContent()}
+        {!isIncidentsPageActive && (
+          <div
+            className={styles.infoPaneBackButton}
+            onClick={() =>
+              isInfoPaneOpen ? setIsInfoPaneOpen(false) : handleBack()
+            }
+          >
+            <ArrowIcon size='25px' />
+          </div>
+        )}
+        {isIncidentsPageActive ? (
+          <div className={styles.insidePane}>
+            {paneData && getRightPaneContent()}
+          </div>
+        ) : (
+          paneData && getRightPaneContent()
+        )}
       </SlidingPane>
     </div>
   );

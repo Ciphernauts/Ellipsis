@@ -12,3 +12,10 @@ export const mapToPieData = (data) =>
       { name: 'Score', value: item.value },
     ],
   }));
+
+export const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
+  };

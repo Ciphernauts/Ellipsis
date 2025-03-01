@@ -78,3 +78,9 @@
   background-color: var(--primary);
   color: var(--light);
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile.button {
+  padding: 15px 40px;
+}

@@ -33,8 +33,8 @@ const App = () => {
           path='/'
           element={isStandalone ? <OnboardingPage /> : <HomePage />}
         />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register isPWA={isStandalone} />} />
+        <Route path='/login' element={<Login isPWA={isStandalone} />} />
 
         {/* Routes with nav pane */}
         <Route element={isStandalone ? <PWALayout /> : <Layout />}>
@@ -43,7 +43,7 @@ const App = () => {
             path='/dashboard'
             element={<Dashboard isPWA={isStandalone} />}
           />
-          <Route path='/safety-trends' element={<Dashboard />} />
+          <Route path='/safety-trends' />
 
           {/* Redirect from /timeline to /timeline/calendar */}
           <Route
@@ -68,15 +68,18 @@ const App = () => {
 
           <Route
             path='/incidents/incident-trends'
-            element={<IncidentTrends />}
+            element={<IncidentTrends isPWA={isStandalone} />}
           />
           <Route
             path='/incidents/incident-history'
-            element={<IncidentHistory />}
+            element={<IncidentHistory isPWA={isStandalone} />}
           />
 
-          <Route path='/construction-sites' element={<ConstructionSites />} />
-          <Route path='/cameras' element={<Dashboard />} />
+          <Route
+            path='/construction-sites'
+            element={<ConstructionSites isPWA={isStandalone} />}
+          />
+          <Route path='/cameras' />
           <Route path='/change-mode' element={<ChangeMode />} />
           <Route path='/settings' element={<Settings />} />
         </Route>
