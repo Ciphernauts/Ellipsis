@@ -12,20 +12,23 @@ export default function ConstructionSites({ isPWA = false }) {
   const [selectedSiteId, setSelectedSiteId] = useState(null);
   const [isAddingNewSite, setIsAddingNewSite] = useState(false);
   const [newSiteName, setNewSiteName] = useState('');
-  const [placeholder, setPlaceholder] = useState('Enter site name'); // Placeholder as state
+  const [placeholder, setPlaceholder] = useState('Enter site name');
 
-  // Helper function to format date and time as "31st December 3:46 PM"
   const formatDateTime = (dateString) => {
-    if (!dateString) return nul;
+    if (!dateString) return null;
+
     const date = new Date(dateString);
     const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
+    const month = isPWA
+      ? date.toLocaleString('default', { month: 'short' })
+      : date.toLocaleString('default', { month: 'long' });
     const daySuffix = getDaySuffix(day);
     const time = date.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
     });
+
     return `${day}${daySuffix} ${month} ${time}`;
   };
 
@@ -322,13 +325,11 @@ export default function ConstructionSites({ isPWA = false }) {
                       : 'No records yet'}
                   </div>
                   {isPWA && !site.isActive && (
-                    <div>
-                      <span
-                        className={`${styles.statusBadge} ${styles[site.isActive ? 'active' : 'inactive']}`}
-                      >
-                        {site.isActive ? 'Active' : 'Inactive'}
-                      </span>
-                    </div>
+                    <span
+                      className={`${styles.statusBadge} ${styles[site.isActive ? 'active' : 'inactive']}`}
+                    >
+                      {site.isActive ? 'Active' : 'Inactive'}
+                    </span>
                   )}
                 </div>
                 <div className={styles.delete}>

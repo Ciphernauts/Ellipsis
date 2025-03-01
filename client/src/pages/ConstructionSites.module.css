@@ -28,7 +28,7 @@
 .addSiteToggle {
   width: 92px;
   display: flex;
-  padding: 10px 11px;
+  padding: 10px 10px;
   align-items: center;
   justify-content: space-around;
   border-radius: 30px;
@@ -200,6 +200,7 @@
 }
 
 .mobile .row {
+  height: 97px;
   padding-right: 15px;
 }
 
@@ -222,6 +223,11 @@
 
 .mobile .addSiteContainer {
   width: 100%;
+  min-width: 100%;
   justify-content: flex-end;
   gap: 5px;
+}
+
+.mobile .addSiteToggle {
+  white-space: nowrap;
 }
