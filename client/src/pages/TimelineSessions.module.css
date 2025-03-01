@@ -32,7 +32,8 @@
   cursor: pointer;
 }
 
-.tableBody .row:hover {
+.tableBody .row:hover,
+.tableBody .row:focus {
   background-color: var(--neutral);
 }
 

@@ -4,8 +4,11 @@ import styles from './ConstructionSitesInfoPane.module.css';
 import PaneInfoPiece from '../../PaneInfoPiece';
 import Duration from '../../Duration';
 
-export default function ConstructionSitesInfoPane({ data, setSiteData }) {
-  // Removed allSites
+export default function ConstructionSitesInfoPane({
+  data,
+  setSiteData,
+  isPWA = false,
+}) {
   const [isActive, setIsActive] = useState(false);
   const [updating, setUpdating] = useState(false);
 
@@ -51,7 +54,7 @@ export default function ConstructionSitesInfoPane({ data, setSiteData }) {
   }
 
   return (
-    <div className={styles.pane}>
+    <div className={`${styles.pane} ${isPWA ? styles.mobile : ''}`}>
       <h1>{data.name}</h1>
       <div className={styles.content}>
         <div className={styles.infoBlock}>

@@ -11,6 +11,8 @@ import 'react-sliding-pane/dist/react-sliding-pane.css';
 import CalendarInfoPane from './infoPanes/CalendarInfoPane';
 import SessionsInfoPane from './infoPanes/SessionsInfoPane';
 import IncidentsInfoPane from './infoPanes/IncidentsInfoPane';
+import ConstructionSitesInfoPane from './infoPanes/ConstructionSitesInfoPane';
+import { isPWA } from '../../utils/isPWA';
 
 const PWALayout = () => {
   const location = useLocation();
@@ -74,12 +76,7 @@ const PWALayout = () => {
           />
         );
       case '/construction-sites':
-        return (
-          <ConstructionSitesInfoPane
-            data={paneData}
-            setSiteData={setPaneData}
-          />
-        );
+        return <ConstructionSitesInfoPane data={paneData} isPWA={isPWA} />;
       default:
         return null;
     }

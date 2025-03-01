@@ -309,9 +309,7 @@ export default function ConstructionSites({ isPWA = false }) {
                         {site.name}
 
                         <span
-                          className={
-                            styles[site.isActive ? 'active' : 'inactive']
-                          }
+                          className={`${styles.statusBadge} ${styles[site.isActive ? 'active' : 'inactive']}`}
                         >
                           {site.isActive ? 'Active' : 'Inactive'}
                         </span>
@@ -323,6 +321,15 @@ export default function ConstructionSites({ isPWA = false }) {
                       ? `Last report: ${formatDateTime(site.lastReport)}`
                       : 'No records yet'}
                   </div>
+                  {isPWA && !site.isActive && (
+                    <div>
+                      <span
+                        className={`${styles.statusBadge} ${styles[site.isActive ? 'active' : 'inactive']}`}
+                      >
+                        {site.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div className={styles.delete}>
                   <button

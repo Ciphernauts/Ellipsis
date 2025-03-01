@@ -72,7 +72,8 @@
   cursor: pointer;
 }
 
-.row:hover {
+.row:hover,
+.row:focus {
   background-color: var(--neutral);
 }
 
