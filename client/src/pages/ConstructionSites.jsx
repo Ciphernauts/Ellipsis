@@ -3,8 +3,9 @@ import styles from './ConstructionSites.module.css';
 import { useOutletContext } from 'react-router-dom';
 import PlusIcon from '../components/icons/PlusIcon';
 import DefaultImage from '../assets/DefaultImage.png';
+import { truncateText } from '../utils/helpers';
 
-export default function ConstructionSites() {
+export default function ConstructionSites({ isPWA = false }) {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
   const [data, setData] = useState({ sites: [] });
   const [loading, setLoading] = useState(true);
@@ -236,7 +237,7 @@ export default function ConstructionSites() {
 
   return (
     <div
-      className={`${styles.constructionSites} ${isPaneOpen ? styles.paneOpen : ''}`}
+      className={`${styles.constructionSites} ${isPaneOpen ? styles.paneOpen : ''} ${isPWA ? styles.mobile : ''}`}
     >
       <h1>Construction Sites</h1>
       {loading ? (
@@ -301,12 +302,21 @@ export default function ConstructionSites() {
                 </div>
                 <div className={styles.desc}>
                   <div className={styles.siteName}>
-                    {site.name}
-                    <span
-                      className={styles[site.isActive ? 'active' : 'inactive']}
-                    >
-                      {site.isActive ? 'Active' : 'Inactive'}
-                    </span>
+                    {isPWA ? (
+                      truncateText(site.name, 21)
+                    ) : (
+                      <>
+                        {site.name}
+
+                        <span
+                          className={
+                            styles[site.isActive ? 'active' : 'inactive']
+                          }
+                        >
+                          {site.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                      </>
+                    )}
                   </div>
                   <div className={styles.time}>
                     {site.lastReport

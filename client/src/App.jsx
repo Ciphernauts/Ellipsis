@@ -75,7 +75,10 @@ const App = () => {
             element={<IncidentHistory isPWA={isStandalone} />}
           />
 
-          <Route path='/construction-sites' element={<ConstructionSites />} />
+          <Route
+            path='/construction-sites'
+            element={<ConstructionSites isPWA={isStandalone} />}
+          />
           <Route path='/cameras' />
           <Route path='/change-mode' element={<ChangeMode />} />
           <Route path='/settings' element={<Settings />} />
