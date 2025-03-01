@@ -3,7 +3,7 @@ const controller = require('../Controllers/TimelineCalendar.js');
 
 const router = Router();
 
-router.get('/:month/:day', controller.getStatsForDay);
 router.get('/:month', controller.getStatsForMonth);
+router.get('/:month/:day', controller.getStatsForDay);
 
 module.exports = router;
