@@ -205,6 +205,8 @@ export default function TimelineCalendar({ isPWA = false }) {
 
   // Placeholder data
 
+  //  router.get('timeline/calendar/:month', controller.getStatsForMonth);
+
   useEffect(() => {
     const fetchedData = {
       month: {
