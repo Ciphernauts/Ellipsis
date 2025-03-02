@@ -1,3 +1,19 @@
+-- ----------------------------------------------------------------------
+-- ----------------------------------------------------------------------
+-- ELLIPSIS DATABASE CREATION SCRIPT
+-- ----------------------------------------------------------------------
+-- ----------------------------------------------------------------------
+
+
+
+-- ----------------------------------------------------------------------
+-- ----------------------------------------------------------------------
+-- Section 1: Table Creation
+-- ----------------------------------------------------------------------
+-- ----------------------------------------------------------------------
+
+
+
 -- Create Phase 1 PPE Detection Table
 
 CREATE TABLE IF NOT EXISTS phase_1_detections (
@@ -76,14 +92,14 @@ CREATE TABLE snapshots (
 -- Define a custom ENUM type 'incident_severity' 
 CREATE TYPE incident_severity AS ENUM ('Moderate', 'Critical');
 
--- Create the 'incidents' table 
+-- Create the 'incidents' table
 CREATE TABLE incidents (
     incident_id SERIAL PRIMARY KEY,
     session_id VARCHAR(10),
     incident_time TIMESTAMP NOT NULL,
     severity incident_severity NOT NULL,
-    status VARCHAR(50) NOT NULL,
-    category VARCHAR(50) NOT NULL,
+    status VARCHAR(50) NOT NULL, 
+    category VARCHAR(50) NOT NULL, 
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
 
@@ -92,6 +108,12 @@ CREATE TYPE incident_status AS ENUM ('Open', 'Resolved', 'False Alarm');
 
 -- Alter the 'status' column in 'incidents' to use the 'incident_status' ENUM type
 ALTER TABLE incidents ALTER COLUMN status TYPE incident_status USING status::TEXT::incident_status;
+
+-- Create a custom ENUM type for incident category
+CREATE TYPE incident_category AS ENUM ('Helmet', 'Vest', 'Gloves', 'Shoes', 'Harness', 'Scaffolding', 'Guardrail');
+
+-- Alter the 'category' column in 'incidents' to use the 'incident_category' ENUM type
+ALTER TABLE incidents ALTER COLUMN category TYPE incident_category USING category::TEXT::incident_category;
 
 -- Create the 'safety_score_trends' table
 CREATE TABLE safety_score_trends (
@@ -128,67 +150,83 @@ CREATE INDEX idx_incident_category ON incidents (category);
 CREATE INDEX idx_sessions_site_id ON sessions (site_id);
 CREATE INDEX idx_cameras_site_id ON cameras (site_id);
 
-----------------------------------------------------------------------------------------------------------------
 
--- Populate all tables with data
 
-INSERT INTO construction_sites (name, location, status, safetyScore, snapshots) VALUES
-    ('Riverside Apartments Project', 'Abu Dhabi', 'Active', 88.5, '{
+-- ----------------------------------------------------------------------
+-- ----------------------------------------------------------------------
+-- Section 2: Data Insertion
+-- ----------------------------------------------------------------------
+-- ----------------------------------------------------------------------
+
+
+
+-- ----------------------------------------------------------------------
+-- CONSTRUCTION SITES
+-- ----------------------------------------------------------------------
+
+INSERT INTO construction_sites (name, status, safetyScore, snapshots) VALUES
+    ('Riverside Apartments Project', 'Active', 88.5, '{
         "https://picsum.photos/id/10/200/150",
         "https://picsum.photos/id/11/200/150",
         "https://picsum.photos/id/12/200/150"
     }'::TEXT),
-    ('Hilltop Heights Construction', 'Dubai', 'Completed', 84.2, '{
+    ('Hilltop Heights Construction', 'Inactive', 84.2, '{
         "https://picsum.photos/id/20/200/150",
         "https://picsum.photos/id/21/200/150"
     }'::TEXT),
-    ('Downtown Mall Construction', 'Sharjah', 'Active', 90.1, '{
+    ('Downtown Mall Construction', 'Active', 90.1, '{
         "https://picsum.photos/id/30/200/150",
         "https://picsum.photos/id/31/200/150",
         "https://picsum.photos/id/32/200/150",
         "https://picsum.photos/id/33/200/150"
     }'::TEXT),
-    ('Northside Office Tower', 'Ajman', 'Inactive', 82.0, '{}'::TEXT),
-    ('Westside Residential Complex', 'Umm Al Quwain', 'Active', 87.4, '{
+    ('Northside Office Tower', 'Inactive', 82.0, '{}'::TEXT),
+    ('Westside Residential Complex', 'Active', 87.4, '{
         "https://picsum.photos/id/40/200/150"
     }'::TEXT),
-    ('Eastside Industrial Park', 'Ras Al Khaimah', 'Active', 89.8, '{
+    ('Eastside Industrial Park', 'Active', 89.8, '{
         "https://picsum.photos/id/50/200/150",
         "https://picsum.photos/id/51/200/150",
         "https://picsum.photos/id/52/200/150"
     }'::TEXT),
-    ('Southside Stadium Renovation', 'Fujairah', 'Completed', 91.3, '{
+    ('Southside Stadium Renovation', 'Inactive', 91.3, '{
         "https://picsum.photos/id/60/200/150",
         "https://picsum.photos/id/61/200/150",
         "https://picsum.photos/id/62/200/150"
     }'::TEXT),
-    ('Central Business Park', 'Abu Dhabi', 'Active', 86.0, '{
+    ('Central Business Park', 'Active', 86.0, '{
         "https://picsum.photos/id/70/200/150",
         "https://picsum.photos/id/71/200/150"
     }'::TEXT),
-    ('Coastal Marina Development', 'Dubai', 'Active', 84.4, '{
+    ('Coastal Marina Development', 'Active', 84.4, '{
         "https://picsum.photos/id/80/200/150",
         "https://picsum.photos/id/81/200/150",
         "https://picsum.photos/id/82/200/150"
     }'::TEXT);
 
---remove location
-
-INSERT INTO cameras (name, model, location, site_id, type, online, connected, last_synced_time) VALUES
-    ('DJI Matrice 300 RTK', 'M300', 'Building A', 1, 'drone', TRUE, TRUE, '2025-03-01 16:15:00'),
-    ('FLIR Quasar 4K IR PTZ', 'FQR4K', 'Building B', 1, 'camera', TRUE, FALSE, '2025-03-01 12:10:00'),
-    ('Axis P1448-LE', 'AXP1448', 'Entrance', 1, 'camera', FALSE, TRUE, '2025-03-01 08:05:00'),
-    ('Anafi USA', 'ANU', 'Building C', 2, 'drone', TRUE, TRUE, '2025-03-01 10:00:00'),
-    ('Autel Robotics EVO II Pro', 'AE2P', 'Building A', 3, 'drone', FALSE, FALSE, '2025-02-28 18:00:00'),
-    ('Skydio 2+', 'SK2+', 'Building B', 4, 'camera', TRUE, TRUE, '2025-03-01 14:30:00'),
-    ('Bosch FLEXIDOME IP starlight 8000i', 'BFI8000', 'Building C', 5, 'camera', TRUE, FALSE, '2025-03-01 11:45:00'),
-    ('Hikvision DS-2CD2387G2-LU', 'HD2387', 'Entrance', 6, 'camera', FALSE, TRUE, '2025-03-01 09:20:00'),
-    ('DJI Inspire 3', 'DI3', 'Building A', 7, 'drone', TRUE, TRUE, '2025-03-01 15:50:00'),
-    ('Sony SNC-VM772R', 'SSVM772', 'Building B', 7, 'camera', TRUE, TRUE, '2025-03-01 13:15:00');
-
---remove model, location, site_id
 
 
+-- ----------------------------------------------------------------------
+-- CAMERAS
+-- ----------------------------------------------------------------------
+
+INSERT INTO cameras (name, site_id, type, online, connected, last_synced_time) VALUES
+    ('DJI Matrice 300 RTK', 1, 'drone', TRUE, TRUE, '2025-03-01 16:15:00'),
+    ('FLIR Quasar 4K IR PTZ', 1, 'camera', TRUE, FALSE, '2025-03-01 12:10:00'),
+    ('Axis P1448-LE', 1, 'camera', FALSE, TRUE, '2025-03-01 08:05:00'),
+    ('Anafi USA', 2, 'drone', TRUE, TRUE, '2025-03-01 10:00:00'),
+    ('Autel Robotics EVO II Pro', 3, 'drone', FALSE, FALSE, '2025-02-28 18:00:00'),
+    ('Skydio 2+', 4, 'camera', TRUE, TRUE, '2025-03-01 14:30:00'),
+    ('Bosch FLEXIDOME IP starlight 8000i', 5, 'camera', TRUE, FALSE, '2025-03-01 11:45:00'),
+    ('Hikvision DS-2CD2387G2-LU', 6, 'camera', FALSE, TRUE, '2025-03-01 09:20:00'),
+    ('DJI Inspire 3', 7, 'drone', TRUE, TRUE, '2025-03-01 15:50:00'),
+    ('Sony SNC-VM772R', 7, 'camera', TRUE, TRUE, '2025-03-01 13:15:00');
+
+
+
+-- ----------------------------------------------------------------------
+-- SESSIONS
+-- ----------------------------------------------------------------------
 
 INSERT INTO sessions (session_id, site_id, camera_id, mode, start_time, end_time, safety_score, progress) VALUES
     ('S0028', 1, 1, 'General', '2025-02-01 08:00:00', '2025-02-01 16:00:00', 82.5, '+2.3%'),
@@ -244,7 +282,9 @@ INSERT INTO sessions (session_id, site_id, camera_id, mode, start_time, end_time
 
 
 
+-- ----------------------------------------------------------------------
 -- SNAPSHOTS
+-- ----------------------------------------------------------------------
 
 -- Session S0028
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
@@ -598,209 +638,210 @@ INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
 
 
 
--- INCIDENTS --DESC  IS NAME SHOULD BE ENUM
+-- ----------------------------------------------------------------------
+-- INCIDENTS
+-- ----------------------------------------------------------------------
+
+-- Incidents for session S0028
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0028', '2025-02-01 09:30:00', 'Moderate', 'Open', 'Helmet'),
+    ('S0028', '2025-02-01 14:15:00', 'Moderate', 'Resolved', 'Harness');
+
+-- Incidents for session S0029
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0029', '2025-02-01 10:45:00', 'Moderate', 'Resolved', 'Scaffolding'),
+    ('S0029', '2025-02-01 15:30:00', 'Critical', 'Open', 'Harness');
+
+-- Incidents for session S0030
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0030', '2025-02-01 12:15:00', 'Moderate', 'Resolved', 'Scaffolding');
+
+-- Incidents for session S0031
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0031', '2025-02-01 11:30:00', 'Moderate', 'Open', 'Gloves'),
+    ('S0031', '2025-02-01 13:45:00', 'Moderate', 'Open', 'Guardrail'), 
+    ('S0031', '2025-02-01 16:20:00', 'Critical', 'Resolved', 'Helmet'), 
+    ('S0031', '2025-02-01 18:10:00', 'Critical', 'Open', 'Vest');
+
+-- Incidents for session S0032
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0032', '2025-02-01 14:00:00', 'Moderate', 'Resolved', 'Shoes');
+
+-- Incidents for session S0033 - No incidents
+
+-- Incidents for session S0034 - No incidents
+
+-- Incidents for session S0035
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0035', '2025-02-02 11:30:00', 'Moderate', 'Open', 'Harness'),
+    ('S0035', '2025-02-02 16:45:00', 'Critical', 'Resolved', 'Scaffolding'); 
+
+-- Incidents for session S0036
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0036', '2025-02-02 14:15:00', 'Moderate', 'Resolved', 'Guardrail'); 
+
+-- Incidents for session S0037
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0037', '2025-02-02 17:00:00', 'Moderate', 'Open', 'Guardrail');
+
+-- Incidents for session S0038
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0038', '2025-02-03 10:15:00', 'Moderate', 'Resolved', 'Gloves');
+
+-- Incidents for session S0039
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0039', '2025-02-03 14:30:00', 'Moderate', 'Open', 'Helmet'); 
+
+-- Incidents for session S0040
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0040', '2025-02-03 11:45:00', 'Moderate', 'Open', 'Helmet'),
+    ('S0040', '2025-02-03 15:10:00', 'Critical', 'Resolved', 'Scaffolding'), 
+    ('S0040', '2025-02-03 17:50:00', 'Critical', 'Open', 'Harness');
+
+-- Incidents for session S0041 - No incidents
+
+-- Incidents for session S0042
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0042', '2025-02-03 16:00:00', 'Moderate', 'Resolved', 'Guardrail');
+
+-- Incidents for session S0043 - No incidents
+
+-- Incidents for session S0044
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0044', '2025-02-04 11:30:00', 'Moderate', 'Open', 'Scaffolding'); 
+
+-- Incidents for session S0045
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0045', '2025-02-04 15:45:00', 'Moderate', 'Resolved', 'Guardrail'); 
+
+-- Incidents for session S0046
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0046', '2025-02-04 13:15:00', 'Moderate', 'Open', 'Harness');
+
+-- Incidents for session S0047
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0047', '2025-02-04 17:00:00', 'Moderate', 'Resolved', 'Gloves');
+
+-- Incidents for session S0048
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0048', '2025-02-05 10:30:00', 'Moderate', 'Open', 'Guardrail');
+
+-- Incidents for session S0049
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0049', '2025-02-05 12:00:00', 'Moderate', 'Resolved', 'Helmet'),
+    ('S0049', '2025-02-05 14:45:00', 'Critical', 'Open', 'Scaffolding'), 
+    ('S0049', '2025-02-05 16:30:00', 'Critical', 'Open', 'Harness'); 
+
+-- Incidents for session S0050 - No incidents
+
+-- Incidents for session S0051
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0051', '2025-02-05 18:15:00', 'Moderate', 'Open', 'Vest');
+
+-- Incidents for session S0052 - No incidents
+
+-- Incidents for session S0053
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0053', '2025-02-06 10:45:00', 'Moderate', 'Resolved', 'Scaffolding'); 
+
+-- Incidents for session S0054
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0054', '2025-02-06 13:30:00', 'Moderate', 'Open', 'Guardrail'); 
+
+-- Incidents for session S0055
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0055', '2025-02-06 16:15:00', 'Moderate', 'Open', 'Guardrail');
+
+-- Incidents for session S0056
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0056', '2025-02-06 11:00:00', 'Moderate', 'Resolved', 'Harness'),
+    ('S0056', '2025-02-06 15:30:00', 'Critical', 'Open', 'Helmet'); 
+
+-- Incidents for session S0057
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0057', '2025-02-06 18:00:00', 'Moderate', 'Resolved', 'Vest'); 
+
+-- Incidents for session S0058
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0058', '2025-02-07 09:45:00', 'Moderate', 'Open', 'Shoes'),
+    ('S0058', '2025-02-07 14:20:00', 'Critical', 'Resolved', 'Scaffolding'); 
+
+-- Incidents for session S0059
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0059', '2025-02-07 12:30:00', 'Moderate', 'Open', 'Guardrail');
+
+-- Incidents for session S0060 - No incidents
+
+-- Incidents for session S0061 - No incidents
+
+-- Incidents for session S0062
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0062', '2025-02-07 16:15:00', 'Moderate', 'Resolved', 'Gloves');
+
+-- Incidents for session S0063
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0063', '2025-02-08 11:00:00', 'Moderate', 'Open', 'Helmet'); 
+
+-- Incidents for session S0064
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0064', '2025-02-08 14:30:00', 'Moderate', 'Open', 'Harness');
+
+-- Incidents for session S0065
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0065', '2025-02-08 10:15:00', 'Moderate', 'Resolved', 'Scaffolding'), 
+    ('S0065', '2025-02-08 16:45:00', 'Critical', 'Open', 'Guardrail'); 
+
+-- Incidents for session S0066 - No incidents
+
+-- Incidents for session S0067
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0067', '2025-02-08 12:30:00', 'Moderate', 'Open', 'Helmet'),
+    ('S0067', '2025-02-08 15:00:00', 'Critical', 'Resolved', 'Scaffolding'),
+    ('S0067', '2025-02-08 17:45:00', 'Critical', 'Open', 'Harness'); 
+
+-- Incidents for session S0068
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0068', '2025-02-09 11:15:00', 'Moderate', 'Resolved', 'Gloves');
+
+-- Incidents for session S0069 - No incidents
+
+-- Incidents for session S0070 - No incidents
+
+-- Incidents for session S0071
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0071', '2025-02-09 13:00:00', 'Moderate', 'Open', 'Vest'), 
+    ('S0071', '2025-02-09 17:30:00', 'Critical', 'Resolved', 'Gloves'); 
+
+-- Incidents for session S0072
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0072', '2025-02-09 15:45:00', 'Moderate', 'Open', 'Shoes'); 
+
+-- Incidents for session S0073
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0073', '2025-02-10 10:30:00', 'Moderate', 'Resolved', 'Harness'); 
+
+-- Incidents for session S0074
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0074', '2025-02-10 13:15:00', 'Moderate', 'Open', 'Gloves');
+
+-- Incidents for session S0075
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0075', '2025-02-10 16:00:00', 'Moderate', 'Resolved', 'Scaffolding');
+
+-- Incidents for session S0076
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0076', '2025-02-10 11:45:00', 'Moderate', 'Open', 'Harness'),
+    ('S0076', '2025-02-10 15:30:00', 'Critical', 'Open', 'Guardrail'); 
+
+-- Incidents for session S0077
+INSERT INTO incidents (session_id, incident_time, severity, status, category) VALUES
+    ('S0077', '2025-02-10 18:15:00', 'Moderate', 'Resolved', 'Helmet'); 
 
 
--- Incidents for session S0028 (safety_score = 82.5) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0028', 'Worker not wearing helmet', '2025-02-01 09:30:00', 'Moderate', 'Open', 'helmet'),
-    ('S0028', 'Worker near edge without harness', '2025-02-01 14:15:00', 'Moderate', 'Resolved', 'harness');
 
--- Incidents for session S0029 (safety_score = 78.2) - Moderate and Critical severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0029', 'Falling debris', '2025-02-01 10:45:00', 'Moderate', 'Resolved', 'general'),
-    ('S0029', 'Worker climbing without safety harness', '2025-02-01 15:30:00', 'Critical', 'Open', 'harness');
-
--- Incidents for session S0030 (safety_score = 85.1) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0030', 'Unsecured tools on scaffolding', '2025-02-01 12:15:00', 'Low', 'Resolved', 'scaffolding');
-
--- Incidents for session S0031 (safety_score = 68.0) - Multiple incidents with varying severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0031', 'Worker without safety glasses', '2025-02-01 11:30:00', 'Low', 'Open', 'gloves'),
-    ('S0031', 'Unsafe ladder placement', '2025-02-01 13:45:00', 'Moderate', 'Open', 'general'),
-    ('S0031', 'Electrical hazard', '2025-02-01 16:20:00', 'High', 'Resolved', 'general'),
-    ('S0031', 'Worker near moving machinery without PPE', '2025-02-01 18:10:00', 'Critical', 'Open', 'vest');
-
--- Incidents for session S0032 (safety_score = 80.4) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0032', 'Improper footwear', '2025-02-01 14:00:00', 'Moderate', 'Resolved', 'footwear');
-
--- Incidents for session S0033 (safety_score = 87.8) - No incidents
-
--- Incidents for session S0034 (safety_score = 89.3) - No incidents
-
--- Incidents for session S0035 (safety_score = 76.0) - Moderate and High severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0035', 'Worker on scaffolding without harness', '2025-02-02 11:30:00', 'Moderate', 'Open', 'harness'),
-    ('S0035', 'Unprotected excavation', '2025-02-02 16:45:00', 'High', 'Resolved', 'general');
-
--- Incidents for session S0036 (safety_score = 84.4) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0036', 'Improper stacking of materials', '2025-02-02 14:15:00', 'Low', 'Resolved', 'general');
-
--- Incidents for session S0037 (safety_score = 83.4) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0037', 'Worker near edge without fall protection', '2025-02-02 17:00:00', 'Moderate', 'Open', 'guardrails');
-
--- Incidents for session S0038 (safety_score = 79.7) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0038', 'Worker not wearing gloves while handling chemicals', '2025-02-03 10:15:00', 'Moderate', 'Resolved', 'gloves');
-
--- Incidents for session S0039 (safety_score = 83.3) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0039', 'Obstructed fire exit', '2025-02-03 14:30:00', 'Low', 'Open', 'general');
-
--- Incidents for session S0040 (safety_score = 70.6) - Multiple incidents with varying severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0040', 'Worker without hard hat near falling objects', '2025-02-03 11:45:00', 'Moderate', 'Open', 'helmet'),
-    ('S0040', 'Unsafe use of power tools', '2025-02-03 15:10:00', 'High', 'Resolved', 'general'),
-    ('S0040', 'Worker falling from height', '2025-02-03 17:50:00', 'Critical', 'Open', 'harness');
-
--- Incidents for session S0041 (safety_score = 85.2) - No incidents
-
--- Incidents for session S0042 (safety_score = 81.2) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0042', 'Worker near edge without guardrails', '2025-02-03 16:00:00', 'Moderate', 'Resolved', 'guardrails');
-
--- Incidents for session S0043 (safety_score = 86.2) - No incidents
-
--- Incidents for session S0044 (safety_score = 79.1) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0044', 'Improper lifting technique', '2025-02-04 11:30:00', 'Moderate', 'Open', 'general');
-
--- Incidents for session S0045 (safety_score = 84.8) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0045', 'Cluttered walkway', '2025-02-04 15:45:00', 'Low', 'Resolved', 'general');
-
--- Incidents for session S0046 (safety_score = 84.4) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0046', 'Worker on elevated platform without harness', '2025-02-04 13:15:00', 'Moderate', 'Open', 'harness');
-
--- Incidents for session S0047 (safety_score = 80.7) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0047', 'Worker not wearing gloves while using cutting tools', '2025-02-04 17:00:00', 'Moderate', 'Resolved', 'gloves');
-
--- Incidents for session S0048 (safety_score = 81.7) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0048', 'Loose railing on stairs', '2025-02-05 10:30:00', 'Low', 'Open', 'guardrails');
-
--- Incidents for session S0049 (safety_score = 68.6) - Multiple incidents with varying severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0049', 'Worker without helmet near excavation', '2025-02-05 12:00:00', 'Moderate', 'Resolved', 'helmet'),
-    ('S0049', 'Unsecured gas cylinder', '2025-02-05 14:45:00', 'High', 'Open', 'general'),
-    ('S0049', 'Worker falling from ladder', '2025-02-05 16:30:00', 'Critical', 'Open', 'general');
-
--- Incidents for session S0050 (safety_score = 83.2) - No incidents
-
--- Incidents for session S0051 (safety_score = 79.2) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0051', 'Worker not wearing vest in low-light conditions', '2025-02-05 18:15:00', 'Moderate', 'Open', 'vest');
-
--- Incidents for session S0052 (safety_score = 88.2) - No incidents
-
--- Incidents for session S0053 (safety_score = 76.2) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0053', 'Improper use of forklift', '2025-02-06 10:45:00', 'Moderate', 'Resolved', 'general');
-
--- Incidents for session S0054 (safety_score = 84.1) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0054', 'Inadequate lighting in work area', '2025-02-06 13:30:00', 'Low', 'Open', 'general');
-
--- Incidents for session S0055 (safety_score = 83.4) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0055', 'Worker near open trench without fall protection', '2025-02-06 16:15:00', 'Moderate', 'Open', 'guardrails');
-
--- Incidents for session S0056 (safety_score = 78.7) - Moderate and High severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0056', 'Worker on roof without harness', '2025-02-06 11:00:00', 'Moderate', 'Resolved', 'harness'),
-    ('S0056', 'Exposed electrical wires', '2025-02-06 15:30:00', 'High', 'Open', 'general');
-
--- Incidents for session S0057 (safety_score = 80.3) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0057', 'Damaged safety net', '2025-02-06 18:00:00', 'Low', 'Resolved', 'general');
-
--- Incidents for session S0058 (safety_score = 75.6) - Moderate and High severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0058', 'Worker not wearing proper footwear on slippery surface', '2025-02-07 09:45:00', 'Moderate', 'Open', 'footwear'),
-    ('S0058', 'Overloaded crane operation', '2025-02-07 14:20:00', 'High', 'Resolved', 'general');
-
--- Incidents for session S0059 (safety_score = 81.2) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0059', 'Missing guardrail on platform', '2025-02-07 12:30:00', 'Low', 'Open', 'guardrails');
-
--- Incidents for session S0060 (safety_score = 86.2) - No incidents
-
--- Incidents for session S0061 (safety_score = 88.3) - No incidents
-
--- Incidents for session S0062 (safety_score = 80.2) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0062', 'Worker without gloves handling sharp objects', '2025-02-07 16:15:00', 'Moderate', 'Resolved', 'gloves');
-
--- Incidents for session S0063 (safety_score = 83.2) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0063', 'Untidy work area with tripping hazards', '2025-02-08 11:00:00', 'Low', 'Open', 'general');
-
--- Incidents for session S0064 (safety_score = 80.4) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0064', 'Worker not wearing safety harness while working at height', '2025-02-08 14:30:00', 'Moderate', 'Open', 'harness');
-
--- Incidents for session S0065 (safety_score = 78.7) - Moderate and High severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0065', 'Improper storage of flammable materials', '2025-02-08 10:15:00', 'Moderate', 'Resolved', 'general'),
-    ('S0065', 'Worker using defective equipment', '2025-02-08 16:45:00', 'High', 'Open', 'general');
-
--- Incidents for session S0066 (safety_score = 84.3) - No incidents
-
--- Incidents for session S0067 (safety_score = 74.6) - Multiple incidents with varying severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0067', 'Worker without helmet near operating machinery', '2025-02-08 12:30:00', 'Moderate', 'Open', 'helmet'),
-    ('S0067', 'Unsafe scaffolding construction', '2025-02-08 15:00:00', 'High', 'Resolved', 'scaffolding'),
-    ('S0067', 'Worker struck by falling object', '2025-02-08 17:45:00', 'Critical', 'Open', 'general');
-
--- Incidents for session S0068 (safety_score = 80.2) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0068', 'Worker not wearing eye protection while welding', '2025-02-09 11:15:00', 'Moderate', 'Resolved', 'gloves');
-
--- Incidents for session S0069 (safety_score = 85.2) - No incidents
-
--- Incidents for session S0070 (safety_score = 87.2) - No incidents
-
--- Incidents for session S0071 (safety_score = 78.2) - Moderate and High severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0071', 'Worker on ladder without proper support', '2025-02-09 13:00:00', 'Moderate', 'Open', 'general'),
-    ('S0071', 'Unsecured load on crane', '2025-02-09 17:30:00', 'High', 'Resolved', 'general');
-
--- Incidents for session S0072 (safety_score = 81.2) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0072', 'Obstructed emergency exit', '2025-02-09 15:45:00', 'Low', 'Open', 'general');
-
--- Incidents for session S0073 (safety_score = 84.4) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0073', 'Damaged electrical cord', '2025-02-10 10:30:00', 'Low', 'Resolved', 'general');
-
--- Incidents for session S0074 (safety_score = 79.7) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0074', 'Worker not wearing gloves while handling hazardous materials', '2025-02-10 13:15:00', 'Moderate', 'Open', 'gloves');
-
--- Incidents for session S0075 (safety_score = 80.3) - Moderate severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0075', 'Improperly secured scaffolding', '2025-02-10 16:00:00', 'Moderate', 'Resolved', 'scaffolding');
-
--- Incidents for session S0076 (safety_score = 76.6) - Moderate and High severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0076', 'Worker on roof without fall protection', '2025-02-10 11:45:00', 'Moderate', 'Open', 'harness'),
-    ('S0076', 'Fire hazard due to improper storage of flammable liquids', '2025-02-10 15:30:00', 'High', 'Open', 'general');
-
--- Incidents for session S0077 (safety_score = 82.2) - Low severity
-INSERT INTO incidents (session_id, description, incident_time, severity, status, category) VALUES
-    ('S0077', 'Missing safety signs', '2025-02-10 18:15:00', 'Low', 'Resolved', 'general');
-
-
-
-
-
+-- ----------------------------------------------------------------------
 -- SAFETY SCORE TRENDS
+-- ----------------------------------------------------------------------
 
 -- Safety score trends for session S0028
 INSERT INTO safety_score_trends (session_id, "timestamp", score) VALUES
@@ -1504,7 +1545,9 @@ INSERT INTO safety_score_trends (session_id, "timestamp", score) VALUES
 
 
 
+-- ----------------------------------------------------------------------
 -- SAFETY SCORE DISTRIBUTION
+-- ----------------------------------------------------------------------
 
 -- Safety score distribution for session S0028
 INSERT INTO safety_score_distribution (session_id, helmet_score, footwear_score, vest_score, gloves_score, scaffolding_score, guardrails_score, harness_score) VALUES
@@ -1706,7 +1749,13 @@ INSERT INTO safety_score_distribution (session_id, helmet_score, footwear_score,
 INSERT INTO safety_score_distribution (session_id, helmet_score, footwear_score, vest_score, gloves_score, scaffolding_score, guardrails_score, harness_score) VALUES
     ('S0077', 80.0, 82.0, 85.0, 88.0, 82.0, 85.0, 80.0);
 
--------------------------------------------------------------------------------------
+
+
+-- ----------------------------------------------------------------------
+-- ----------------------------------------------------------------------
+-- Section 3: Data Updation
+-- ----------------------------------------------------------------------
+-- ----------------------------------------------------------------------
 
 -- Update safetyScore in construction_sites
 
