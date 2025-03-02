@@ -11,6 +11,11 @@ const getAllSessions = `
         s.start_time DESC;
 `;
 
+//add construction sites and cameras in above query
+
+
+//add query for per id from line 217 timelinesessions.jsx
+
 module.exports = {
     getAllSessions,
 };

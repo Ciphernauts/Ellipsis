@@ -26,6 +26,8 @@ const getAllIncidentHistory = `
         i.incident_time DESC;
 `;
 
+//add filters part al;so
+
 module.exports = {
     getAllIncidentHistory,
 };
