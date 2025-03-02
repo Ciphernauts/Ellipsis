@@ -26,7 +26,7 @@ CREATE TABLE construction_sites (
     snapshots TEXT
 );
 
--- Define a custom ENUM type 'site_status' (without 'Completed')
+-- Define a custom ENUM type 'site_status'
 CREATE TYPE site_status AS ENUM ('Active', 'Inactive');
 
 -- Alter the 'status' column in 'construction_sites' to use the 'site_status' ENUM type
@@ -73,10 +73,10 @@ CREATE TABLE snapshots (
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
 
--- Define a custom ENUM type 'incident_severity' (without 'Low')
+-- Define a custom ENUM type 'incident_severity' 
 CREATE TYPE incident_severity AS ENUM ('Moderate', 'Critical');
 
--- Create the 'incidents' table (without 'description')
+-- Create the 'incidents' table 
 CREATE TABLE incidents (
     incident_id SERIAL PRIMARY KEY,
     session_id VARCHAR(10),
@@ -86,6 +86,12 @@ CREATE TABLE incidents (
     category VARCHAR(50) NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
+
+-- Create a custom ENUM type for incident status
+CREATE TYPE incident_status AS ENUM ('Open', 'Resolved', 'False Alarm');
+
+-- Alter the 'status' column in 'incidents' to use the 'incident_status' ENUM type
+ALTER TABLE incidents ALTER COLUMN status TYPE incident_status USING status::TEXT::incident_status;
 
 -- Create the 'safety_score_trends' table
 CREATE TABLE safety_score_trends (
@@ -109,12 +115,6 @@ CREATE TABLE safety_score_distribution (
     harness_score DECIMAL(5, 2),
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
-
--- Create a custom ENUM type for incident status
-CREATE TYPE incident_status AS ENUM ('Open', 'Resolved', 'False Alarm');
-
--- Alter the 'status' column in 'incidents' to use the 'incident_status' ENUM type
-ALTER TABLE incidents ALTER COLUMN status TYPE incident_status USING status::TEXT::incident_status;
 
 -- Indexing for Performance Optimization
 CREATE INDEX idx_session_id ON sessions(session_id);
