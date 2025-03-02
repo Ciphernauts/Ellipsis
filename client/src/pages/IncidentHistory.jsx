@@ -3,11 +3,11 @@ import { useOutletContext } from 'react-router-dom';
 import styles from './IncidentHistory.module.css';
 import DefaultImage from '../assets/DefaultImage.png';
 import { formatDate, formatTime } from '../utils/helpers';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
 export default function IncidentHistory() {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
-  const [data, setData] = useState({ incidents: [], filters: {} });
+  const [data, setData] = useState({ incidents: [], constructionSites: [] });
   const [loading, setLoading] = useState(true);
   const [selectedIncidentId, setSelectedIncidentId] = useState(null);
   const [filters, setFilters] = useState({
@@ -16,6 +16,18 @@ export default function IncidentHistory() {
     incident: 'All',
     severity: 'All',
   });
+
+  const incidentTypes = [
+    'All',
+    'Missing helmet',
+    'Improper footwear',
+    'Improper scaffolding',
+    'Missing harness',
+    'Missing vest',
+    'Missing guardrails',
+  ];
+
+  const severityTypes = ['All', 'Moderate', 'Critical'];
 
   useEffect(() => {
     if (!isPaneOpen) {
@@ -30,7 +42,7 @@ export default function IncidentHistory() {
       if (response.data) {
         setData({
           incidents: response.data.incidents,
-          filters: response.data.filters,
+          constructionSites: response.data.constructionSites,
         });
       } else {
         throw new Error('No data returned from API');
@@ -78,11 +90,11 @@ export default function IncidentHistory() {
           },
           {
             id: 4,
-            name: 'Falling worker',
+            name: 'Missing harness',
             site: 'Hilltop Heights Construction',
             time: '2024-12-31T04:49:00Z',
             status: 'Open',
-            isCritical: true,
+            isCritical: false,
             sessionId: 'S0004',
             mode: 'Height',
             device: { name: 'Drone Model Y', type: 'drone' },
@@ -197,12 +209,12 @@ export default function IncidentHistory() {
           },
           {
             id: 14,
-            name: 'Fire hazard',
+            name: 'Improper scaffolding',
             snapshot: 'https://picsum.photos/id/250/200/150',
             site: 'Commercial Building',
             time: '2024-12-25T20:40:00Z',
             status: 'Resolved',
-            isCritical: true,
+            isCritical: false,
             sessionId: 'S0014',
             mode: 'Entry',
             device: { name: 'Drone Model X', type: 'drone' },
@@ -232,26 +244,19 @@ export default function IncidentHistory() {
             device: { name: 'Drone Model Y', type: 'drone' },
           },
         ],
-        filters: {
-          constructionSite: [
-            'All',
-            'Riverside Apartments Project',
-            'Hilltop Heights Construction',
-            'Downtown Mall Construction',
-            'Cedar Lane Residences',
-          ],
-          incident: [
-            'All',
-            'Missing helmet',
-            'Improper footwear',
-            'Improper scaffolding',
-            'Falling worker',
-            'Missing harness',
-            'Missing vest',
-            'Missing guardrails',
-          ],
-          severity: ['All', 'Moderate', 'Critical'],
-        },
+        constructionSites: [
+          'All',
+          'Riverside Apartments Project',
+          'Hilltop Heights Construction',
+          'Downtown Mall Construction',
+          'Cedar Lane Residences',
+          'Skyscraper Construction',
+          'Luxury Condos Project',
+          'Industrial Warehouse',
+          'Commercial Building',
+          'Residential Complex',
+          'Historical Landmark',
+        ],
       });
     } finally {
       setLoading(false);
@@ -326,7 +331,7 @@ export default function IncidentHistory() {
                   handleFilterChange('constructionSite', e.target.value)
                 }
               >
-                {data.filters.constructionSite.map((site) => (
+                {data.constructionSites.map((site) => (
                   <option key={site} value={site}>
                     {site}
                   </option>
@@ -351,7 +356,7 @@ export default function IncidentHistory() {
                 value={filters.incident}
                 onChange={(e) => handleFilterChange('incident', e.target.value)}
               >
-                {data.filters.incident.map((incident) => (
+                {incidentTypes.map((incident) => (
                   <option key={incident} value={incident}>
                     {incident}
                   </option>
@@ -366,7 +371,7 @@ export default function IncidentHistory() {
                 value={filters.severity}
                 onChange={(e) => handleFilterChange('severity', e.target.value)}
               >
-                {data.filters.severity.map((severity) => (
+                {severityTypes.map((severity) => (
                   <option key={severity} value={severity}>
                     {severity}
                   </option>
@@ -375,67 +380,73 @@ export default function IncidentHistory() {
             </div>
           </div>
           <div className={styles.incidentsList}>
-            {filteredIncidents.map((incident) => (
-              <div
-                key={incident.id}
-                className={`${styles.row} ${selectedIncidentId === incident.id ? styles.active : ''} ${incident.isCritical ? styles.critical : ''}`}
-                onClick={() => handleIncidentClick(incident.id)}
-              >
-                <div className={styles.img}>
-                  {incident.snapshot ? (
-                    <img
-                      src={incident.snapshot}
-                      alt=''
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = DefaultImage;
-                      }}
-                    />
-                  ) : (
-                    <img src={DefaultImage} alt='Default' />
-                  )}
-                </div>
-                <div className={styles.desc}>
-                  <div
-                    className={`${styles.incidentName} ${isPaneOpen ? styles.paneOpen : ''}`}
-                  >
-                    {incident.name}
-                    {incident.isCritical && (
-                      <span className={styles.criticalBadge}>Critical</span>
+            {filteredIncidents.length > 0 ? (
+              filteredIncidents.map((incident) => (
+                <div
+                  key={incident.id}
+                  className={`${styles.row} ${selectedIncidentId === incident.id ? styles.active : ''} ${incident.isCritical ? styles.critical : ''}`}
+                  onClick={() => handleIncidentClick(incident.id)}
+                >
+                  <div className={styles.img}>
+                    {incident.snapshot ? (
+                      <img
+                        src={incident.snapshot}
+                        alt=''
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = DefaultImage;
+                        }}
+                      />
+                    ) : (
+                      <img src={DefaultImage} alt='Default' />
                     )}
                   </div>
-                  {!isPaneOpen && (
-                    <div className={styles.site}>{incident.site}</div>
-                  )}
+                  <div className={styles.desc}>
+                    <div
+                      className={`${styles.incidentName} ${isPaneOpen ? styles.paneOpen : ''}`}
+                    >
+                      {incident.name}
+                      {incident.isCritical && (
+                        <span className={styles.criticalBadge}>Critical</span>
+                      )}
+                    </div>
+                    {!isPaneOpen && (
+                      <div className={styles.site}>{incident.site}</div>
+                    )}
+                  </div>
+                  <div
+                    className={`${styles.details} ${isPaneOpen ? styles.paneOpen : ''}`}
+                  >
+                    {incident.status && (
+                      <span className={styles.status}>
+                        <span
+                          className={
+                            styles[
+                              incident.status.toLowerCase().replace(' ', '')
+                            ]
+                          }
+                        >
+                          {incident.status}
+                        </span>
+                      </span>
+                    )}
+                    {incident.time && (
+                      <>
+                        <span className={styles.date}>
+                          {formatDate(incident.time, 'dateOnly')}
+                        </span>
+                        <span className={styles.time}>
+                          {formatTime(incident.time)}
+                        </span>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <div
-                  className={`${styles.details} ${isPaneOpen ? styles.paneOpen : ''}`}
-                >
-                  {incident.status && (
-                    <span className={styles.status}>
-                      <span
-                        className={
-                          styles[incident.status.toLowerCase().replace(' ', '')]
-                        }
-                      >
-                        {incident.status}
-                      </span>
-                    </span>
-                  )}
-                  {incident.time && (
-                    <>
-                      <span className={styles.date}>
-                        {formatDate(incident.time, 'dateOnly')}
-                      </span>
-                      <span className={styles.time}>
-                        {formatTime(incident.time)}
-                      </span>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))
+            ) : (
+              <p>No incidents found.</p>
+            )}
+          </div>{' '}
         </div>
       )}
     </div>
