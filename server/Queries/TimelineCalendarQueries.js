@@ -99,7 +99,6 @@ LEFT JOIN
 GROUP BY
     to_char(s.start_time, 'YYYY-MM-DD');
 `;
-    to_char(s.start_time, 'YYYY-MM-DD');
 
 module.exports = {
     getStatsForMonthAndDays,
