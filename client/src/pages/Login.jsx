@@ -8,6 +8,7 @@ import WaveBackground from '../components/RegisterLogin/WaveBackground';
 import emailIcon from '../assets/email_icon.svg';
 import passwordIcon from '../assets/password_icon.svg';
 import eyeIcon from '../assets/eye_icon.svg';
+import axios from 'axios';
 
 function Login() {
   const navigate = useNavigate();
@@ -23,10 +24,20 @@ function Login() {
     setShowPassword((prev) => !prev);
   };
 
-  const onSubmit = (data) => {
-    console.log('Login Data:', data); // Replace with API call when ready
-    navigate('/dashboard');
-  };
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/users/login", {
+          email: data.email,
+          password: data.password
+      });
+      
+      navigate('/dashboard');
+
+      //alert(res.data.message);
+  } catch (error) {
+      alert("Login failed: " + error.response.data.message);
+  }
+};
 
   return (
     <div className={styles.registerPage}>

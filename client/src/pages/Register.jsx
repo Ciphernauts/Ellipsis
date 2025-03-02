@@ -9,6 +9,7 @@ import emailIcon from '../assets/email_icon.svg';
 import userIcon from '../assets/username_icon.svg';
 import passwordIcon from '../assets/password_icon.svg';
 import eyeIcon from '../assets/eye_icon.svg';
+import axios from 'axios';
 
 function Register() {
   const navigate = useNavigate();
@@ -26,10 +27,20 @@ function Register() {
     setShowPassword((prev) => !prev);
   };
 
-  const onSubmit = (data) => {
-    console.log(data); // Replace with API call when ready
-    navigate('/login');
-  };
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/users/register", {
+          username: data.username,
+          uemail: data.email,
+          password: data.password
+      });
+
+      alert(res.data.message);
+      navigate('/login');
+  } catch (error) {
+      alert("Registration failed: " + error.response.data.message);
+  }
+};
 
   return (
     <div className={styles.registerPage}>
