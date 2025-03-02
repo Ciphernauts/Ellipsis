@@ -8,17 +8,22 @@ const router = Router();
 
 // Fetch all paired cameras
 router.get('/cameras', controller.getAllCameras);
+// client/src/pages/Cameras.jsx: lines 37-133
 
 // Fetch available devices for pairing
 router.get('/available-devices', controller.getAvailableDevices);
+// client/src/pages/Cameras.jsx: lines 141-177
 
 // Connect a camera
 router.post('/connect-camera/:camera_id', controller.connectCamera);
+// client/src/pages/Cameras.jsx: lines 180-191
 
 // Pair an available device
 router.post('/pair-device/:device_id', controller.pairDevice);
+// client/src/pages/Cameras.jsx: lines 194-208
 
 // Delete a camera
 router.delete('/delete-camera/:camera_id', controller.deleteCamera);
+// client/src/pages/Cameras.jsx: lines 121-128
 
 module.exports = router;
