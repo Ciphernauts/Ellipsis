@@ -1,24 +1,17 @@
 const pool = require('../Database/database');
 const queries = require('../Queries/TimelineCalendarQueries');
 
-const getStatsForMonth = (req, res) => {
-    const month = parseInt(req.params.month);
-    pool.query(queries.getStatsForMonth, [month], (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
-}
-
-const getStatsForDay = (req, res) => {
-    const month = parseInt(req.params.month);
-    const day = parseInt(req.params.day);
-    pool.query(queries.getStatsForDay, [month, day], (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
+const getStatsForMonthAndDays = async (req, res) => {
+    const { month, year } = req.params;
+    try {
+        const monthStats = await pool.query(queries.getStatsForMonthAndDays, [month, year]);
+        res.json(monthStats.rows[0].calendar_data);
+    } catch (error) {
+        console.error('Error fetching calendar data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 }
 
 module.exports = {
-    getStatsForMonth,
-    getStatsForDay
+    getStatsForMonthAndDays,
 };
