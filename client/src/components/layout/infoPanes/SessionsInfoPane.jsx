@@ -119,7 +119,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
 
   const updateSession = async (siteId, cameraId) => {
     try {
-      const response = await axios.patch(
+      const response = await axios.put(
         `/api/timeline/sessions/${data.sessionDetails.sessionId}`,
         {
           constructionSiteId: siteId,

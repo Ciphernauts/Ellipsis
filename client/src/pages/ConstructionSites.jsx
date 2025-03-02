@@ -303,7 +303,7 @@ export default function ConstructionSites() {
                 </div>
               ))
             ) : (
-              <p>No construction sites available.</p> // Fallback UI if data is empty or invalid
+              <p>No construction sites available.</p>
             )}
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import styles from './Cameras.module.css';
 import DroneIcon from '../components/icons/DroneIcon';
 import CameraIcon from '../components/icons/CameraIcon';
@@ -17,14 +18,12 @@ export default function Cameras() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if the click is outside the dropdown and the dropdown is active
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target) &&
         isAddingDevice
       ) {
         setIsAddingDevice(false);
-        console.log('closing drop down bcz user pressed putside it');
       }
     };
 
@@ -123,10 +122,8 @@ export default function Cameras() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/cameras');
-      if (!response.ok) throw new Error('Failed to fetch data');
-      const fetchedData = await response.json();
-      setData(fetchedData);
+      const response = await axios.get('/api/cameras');
+      setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
       setData(placeholderData); // Fallback to placeholder data
@@ -144,10 +141,8 @@ export default function Cameras() {
   const fetchAvailableDevices = async () => {
     setDevicesLoading(true);
     try {
-      const response = await fetch('/api/available-devices');
-      if (!response.ok) throw new Error('Failed to fetch available devices');
-      const fetchedDevices = await response.json();
-      setAvailableDevices(fetchedDevices);
+      const response = await axios.get('/api/available-devices');
+      setAvailableDevices(response.data);
     } catch (error) {
       console.error('Error fetching available devices:', error);
       setAvailableDevices([
@@ -184,11 +179,7 @@ export default function Cameras() {
   // Function to handle connecting a camera
   const handleConnectCamera = async (id) => {
     try {
-      const response = await fetch(`/api/connect-camera/${id}`, {
-        method: 'POST',
-      });
-      if (!response.ok) throw new Error('Failed to connect camera');
-      // Update the state to reflect the connection
+      await axios.post(`/api/connect-camera/${id}`);
       setData((prevData) =>
         prevData.map((device) =>
           device.id === id ? { ...device, isConnected: true } : device
@@ -202,11 +193,7 @@ export default function Cameras() {
   // Function to handle pairing an available device
   const handlePairDevice = async (id) => {
     try {
-      const response = await fetch(`/api/pair-device/${id}`, {
-        method: 'POST',
-      });
-      if (!response.ok) throw new Error('Failed to pair device');
-      // Update the state to reflect the paired device
+      await axios.post(`/api/pair-device/${id}`);
       const pairedDevice = availableDevices.find((device) => device.id === id);
       setData((prevData) => [
         ...prevData,
@@ -220,31 +207,21 @@ export default function Cameras() {
     }
   };
 
-  // Function to ooen dropdowm - THERE IS NO API STUFF IN THIS DW
+  // Function to open dropdown - THERE IS NO API STUFF IN THIS DW
   const handleAddDevice = () => {
     if (isAddingDevice) {
-      // If the dropdown is already open, just close it
       setIsAddingDevice(false);
-      console.log('closing drop down bcz user pressed on button');
     } else {
-      // If the dropdown is closed, open it and fetch available devices
       setIsAddingDevice(true);
       fetchAvailableDevices();
-      console.log('opening drop down bcz user pressed on button');
     }
   };
 
   // Function to handle deleting a device
   const handleDeleteDevice = async (id) => {
     try {
-      const response = await fetch(`/api/delete-camera/${id}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        setData((prevData) => prevData.filter((device) => device.id !== id));
-      } else {
-        console.error('Failed to delete camera');
-      }
+      await axios.delete(`/api/delete-camera/${id}`);
+      setData((prevData) => prevData.filter((device) => device.id !== id));
     } catch (error) {
       console.error('Error deleting camera:', error);
     }
@@ -299,7 +276,7 @@ export default function Cameras() {
       <div className={styles.content}>
         {loading ? (
           <p>Loading...</p>
-        ) : (
+        ) : data.length > 0 ? (
           data.map((camera) => (
             <div key={camera.id} className={styles.row}>
               <div className={styles.icon}>
@@ -364,8 +341,10 @@ export default function Cameras() {
               </div>
             </div>
           ))
+        ) : (
+          <p>No cameras found.</p>
         )}
-      </div>
+      </div>{' '}
     </div>
   );
 }
