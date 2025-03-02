@@ -21,27 +21,24 @@ SELECT * FROM phase_1_detections;
 CREATE TABLE construction_sites (
     site_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    location VARCHAR(255) NULL,
     status VARCHAR(20),
     safetyScore DECIMAL(5, 2),
     snapshots TEXT
 );
 
--- Define a custom ENUM type 'site_status'
-CREATE TYPE site_status AS ENUM ('Active', 'Completed', 'Inactive'); -- remove completed
+-- Define a custom ENUM type 'site_status' (without 'Completed')
+CREATE TYPE site_status AS ENUM ('Active', 'Inactive');
 
 -- Alter the 'status' column in 'construction_sites' to use the 'site_status' ENUM type
 ALTER TABLE construction_sites ALTER COLUMN status TYPE site_status USING status::site_status;
 
--- Set the default value of the 'status' column to 'Active'
-ALTER TABLE construction_sites ALTER COLUMN status SET DEFAULT 'Active'::site_status;
+-- Set the default value of the 'status' column to 'Inactive'
+ALTER TABLE construction_sites ALTER COLUMN status SET DEFAULT 'Inactive'::site_status;
 
 -- Create the 'cameras' table
 CREATE TABLE cameras (
     camera_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    model VARCHAR(255) NULL,
-    location VARCHAR(255) NULL,
     site_id INT,
     type VARCHAR(50) NOT NULL,
     online BOOLEAN,
@@ -76,14 +73,13 @@ CREATE TABLE snapshots (
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
 
--- Define a custom ENUM type 'incident_severity'
-CREATE TYPE incident_severity AS ENUM ('Low', 'Moderate', 'Critical'); --remove low, replace high with critical
+-- Define a custom ENUM type 'incident_severity' (without 'Low')
+CREATE TYPE incident_severity AS ENUM ('Moderate', 'Critical');
 
--- Create the 'incidents' table
+-- Create the 'incidents' table (without 'description')
 CREATE TABLE incidents (
     incident_id SERIAL PRIMARY KEY,
     session_id VARCHAR(10),
-    description TEXT NOT NULL, -- CAN REMOVE 
     incident_time TIMESTAMP NOT NULL,
     severity incident_severity NOT NULL,
     status VARCHAR(50) NOT NULL,
@@ -91,13 +87,11 @@ CREATE TABLE incidents (
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
 
--- STATUS IS ENUM OPEN RESOLVED FALSE ALARM
-
 -- Create the 'safety_score_trends' table
 CREATE TABLE safety_score_trends (
-    trend_id SERIAL PRIMARY KEY, 
+    trend_id SERIAL PRIMARY KEY,
     session_id VARCHAR(10),
-    "timestamp" TIMESTAMP NOT NULL, --UNIQUE
+    "timestamp" TIMESTAMP NOT NULL,
     score DECIMAL(5,2) NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
@@ -115,6 +109,12 @@ CREATE TABLE safety_score_distribution (
     harness_score DECIMAL(5, 2),
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
+
+-- Create a custom ENUM type for incident status
+CREATE TYPE incident_status AS ENUM ('Open', 'Resolved', 'False Alarm');
+
+-- Alter the 'status' column in 'incidents' to use the 'incident_status' ENUM type
+ALTER TABLE incidents ALTER COLUMN status TYPE incident_status USING status::TEXT::incident_status;
 
 -- Indexing for Performance Optimization
 CREATE INDEX idx_session_id ON sessions(session_id);
