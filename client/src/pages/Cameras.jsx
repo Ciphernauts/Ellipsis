@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './Cameras.module.css';
 import DroneIcon from '../components/icons/DroneIcon';
 import CameraIcon from '../components/icons/CameraIcon';
 import TickIcon from '../components/icons/TickIcon';
 import ConnectIcon from '../components/icons/ConnectIcon';
 import PlusIcon from '../components/icons/PlusIcon';
+import { truncateText, formatDate } from '../utils/helpers';
 
 export default function Cameras() {
   const [data, setData] = useState([]);
@@ -12,163 +13,241 @@ export default function Cameras() {
   const [isAddingDevice, setIsAddingDevice] = useState(false);
   const [availableDevices, setAvailableDevices] = useState([]);
   const [devicesLoading, setDevicesLoading] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the click is outside the dropdown and the dropdown is active
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        isAddingDevice
+      ) {
+        setIsAddingDevice(false);
+        console.log('closing drop down bcz user pressed putside it');
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isAddingDevice]);
 
   // PLACEHOLDER DATA
-  useEffect(() => {
-    const fetchedData = [
-      {
-        id: 1,
-        name: 'DJI Matrice 300 RTK',
-        type: 'drone',
-        isOnline: true,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: true,
-      },
-      {
-        id: 2,
-        name: 'FLIR Quasar 4K IR PTZ',
-        type: 'camera',
-        isOnline: true,
-        lastSyncedDate: null,
-        isConnected: true,
-      },
-      {
-        id: 3,
-        name: 'Axis P1448-LE',
-        type: 'camera',
-        isOnline: true,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: false,
-      },
-      {
-        id: 4,
-        name: 'Anali USA',
-        type: 'camera',
-        isOnline: true,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: false,
-      },
-      {
-        id: 5,
-        name: 'Auto! Robotics EVO II Pro',
-        type: 'drone',
-        isOnline: false,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: false,
-      },
-      {
-        id: 6,
-        name: 'Skydio 2+',
-        type: 'drone',
-        isOnline: false,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: false,
-      },
-      {
-        id: 7,
-        name: 'Bosch FLEXIDOME IP starlight 8000i',
-        type: 'camera',
-        isOnline: false,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: false,
-      },
-      {
-        id: 8,
-        name: 'Hikvision DS-2CD2387G2-LU',
-        type: 'camera',
-        isOnline: false,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: false,
-      },
-      {
-        id: 9,
-        name: 'DJI Inspire 3',
-        type: 'drone',
-        isOnline: false,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: false,
-      },
-      {
-        id: 10,
-        name: 'Sony SNC-VM772R',
-        type: 'camera',
-        isOnline: false,
-        lastSyncedDate: '2025-01-01T14:00:00',
-        isConnected: false,
-      },
-    ];
-    setData(fetchedData);
-    setLoading(false);
-  }, []);
+  const placeholderData = [
+    {
+      id: 1,
+      name: 'DJI Matrice 300 RTK',
+      type: 'drone',
+      isOnline: true,
+      lastSyncedDate: null,
+      isConnected: true,
+    },
+    {
+      id: 2,
+      name: 'FLIR Quasar 4K IR PTZ',
+      type: 'camera',
+      isOnline: true,
+      lastSyncedDate: null,
+      isConnected: true,
+    },
+    {
+      id: 3,
+      name: 'Axis P1448-LE',
+      type: 'camera',
+      isOnline: true,
+      lastSyncedDate: '2025-01-01T14:00:00',
+      isConnected: false,
+    },
+    {
+      id: 4,
+      name: 'Anali USA',
+      type: 'camera',
+      isOnline: true,
+      lastSyncedDate: '2025-01-01T14:00:00',
+      isConnected: false,
+    },
+    {
+      id: 5,
+      name: 'Auto! Robotics EVO II Pro',
+      type: 'drone',
+      isOnline: false,
+      lastSyncedDate: '2024-12-31T08:00:00',
+      isConnected: false,
+    },
+    {
+      id: 6,
+      name: 'Skydio 2+',
+      type: 'drone',
+      isOnline: false,
+      lastSyncedDate: '2024-12-31T08:00:00',
+      isConnected: false,
+    },
+    {
+      id: 7,
+      name: 'Bosch FLEXIDOME IP starlight 8000i',
+      type: 'camera',
+      isOnline: false,
+      lastSyncedDate: '2024-12-30T09:00:00',
+      isConnected: false,
+    },
+    {
+      id: 8,
+      name: 'Hikvision DS-2CD2387G2-LU',
+      type: 'camera',
+      isOnline: false,
+      lastSyncedDate: '2024-11-12T10:00:00',
+      isConnected: false,
+    },
+    {
+      id: 9,
+      name: 'DJI Inspire 3',
+      type: 'drone',
+      isOnline: false,
+      lastSyncedDate: '2024-09-22T22:22:22',
+      isConnected: false,
+    },
+    {
+      id: 10,
+      name: 'Sony SNC-VM772R',
+      type: 'camera',
+      isOnline: false,
+      lastSyncedDate: '2024-08-17T08:00:00',
+      isConnected: false,
+    },
+  ];
 
-  // Function to format date and time as "1st January 2025 2:02 PM"
-  const formatDateTime = (dateString) => {
-    if (!dateString) return null;
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const year = date.getFullYear();
-    const time = date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-    return `${day}${getDaySuffix(day)} ${month} ${year} ${time}`;
-  };
-
-  // Helper function to get the suffix for the day (st, nd, rd, th)
-  const getDaySuffix = (day) => {
-    if (day > 3 && day < 21) return 'th';
-    switch (day % 10) {
-      case 1:
-        return 'st';
-      case 2:
-        return 'nd';
-      case 3:
-        return 'rd';
-      default:
-        return 'th';
+  // Function to fetch data
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/cameras');
+      if (!response.ok) throw new Error('Failed to fetch data');
+      const fetchedData = await response.json();
+      setData(fetchedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setData(placeholderData); // Fallback to placeholder data
+    } finally {
+      setLoading(false);
     }
   };
+
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // Function to fetch available devices
   const fetchAvailableDevices = async () => {
     setDevicesLoading(true);
-    // Simulate API call to fetch available devices
-    const fetchedDevices = [
-      {
-        id: 11,
-        name: 'Pelco Spectra 7 PTZ',
-        type: 'camera',
-        status: 'Ready to pair',
-      },
-      {
-        id: 12,
-        name: 'Yuneec H520E',
-        type: 'drone',
-        status: 'Ready to pair',
-      },
-      {
-        id: 13,
-        name: 'Freefly Alta X',
-        type: 'drone',
-        status: 'Connecting...',
-      },
-      {
-        id: 14,
-        name: 'Hikvision DS-2CD2387G...',
-        type: 'camera',
-        status: 'Connecting...',
-      },
-    ];
-    setAvailableDevices(fetchedDevices);
-    setDevicesLoading(false);
+    try {
+      const response = await fetch('/api/available-devices');
+      if (!response.ok) throw new Error('Failed to fetch available devices');
+      const fetchedDevices = await response.json();
+      setAvailableDevices(fetchedDevices);
+    } catch (error) {
+      console.error('Error fetching available devices:', error);
+      setAvailableDevices([
+        {
+          id: 11,
+          name: 'Pelco Spectra 7 PTZ',
+          type: 'camera',
+          isConnecting: false,
+        },
+        {
+          id: 12,
+          name: 'Yuneec H520E',
+          type: 'drone',
+          isConnecting: false,
+        },
+        {
+          id: 13,
+          name: 'Freefly Alta X',
+          type: 'drone',
+          isConnecting: true,
+        },
+        {
+          id: 14,
+          name: 'Hikvision DS-2CD2387G2-LU',
+          type: 'camera',
+          isConnecting: true,
+        },
+      ]); // Fallback to placeholder data
+    } finally {
+      setDevicesLoading(false);
+    }
   };
 
-  // Function to handle adding a new device
+  // Function to handle connecting a camera
+  const handleConnectCamera = async (id) => {
+    try {
+      const response = await fetch(`/api/connect-camera/${id}`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to connect camera');
+      // Update the state to reflect the connection
+      setData((prevData) =>
+        prevData.map((device) =>
+          device.id === id ? { ...device, isConnected: true } : device
+        )
+      );
+    } catch (error) {
+      console.error('Error connecting camera:', error);
+    }
+  };
+
+  // Function to handle pairing an available device
+  const handlePairDevice = async (id) => {
+    try {
+      const response = await fetch(`/api/pair-device/${id}`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to pair device');
+      // Update the state to reflect the paired device
+      const pairedDevice = availableDevices.find((device) => device.id === id);
+      setData((prevData) => [
+        ...prevData,
+        { ...pairedDevice, isConnected: true },
+      ]);
+      setAvailableDevices((prevDevices) =>
+        prevDevices.filter((device) => device.id !== id)
+      );
+    } catch (error) {
+      console.error('Error pairing device:', error);
+    }
+  };
+
+  // Function to ooen dropdowm - THERE IS NO API STUFF IN THIS DW
   const handleAddDevice = () => {
-    setIsAddingDevice(true);
-    fetchAvailableDevices();
+    if (isAddingDevice) {
+      // If the dropdown is already open, just close it
+      setIsAddingDevice(false);
+      console.log('closing drop down bcz user pressed on button');
+    } else {
+      // If the dropdown is closed, open it and fetch available devices
+      setIsAddingDevice(true);
+      fetchAvailableDevices();
+      console.log('opening drop down bcz user pressed on button');
+    }
+  };
+
+  // Function to handle deleting a device
+  const handleDeleteDevice = async (id) => {
+    try {
+      const response = await fetch(`/api/delete-camera/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        setData((prevData) => prevData.filter((device) => device.id !== id));
+      } else {
+        console.error('Failed to delete camera');
+      }
+    } catch (error) {
+      console.error('Error deleting camera:', error);
+    }
   };
 
   return (
@@ -176,21 +255,40 @@ export default function Cameras() {
       <h1>Cameras</h1>
       <div className={styles.heading}>
         <h2>Paired Devices</h2>
-        <div className={styles.addDeviceContainer}>
-          <button className={styles.addDeviceButton} onClick={handleAddDevice}>
+        <div className={styles.addDeviceContainer} ref={dropdownRef}>
+          <button
+            className={`${styles.addDeviceButton} ${isAddingDevice ? styles.active : ''}`}
+            onClick={handleAddDevice}
+          >
             <PlusIcon />
             Add Device
           </button>
           {isAddingDevice && (
             <div className={styles.dropdown}>
+              <h3>Available Devices</h3>
               {devicesLoading ? (
                 <p>Loading available devices...</p>
               ) : (
                 availableDevices.map((device) => (
-                  <div key={device.id} className={styles.dropdownItem}>
-                    <div className={styles.deviceName}>{device.name}</div>
+                  <div
+                    key={device.id}
+                    className={styles.dropdownItem}
+                    onClick={() => handlePairDevice(device.id)}
+                  >
+                    <div className={styles.deviceName}>
+                      {truncateText(device.name, 23)}
+                    </div>
                     <div className={styles.deviceType}>{device.type}</div>
-                    <div className={styles.deviceStatus}>{device.status}</div>
+                    <div className={styles.deviceStatus}>
+                      {device.isConnecting ? (
+                        'Connecting...'
+                      ) : (
+                        <span>
+                          <TickIcon />
+                          Ready to pair
+                        </span>
+                      )}
+                    </div>
                   </div>
                 ))
               )}
@@ -219,18 +317,25 @@ export default function Cameras() {
                 </span>
               </div>
               <div className={styles.lastSynced}>
-                {camera.lastSyncedDate
-                  ? formatDateTime(camera.lastSyncedDate)
-                  : 'Not synced'}
+                {camera.isConnected
+                  ? ''
+                  : camera.lastSyncedDate
+                    ? 'Last Synced: ' +
+                      formatDate(camera.lastSyncedDate, 'long')
+                    : 'Not synced'}
               </div>
               <div className={styles.connectButtonContainer}>
                 {camera.isConnected ? (
-                  <button className={styles.connectButton}>
+                  <span className={styles.connected} disabled={true}>
                     <TickIcon />
                     Connected
-                  </button>
+                  </span>
                 ) : (
-                  <button className={styles.connectedButton}>
+                  <button
+                    className={styles.connectButton}
+                    disabled={camera.isOnline ? false : true}
+                    onClick={() => handleConnectCamera(camera.id)}
+                  >
                     <ConnectIcon />
                     Connect
                   </button>
@@ -240,7 +345,7 @@ export default function Cameras() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    // Handle delete functionality here
+                    handleDeleteDevice(camera.id);
                   }}
                 >
                   <svg
