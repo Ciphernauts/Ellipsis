@@ -3,6 +3,6 @@ const controller = require('../Controllers/TimelineCalendar.js');
 
 const router = Router();
 
-router.get('timeline/calendar/:month/:year', controller.getStatsForMonth); // changed this to include year
+router.get('timeline/calendar/:month/:year', controller.getStatsForMonthAndDays); // changed this to include year
 
 module.exports = router;

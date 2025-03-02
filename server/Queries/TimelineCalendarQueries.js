@@ -1,7 +1,5 @@
-// const getStatsForMonth=
-// const getStatsForDay=
+// const getStatsForMonthAndDays=
 
 module.exports = {
-    getStatsForMonth,
-    getStatsForDay
+    getStatsForMonthAndDays,
 };
