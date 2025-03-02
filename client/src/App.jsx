@@ -16,6 +16,7 @@ import TimelineSessions from './pages/TimelineSessions';
 import IncidentTrends from './pages/IncidentTrends';
 import IncidentHistory from './pages/IncidentHistory';
 import ConstructionSites from './pages/ConstructionSites';
+import Cameras from './pages/Cameras';
 import ChangeMode from './pages/ChangeMode';
 import Settings from './pages/Settings';
 import Register from './pages/Register';
@@ -76,7 +77,7 @@ const App = () => {
           />
 
           <Route path='/construction-sites' element={<ConstructionSites />} />
-          <Route path='/cameras' element={<Dashboard />} />
+          <Route path='/cameras' element={<Cameras />} />
           <Route path='/change-mode' element={<ChangeMode />} />
           <Route path='/settings' element={<Settings />} />
         </Route>
