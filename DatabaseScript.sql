@@ -28,7 +28,7 @@ CREATE TABLE construction_sites (
 );
 
 -- Define a custom ENUM type 'site_status'
-CREATE TYPE site_status AS ENUM ('Active', 'Completed', 'Inactive');
+CREATE TYPE site_status AS ENUM ('Active', 'Completed', 'Inactive'); -- remove completed
 
 -- Alter the 'status' column in 'construction_sites' to use the 'site_status' ENUM type
 ALTER TABLE construction_sites ALTER COLUMN status TYPE site_status USING status::site_status;
@@ -77,13 +77,13 @@ CREATE TABLE snapshots (
 );
 
 -- Define a custom ENUM type 'incident_severity'
-CREATE TYPE incident_severity AS ENUM ('Low', 'Moderate', 'Critical');
+CREATE TYPE incident_severity AS ENUM ('Low', 'Moderate', 'Critical'); --remove low, replace high with critical
 
 -- Create the 'incidents' table
 CREATE TABLE incidents (
     incident_id SERIAL PRIMARY KEY,
     session_id VARCHAR(10),
-    description TEXT NOT NULL,
+    description TEXT NOT NULL, -- CAN REMOVE 
     incident_time TIMESTAMP NOT NULL,
     severity incident_severity NOT NULL,
     status VARCHAR(50) NOT NULL,
@@ -91,11 +91,13 @@ CREATE TABLE incidents (
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
 
+-- STATUS IS ENUM OPEN RESOLVED FALSE ALARM
+
 -- Create the 'safety_score_trends' table
 CREATE TABLE safety_score_trends (
-    trend_id SERIAL PRIMARY KEY,
+    trend_id SERIAL PRIMARY KEY, 
     session_id VARCHAR(10),
-    "timestamp" TIMESTAMP NOT NULL,
+    "timestamp" TIMESTAMP NOT NULL, --UNIQUE
     score DECIMAL(5,2) NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
@@ -170,6 +172,7 @@ INSERT INTO construction_sites (name, location, status, safetyScore, snapshots) 
         "https://picsum.photos/id/82/200/150"
     }'::TEXT);
 
+--remove location
 
 INSERT INTO cameras (name, model, location, site_id, type, online, connected, last_synced_time) VALUES
     ('DJI Matrice 300 RTK', 'M300', 'Building A', 1, 'drone', TRUE, TRUE, '2025-03-01 16:15:00'),
@@ -182,6 +185,8 @@ INSERT INTO cameras (name, model, location, site_id, type, online, connected, la
     ('Hikvision DS-2CD2387G2-LU', 'HD2387', 'Entrance', 6, 'camera', FALSE, TRUE, '2025-03-01 09:20:00'),
     ('DJI Inspire 3', 'DI3', 'Building A', 7, 'drone', TRUE, TRUE, '2025-03-01 15:50:00'),
     ('Sony SNC-VM772R', 'SSVM772', 'Building B', 7, 'camera', TRUE, TRUE, '2025-03-01 13:15:00');
+
+--remove model, location, site_id
 
 
 
@@ -593,7 +598,7 @@ INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
 
 
 
--- INCIDENTS
+-- INCIDENTS --DESC  IS NAME SHOULD BE ENUM
 
 
 -- Incidents for session S0028 (safety_score = 82.5) - Moderate severity
