@@ -3,6 +3,7 @@ import styles from './ConstructionSites.module.css';
 import { useOutletContext } from 'react-router-dom';
 import PlusIcon from '../components/icons/PlusIcon';
 import DefaultImage from '../assets/DefaultImage.png';
+import { formatDate } from '../utils/helpers';
 
 export default function ConstructionSites() {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
@@ -13,41 +14,11 @@ export default function ConstructionSites() {
   const [newSiteName, setNewSiteName] = useState('');
   const [placeholder, setPlaceholder] = useState('Enter site name'); // Placeholder as state
 
-  // Helper function to format date and time as "31st December 3:46 PM"
-  const formatDateTime = (dateString) => {
-    if (!dateString) return nul;
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const daySuffix = getDaySuffix(day);
-    const time = date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-    return `${day}${daySuffix} ${month} ${time}`;
-  };
-
   useEffect(() => {
     if (!isPaneOpen) {
       setSelectedSiteId(null); // Clear selection when pane closes
     }
   }, [isPaneOpen]);
-
-  // Helper function to get the suffix for the day (st, nd, rd, th)
-  const getDaySuffix = (day) => {
-    if (day > 3 && day < 21) return 'th'; // 11th, 12th, 13th, etc.
-    switch (day % 10) {
-      case 1:
-        return 'st';
-      case 2:
-        return 'nd';
-      case 3:
-        return 'rd';
-      default:
-        return 'th';
-    }
-  };
 
   // Handle site click
   const handleSiteClick = (id) => {
@@ -310,7 +281,7 @@ export default function ConstructionSites() {
                   </div>
                   <div className={styles.time}>
                     {site.lastReport
-                      ? `Last report: ${formatDateTime(site.lastReport)}`
+                      ? `Last report: ${formatDate(site.lastReport, 'long')}`
                       : 'No records yet'}
                   </div>
                 </div>

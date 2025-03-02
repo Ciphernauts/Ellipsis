@@ -4,14 +4,14 @@ import styles from './RecentIncidents.module.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { formatDate } from '../../utils/helpers';
 
 export default function RecentIncidents({ data, className, isPWA = false }) {
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const time = `${date.getHours() % 12 || 12}:${date.getMinutes().toString().padStart(2, '0')}`;
     const am = date.getHours() < 12;
-    const dateFormatted = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
-
+    const dateFormatted = formatDate(timestamp, 'veryshort');
     return { time, am, dateFormatted };
   };
 

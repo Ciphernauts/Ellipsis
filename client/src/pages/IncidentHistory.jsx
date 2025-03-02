@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import styles from './IncidentHistory.module.css';
 import DefaultImage from '../assets/DefaultImage.png';
+import { formatDate, formatTime } from '../utils/helpers';
 
 export default function IncidentHistory() {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
@@ -20,41 +21,6 @@ export default function IncidentHistory() {
       setSelectedIncidentId(null); // Clear selection when pane closes
     }
   }, [isPaneOpen]);
-
-  // Helper function to format time as HH:MM am/pm
-  const formatTime = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
-
-  // Helper function to format date as "31st December 2024"
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const year = date.getFullYear();
-    const daySuffix = getDaySuffix(day);
-    return `${day}${daySuffix} ${month} ${year}`;
-  };
-
-  // Helper function to get the suffix for the day (st, nd, rd, th)
-  const getDaySuffix = (day) => {
-    if (day > 3 && day < 21) return 'th'; // 11th, 12th, 13th, etc.
-    switch (day % 10) {
-      case 1:
-        return 'st';
-      case 2:
-        return 'nd';
-      case 3:
-        return 'rd';
-      default:
-        return 'th';
-    }
-  };
 
   // Handle incident click
   const handleIncidentClick = (id) => {
@@ -440,7 +406,7 @@ export default function IncidentHistory() {
                   {incident.time && (
                     <>
                       <span className={styles.date}>
-                        {formatDate(incident.time)}
+                        {formatDate(incident.time, 'dateOnly')}
                       </span>
                       <span className={styles.time}>
                         {formatTime(incident.time)}
