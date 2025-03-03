@@ -11,10 +11,14 @@ const getAllCameras = (req, res) => {
 const connectCamera = (req, res) => {
     const id = parseInt(req.params.id);
     pool.query(queries.connectCamera, [id], (error) => {
-        if (error) throw error;
+        if (error) {
+            console.error(error);
+            return res.status(500).send(`Error connecting camera with ID ${id}`);
+        }
         res.status(200).send(`Camera with ID ${id} connected.`);
     });
 };
+
 
 const getAvailableDevices = (req, res) => {
     pool.query(queries.getAvailableDevices, (error, results) => {

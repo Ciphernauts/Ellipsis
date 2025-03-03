@@ -37,7 +37,7 @@ export default function Cameras() {
   // PLACEHOLDER DATA
   const placeholderData = [
     {
-      id: 1,
+      camera_id: 1,
       name: 'DJI Matrice 300 RTK',
       type: 'drone',
       isOnline: true,
@@ -45,7 +45,7 @@ export default function Cameras() {
       isConnected: true,
     },
     {
-      id: 2,
+      camera_id: 2,
       name: 'FLIR Quasar 4K IR PTZ',
       type: 'camera',
       isOnline: true,
@@ -53,7 +53,7 @@ export default function Cameras() {
       isConnected: true,
     },
     {
-      id: 3,
+      camera_id: 3,
       name: 'Axis P1448-LE',
       type: 'camera',
       isOnline: true,
@@ -61,7 +61,7 @@ export default function Cameras() {
       isConnected: false,
     },
     {
-      id: 4,
+      camera_id: 4,
       name: 'Anali USA',
       type: 'camera',
       isOnline: true,
@@ -69,7 +69,7 @@ export default function Cameras() {
       isConnected: false,
     },
     {
-      id: 5,
+      camera_id: 5,
       name: 'Auto! Robotics EVO II Pro',
       type: 'drone',
       isOnline: false,
@@ -77,7 +77,7 @@ export default function Cameras() {
       isConnected: false,
     },
     {
-      id: 6,
+      camera_id: 6,
       name: 'Skydio 2+',
       type: 'drone',
       isOnline: false,
@@ -85,7 +85,7 @@ export default function Cameras() {
       isConnected: false,
     },
     {
-      id: 7,
+      camera_id: 7,
       name: 'Bosch FLEXIDOME IP starlight 8000i',
       type: 'camera',
       isOnline: false,
@@ -93,7 +93,7 @@ export default function Cameras() {
       isConnected: false,
     },
     {
-      id: 8,
+      camera_id: 8,
       name: 'Hikvision DS-2CD2387G2-LU',
       type: 'camera',
       isOnline: false,
@@ -101,7 +101,7 @@ export default function Cameras() {
       isConnected: false,
     },
     {
-      id: 9,
+      camera_id: 9,
       name: 'DJI Inspire 3',
       type: 'drone',
       isOnline: false,
@@ -109,7 +109,7 @@ export default function Cameras() {
       isConnected: false,
     },
     {
-      id: 10,
+      camera_id: 10,
       name: 'Sony SNC-VM772R',
       type: 'camera',
       isOnline: false,
@@ -117,12 +117,12 @@ export default function Cameras() {
       isConnected: false,
     },
   ];
-
+  
   // Function to fetch data
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/cameras');
+      const response = await axios.get('http://localhost:3000/api/cameras');
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -141,31 +141,31 @@ export default function Cameras() {
   const fetchAvailableDevices = async () => {
     setDevicesLoading(true);
     try {
-      const response = await axios.get('/api/available-devices');
+      const response = await axios.get('http://localhost:3000/api/available-devices');
       setAvailableDevices(response.data);
     } catch (error) {
       console.error('Error fetching available devices:', error);
       setAvailableDevices([
         {
-          id: 11,
-          name: 'Pelco Spectra 7 PTZ',
+          camera_id: 11,
+          name: 'Pelca Spectra 7 PTZ',
           type: 'camera',
           isConnecting: false,
         },
         {
-          id: 12,
+          camera_id: 12,
           name: 'Yuneec H520E',
           type: 'drone',
           isConnecting: false,
         },
         {
-          id: 13,
+          camera_id: 13,
           name: 'Freefly Alta X',
           type: 'drone',
           isConnecting: true,
         },
         {
-          id: 14,
+          camera_id: 14,
           name: 'Hikvision DS-2CD2387G2-LU',
           type: 'camera',
           isConnecting: true,
@@ -177,12 +177,12 @@ export default function Cameras() {
   };
 
   // Function to handle connecting a camera
-  const handleConnectCamera = async (id) => {
+  const handleConnectCamera = async (camera_id) => {
     try {
-      await axios.post(`/api/connect-camera/${id}`);
+      await axios.post(`http://localhost:3000/api/connect-camera/${camera_id}`);
       setData((prevData) =>
         prevData.map((device) =>
-          device.id === id ? { ...device, isConnected: true } : device
+          device.id === camera_id ? { ...device, connected: true } : device
         )
       );
     } catch (error) {
@@ -191,16 +191,16 @@ export default function Cameras() {
   };
 
   // Function to handle pairing an available device
-  const handlePairDevice = async (id) => {
+  const handlePairDevice = async (camera_id) => {
     try {
-      await axios.post(`/api/pair-device/${id}`);
-      const pairedDevice = availableDevices.find((device) => device.id === id);
+      await axios.post(`http://localhost:3000/api/pair-device/${camera_id}`);
+      const pairedDevice = availableDevices.find((device) => device.id === camera_id);
       setData((prevData) => [
         ...prevData,
-        { ...pairedDevice, isConnected: true },
+        { ...pairedDevice, connected: true },
       ]);
       setAvailableDevices((prevDevices) =>
-        prevDevices.filter((device) => device.id !== id)
+        prevDevices.filter((device) => device.id !== camera_id)
       );
     } catch (error) {
       console.error('Error pairing device:', error);
@@ -218,10 +218,10 @@ export default function Cameras() {
   };
 
   // Function to handle deleting a device
-  const handleDeleteDevice = async (id) => {
+  const handleDeleteDevice = async (camera_id) => {
     try {
-      await axios.delete(`/api/delete-camera/${id}`);
-      setData((prevData) => prevData.filter((device) => device.id !== id));
+      await axios.delete(`http://localhost:3000/api/delete-camera/${camera_id}`);
+      setData((prevData) => prevData.filter((device) => device.id !== camera_id));
     } catch (error) {
       console.error('Error deleting camera:', error);
     }
@@ -278,7 +278,7 @@ export default function Cameras() {
           <p>Loading...</p>
         ) : data.length > 0 ? (
           data.map((camera) => (
-            <div key={camera.id} className={styles.row}>
+            <div key={camera.camera_id} className={styles.row}>
               <div className={styles.icon}>
                 {camera.type === 'drone' ? <DroneIcon /> : <CameraIcon />}
               </div>
@@ -286,15 +286,15 @@ export default function Cameras() {
               <div className={styles.status}>
                 <span
                   className={
-                    camera.isOnline ? styles.onlineDot : styles.offlineDot
+                    camera.online ? styles.onlineDot : styles.offlineDot
                   }
                 />
                 <span className={styles.statusText}>
-                  {camera.isOnline ? 'Online' : 'Offline'}
+                  {camera.online ? 'Online' : 'Offline'}
                 </span>
               </div>
               <div className={styles.lastSynced}>
-                {camera.isConnected
+                {camera.connected
                   ? ''
                   : camera.lastSyncedDate
                     ? 'Last Synced: ' +
@@ -302,7 +302,7 @@ export default function Cameras() {
                     : 'Not synced'}
               </div>
               <div className={styles.connectButtonContainer}>
-                {camera.isConnected ? (
+                {camera.connected ? (
                   <span className={styles.connected} disabled={true}>
                     <TickIcon />
                     Connected
@@ -310,8 +310,8 @@ export default function Cameras() {
                 ) : (
                   <button
                     className={styles.connectButton}
-                    disabled={camera.isOnline ? false : true}
-                    onClick={() => handleConnectCamera(camera.id)}
+                    disabled={camera.online ? false : true}
+                    onClick={() => { console.log('Connecting camera with id:', camera.camera_id); handleConnectCamera(camera.camera_id)}}
                   >
                     <ConnectIcon />
                     Connect
@@ -322,7 +322,7 @@ export default function Cameras() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDeleteDevice(camera.id);
+                    handleDeleteDevice(camera.camera_id);
                   }}
                 >
                   <svg
