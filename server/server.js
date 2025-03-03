@@ -4,6 +4,11 @@ const dotenv = require('dotenv');
 const path = require("path");
 const { fileURLToPath } = require("url");
 const userRoutes = require("./Routes/UserRoutes");
+const timelineSessionsRoutes = require("./Routes/TimelineSessionsRoutes");
+const timelineCalendarRoutes = require("./Routes/TimelineCalendarRoutes");
+const incidentTrendsRoutes = require("./Routes/IncidentTrendsRoutes");
+const incidentHistoryRoutes = require("./Routes/IncidentHistoryRoutes");
+const constructionSitesRoutes = require("./Routes/ConstructionSitesRoutes");
 
 //const __filename = fileURLToPath(import.meta.url);
 //const __dirname = path.dirname(__filename);
@@ -21,5 +26,10 @@ app.get("/", (req,res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('', timelineSessionsRoutes);
+app.use('', timelineCalendarRoutes);
+app.use('', incidentTrendsRoutes);
+app.use('', incidentHistoryRoutes);
+app.use('', constructionSitesRoutes);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

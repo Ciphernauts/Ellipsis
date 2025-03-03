@@ -22,8 +22,20 @@ import Settings from './pages/Settings';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
+
+
 const App = () => {
   const isStandalone = isPWA();
+
+  fetch('http://localhost:3000/')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message); // "Welcome to the Ellipsis Website!"
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
   console.log('is PWA: ', isStandalone);
 
   return (
