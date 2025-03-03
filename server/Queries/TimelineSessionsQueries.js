@@ -67,13 +67,13 @@ const getSessionById = `WITH SessionData AS (
   JOIN cameras AS c
     ON s.camera_id = c.camera_id
   WHERE
-    s.session_id = $1
+    s.session_id = $1 -- Use a parameter for session_id
 ), Snapshots AS (
   SELECT
     JSON_AGG(image_url) AS snapshots
   FROM snapshots
   WHERE
-    session_id = $1
+    session_id = $1 -- Use the same parameter for session_id
 ), Trends AS (
   SELECT
     JSON_AGG(
@@ -84,7 +84,7 @@ const getSessionById = `WITH SessionData AS (
     ) AS trends
   FROM safety_score_trends
   WHERE
-    session_id = $1
+    session_id = $1 -- Use the same parameter for session_id
 ), Distribution AS (
   SELECT
     helmet_score,
@@ -92,59 +92,34 @@ const getSessionById = `WITH SessionData AS (
     vest_score
   FROM safety_score_distribution
   WHERE
-    session_id = $1
+    session_id = $1 -- Use the same parameter for session_id
 )
 SELECT
   JSON_BUILD_OBJECT(
-    'sessionDetails', (
-      SELECT
-        JSON_BUILD_OBJECT(
-          'sessionId', sd.session_id,
-          'constructionSite', JSON_BUILD_OBJECT('id', sd.construction_site_id, 'name', sd.construction_site_name),
-          'camera', JSON_BUILD_OBJECT('id', sd.camera_id, 'name', sd.camera_name),
-          'snapshots', sn.snapshots,
-          'mode', sd.mode,
-          'duration', JSON_BUILD_OBJECT(
-            'hours', EXTRACT(HOUR FROM (sd.end_time - sd.start_time)),
-            'minutes', EXTRACT(MINUTE FROM (sd.end_time - sd.start_time)),
-            'seconds', EXTRACT(SECOND FROM (sd.end_time - sd.start_time))
-          ),
-          'startTime', TO_CHAR(sd.start_time, 'YYYY-MM-DD HH24:MI:SS'),
-          'endTime', TO_CHAR(sd.end_time, 'YYYY-MM-DD HH24:MI:SS'),
-          'safetyScore', sd.safety_score,
-          'progress', sd.progress,
-          'totalIncidents', sd.total_incidents,
-          'criticalIncidents', sd.critical_incidents,
-          'trends', t.trends,
-          'safetyScoreDistribution', JSON_BUILD_OBJECT(
-            'helmet', d.helmet_score,
-            'footwear', d.footwear_score,
-            'vest', d.vest_score
-          )
-        )
-      FROM SessionData AS sd, Snapshots AS sn, Trends AS t, Distribution AS d
+    'sessionId', sd.session_id,
+    'constructionSite', JSON_BUILD_OBJECT('id', sd.construction_site_id, 'name', sd.construction_site_name),
+    'camera', JSON_BUILD_OBJECT('id', sd.camera_id, 'name', sd.camera_name),
+    'snapshots', sn.snapshots,
+    'mode', sd.mode,
+    'duration', JSON_BUILD_OBJECT(
+      'hours', EXTRACT(HOUR FROM (sd.end_time - sd.start_time)),
+      'minutes', EXTRACT(MINUTE FROM (sd.end_time - sd.start_time)),
+      'seconds', EXTRACT(SECOND FROM (sd.end_time - sd.start_time))
     ),
-    'constructionSites', (
-      SELECT
-        JSON_AGG(
-          JSON_BUILD_OBJECT(
-            'id', site_id,
-            'name', name
-          )
-        )
-      FROM construction_sites
-    ),
-    'cameras', (
-      SELECT
-        JSON_AGG(
-          JSON_BUILD_OBJECT(
-            'id', camera_id,
-            'name', name
-          )
-        )
-      FROM cameras
+    'startTime', TO_CHAR(sd.start_time, 'YYYY-MM-DD HH24:MI:SS'),
+    'endTime', TO_CHAR(sd.end_time, 'YYYY-MM-DD HH24:MI:SS'),
+    'safetyScore', sd.safety_score,
+    'progress', sd.progress,
+    'totalIncidents', sd.total_incidents,
+    'criticalIncidents', sd.critical_incidents,
+    'trends', t.trends,
+    'safetyScoreDistribution', JSON_BUILD_OBJECT(
+      'helmet', d.helmet_score,
+      'footwear', d.footwear_score,
+      'vest', d.vest_score
     )
-  ) AS response_data;`
+  ) AS sessionDetails
+FROM SessionData AS sd, Snapshots AS sn, Trends AS t, Distribution AS d;`
 
 const updateSessionById = `WITH UpdatedSession AS (
   UPDATE sessions
