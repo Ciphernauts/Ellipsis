@@ -46,12 +46,14 @@
   width: fit-content;
 }
 
-.addSiteToggle:hover {
+.addSiteToggle:hover,
+.addSiteToggle:focus {
   background-color: var(--primary);
   color: var(--light);
 }
 
-.addSiteToggle:hover .addIcon path {
+.addSiteToggle:hover .addIcon path,
+.addSiteToggle:focus .addIcon path {
   fill: var(--light);
 }
 
@@ -146,7 +148,8 @@
   fill: var(--primary);
 }
 
-.row.active .delete:hover svg path {
+.row.active .delete:hover svg path,
+.row.active .delete:focus svg path {
   fill: var(--dark);
 }
 
@@ -166,7 +169,8 @@
   align-items: center;
 }
 
-.delete button:hover svg path {
+.delete button:hover svg path,
+.delete button:focus svg path {
   fill: var(--primary);
 }
 
@@ -176,7 +180,7 @@
 }
 
 @media (max-width: 1080px) {
-  .paneOpen .delete {
+  .constructionSites:not(.mobile) .paneOpen .delete {
     display: none;
   }
 }
