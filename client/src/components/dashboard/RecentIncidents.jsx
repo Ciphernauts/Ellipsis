@@ -4,7 +4,7 @@ import styles from './RecentIncidents.module.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { formatDate } from '../../utils/helpers';
+import { formatDate, incidentCategoryToNameMap } from '../../utils/helpers';
 
 export default function RecentIncidents({ data, className, isPWA = false }) {
   const formatTimestamp = (timestamp) => {
@@ -54,7 +54,9 @@ export default function RecentIncidents({ data, className, isPWA = false }) {
                     />
                     {!isPWA && <span className={styles.bullet}></span>}
                     <div className={styles.desc}>
-                      <p className={styles.name}>{incident.name}</p>
+                      <p className={styles.name}>
+                        {incidentCategoryToNameMap[incident.category]}
+                      </p>
                       <p className={styles.severity}>
                         Severity: {incident.severity}
                       </p>
@@ -79,7 +81,9 @@ export default function RecentIncidents({ data, className, isPWA = false }) {
                 <Timestamp time={time} am={am} date={dateFormatted} />
                 <span className={styles.bullet}></span>
                 <div className={styles.desc}>
-                  <p className={styles.name}>{incident.name}</p>
+                  <p className={styles.name}>
+                    {incidentCategoryToNameMap[incident.category]}
+                  </p>
                   <p className={styles.severity}>
                     Severity: {incident.severity}
                   </p>
