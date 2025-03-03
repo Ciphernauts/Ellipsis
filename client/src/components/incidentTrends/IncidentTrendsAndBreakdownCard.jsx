@@ -258,7 +258,7 @@ export default function IncidentTrendsAndBreakdownCard({
                 />
               </BarChart>
             )}
-          </ResponsiveContainer>{' '}
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

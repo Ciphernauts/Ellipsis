@@ -38,6 +38,10 @@
   transition: 0.2s;
 }
 
+.addSiteToggle .addIcon path {
+  transition: 0.2s;
+}
+
 .addSiteButton {
   width: fit-content;
 }

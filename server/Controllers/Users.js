@@ -17,6 +17,7 @@ const getUserById = (req,res) => {
     });
 };
 
+/*
 const addUser = (req, res) => {
     const { username, uemail, password } = req.body;
 
@@ -51,6 +52,36 @@ const addUser = (req, res) => {
     });
 });
 };
+*/
+
+const addUser = async (req, res) => {
+    const { username, uemail, password } = req.body;
+
+    if (!username || !uemail || !password) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        pool.query(queries.checkEmailExists, [uemail], (error, results) => {
+            if (error) throw error;
+
+            if (results.rows.length) {
+                return res.status(400).json({ message: "Email already exists" });
+            }
+
+            pool.query(queries.addUser, [username, uemail, hashedPassword], (error, results) => {
+                if (error) throw error;
+                res.status(201).json({ message: "User Created Successfully!", user: results.rows[0] });
+            });
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 
 const removeUser = (req, res) => {
     const uid = parseInt(req.params.uid);
@@ -90,6 +121,7 @@ const updateUser = (req, res) => {
     
 }
 
+/*
 const loginUser = (req, res) => {
     const { email, password } = req.body;
 
@@ -111,6 +143,40 @@ const loginUser = (req, res) => {
         });
     });
 };
+*/
+
+const loginUser = async (req, res) => {
+    let { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+    }
+
+    email = email.trim().toLowerCase(); // ✅ Trim spaces & ensure case-insensitivity
+
+    try {
+        const result = await pool.query(queries.getUserByEmail, [email]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "User Not Found" });
+        }
+
+        const user = result.rows[0];
+
+        // Compare hashed password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid password" });
+        }
+
+        res.status(200).json({ message: "Login successful", user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+/*
 
 const registerUser = async (req, res) => {
     const { username, uemail, password } = req.body;
@@ -122,6 +188,25 @@ const registerUser = async (req, res) => {
         if (error) throw error;
         res.status(201).json({ message: "User registered successfully", user: results.rows[0] });
     });
+};
+*/
+
+const registerUser = async (req, res) => {
+    const { uemail, username, password } = req.body;
+
+    if (!uemail || !username || !password) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const result = await pool.query(queries.addUser, [uemail, username, hashedPassword]);
+        res.status(201).json({ message: "User registered successfully", user: result.rows[0] });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
 };
 
 

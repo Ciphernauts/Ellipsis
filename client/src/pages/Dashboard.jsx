@@ -150,18 +150,18 @@ export default function Dashboard({ isPWA = false }) {
         recentIncidents: [
           {
             timestamp: '2024-12-30T17:39:00',
-            name: 'Improper Scaffolding',
+            category: 'scaffolding',
             severity: 'Medium',
           },
           {
             timestamp: '2024-12-30T17:31:00',
-            name: 'Missing Vest',
+            category: 'vest',
             severity: 'Medium',
           },
           {
             timestamp: '2024-12-30T17:18:00',
-            name: 'Scaffold overturning',
-            severity: 'High',
+            category: 'footwear',
+            severity: 'Medium',
           },
         ],
       };

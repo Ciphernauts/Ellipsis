@@ -16,6 +16,7 @@ import TimelineSessions from './pages/TimelineSessions';
 import IncidentTrends from './pages/IncidentTrends';
 import IncidentHistory from './pages/IncidentHistory';
 import ConstructionSites from './pages/ConstructionSites';
+import Cameras from './pages/Cameras';
 import ChangeMode from './pages/ChangeMode';
 import Settings from './pages/Settings';
 import Register from './pages/Register';
@@ -79,7 +80,7 @@ const App = () => {
             path='/construction-sites'
             element={<ConstructionSites isPWA={isStandalone} />}
           />
-          <Route path='/cameras' />
+          <Route path='/cameras' element={<Cameras />} />
           <Route path='/change-mode' element={<ChangeMode />} />
           <Route path='/settings' element={<Settings />} />
         </Route>

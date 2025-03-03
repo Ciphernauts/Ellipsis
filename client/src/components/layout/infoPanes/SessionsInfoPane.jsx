@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // Import Axios
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -119,10 +119,13 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
 
   const updateSession = async (siteId, cameraId) => {
     try {
-      const response = await axios.patch(`/api/sessions/${data.sessionId}`, {
-        constructionSiteId: siteId,
-        cameraId: cameraId,
-      });
+      const response = await axios.put(
+        `/api/timeline/sessions/${data.sessionDetails.sessionId}`,
+        {
+          constructionSiteId: siteId,
+          cameraId: cameraId,
+        }
+      );
 
       if (response.data) {
         // Update the local state directly

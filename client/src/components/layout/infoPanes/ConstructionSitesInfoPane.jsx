@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // Import Axios
 import styles from './ConstructionSitesInfoPane.module.css';
 import PaneInfoPiece from '../../PaneInfoPiece';
 import Duration from '../../Duration';
@@ -24,9 +24,12 @@ export default function ConstructionSitesInfoPane({
 
     try {
       // Make API call to update the status
-      const response = await axios.patch(`/api/sites/${data.id}`, {
-        isActive: !isActive, // Toggle the active status
-      });
+      const response = await axios.put(
+        `/api/construction-sites/${data.id}`, // Use the correct API endpoint
+        {
+          isActive: !isActive, // Toggle the active status
+        }
+      );
 
       // Update the data only after a successful API call
       const updatedSiteFromServer = response.data;
