@@ -3,7 +3,19 @@ const getAllConstructionSites = `SELECT
     JSON_BUILD_OBJECT(
       'id', cs.site_id,
       'name', cs.name,
-      'snapshots', cs.snapshots,
+      'snapshots', (
+        SELECT
+          JSON_AGG(image_url) -- Aggregate image URLs into an array
+        FROM snapshots
+        WHERE
+          session_id IN (
+            SELECT
+              session_id
+            FROM sessions
+            WHERE
+              site_id = cs.site_id
+          )
+      ),
       'lastReport', (
         SELECT
           MAX(incident_time)
@@ -56,7 +68,7 @@ const getAllConstructionSites = `SELECT
       THEN 1
       ELSE 2
       END
-    ) -- Order by status, Active first
+    )
   ) AS response_data
 FROM construction_sites AS cs;`
 
