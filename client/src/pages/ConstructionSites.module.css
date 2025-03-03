@@ -200,7 +200,7 @@
 }
 
 .mobile .row {
-  height: 108px;
+  height: 118px;
   padding-right: 15px;
 }
 
@@ -234,4 +234,10 @@
 
 .mobile .addSiteToggle {
   white-space: nowrap;
+  padding: 10px 16px;
+}
+
+.mobile .addSiteToggle svg {
+  width: 20px;
+  height: 20px;
 }
