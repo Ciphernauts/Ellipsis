@@ -7,7 +7,7 @@ import WorkshopModeIcon from '../components/icons/WorkshopModeIcon';
 import Button from '../components/Button';
 import { useApp } from '../context/AppContext';
 
-export default function ChangeMode() {
+export default function ChangeMode({ isPWA = false }) {
   const { mode: activeMode, isLoading, updateMode } = useApp();
 
   const modes = [
@@ -42,7 +42,7 @@ export default function ChangeMode() {
   }
 
   return (
-    <div className={styles.changeMode}>
+    <div className={`${styles.changeMode} ${isPWA ? styles.mobile : ''}`}>
       <h1>Change Mode</h1>
       <div className={styles.modesContainer}>
         {modes.map((mode) => (

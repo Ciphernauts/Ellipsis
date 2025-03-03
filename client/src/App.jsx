@@ -92,7 +92,10 @@ const App = () => {
           />
           <Route path='/cameras' element={<Cameras isPWA={isStandalone} />} />
 
-          <Route path='/change-mode' element={<ChangeMode />} />
+          <Route
+            path='/change-mode'
+            element={<ChangeMode isPWA={isStandalone} />}
+          />
           <Route path='/settings' element={<Settings isPWA={isStandalone} />} />
         </Route>
       </Routes>
