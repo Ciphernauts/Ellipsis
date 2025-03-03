@@ -32,64 +32,12 @@ module.exports = router;
 
 const express = require('express');
 const router = express.Router();
-const pool = require('../Database/database'); // Ensure this is correctly set up to connect to PostgreSQL
+const camerasController = require('../Controllers/Cameras');
 
-// Fetch all cameras
-router.get('/cameras', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM cameras');
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
-// Fetch available devices (online but not connected)
-router.get('/available-devices', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM cameras WHERE online = true AND connected = false');
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
-// Connect a camera
-router.post('/connect-camera/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const result = await pool.query('UPDATE cameras SET connected = true WHERE camera_id = $1 RETURNING *', [id]);
-        res.json(result.rows[0]);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
-// Pair a device (same as connecting it)
-router.post('/pair-device/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const result = await pool.query('UPDATE cameras SET connected = true WHERE camera_id = $1 RETURNING *', [id]);
-        res.json(result.rows[0]);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
-// Delete a camera
-router.delete('/delete-camera/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        await pool.query('DELETE FROM cameras WHERE camera_id = $1', [id]);
-        res.json({ message: 'Camera deleted successfully' });
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
+router.get('/cameras', camerasController.getAllCameras);
+router.get('/available-devices', camerasController.getAvailableDevices);
+router.post('/connect-camera/:id', camerasController.connectCamera);
+router.post('/pair-device/:id', camerasController.pairDevice);
+router.delete('/delete-camera/:id', camerasController.deleteCamera);
 
 module.exports = router;
