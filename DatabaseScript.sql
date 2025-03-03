@@ -415,7 +415,7 @@ INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
     ('S0041', 'https://i.postimg.cc/TwNQLVbC/vlcsnap-2025-03-03-12h00m14s340.png', '2025-02-03 18:00:00');
 
 -- Session S0042 -- General
-INSERT INTO snapshots (session_id, image_url, "timestamp") VALUEShttps://i.postimg.cc/zXV6jBXy/vlcsnap-2025-03-03-12h00m33s599.png
+INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
     ('S0042', 'https://i.postimg.cc/HL26HDkG/vlcsnap-2025-03-03-12h00m18s084.png', '2025-02-03 13:00:00'),
     ('S0042', 'https://i.postimg.cc/rw5hnt6w/vlcsnap-2025-03-03-12h00m21s269.png', '2025-02-03 15:00:00'),
     ('S0042', 'https://i.postimg.cc/zXV6jBXy/vlcsnap-2025-03-03-12h00m33s599.png', '2025-02-03 17:00:00'),
@@ -589,7 +589,7 @@ INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
     ('S0066', 'https://i.postimg.cc/qRxCh4Cw/vlcsnap-2025-03-03-12h22m08s888.png', '2025-02-08 16:00:00'),
     ('S0066', 'https://i.postimg.cc/Y9HWChjj/vlcsnap-2025-03-03-12h22m11s857.png', '2025-02-08 18:00:00');
 
--- Session S0067 -- Entry
+-- Session S0067 -- EntryFVALUES HTT
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
     ('S0067', 'https://i.postimg.cc/1zFXksmB/vlcsnap-2025-03-03-13h05m32s035.png', '2025-02-08 13:00:00'),
     ('S0067', 'https://i.postimg.cc/9FX4r6bX/vlcsnap-2025-03-03-13h05m34s063.png', '2025-02-08 15:00:00'),
