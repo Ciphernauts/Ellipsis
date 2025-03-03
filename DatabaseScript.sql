@@ -166,52 +166,74 @@ CREATE INDEX idx_cameras_site_id ON cameras (site_id);
 
 INSERT INTO construction_sites (name, status, safetyScore, snapshots) VALUES
     ('Olgoo Project', 'Active', 88.5, '{
-        "https://picsum.photos/id/10/200/150",
-        "https://picsum.photos/id/11/200/150",
-        "https://picsum.photos/id/12/200/150"
+        "https://i.postimg.cc/pTKwWytZ/Olgoo.jpg",
+        "https://i.postimg.cc/TPrxfPZk/vlcsnap-2025-03-03-12h24m52s504.png",
+        "https://i.postimg.cc/3x07f19Q/vlcsnap-2025-03-03-12h24m55s545.png",
+		"https://i.postimg.cc/9FMcZC7M/vlcsnap-2025-03-03-12h24m58s643.png",
+		"https://i.postimg.cc/D0fnCKpx/vlcsnap-2025-03-03-12h25m01s527.png"
     }'::TEXT),
     ('Fereshteh 24', 'Inactive', 84.2, '{
-        "https://picsum.photos/id/20/200/150",
-        "https://picsum.photos/id/21/200/150"
+        "https://i.postimg.cc/mr5t7LhC/fereshteh.jpg",
+		"https://i.postimg.cc/kXXgsWk7/vlcsnap-2025-03-03-12h25m04s926.png",
+		"https://i.postimg.cc/sx3DtWx9/vlcsnap-2025-03-03-12h25m08s769.png",
+		"https://i.postimg.cc/RF50LyzY/vlcsnap-2025-03-03-12h25m11s995.png",
+        "https://i.postimg.cc/vZKTcD2b/vlcsnap-2025-03-03-12h25m15s879.png"
     }'::TEXT),
     ('Deniz Project', 'Active', 90.1, '{
-        "https://picsum.photos/id/30/200/150",
-        "https://picsum.photos/id/31/200/150",
-        "https://picsum.photos/id/32/200/150",
-        "https://picsum.photos/id/33/200/150"
+        "https://i.postimg.cc/5N1cXjrC/deniz.jpg",
+        "https://i.postimg.cc/QNgF08CJ/vlcsnap-2025-03-03-12h25m18s546.png",
+        "https://i.postimg.cc/gjKrJDQT/vlcsnap-2025-03-03-12h25m22s059.png",
+        "https://i.postimg.cc/sxzvs86W/vlcsnap-2025-03-03-12h25m33s311.png",
+		"https://i.postimg.cc/NFvrLLM5/vlcsnap-2025-03-03-12h25m36s534.png"
     }'::TEXT),
     ('Kamran Project', 'Inactive', 82.0, '{
-     "https://picsum.photos/id/30/200/150",
-        "https://picsum.photos/id/31/200/150",
-        "https://picsum.photos/id/32/200/150",
-        "https://picsum.photos/id/33/200/150"
+     "https://i.postimg.cc/vB9jBdLh/kamran.jpg",
+        "https://i.postimg.cc/0N3SRV1G/vlcsnap-2025-03-03-12h25m41s085.png",
+        "https://i.postimg.cc/RFHHMwvk/vlcsnap-2025-03-03-12h25m44s897.png",
+        "https://i.postimg.cc/5tjzRZTN/vlcsnap-2025-03-03-12h25m48s349.png",
+		"https://i.postimg.cc/50Yw6ZSk/vlcsnap-2025-03-03-12h56m09s907.png"
 	}'::TEXT),
     ('Dashtyar', 'Inactive', 87.4, '{
-        "https://picsum.photos/id/40/200/150"
+        "https://i.postimg.cc/Dy5Nm6s9/dashtyar.jpg"
+		"https://i.postimg.cc/3wwjHy4h/vlcsnap-2025-03-03-12h56m12s207.png",
+        "https://i.postimg.cc/sDp4PCdk/vlcsnap-2025-03-03-13h01m55s959.png",
+        "https://i.postimg.cc/QNKbtW6x/vlcsnap-2025-03-03-13h02m00s327.png",
+		"https://i.postimg.cc/1RbvcKgq/vlcsnap-2025-03-03-13h02m05s131.png"
     }'::TEXT),
     ('Manzariyeh', 'Active', 89.8, '{
-        "https://picsum.photos/id/50/200/150",
-        "https://picsum.photos/id/51/200/150",
-        "https://picsum.photos/id/52/200/150"
+        "https://i.postimg.cc/YCkvNDR2/manzariyeh.jpg",
+		"https://i.postimg.cc/4xgwjNQ4/vlcsnap-2025-03-03-13h02m24s595.png",
+        "https://i.postimg.cc/jdNZ8JNk/vlcsnap-2025-03-03-13h02m27s751.png",
+        "https://i.postimg.cc/RCWPHY0m/vlcsnap-2025-03-03-13h02m31s175.png",
+		"https://i.postimg.cc/BnTHFTD4/vlcsnap-2025-03-03-13h02m42s544.png"
     }'::TEXT),
-    ('Kamran Project', 'Inactive', 91.3, '{
-        "https://picsum.photos/id/60/200/150",
-        "https://picsum.photos/id/61/200/150",
-        "https://picsum.photos/id/62/200/150"
+    ('Sahra Project', 'Inactive', 91.3, '{
+        "https://i.postimg.cc/sf0SSGT6/image.jpg",
+		"https://i.postimg.cc/ZYQ8zK4t/vlcsnap-2025-03-03-13h02m45s003.png",
+        "https://i.postimg.cc/rs7x1gQF/vlcsnap-2025-03-03-13h02m47s307.png",
+        "https://i.postimg.cc/QCFcKvgy/vlcsnap-2025-03-03-13h02m58s786.png",
+		"https://i.postimg.cc/BnTHFTD4/vlcsnap-2025-03-03-13h02m42s544.png"
     }'::TEXT),
     ('Sibeh Project', 'Active', 86.0, '{
-        "https://picsum.photos/id/70/200/150",
-        "https://picsum.photos/id/71/200/150"
+        "https://i.postimg.cc/ry1gNs2S/sineh.jpg",
+		"https://i.postimg.cc/CLdcbQLY/vlcsnap-2025-03-03-13h03m02s721.png",
+        "https://i.postimg.cc/W4cSLpmb/vlcsnap-2025-03-03-13h03m05s746.png",
+        "https://i.postimg.cc/3wj1KM9j/vlcsnap-2025-03-03-13h03m07s539.png",
+		"https://i.postimg.cc/zfTtVHDg/vlcsnap-2025-03-03-13h03m10s915.png"
     }'::TEXT),
     ('Khoram Nezhad', 'Active', 84.4, '{
-        "https://picsum.photos/id/80/200/150",
-        "https://picsum.photos/id/81/200/150",
-        "https://picsum.photos/id/82/200/150"
+        "https://i.postimg.cc/FKRNjzWp/khoram.jpg",
+		"https://i.postimg.cc/ZKDDghDC/vlcsnap-2025-03-03-13h03m13s049.png",
+        "https://i.postimg.cc/CM72G8GC/vlcsnap-2025-03-03-13h03m15s147.png",
+        "https://i.postimg.cc/D0xY7Vvp/vlcsnap-2025-03-03-13h03m17s171.png",
+		"https://i.postimg.cc/sXpkd0Gb/vlcsnap-2025-03-03-13h03m19s701.png"
     }'::TEXT),
 	('Istanbul Project', 'Inactive', 84.4, '{
-	"https://picsum.photos/id/80/200/150",
-	"https://picsum.photos/id/81/200/150",
-	"https://picsum.photos/id/82/200/150"
+		"https://i.postimg.cc/x8P4xyqz/istanbul.jpg",
+		"https://i.postimg.cc/90CvWtG0/vlcsnap-2025-03-03-13h03m21s544.png",
+        "https://i.postimg.cc/cJ8qTJxx/vlcsnap-2025-03-03-13h03m24s444.png",
+        "https://i.postimg.cc/x1ZDKmSp/vlcsnap-2025-03-03-13h03m26s229.png",
+		"https://i.postimg.cc/sgHyw85c/vlcsnap-2025-03-03-13h03m28s081.png"
 	}'::TEXT);
 
 
