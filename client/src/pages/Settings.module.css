@@ -306,6 +306,10 @@
 
 /* -------------------- APP STYLES --------------------  */
 
+.mobile .settingsContainer {
+  padding: 13px 18px 25px;
+}
+
 .mobile .tabs {
   gap: 0;
   justify-content: space-between;
@@ -314,4 +318,24 @@
 
 .mobile .tabs button {
   padding: 10px;
+}
+
+.mobile .profileSettings {
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile .profileSettings .profileDetails {
+  width: 100%;
+  order: 2;
+}
+
+.mobile .profileSettings .pfpDetails {
+  width: 100%;
+  gap: 15px;
+  order: 1;
+}
+
+.mobile .dropdownRow {
+  flex-direction: column;
 }
