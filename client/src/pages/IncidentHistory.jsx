@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import styles from './IncidentHistory.module.css';
 import DefaultImage from '../assets/DefaultImage.png';
-import { formatDate, formatTime } from '../utils/helpers';
+import {
+  formatDate,
+  formatTime,
+  incidentCategoryToNameMap,
+} from '../utils/helpers';
 import axios from 'axios';
 
 export default function IncidentHistory() {
@@ -54,7 +58,7 @@ export default function IncidentHistory() {
         incidents: [
           {
             id: 1,
-            name: 'Missing helmet',
+            category: 'helmet',
             snapshot: 'https://picsum.photos/id/237/200/150',
             site: 'Riverside Apartments Project',
             time: '2025-01-01T03:21:00Z',
@@ -66,7 +70,7 @@ export default function IncidentHistory() {
           },
           {
             id: 2,
-            name: 'Improper footwear',
+            category: 'footwear',
             snapshot: 'https://picsum.photos/id/238/200/150',
             site: 'Hilltop Heights Construction',
             time: '2024-12-31T05:34:00Z',
@@ -78,7 +82,7 @@ export default function IncidentHistory() {
           },
           {
             id: 3,
-            name: 'Improper scaffolding',
+            category: 'scaffolding',
             snapshot: 'https://picsum.photos/id/239/200/150',
             site: 'Downtown Mall Construction',
             time: '2024-12-31T05:11:00Z',
@@ -90,7 +94,7 @@ export default function IncidentHistory() {
           },
           {
             id: 4,
-            name: 'Missing harness',
+            category: 'harness',
             site: 'Hilltop Heights Construction',
             time: '2024-12-31T04:49:00Z',
             status: 'Open',
@@ -101,7 +105,7 @@ export default function IncidentHistory() {
           },
           {
             id: 5,
-            name: 'Missing harness',
+            category: 'harness',
             snapshot: 'https://picsum.photos/id/241/200/150',
             site: 'Riverside Apartments Project',
             time: '2024-12-31T04:12:00Z',
@@ -113,7 +117,7 @@ export default function IncidentHistory() {
           },
           {
             id: 6,
-            name: 'Missing vest',
+            category: 'vest',
             snapshot: 'https://picsum.photos/id/242/200/150',
             site: 'Cedar Lane Residences',
             time: '2024-12-31T11:59:00Z',
@@ -125,7 +129,7 @@ export default function IncidentHistory() {
           },
           {
             id: 7,
-            name: 'Missing helmet',
+            category: 'helmet',
             snapshot: 'https://picsum.photos/id/243/200/150',
             site: 'Cedar Lane Residences',
             time: '2024-12-31T11:45:00Z',
@@ -137,7 +141,7 @@ export default function IncidentHistory() {
           },
           {
             id: 8,
-            name: 'Improper scaffolding',
+            category: 'scaffolding',
             snapshot: 'https://picsum.photos/id/244/200/150',
             site: 'Downtown Mall Construction',
             time: '2024-12-30T04:30:00Z',
@@ -149,7 +153,7 @@ export default function IncidentHistory() {
           },
           {
             id: 9,
-            name: 'Missing vest',
+            category: 'vest',
             snapshot: 'https://picsum.photos/id/245/200/150',
             site: 'Cedar Lane Residences',
             time: '2024-12-30T11:59:00Z',
@@ -161,7 +165,7 @@ export default function IncidentHistory() {
           },
           {
             id: 10,
-            name: 'Missing gloves',
+            category: 'gloves',
             snapshot: 'https://picsum.photos/id/246/200/150',
             site: 'Riverside Apartments Project',
             time: '2024-12-29T08:18:00Z',
@@ -173,7 +177,7 @@ export default function IncidentHistory() {
           },
           {
             id: 11,
-            name: 'Improper footwear',
+            category: 'footwear',
             snapshot: 'https://picsum.photos/id/247/200/150',
             site: 'Skyscraper Construction',
             time: '2024-12-28T09:25:00Z',
@@ -185,7 +189,7 @@ export default function IncidentHistory() {
           },
           {
             id: 12,
-            name: 'Missing helmet',
+            category: 'helmet',
             snapshot: 'https://picsum.photos/id/248/200/150',
             site: 'Luxury Condos Project',
             time: '2024-12-27T14:50:00Z',
@@ -197,7 +201,7 @@ export default function IncidentHistory() {
           },
           {
             id: 13,
-            name: 'Improper scaffolding',
+            category: 'scaffolding',
             snapshot: 'https://picsum.photos/id/249/200/150',
             site: 'Industrial Warehouse',
             time: '2024-12-26T17:15:00Z',
@@ -209,7 +213,7 @@ export default function IncidentHistory() {
           },
           {
             id: 14,
-            name: 'Improper scaffolding',
+            category: 'scaffolding',
             snapshot: 'https://picsum.photos/id/250/200/150',
             site: 'Commercial Building',
             time: '2024-12-25T20:40:00Z',
@@ -221,7 +225,7 @@ export default function IncidentHistory() {
           },
           {
             id: 15,
-            name: 'Missing harness',
+            category: 'harness',
             snapshot: 'https://picsum.photos/id/251/200/150',
             site: 'Residential Complex',
             time: '2024-12-24T23:05:00Z',
@@ -233,7 +237,7 @@ export default function IncidentHistory() {
           },
           {
             id: 16,
-            name: 'Missing guardrails',
+            category: 'guardrails',
             snapshot: 'https://picsum.photos/id/252/200/150',
             site: 'Historical Landmark',
             time: '2024-12-23T02:30:00Z',
@@ -302,7 +306,7 @@ export default function IncidentHistory() {
       (filters.date === '' ||
         new Date(incident.time).toLocaleDateString() ===
           new Date(filters.date).toLocaleDateString()) &&
-      (filters.incident === 'All' || incident.name === filters.incident) &&
+      (filters.incident === 'All' || incident.category === filters.incident) && // Updated to use 'category'
       (filters.severity === 'All' ||
         (filters.severity === 'Critical'
           ? incident.isCritical
@@ -405,7 +409,8 @@ export default function IncidentHistory() {
                     <div
                       className={`${styles.incidentName} ${isPaneOpen ? styles.paneOpen : ''}`}
                     >
-                      {incident.name}
+                      {incidentCategoryToNameMap[incident.category]}{' '}
+                      {/* Use the mapping here */}
                       {incident.isCritical && (
                         <span className={styles.criticalBadge}>Critical</span>
                       )}
