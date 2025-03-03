@@ -46,14 +46,12 @@
   width: fit-content;
 }
 
-.addSiteToggle:hover,
-.addSiteToggle:focus {
+.addSiteToggle:hover {
   background-color: var(--primary);
   color: var(--light);
 }
 
-.addSiteToggle:hover .addIcon path,
-.addSiteToggle:focus .addIcon path {
+.addSiteToggle:hover .addIcon path {
   fill: var(--light);
 }
 
@@ -148,8 +146,7 @@
   fill: var(--primary);
 }
 
-.row.active .delete:hover svg path,
-.row.active .delete:focus svg path {
+.row.active .delete:hover svg path {
   fill: var(--dark);
 }
 
@@ -169,8 +166,7 @@
   align-items: center;
 }
 
-.delete button:hover svg path,
-.delete button:focus svg path {
+.delete button:hover svg path {
   fill: var(--primary);
 }
 
@@ -204,7 +200,7 @@
 }
 
 .mobile .row {
-  height: 97px;
+  height: 108px;
   padding-right: 15px;
 }
 
@@ -230,6 +226,10 @@
   min-width: 100%;
   justify-content: flex-end;
   gap: 5px;
+}
+
+.mobile .addSiteContainer input {
+  width: 100%;
 }
 
 .mobile .addSiteToggle {
