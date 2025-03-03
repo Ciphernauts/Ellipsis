@@ -298,8 +298,10 @@ export default function IncidentHistory({ isPWA = false }) {
         (incident) => incident.id === id
       );
       if (incidentDetails) {
-        console.log('Setting pane data:', incidentDetails); // Debugging
-        setPaneData(incidentDetails);
+        setPaneData({
+          ...incidentDetails,
+          name: incidentCategoryToNameMap[incidentDetails.category],
+        });
         setIsPaneOpen(true);
       }
     }
