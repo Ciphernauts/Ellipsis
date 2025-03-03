@@ -27,7 +27,6 @@ export const truncateText = (text, maxLength) => {
   return text;
 };
 
-
 export const formatDate = (dateString, format = 'default') => {
   const date = new Date(dateString);
   const day = date.getDate();
@@ -43,13 +42,17 @@ export const formatDate = (dateString, format = 'default') => {
 
   switch (format) {
     case 'veryshort':
-      return `${day} ${month.slice(0,3)}`;
+      return `${day} ${month.slice(0, 3)}`;
     case 'short':
       return `${day}${daySuffix} ${month} ${time}`;
     case 'long':
       return `${day}${daySuffix} ${month} ${year} ${time}`;
     case 'dateOnly':
       return `${day}${daySuffix} ${month} ${year}`;
+    case 'dateCode':
+      const dayPadded = String(day).padStart(2, '0');
+      const monthPadded = String(date.getMonth() + 1).padStart(2, '0');
+      return `${dayPadded}-${monthPadded}-${year}`;
     default:
       return `${day}${daySuffix} ${month} ${year} ${time}`;
   }

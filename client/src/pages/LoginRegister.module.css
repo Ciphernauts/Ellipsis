@@ -46,6 +46,10 @@
   align-items: center;
 }
 
+.logo {
+  display: none;
+}
+
 /* Welcome Section */
 .welcomeSection {
   position: fixed;
@@ -177,7 +181,8 @@
   text-decoration: none;
 }
 
-.loginLink:hover {
+.loginLink:hover,
+.loginLink:focus {
   text-decoration: underline;
 }
 
@@ -188,10 +193,7 @@
   margin: 0 auto;
   display: block;
   text-align: center;
-  border-radius: 15px;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
 }
 
 /* Responsive Design */
@@ -222,4 +224,96 @@
   -webkit-box-shadow: 0 0 0 1000px var(--neutral) inset !important;
   -webkit-text-fill-color: var(--dark) !important;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .registerContainer {
+  width: 100vw;
+  background-color: var(--neutral);
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mobile .welcomeSection {
+  display: none;
+}
+
+.mobile .logo {
+  display: block;
+  position: fixed;
+  width: 90px;
+  height: 90px;
+  top: 15vh;
+}
+
+.mobile .formSection {
+  position: relative;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  margin-top: 90px;
+  transform: none;
+}
+
+.mobile .formTitle {
+  margin-bottom: 2.4rem;
+}
+
+.mobile .inputWrapper {
+  background-color: var(--background-color);
+}
+
+.mobile .registerForm button {
+  margin-top: 30px;
+}
+
+@media (max-width: 1024px) {
+  .waveBackgroundContainer {
+    display: none;
+  }
+
+  .welcomeSection {
+    display: none;
+  }
+
+  .registerContainer {
+    width: 100vw;
+    background-color: var(--neutral);
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    overflow: hidden;
+  }
+
+  .logo {
+    display: block;
+    position: relative;
+    width: 90px;
+    height: 90px;
+  }
+
+  .formSection {
+    position: relative;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    /* margin-top: 50px; */
+    padding: 10px 2rem 0 2rem;
+    transform: none;
+  }
+
+  .formTitle {
+    margin-bottom: 2.3rem;
+  }
+
+  .inputWrapper {
+    background-color: var(--background-color);
+  }
+
+  .registerForm button {
+    margin-top: 10px;
+  }
 }

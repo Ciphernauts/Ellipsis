@@ -3,17 +3,17 @@ import styles from './ConstructionSites.module.css';
 import { useOutletContext } from 'react-router-dom';
 import PlusIcon from '../components/icons/PlusIcon';
 import DefaultImage from '../assets/DefaultImage.png';
-import { formatDate } from '../utils/helpers';
-import axios from 'axios'; // Import Axios
+import { formatDate, truncateText } from '../utils/helpers';
+import axios from 'axios';
 
-export default function ConstructionSites() {
+export default function ConstructionSites({ isPWA = false }) {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSiteId, setSelectedSiteId] = useState(null);
   const [isAddingNewSite, setIsAddingNewSite] = useState(false);
   const [newSiteName, setNewSiteName] = useState('');
-  const [placeholder, setPlaceholder] = useState('Enter site name'); // Placeholder as state
+  const [placeholder, setPlaceholder] = useState('Enter site name');
 
   useEffect(() => {
     if (!isPaneOpen) {
@@ -198,7 +198,7 @@ export default function ConstructionSites() {
 
   return (
     <div
-      className={`${styles.constructionSites} ${isPaneOpen ? styles.paneOpen : ''}`}
+      className={`${styles.constructionSites} ${isPaneOpen ? styles.paneOpen : ''} ${isPWA ? styles.mobile : ''}`}
     >
       <h1>Construction Sites</h1>
       {loading ? (
@@ -264,20 +264,31 @@ export default function ConstructionSites() {
                   </div>
                   <div className={styles.desc}>
                     <div className={styles.siteName}>
-                      {site.name}
-                      <span
-                        className={
-                          styles[site.isActive ? 'active' : 'inactive']
-                        }
-                      >
-                        {site.isActive ? 'Active' : 'Inactive'}
-                      </span>
+                      {isPWA ? (
+                        truncateText(site.name, 21)
+                      ) : (
+                        <>
+                          {site.name}
+                          <span
+                            className={`${styles.statusBadge} ${styles[site.isActive ? 'active' : 'inactive']}`}
+                          >
+                            {site.isActive ? 'Active' : 'Inactive'}
+                          </span>
+                        </>
+                      )}
                     </div>
                     <div className={styles.time}>
                       {site.lastReport
                         ? `Last report: ${formatDate(site.lastReport)}`
                         : 'No records yet'}
                     </div>
+                    {isPWA && !site.isActive && (
+                      <span
+                        className={`${styles.statusBadge} ${styles[site.isActive ? 'active' : 'inactive']}`}
+                      >
+                        {site.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.delete}>
                     <button
@@ -305,6 +316,7 @@ export default function ConstructionSites() {
             ) : (
               <p>No construction sites available.</p>
             )}
+            ;
           </div>
         </div>
       )}

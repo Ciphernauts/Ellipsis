@@ -241,12 +241,12 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
             <PaneInfoPiece
               name='Start'
               value={formatTimestamp(startTime)}
-              fontSize={isPWA ? 13 : 12}
+              fontSize={12}
             />
             <PaneInfoPiece
               name='End'
               value={formatTimestamp(endTime)}
-              fontSize={isPWA ? 13 : 12}
+              fontSize={12}
             />
           </div>
         </div>

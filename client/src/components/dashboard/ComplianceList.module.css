@@ -1,5 +1,6 @@
 .dataList {
-  padding: 10px;
+  height: auto;
+  padding: 10px 10px 13px 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -37,13 +38,13 @@
 }
 
 .complianceType {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
 }
 
 .percentage {
   color: var(--primary);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
 }
 

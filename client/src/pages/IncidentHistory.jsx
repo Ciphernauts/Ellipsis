@@ -9,7 +9,7 @@ import {
 } from '../utils/helpers';
 import axios from 'axios';
 
-export default function IncidentHistory() {
+export default function IncidentHistory({ isPWA = false }) {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
   const [data, setData] = useState({ incidents: [], constructionSites: [] });
   const [loading, setLoading] = useState(true);
@@ -38,6 +38,16 @@ export default function IncidentHistory() {
       setSelectedIncidentId(null); // Clear selection when pane closes
     }
   }, [isPaneOpen]);
+
+  // Helper function to format date based on isPWA
+  const formatDateConditionally = (dateString) => {
+    const date = new Date(dateString);
+    if (isPWA) {
+      return formatDate(date, 'dateCode');
+    } else {
+      return formatDate(date, 'dateOnly');
+    }
+  };
 
   // Fetch incidents data from the API
   const fetchIncidents = async () => {
@@ -288,8 +298,10 @@ export default function IncidentHistory() {
         (incident) => incident.id === id
       );
       if (incidentDetails) {
-        console.log('Setting pane data:', incidentDetails); // Debugging
-        setPaneData(incidentDetails);
+        setPaneData({
+          ...incidentDetails,
+          name: incidentCategoryToNameMap[incidentDetails.category],
+        });
         setIsPaneOpen(true);
       }
     }
@@ -316,7 +328,7 @@ export default function IncidentHistory() {
 
   return (
     <div
-      className={`${styles.incidentHistory} ${isPaneOpen ? styles.paneOpen : ''}`}
+      className={`${styles.incidentHistory} ${isPaneOpen ? styles.paneOpen : ''} ${isPWA ? styles.mobile : ''}`}
     >
       <h1>Incident History</h1>
       {loading ? (
@@ -326,7 +338,7 @@ export default function IncidentHistory() {
           <div
             className={`${styles.filters} ${isPaneOpen ? styles.paneOpen : ''}`}
           >
-            <div className={styles.filterGroup}>
+            <div className={`${styles.filterGroup} ${styles.constructionSite}`}>
               <label htmlFor='constructionSite'>Construction Site</label>
               <select
                 id='constructionSite'
@@ -409,10 +421,22 @@ export default function IncidentHistory() {
                     <div
                       className={`${styles.incidentName} ${isPaneOpen ? styles.paneOpen : ''}`}
                     >
-                      {incidentCategoryToNameMap[incident.category]}{' '}
-                      {/* Use the mapping here */}
-                      {incident.isCritical && (
+                      {incidentCategoryToNameMap[incident.category]}
+                      {!isPWA && incident.isCritical && (
                         <span className={styles.criticalBadge}>Critical</span>
+                      )}
+                      {isPWA && incident.status && (
+                        <span className={styles.status}>
+                          <span
+                            className={
+                              styles[
+                                incident.status.toLowerCase().replace(' ', '')
+                              ]
+                            }
+                          >
+                            {incident.status.substring(0, 1)}
+                          </span>
+                        </span>
                       )}
                     </div>
                     {!isPaneOpen && (
@@ -422,7 +446,11 @@ export default function IncidentHistory() {
                   <div
                     className={`${styles.details} ${isPaneOpen ? styles.paneOpen : ''}`}
                   >
-                    {incident.status && (
+                    {isPWA && incident.isCritical && (
+                      <span className={styles.criticalBadge}>Critical</span>
+                    )}
+
+                    {!isPWA && incident.status && (
                       <span className={styles.status}>
                         <span
                           className={
@@ -438,7 +466,7 @@ export default function IncidentHistory() {
                     {incident.time && (
                       <>
                         <span className={styles.date}>
-                          {formatDate(incident.time, 'dateOnly')}
+                          {formatDateConditionally(incident.time, 'dateOnly')}
                         </span>
                         <span className={styles.time}>
                           {formatTime(incident.time)}
@@ -451,7 +479,7 @@ export default function IncidentHistory() {
             ) : (
               <p>No incidents found.</p>
             )}
-          </div>{' '}
+          </div>
         </div>
       )}
     </div>

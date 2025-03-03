@@ -28,7 +28,7 @@
 .addSiteToggle {
   width: 92px;
   display: flex;
-  padding: 10px 11px;
+  padding: 10px 10px;
   align-items: center;
   justify-content: space-around;
   border-radius: 30px;
@@ -46,12 +46,14 @@
   width: fit-content;
 }
 
-.addSiteToggle:hover {
+.addSiteToggle:hover,
+.addSiteToggle:focus {
   background-color: var(--primary);
   color: var(--light);
 }
 
-.addSiteToggle:hover .addIcon path {
+.addSiteToggle:hover .addIcon path,
+.addSiteToggle:focus .addIcon path {
   fill: var(--light);
 }
 
@@ -78,7 +80,8 @@
   cursor: pointer;
 }
 
-.row:hover {
+.row:hover,
+.row:focus {
   background-color: var(--neutral);
 }
 
@@ -125,7 +128,7 @@
   gap: 2px;
 }
 
-.siteName .active {
+.statusBadge.active {
   background-color: var(--neutral);
   color: var(--primary);
   padding: 2px 8px;
@@ -133,7 +136,7 @@
   font-size: 10px;
 }
 
-.siteName .inactive {
+.statusBadge.inactive {
   background-color: #dedede;
   color: #5c5c5c;
   padding: 2px 8px;
@@ -145,7 +148,8 @@
   fill: var(--primary);
 }
 
-.row.active .delete:hover svg path {
+.row.active .delete:hover svg path,
+.row.active .delete:focus svg path {
   fill: var(--dark);
 }
 
@@ -165,7 +169,8 @@
   align-items: center;
 }
 
-.delete button:hover svg path {
+.delete button:hover svg path,
+.delete button:focus svg path {
   fill: var(--primary);
 }
 
@@ -190,4 +195,43 @@
   .addSiteContainer.paneOpen input {
     width: 100%;
   }
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .siteName {
+  font-size: 12px;
+}
+
+.mobile .row {
+  height: 97px;
+  padding-right: 15px;
+}
+
+.mobile .desc {
+  width: 100%;
+  margin-left: 10px;
+}
+
+.mobile .delete {
+  width: fit-content;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 0 10px;
+}
+
+.mobile .delete svg {
+  width: 14px;
+  height: 16px;
+}
+
+.mobile .addSiteContainer {
+  width: 100%;
+  min-width: 100%;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.mobile .addSiteToggle {
+  white-space: nowrap;
 }
