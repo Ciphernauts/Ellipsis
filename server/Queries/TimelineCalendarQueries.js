@@ -7,13 +7,13 @@ const getStatsForMonthAndDays = `WITH month_data AS (
         s.progress,
         ss.image_url,
         ss."timestamp",
-        sd.helmet,
-        sd.footwear,
-        sd.vest,
-        sd.gloves,
-        sd.scaffolding,
-        sd.guardrails,
-        sd.harness,
+        sd.helmet_score, -- Corrected column name
+        sd.footwear_score,
+        sd.vest_score,
+        sd.gloves_score,
+        sd.scaffolding_score,
+        sd.guardrails_score,
+        sd.harness_score,
         st.trend_id,
         st.score,
         st."timestamp" AS date -- Alias the timestamp column from safety_score_trends as date
@@ -45,13 +45,13 @@ SELECT
             ),
             'trends', json_agg(DISTINCT json_build_object('date', st.date, 'score', st.score)),
             'safetyScoreDistribution', json_build_object(
-                'helmet', AVG(sd.helmet),
-                'footwear', AVG(sd.footwear),
-                'vest', AVG(sd.vest),
-                'gloves', AVG(sd.gloves),
-                'scaffolding', AVG(sd.scaffolding),
-                'guardrails', AVG(sd.guardrails),
-                'harness', AVG(sd.harness)
+                'helmet', AVG(sd.helmet_score), -- Corrected column name
+                'footwear', AVG(sd.footwear_score),
+                'vest', AVG(sd.vest_score),
+                'gloves', AVG(sd.gloves_score),
+                'scaffolding', AVG(sd.scaffolding_score),
+                'guardrails', AVG(sd.guardrails_score),
+                'harness', AVG(sd.harness_score)
             ),
             'top3', json_build_object(
                 'improvements', json_agg(DISTINCT json_build_object('name', 'footwear', 'positive', true, 'value', 2.5)),
@@ -70,13 +70,13 @@ SELECT
                 'seconds', EXTRACT(SECOND FROM (s.end_time - s.start_time))
             ),
             'safetyScoreDistribution', json_build_object(
-                'helmet', sd.helmet,
-                'footwear', sd.footwear,
-                'vest', sd.vest,
-                'gloves', sd.gloves,
-                'scaffolding', sd.scaffolding,
-                'guardrails', sd.guardrails,
-                'harness', sd.harness
+                'helmet', sd.helmet_score, -- Corrected column name
+                'footwear', sd.footwear_score,
+                'vest', sd.vest_score,
+                'gloves', sd.gloves_score,
+                'scaffolding', sd.scaffolding_score,
+                'guardrails', sd.guardrails_score,
+                'harness', sd.harness_score
             ),
             'top3', json_build_object(
                 'improvements', json_agg(DISTINCT json_build_object('name', 'footwear', 'positive', true, 'value', 2.5)),
