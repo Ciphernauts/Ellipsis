@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const path = require("path");
 const { fileURLToPath } = require("url");
 const userRoutes = require("./Routes/UserRoutes");
+const camerasRoutes = require('./Routes/CamerasRouter');
 
 //const __filename = fileURLToPath(import.meta.url);
 //const __dirname = path.dirname(__filename);
@@ -21,5 +22,6 @@ app.get("/", (req,res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api', camerasRoutes);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
