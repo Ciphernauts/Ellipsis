@@ -20,6 +20,7 @@ import ChangeMode from './pages/ChangeMode';
 import Settings from './pages/Settings';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import SafetyTrends from './pages/SafetyTrends';
 
 const App = () => {
   const isStandalone = isPWA();
@@ -44,22 +45,18 @@ const App = () => {
             element={<Dashboard isPWA={isStandalone} />}
           />
           <Route path='/safety-trends' element={<Dashboard />} />
-
           {/* Redirect from /timeline to /timeline/calendar */}
           <Route
             path='/timeline'
             element={<Navigate to='/timeline/calendar' replace />}
           />
-
           <Route path='/timeline/calendar' element={<TimelineCalendar />} />
           <Route path='/timeline/sessions' element={<TimelineSessions />} />
-
           {/* Redirect from /incidents to /incidents/incident-trends */}
           <Route
             path='/incidents'
             element={<Navigate to='/incidents/incident-trends' replace />}
           />
-
           <Route
             path='/incidents/incident-trends'
             element={<IncidentTrends />}
@@ -68,11 +65,15 @@ const App = () => {
             path='/incidents/incident-history'
             element={<IncidentHistory />}
           />
-
           <Route path='/construction-sites' element={<ConstructionSites />} />
           <Route path='/cameras' element={<Dashboard />} />
           <Route path='/change-mode' element={<ChangeMode />} />
           <Route path='/settings' element={<Settings />} />
+
+          <Route
+            path='/safety-trends/:category/:subcategory'
+            element={<SafetyTrends />}
+          />
         </Route>
       </Routes>
     </AppProvider>
