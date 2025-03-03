@@ -30,11 +30,10 @@ export default function ConstructionSites({ isPWA = false }) {
         },
       });
 
-      console.log('API Response:', response.data); // Log the API response
-
       // Ensure the response data is an array
       if (Array.isArray(response.data)) {
         setData(response.data); // Set the data if it's an array
+        console.log(response.data);
       } else {
         console.error('API response is not an array:', response.data);
         throw new Error('API response is not an array'); // Force fallback
@@ -189,8 +188,8 @@ export default function ConstructionSites({ isPWA = false }) {
   // Function to handle deleting a site
   const handleDeleteSite = async (id) => {
     try {
-      await axios.delete(`/api/construction-sites/${id}`); // Replace with your API endpoint
-      setData((prevData) => prevData.filter((site) => site.id !== id)); // Remove deleted site from the array
+      await axios.delete(`/api/construction-sites/${id}`);
+      setData((prevData) => prevData.filter((site) => site.id !== id));
     } catch (error) {
       console.error('Error deleting site:', error);
     }

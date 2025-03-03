@@ -23,12 +23,12 @@ export default function IncidentHistory({ isPWA = false }) {
 
   const incidentTypes = [
     'All',
-    'Missing helmet',
-    'Improper footwear',
-    'Improper scaffolding',
-    'Missing harness',
-    'Missing vest',
-    'Missing guardrails',
+    'Helmet',
+    'Shoes',
+    'Scaffolding',
+    'Harness',
+    'Vest',
+    'Guardrail',
   ];
 
   const severityTypes = ['All', 'Moderate', 'Critical'];
@@ -53,10 +53,14 @@ export default function IncidentHistory({ isPWA = false }) {
   const fetchIncidents = async () => {
     try {
       const response = await axios.get('/api/incidents/incident-history');
+      console.log(response.data);
       if (response.data) {
         setData({
-          incidents: response.data.incidents,
-          constructionSites: response.data.constructionSites,
+          incidents: response.data[0].response_data.incidents,
+          constructionSites: [
+            'All',
+            ...response.data[0].response_data.constructionSites,
+          ],
         });
       } else {
         throw new Error('No data returned from API');

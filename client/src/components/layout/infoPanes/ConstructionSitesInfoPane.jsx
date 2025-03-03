@@ -18,6 +18,8 @@ export default function ConstructionSitesInfoPane({
     }
   }, [data]);
 
+  console.log(data);
+
   const handleToggleChange = async () => {
     setUpdating(true);
     const previousIsActive = isActive; // Store the previous state
@@ -77,7 +79,7 @@ export default function ConstructionSitesInfoPane({
           </div>
 
           <div className={styles.row}>
-            <PaneInfoPiece name='Safety Score' value={data.safetyscore} />
+            <PaneInfoPiece name='Safety Score' value={data.safetyScore} />
             <PaneInfoPiece
               name='Duration'
               value={
