@@ -77,3 +77,13 @@ export const formatTime = (dateString) => {
     hour12: true,
   });
 };
+
+export const incidentCategoryToNameMap = {
+  helmet: 'Missing helmet',
+  footwear: 'Improper footwear',
+  vest: 'Missing vest',
+  gloves: 'Missing gloves',
+  scaffolding: 'Improper scaffolding',
+  guardrails: 'Missing guardrails',
+  harness: 'Missing harness',
+};
