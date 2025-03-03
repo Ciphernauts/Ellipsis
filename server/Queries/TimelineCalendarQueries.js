@@ -1,5 +1,4 @@
-const getStatsForMonthAndDays = `
-WITH month_data AS (
+const getStatsForMonthAndDays = `WITH month_data AS (
     SELECT
         s.session_id,
         s.start_time,
@@ -17,7 +16,7 @@ WITH month_data AS (
         sd.harness,
         st.trend_id,
         st.score,
-        st.date
+        st."timestamp" AS date -- Alias the timestamp column from safety_score_trends as date
     FROM
         sessions s
     LEFT JOIN
@@ -96,9 +95,9 @@ LEFT JOIN
 LEFT JOIN
     safety_score_distribution sd ON s.session_id = sd.session_id
 LEFT JOIN
+    safety_score_trends st ON s.session_id = st.session_id
 GROUP BY
-    to_char(s.start_time, 'YYYY-MM-DD');
-`;
+    s.session_id, s.start_time, s.end_time, s.safety_score, s.progress;`
 
 module.exports = {
     getStatsForMonthAndDays,
