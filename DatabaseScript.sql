@@ -294,355 +294,355 @@ INSERT INTO sessions (session_id, site_id, camera_id, mode, start_time, end_time
 -- SNAPSHOTS
 -- ----------------------------------------------------------------------
 
--- Session S0028
+-- Session S0028 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0028', 'https://picsum.photos/id/100/200/150', '2025-02-01 09:00:00'),
-    ('S0028', 'https://picsum.photos/id/101/200/150', '2025-02-01 11:00:00'),
-    ('S0028', 'https://picsum.photos/id/102/200/150', '2025-02-01 13:00:00'),
-    ('S0028', 'https://picsum.photos/id/103/200/150', '2025-02-01 15:00:00');
+    ('S0028', 'https://i.postimg.cc/vHVgQHgQ/Screenshot-2025-03-02-at-2-21-12-PM.png', '2025-02-01 09:00:00'),
+    ('S0028', 'https://i.postimg.cc/JtCrmsf1/Screenshot-2025-03-03-at-12-26-20-pm.png', '2025-02-01 11:00:00'),
+    ('S0028', 'https://i.postimg.cc/Njt1SrJh/Screenshot-2025-03-02-at-2-21-39-PM.png', '2025-02-01 13:00:00'),
+    ('S0028', 'https://i.postimg.cc/DwFGP0Sk/Screenshot-2025-03-03-at-12-25-38-pm.png', '2025-02-01 15:00:00');
 
--- Session S0029
+-- Session S0029 -- Height
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0029', 'https://picsum.photos/id/104/200/150', '2025-02-01 10:00:00'),
-    ('S0029', 'https://picsum.photos/id/105/200/150', '2025-02-01 12:00:00'),
-    ('S0029', 'https://picsum.photos/id/106/200/150', '2025-02-01 14:00:00'),
-    ('S0029', 'https://picsum.photos/id/107/200/150', '2025-02-01 16:00:00');
+    ('S0029', 'https://i.postimg.cc/YCN5gVD5/Screenshot-2025-03-02-at-1-39-06-PM.png', '2025-02-01 10:00:00'),
+    ('S0029', 'https://i.postimg.cc/447pJjDM/Screenshot-2025-03-03-at-12-24-58-pm.png', '2025-02-01 12:00:00'),
+    ('S0029', 'https://i.postimg.cc/kMFhy64q/Screenshot-2025-03-03-at-12-18-24-pm.png', '2025-02-01 14:00:00'),
+    ('S0029', 'https://i.postimg.cc/25tN8WKy/Screenshot-2025-03-02-at-2-15-31-PM.png', '2025-02-01 16:00:00');
 
--- Session S0030
+-- Session S0030 -- Entry
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0030', 'https://picsum.photos/id/108/200/150', '2025-02-01 11:00:00'),
-    ('S0030', 'https://picsum.photos/id/109/200/150', '2025-02-01 13:00:00'),
-    ('S0030', 'https://picsum.photos/id/110/200/150', '2025-02-01 15:00:00'),
-    ('S0030', 'https://picsum.photos/id/111/200/150', '2025-02-01 17:00:00');
+    ('S0030', 'https://i.postimg.cc/QCLB7RvL/Screenshot-2025-03-02-at-3-18-43-PM.png', '2025-02-01 11:00:00'),
+    ('S0030', 'https://i.postimg.cc/mD9kTmkm/Screenshot-2025-03-02-at-3-23-24-PM.png', '2025-02-01 13:00:00'),
+    ('S0030', 'https://i.postimg.cc/zGDyTw2f/Screenshot-2025-03-02-at-3-28-35-PM.png', '2025-02-01 15:00:00'),
+    ('S0030', 'https://i.postimg.cc/zGdV7L4F/Screenshot-2025-03-02-at-3-30-20-PM.png', '2025-02-01 17:00:00');
 
--- Session S0031
+-- Session S0031 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0031', 'https://picsum.photos/id/112/200/150', '2025-02-01 12:00:00'),
-    ('S0031', 'https://picsum.photos/id/113/200/150', '2025-02-01 14:00:00'),
-    ('S0031', 'https://picsum.photos/id/114/200/150', '2025-02-01 16:00:00'),
-    ('S0031', 'https://picsum.photos/id/115/200/150', '2025-02-01 18:00:00');
+    ('S0031', 'https://i.postimg.cc/mkHL0Y6X/Screenshot-2025-03-03-at-12-24-35-pm.png', '2025-02-01 12:00:00'),
+    ('S0031', 'https://i.postimg.cc/CMqfykDp/Screenshot-2025-03-03-at-12-27-00-pm.png', '2025-02-01 14:00:00'),
+    ('S0031', 'https://i.postimg.cc/YSnYvDpk/Screenshot-2025-03-02-at-2-35-11-PM.png', '2025-02-01 16:00:00'),
+    ('S0031', 'https://i.postimg.cc/4djc5K7S/Screenshot-2025-03-02-at-2-35-36-PM.png', '2025-02-01 18:00:00');
 
--- Session S0032
+-- Session S0032 -- Entry
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0032', 'https://picsum.photos/id/116/200/150', '2025-02-01 13:00:00'),
-    ('S0032', 'https://picsum.photos/id/117/200/150', '2025-02-01 15:00:00'),
-    ('S0032', 'https://picsum.photos/id/118/200/150', '2025-02-01 17:00:00'),
-    ('S0032', 'https://picsum.photos/id/119/200/150', '2025-02-01 19:00:00');
+    ('S0032', 'https://i.postimg.cc/rwW4SWV9/Screenshot-2025-03-03-at-12-21-20-pm.png', '2025-02-01 13:00:00'),
+    ('S0032', 'https://i.postimg.cc/YqM0wfHx/Screenshot-2025-03-02-at-4-08-53-PM.png', '2025-02-01 15:00:00'),
+    ('S0032', 'https://i.postimg.cc/Dzvz8b80/Screenshot-2025-03-03-at-12-23-15-pm.png', '2025-02-01 17:00:00'),
+    ('S0032', 'https://i.postimg.cc/d05VdtyB/Screenshot-2025-03-03-at-12-24-01-pm.png', '2025-02-01 19:00:00');
 
--- Session S0033
+-- Session S0033 -- Entry
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0033', 'https://picsum.photos/id/120/200/150', '2025-02-02 09:00:00'),
-    ('S0033', 'https://picsum.photos/id/121/200/150', '2025-02-02 11:00:00'),
-    ('S0033', 'https://picsum.photos/id/122/200/150', '2025-02-02 13:00:00'),
-    ('S0033', 'https://picsum.photos/id/123/200/150', '2025-02-02 15:00:00');
+    ('S0033', 'https://i.postimg.cc/C1ZnxfQD/Screenshot-2025-03-03-at-12-25-13-pm.png', '2025-02-02 09:00:00'),
+    ('S0033', 'https://i.postimg.cc/44YfqXW9/vlcsnap-2025-03-03-13h05m04s538.png', '2025-02-02 11:00:00'),
+    ('S0033', 'https://i.postimg.cc/85nYLQW8/vlcsnap-2025-03-03-13h05m06s199.png', '2025-02-02 13:00:00'),
+    ('S0033', 'https://i.postimg.cc/nryww400/vlcsnap-2025-03-03-13h05m08s039.png', '2025-02-02 15:00:00');
 
--- Session S0034
+-- Session S0034 -- Workshop
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0034', 'https://picsum.photos/id/124/200/150', '2025-02-02 10:00:00'),
-    ('S0034', 'https://picsum.photos/id/125/200/150', '2025-02-02 12:00:00'),
-    ('S0034', 'https://picsum.photos/id/126/200/150', '2025-02-02 14:00:00'),
-    ('S0034', 'https://picsum.photos/id/127/200/150', '2025-02-02 16:00:00');
+    ('S0034', 'https://i.postimg.cc/wMW9LBqb/Screenshot-2025-03-02-at-2-18-42-PM.png', '2025-02-02 10:00:00'),
+    ('S0034', 'https://i.postimg.cc/Yqc5DgVf/Screenshot-2025-03-02-at-2-30-45-PM.png', '2025-02-02 12:00:00'),
+    ('S0034', 'https://i.postimg.cc/HxwwpqYL/Screenshot-2025-03-02-at-2-32-09-PM.png', '2025-02-02 14:00:00'),
+    ('S0034', 'https://i.postimg.cc/RFZSFf9n/Screenshot-2025-03-02-at-2-32-37-PM.png', '2025-02-02 16:00:00');
 
--- Session S0035
+-- Session S0035 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0035', 'https://picsum.photos/id/128/200/150', '2025-02-02 11:00:00'),
-    ('S0035', 'https://picsum.photos/id/129/200/150', '2025-02-02 13:00:00'),
-    ('S0035', 'https://picsum.photos/id/130/200/150', '2025-02-02 15:00:00'),
-    ('S0035', 'https://picsum.photos/id/131/200/150', '2025-02-02 17:00:00');
+    ('S0035', 'https://i.postimg.cc/hjhP0W8q/Screenshot-2025-03-03-at-12-24-23-pm.png', '2025-02-02 11:00:00'),
+    ('S0035', 'https://i.postimg.cc/NM295gJ7/Screenshot-2025-03-02-at-2-39-58-PM.png', '2025-02-02 13:00:00'),
+    ('S0035', 'https://i.postimg.cc/FzjYVTQY/Screenshot-2025-03-02-at-2-53-16-PM.png', '2025-02-02 15:00:00'),
+    ('S0035', 'https://i.postimg.cc/1Xwgp1P3/Screenshot-2025-03-03-at-12-26-34-pm.png', '2025-02-02 17:00:00');
 
--- Session S0036
+-- Session S0036 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0036', 'https://picsum.photos/id/132/200/150', '2025-02-02 12:00:00'),
-    ('S0036', 'https://picsum.photos/id/133/200/150', '2025-02-02 14:00:00'),
-    ('S0036', 'https://picsum.photos/id/134/200/150', '2025-02-02 16:00:00'),
-    ('S0036', 'https://picsum.photos/id/135/200/150', '2025-02-02 18:00:00');
+    ('S0036', 'https://i.postimg.cc/QCwB7NvP/Screenshot-2025-03-03-at-12-21-45-pm.png', '2025-02-02 12:00:00'),
+    ('S0036', 'https://i.postimg.cc/tgxVtF8B/Screenshot-2025-03-03-at-11-42-43-AM.png ', '2025-02-02 14:00:00'),
+    ('S0036', 'https://i.postimg.cc/Y9QYkQ3v/Screenshot-2025-03-03-at-11-43-19-AM.png', '2025-02-02 16:00:00'),
+    ('S0036', 'https://i.postimg.cc/8znhbpcz/Screenshot-2025-03-03-at-11-43-35-AM.png', '2025-02-02 18:00:00');
 
--- Session S0037
+-- Session S0037 -- Height
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0037', 'https://picsum.photos/id/136/200/150', '2025-02-02 13:00:00'),
-    ('S0037', 'https://picsum.photos/id/137/200/150', '2025-02-02 15:00:00'),
-    ('S0037', 'https://picsum.photos/id/138/200/150', '2025-02-02 17:00:00'),
-    ('S0037', 'https://picsum.photos/id/139/200/150', '2025-02-02 19:00:00');
+    ('S0037', 'https://i.postimg.cc/Y2fDdgzF/Screenshot-2025-03-02-at-2-16-36-PM.png', '2025-02-02 13:00:00'),
+    ('S0037', 'https://i.postimg.cc/J403jB6M/Screenshot-2025-03-02-at-2-44-54-PM.png', '2025-02-02 15:00:00'),
+    ('S0037', 'https://i.postimg.cc/bwT2MyF3/Screenshot-2025-03-02-at-2-45-53-PM.png', '2025-02-02 17:00:00'),
+    ('S0037', 'https://i.postimg.cc/G2J0Pfp8/Screenshot-2025-03-02-at-3-09-40-PM.png', '2025-02-02 19:00:00');
 
--- Session S0038
+-- Session S0038 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0038', 'https://picsum.photos/id/140/200/150', '2025-02-03 09:00:00'),
-    ('S0038', 'https://picsum.photos/id/141/200/150', '2025-02-03 11:00:00'),
-    ('S0038', 'https://picsum.photos/id/142/200/150', '2025-02-03 13:00:00'),
-    ('S0038', 'https://picsum.photos/id/143/200/150', '2025-02-03 15:00:00');
+    ('S0038', 'https://i.postimg.cc/pLdf8h2S/Screenshot-2025-03-03-at-11-44-20-AM.png', '2025-02-03 09:00:00'),
+    ('S0038', 'https://i.postimg.cc/NG1kwvJd/Screenshot-2025-03-03-at-11-44-38-AM.png', '2025-02-03 11:00:00'),
+    ('S0038', 'https://i.postimg.cc/d0x4DRrn/vlcsnap-2025-03-03-11h59m36s607.png', '2025-02-03 13:00:00'),
+    ('S0038', 'https://i.postimg.cc/L8vyFFsc/vlcsnap-2025-03-03-11h59m44s470.png', '2025-02-03 15:00:00');
 
--- Session S0039
+-- Session S0039 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0039', 'https://picsum.photos/id/144/200/150', '2025-02-03 10:00:00'),
-    ('S0039', 'https://picsum.photos/id/145/200/150', '2025-02-03 12:00:00'),
-    ('S0039', 'https://picsum.photos/id/146/200/150', '2025-02-03 14:00:00'),
-    ('S0039', 'https://picsum.photos/id/147/200/150', '2025-02-03 16:00:00');
+    ('S0039', 'https://i.postimg.cc/y87fG87h/vlcsnap-2025-03-03-11h59m50s704.png', '2025-02-03 10:00:00'),
+    ('S0039', 'https://i.postimg.cc/MK23yY4F/vlcsnap-2025-03-03-11h59m55s096.png', '2025-02-03 12:00:00'),
+    ('S0039', 'https://i.postimg.cc/RZTYCngb/vlcsnap-2025-03-03-11h59m58s496.png', '2025-02-03 14:00:00'),
+    ('S0039', 'https://i.postimg.cc/jST9rh47/vlcsnap-2025-03-03-12h00m01s630.png', '2025-02-03 16:00:00');
 
--- Session S0040
+-- Session S0040 -- Entry
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0040', 'https://picsum.photos/id/148/200/150', '2025-02-03 11:00:00'),
-    ('S0040', 'https://picsum.photos/id/149/200/150', '2025-02-03 13:00:00'),
-    ('S0040', 'https://picsum.photos/id/150/200/150', '2025-02-03 15:00:00'),
-    ('S0040', 'https://picsum.photos/id/151/200/150', '2025-02-03 17:00:00');
+    ('S0040', 'https://i.postimg.cc/wMyGVfc1/vlcsnap-2025-03-03-13h05m09s862.png', '2025-02-03 11:00:00'),
+    ('S0040', 'https://i.postimg.cc/6qyDP5w5/vlcsnap-2025-03-03-13h05m11s796.png', '2025-02-03 13:00:00'),
+    ('S0040', 'https://i.postimg.cc/5tmdYRn1/vlcsnap-2025-03-03-13h05m13s595.png', '2025-02-03 15:00:00'),
+    ('S0040', 'https://i.postimg.cc/J49W9Jsw/vlcsnap-2025-03-03-13h05m15s359.png', '2025-02-03 17:00:00');
 
--- Session S0041
+-- Session S0041 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0041', 'https://picsum.photos/id/152/200/150', '2025-02-03 12:00:00'),
-    ('S0041', 'https://picsum.photos/id/153/200/150', '2025-02-03 14:00:00'),
-    ('S0041', 'https://picsum.photos/id/154/200/150', '2025-02-03 16:00:00'),
-    ('S0041', 'https://picsum.photos/id/155/200/150', '2025-02-03 18:00:00');
+    ('S0041', 'https://i.postimg.cc/66DgMK7z/vlcsnap-2025-03-03-12h00m04s505.png', '2025-02-03 12:00:00'),
+    ('S0041', 'https://i.postimg.cc/qgVsyjvX/vlcsnap-2025-03-03-12h00m08s221.png', '2025-02-03 14:00:00'),
+    ('S0041', 'https://i.postimg.cc/8cF4h7BD/vlcsnap-2025-03-03-12h00m11s462.png', '2025-02-03 16:00:00'),
+    ('S0041', 'https://i.postimg.cc/TwNQLVbC/vlcsnap-2025-03-03-12h00m14s340.png', '2025-02-03 18:00:00');
 
--- Session S0042
-INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0042', 'https://picsum.photos/id/156/200/150', '2025-02-03 13:00:00'),
-    ('S0042', 'https://picsum.photos/id/157/200/150', '2025-02-03 15:00:00'),
-    ('S0042', 'https://picsum.photos/id/158/200/150', '2025-02-03 17:00:00'),
-    ('S0042', 'https://picsum.photos/id/159/200/150', '2025-02-03 19:00:00');
+-- Session S0042 -- General
+INSERT INTO snapshots (session_id, image_url, "timestamp") VALUEShttps://i.postimg.cc/zXV6jBXy/vlcsnap-2025-03-03-12h00m33s599.png
+    ('S0042', 'https://i.postimg.cc/HL26HDkG/vlcsnap-2025-03-03-12h00m18s084.png', '2025-02-03 13:00:00'),
+    ('S0042', 'https://i.postimg.cc/rw5hnt6w/vlcsnap-2025-03-03-12h00m21s269.png', '2025-02-03 15:00:00'),
+    ('S0042', 'https://i.postimg.cc/zXV6jBXy/vlcsnap-2025-03-03-12h00m33s599.png', '2025-02-03 17:00:00'),
+    ('S0042', 'https://i.postimg.cc/FznqvtGF/vlcsnap-2025-03-03-12h00m36s793.png', '2025-02-03 19:00:00');
 
--- Session S0043
+-- Session S0043 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0043', 'https://picsum.photos/id/160/200/150', '2025-02-04 09:00:00'),
-    ('S0043', 'https://picsum.photos/id/161/200/150', '2025-02-04 11:00:00'),
-    ('S0043', 'https://picsum.photos/id/162/200/150', '2025-02-04 13:00:00'),
-    ('S0043', 'https://picsum.photos/id/163/200/150', '2025-02-04 15:00:00');
+    ('S0043', 'https://i.postimg.cc/PxT0zQPH/vlcsnap-2025-03-03-12h00m39s702.png', '2025-02-04 09:00:00'),
+    ('S0043', 'https://i.postimg.cc/DzV9mTh8/vlcsnap-2025-03-03-12h00m44s138.png', '2025-02-04 11:00:00'),
+    ('S0043', 'https://i.postimg.cc/6q5JwfXc/vlcsnap-2025-03-03-12h00m50s145.png', '2025-02-04 13:00:00'),
+    ('S0043', 'https://i.postimg.cc/bJPfVjVK/vlcsnap-2025-03-03-12h00m53s348.png', '2025-02-04 15:00:00');
 
--- Session S0044
+-- Session S0044 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0044', 'https://picsum.photos/id/164/200/150', '2025-02-04 10:00:00'),
-    ('S0044', 'https://picsum.photos/id/165/200/150', '2025-02-04 12:00:00'),
-    ('S0044', 'https://picsum.photos/id/166/200/150', '2025-02-04 14:00:00'),
-    ('S0044', 'https://picsum.photos/id/167/200/150', '2025-02-04 16:00:00');
+    ('S0044', 'https://i.postimg.cc/Vk38Mtqs/vlcsnap-2025-03-03-12h00m57s020.png', '2025-02-04 10:00:00'),
+    ('S0044', 'https://i.postimg.cc/v8zbjcsX/vlcsnap-2025-03-03-12h15m45s548.png', '2025-02-04 12:00:00'),
+    ('S0044', 'https://i.postimg.cc/nrkFGLHR/vlcsnap-2025-03-03-12h15m49s541.png', '2025-02-04 14:00:00'),
+    ('S0044', 'https://i.postimg.cc/G2vh9Q61/vlcsnap-2025-03-03-12h15m52s918.png', '2025-02-04 16:00:00');
 
--- Session S0045
+-- Session S0045 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0045', 'https://picsum.photos/id/168/200/150', '2025-02-04 11:00:00'),
-    ('S0045', 'https://picsum.photos/id/169/200/150', '2025-02-04 13:00:00'),
-    ('S0045', 'https://picsum.photos/id/170/200/150', '2025-02-04 15:00:00'),
-    ('S0045', 'https://picsum.photos/id/171/200/150', '2025-02-04 17:00:00');
+    ('S0045', 'https://i.postimg.cc/Jhfz1g6q/vlcsnap-2025-03-03-12h15m55s901.png', '2025-02-04 11:00:00'),
+    ('S0045', 'https://i.postimg.cc/nhwLWMqN/vlcsnap-2025-03-03-12h15m58s814.png', '2025-02-04 13:00:00'),
+    ('S0045', 'https://i.postimg.cc/kGF4Ycyy/vlcsnap-2025-03-03-12h16m02s025.png', '2025-02-04 15:00:00'),
+    ('S0045', 'https://i.postimg.cc/fyhyvFYL/vlcsnap-2025-03-03-12h18m09s205.png', '2025-02-04 17:00:00');
 
--- Session S0046
+-- Session S0046 -- Height
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0046', 'https://picsum.photos/id/172/200/150', '2025-02-04 12:00:00'),
-    ('S0046', 'https://picsum.photos/id/173/200/150', '2025-02-04 14:00:00'),
-    ('S0046', 'https://picsum.photos/id/174/200/150', '2025-02-04 16:00:00'),
-    ('S0046', 'https://picsum.photos/id/175/200/150', '2025-02-04 18:00:00');
+    ('S0046', 'https://i.postimg.cc/tCRZL18w/Screenshot-2025-03-02-at-3-04-23-PM.png', '2025-02-04 12:00:00'),
+    ('S0046', 'https://i.postimg.cc/026xMPSr/Screenshot-2025-03-02-at-3-15-58-PM.png', '2025-02-04 14:00:00'),
+    ('S0046', 'https://i.postimg.cc/PxmyFL0N/Screenshot-2025-03-02-at-3-19-11-PM.png', '2025-02-04 16:00:00'),
+    ('S0046', 'https://i.postimg.cc/ZKw71GpQ/Screenshot-2025-03-03-at-12-19-07-pm.png', '2025-02-04 18:00:00');
 
--- Session S0047
+-- Session S0047 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0047', 'https://picsum.photos/id/176/200/150', '2025-02-04 13:00:00'),
-    ('S0047', 'https://picsum.photos/id/177/200/150', '2025-02-04 15:00:00'),
-    ('S0047', 'https://picsum.photos/id/178/200/150', '2025-02-04 17:00:00'),
-    ('S0047', 'https://picsum.photos/id/179/200/150', '2025-02-04 19:00:00');
+    ('S0047', 'https://i.postimg.cc/bvWsZdJ1/vlcsnap-2025-03-03-12h18m15s934.png', '2025-02-04 13:00:00'),
+    ('S0047', 'https://i.postimg.cc/SKJnQcyy/vlcsnap-2025-03-03-12h18m19s111.png', '2025-02-04 15:00:00'),
+    ('S0047', 'https://i.postimg.cc/xd4bLtsJ/vlcsnap-2025-03-03-12h18m53s784.png', '2025-02-04 17:00:00'),
+    ('S0047', 'https://i.postimg.cc/JzRJ8yDn/vlcsnap-2025-03-03-12h18m59s154.png', '2025-02-04 19:00:00');
 
--- Session S0048
+-- Session S0048 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0048', 'https://picsum.photos/id/180/200/150', '2025-02-05 09:00:00'),
-    ('S0048', 'https://picsum.photos/id/181/200/150', '2025-02-05 11:00:00'),
-    ('S0048', 'https://picsum.photos/id/182/200/150', '2025-02-05 13:00:00'),
-    ('S0048', 'https://picsum.photos/id/183/200/150', '2025-02-05 15:00:00');
+    ('S0048', 'https://i.postimg.cc/Yq6gTNSZ/vlcsnap-2025-03-03-12h19m01s939.png', '2025-02-05 09:00:00'),
+    ('S0048', 'https://i.postimg.cc/kX3KjY7W/vlcsnap-2025-03-03-12h19m04s619.png', '2025-02-05 11:00:00'),
+    ('S0048', 'https://i.postimg.cc/4djVRBVk/vlcsnap-2025-03-03-12h19m16s115.png', '2025-02-05 13:00:00'),
+    ('S0048', 'https://i.postimg.cc/FKsjyfNq/vlcsnap-2025-03-03-12h19m24s801.png', '2025-02-05 15:00:00');
 
--- Session S0049
+-- Session S0049 -- Entry
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0049', 'https://picsum.photos/id/184/200/150', '2025-02-05 10:00:00'),
-    ('S0049', 'https://picsum.photos/id/185/200/150', '2025-02-05 12:00:00'),
-    ('S0049', 'https://picsum.photos/id/186/200/150', '2025-02-05 14:00:00'),
-    ('S0049', 'https://picsum.photos/id/187/200/150', '2025-02-05 16:00:00');
+    ('S0049', 'https://i.postimg.cc/8PFSKwPB/vlcsnap-2025-03-03-13h05m17s060.png', '2025-02-05 10:00:00'),
+    ('S0049', 'https://i.postimg.cc/bv080JY7/vlcsnap-2025-03-03-13h05m18s867.png', '2025-02-05 12:00:00'),
+    ('S0049', 'https://i.postimg.cc/pdMRn8vQ/vlcsnap-2025-03-03-13h05m20s816.png', '2025-02-05 14:00:00'),
+    ('S0049', 'https://i.postimg.cc/c4js025b/vlcsnap-2025-03-03-13h05m22s517.png', '2025-02-05 16:00:00');
 
--- Session S0050
+-- Session S0050 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0050', 'https://picsum.photos/id/188/200/150', '2025-02-05 11:00:00'),
-    ('S0050', 'https://picsum.photos/id/189/200/150', '2025-02-05 13:00:00'),
-    ('S0050', 'https://picsum.photos/id/190/200/150', '2025-02-05 15:00:00'),
-    ('S0050', 'https://picsum.photos/id/191/200/150', '2025-02-05 17:00:00');
+    ('S0050', 'https://i.postimg.cc/bwP0vCMq/vlcsnap-2025-03-03-12h19m28s025.png', '2025-02-05 11:00:00'),
+    ('S0050', 'https://i.postimg.cc/xjWywT3J/vlcsnap-2025-03-03-12h19m31s452.png', '2025-02-05 13:00:00'),
+    ('S0050', 'https://i.postimg.cc/zBvVBK8z/vlcsnap-2025-03-03-12h19m34s390.png', '2025-02-05 15:00:00'),
+    ('S0050', 'https://i.postimg.cc/vmQ4JCK6/vlcsnap-2025-03-03-12h19m37s019.png', '2025-02-05 17:00:00');
 
--- Session S0051
+-- Session S0051 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0051', 'https://picsum.photos/id/192/200/150', '2025-02-05 12:00:00'),
-    ('S0051', 'https://picsum.photos/id/193/200/150', '2025-02-05 14:00:00'),
-    ('S0051', 'https://picsum.photos/id/194/200/150', '2025-02-05 16:00:00'),
-    ('S0051', 'https://picsum.photos/id/195/200/150', '2025-02-05 18:00:00');
+    ('S0051', 'https://i.postimg.cc/Bb8LhDVY/vlcsnap-2025-03-03-12h19m40s258.png', '2025-02-05 12:00:00'),
+    ('S0051', 'https://i.postimg.cc/9fp7zc9p/vlcsnap-2025-03-03-12h19m44s117.png', '2025-02-05 14:00:00'),
+    ('S0051', 'https://i.postimg.cc/q70KkNNq/vlcsnap-2025-03-03-12h19m46s777.png', '2025-02-05 16:00:00'),
+    ('S0051', 'https://i.postimg.cc/mg7MfY2K/vlcsnap-2025-03-03-12h19m49s360.png', '2025-02-05 18:00:00');
 
--- Session S0052
+-- Session S0052 -- Workshop
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0052', 'https://picsum.photos/id/196/200/150', '2025-02-05 13:00:00'),
-    ('S0052', 'https://picsum.photos/id/197/200/150', '2025-02-05 15:00:00'),
-    ('S0052', 'https://picsum.photos/id/198/200/150', '2025-02-05 17:00:00'),
-    ('S0052', 'https://picsum.photos/id/199/200/150', '2025-02-05 19:00:00');
+    ('S0052', 'https://i.postimg.cc/N05Yvtx1/Screenshot-2025-03-02-at-2-32-56-PM.png', '2025-02-05 13:00:00'),
+    ('S0052', 'https://i.postimg.cc/pXrYnp50/Screenshot-2025-03-03-at-12-20-37-pm.png', '2025-02-05 15:00:00'),
+    ('S0052', 'https://i.postimg.cc/cJN7V1Wz/Screenshot-2025-03-02-at-2-41-51-PM.png', '2025-02-05 17:00:00'),
+    ('S0052', 'https://i.postimg.cc/HxnrNFrK/Screenshot-2025-03-02-at-2-42-31-PM.png', '2025-02-05 19:00:00');
 
--- Session S0053
+-- Session S0053 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0053', 'https://picsum.photos/id/200/200/150', '2025-02-06 09:00:00'),
-    ('S0053', 'https://picsum.photos/id/201/200/150', '2025-02-06 11:00:00'),
-    ('S0053', 'https://picsum.photos/id/202/200/150', '2025-02-06 13:00:00'),
-    ('S0053', 'https://picsum.photos/id/203/200/150', '2025-02-06 15:00:00');
+    ('S0053', 'https://i.postimg.cc/rmfxZqFm/vlcsnap-2025-03-03-12h19m52s164.png', '2025-02-06 09:00:00'),
+    ('S0053', 'https://i.postimg.cc/BvcxDxr2/vlcsnap-2025-03-03-12h19m55s372.png', '2025-02-06 11:00:00'),
+    ('S0053', 'https://i.postimg.cc/GhVJ13PT/vlcsnap-2025-03-03-12h19m58s354.png', '2025-02-06 13:00:00'),
+    ('S0053', 'https://i.postimg.cc/hPfbwQmq/vlcsnap-2025-03-03-12h20m01s267.png', '2025-02-06 15:00:00');
 
--- Session S0054
+-- Session S0054 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0054', 'https://picsum.photos/id/204/200/150', '2025-02-06 10:00:00'),
-    ('S0054', 'https://picsum.photos/id/205/200/150', '2025-02-06 12:00:00'),
-    ('S0054', 'https://picsum.photos/id/206/200/150', '2025-02-06 14:00:00'),
-    ('S0054', 'https://picsum.photos/id/207/200/150', '2025-02-06 16:00:00');
+    ('S0054', 'https://i.postimg.cc/kG5F7BhK/vlcsnap-2025-03-03-12h20m03s886.png', '2025-02-06 10:00:00'),
+    ('S0054', 'https://i.postimg.cc/SK0rcQJb/vlcsnap-2025-03-03-12h20m06s344.png', '2025-02-06 12:00:00'),
+    ('S0054', 'https://i.postimg.cc/jqvZBrky/vlcsnap-2025-03-03-12h20m09s824.png', '2025-02-06 14:00:00'),
+    ('S0054', 'https://i.postimg.cc/x8s5mKb6/vlcsnap-2025-03-03-12h20m12s754.png', '2025-02-06 16:00:00');
 
--- Session S0055
+-- Session S0055 -- Height
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0055', 'https://picsum.photos/id/208/200/150', '2025-02-06 11:00:00'),
-    ('S0055', 'https://picsum.photos/id/209/200/150', '2025-02-06 13:00:00'),
-    ('S0055', 'https://picsum.photos/id/210/200/150', '2025-02-06 15:00:00'),
-    ('S0055', 'https://picsum.photos/id/211/200/150', '2025-02-06 17:00:00');
+    ('S0055', 'https://i.postimg.cc/SKKjvH59/Screenshot-2025-03-02-at-3-26-18-PM.png', '2025-02-06 11:00:00'),
+    ('S0055', 'https://i.postimg.cc/Fzx4mHkH/Screenshot-2025-03-02-at-3-27-09-PM.png', '2025-02-06 13:00:00'),
+    ('S0055', 'https://i.postimg.cc/sg16yTJg/Screenshot-2025-03-03-at-12-19-42-pm.png', '2025-02-06 15:00:00'),
+    ('S0055', 'https://i.postimg.cc/9FHwc0tR/Screenshot-2025-03-03-at-12-27-12-pm.png', '2025-02-06 17:00:00');
 
--- Session S0056
+-- Session S0056 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0056', 'https://picsum.photos/id/212/200/150', '2025-02-06 12:00:00'),
-    ('S0056', 'https://picsum.photos/id/213/200/150', '2025-02-06 14:00:00'),
-    ('S0056', 'https://picsum.photos/id/214/200/150', '2025-02-06 16:00:00'),
-    ('S0056', 'https://picsum.photos/id/215/200/150', '2025-02-06 18:00:00');
+    ('S0056', 'https://i.postimg.cc/3RFn8Mr5/vlcsnap-2025-03-03-12h20m15s328.png', '2025-02-06 12:00:00'),
+    ('S0056', 'https://i.postimg.cc/sDD022Zn/vlcsnap-2025-03-03-12h20m19s982.png', '2025-02-06 14:00:00'),
+    ('S0056', 'https://i.postimg.cc/NFbJx3Z7/vlcsnap-2025-03-03-12h20m23s154.png', '2025-02-06 16:00:00'),
+    ('S0056', 'https://i.postimg.cc/XJfDrG8P/vlcsnap-2025-03-03-12h20m25s706.png', '2025-02-06 18:00:00');
 
--- Session S0057
+-- Session S0057 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0057', 'https://picsum.photos/id/216/200/150', '2025-02-06 13:00:00'),
-    ('S0057', 'https://picsum.photos/id/217/200/150', '2025-02-06 15:00:00'),
-    ('S0057', 'https://picsum.photos/id/218/200/150', '2025-02-06 17:00:00'),
-    ('S0057', 'https://picsum.photos/id/219/200/150', '2025-02-06 19:00:00');
+    ('S0057', 'https://i.postimg.cc/5tFrMkFb/vlcsnap-2025-03-03-12h20m28s407.png', '2025-02-06 13:00:00'),
+    ('S0057', 'https://i.postimg.cc/tCX8V58N/vlcsnap-2025-03-03-12h20m31s539.png', '2025-02-06 15:00:00'),
+    ('S0057', 'https://i.postimg.cc/3NhV1CN7/vlcsnap-2025-03-03-12h20m36s807.png', '2025-02-06 17:00:00'),
+    ('S0057', 'https://i.postimg.cc/8CqqJVV7/vlcsnap-2025-03-03-12h20m39s433.png', '2025-02-06 19:00:00');
 
--- Session S0058
+-- Session S0058 -- Entry
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0058', 'https://picsum.photos/id/220/200/150', '2025-02-07 09:00:00'),
-    ('S0058', 'https://picsum.photos/id/221/200/150', '2025-02-07 11:00:00'),
-    ('S0058', 'https://picsum.photos/id/222/200/150', '2025-02-07 13:00:00'),
-    ('S0058', 'https://picsum.photos/id/223/200/150', '2025-02-07 15:00:00');
+    ('S0058', 'https://i.postimg.cc/WbtNRTSZ/vlcsnap-2025-03-03-13h05m24s261.png', '2025-02-07 09:00:00'),
+    ('S0058', 'https://i.postimg.cc/rw0w4MrT/vlcsnap-2025-03-03-13h05m26s098.png', '2025-02-07 11:00:00'),
+    ('S0058', 'https://i.postimg.cc/kXh5DBDw/vlcsnap-2025-03-03-13h05m28s249.png', '2025-02-07 13:00:00'),
+    ('S0058', 'https://i.postimg.cc/j5Q5jcJJ/vlcsnap-2025-03-03-13h05m30s307.png', '2025-02-07 15:00:00');
 
--- Session S0059
+-- Session S0059 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0059', 'https://picsum.photos/id/224/200/150', '2025-02-07 10:00:00'),
-    ('S0059', 'https://picsum.photos/id/225/200/150', '2025-02-07 12:00:00'),
-    ('S0059', 'https://picsum.photos/id/226/200/150', '2025-02-07 14:00:00'),
-    ('S0059', 'https://picsum.photos/id/227/200/150', '2025-02-07 16:00:00');
+    ('S0059', 'https://i.postimg.cc/jqzrfC2t/vlcsnap-2025-03-03-12h20m42s751.png', '2025-02-07 10:00:00'),
+    ('S0059', 'https://i.postimg.cc/sxRd8Cnk/vlcsnap-2025-03-03-12h20m45s308.png', '2025-02-07 12:00:00'),
+    ('S0059', 'https://i.postimg.cc/W4hvqnFH/vlcsnap-2025-03-03-12h20m49s171.png', '2025-02-07 14:00:00'),
+    ('S0059', 'https://i.postimg.cc/fTfZGkQB/vlcsnap-2025-03-03-12h20m52s637.png', '2025-02-07 16:00:00');
 
--- Session S0060
+-- Session S0060 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0060', 'https://picsum.photos/id/228/200/150', '2025-02-07 11:00:00'),
-    ('S0060', 'https://picsum.photos/id/229/200/150', '2025-02-07 13:00:00'),
-    ('S0060', 'https://picsum.photos/id/230/200/150', '2025-02-07 15:00:00'),
-    ('S0060', 'https://picsum.photos/id/231/200/150', '2025-02-07 17:00:00');
+    ('S0060', 'https://i.postimg.cc/0QKPFf9w/vlcsnap-2025-03-03-12h20m56s551.png', '2025-02-07 11:00:00'),
+    ('S0060', 'https://i.postimg.cc/CK1FH0tJ/vlcsnap-2025-03-03-12h20m59s192.png', '2025-02-07 13:00:00'),
+    ('S0060', 'https://i.postimg.cc/vHFZRpgH/vlcsnap-2025-03-03-12h21m05s341.png', '2025-02-07 15:00:00'),
+    ('S0060', 'https://i.postimg.cc/FKsKW3fy/vlcsnap-2025-03-03-12h21m12s221.png', '2025-02-07 17:00:00');
 
--- Session S0061
+-- Session S0061 -- Workshop
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0061', 'https://picsum.photos/id/232/200/150', '2025-02-07 12:00:00'),
-    ('S0061', 'https://picsum.photos/id/233/200/150', '2025-02-07 14:00:00'),
-    ('S0061', 'https://picsum.photos/id/234/200/150', '2025-02-07 16:00:00'),
-    ('S0061', 'https://picsum.photos/id/235/200/150', '2025-02-07 18:00:00');
+    ('S0061', 'https://i.postimg.cc/jdf29bpx/Screenshot-2025-03-03-at-12-23-38-pm.png', '2025-02-07 12:00:00'),
+    ('S0061', 'https://i.postimg.cc/zv07Yhbh/Screenshot-2025-03-03-at-12-20-27-pm.png', '2025-02-07 14:00:00'),
+    ('S0061', 'https://i.postimg.cc/zvXYp13b/Screenshot-2025-03-02-at-2-20-09-PM.png', '2025-02-07 16:00:00'),
+    ('S0061', 'https://i.postimg.cc/5tTmn50w/Screenshot-2025-03-02-at-2-31-23-PM.png', '2025-02-07 18:00:00');
 
--- Session S0062
+-- Session S0062 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0062', 'https://picsum.photos/id/236/200/150', '2025-02-07 13:00:00'),
-    ('S0062', 'https://picsum.photos/id/237/200/150', '2025-02-07 15:00:00'),
-    ('S0062', 'https://picsum.photos/id/238/200/150', '2025-02-07 17:00:00'),
-    ('S0062', 'https://picsum.photos/id/239/200/150', '2025-02-07 19:00:00');
+    ('S0062', 'https://i.postimg.cc/Dft8vSDh/vlcsnap-2025-03-03-12h21m14s961.png', '2025-02-07 13:00:00'),
+    ('S0062', 'https://i.postimg.cc/QNBFZQfS/vlcsnap-2025-03-03-12h21m18s612.png', '2025-02-07 15:00:00'),
+    ('S0062', 'https://i.postimg.cc/k4HPyt8g/vlcsnap-2025-03-03-12h21m23s935.png', '2025-02-07 17:00:00'),
+    ('S0062', 'https://i.postimg.cc/zGY5MWQL/vlcsnap-2025-03-03-12h21m27s468.png', '2025-02-07 19:00:00');
 
--- Session S0063
+-- Session S0063 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0063', 'https://picsum.photos/id/240/200/150', '2025-02-08 09:00:00'),
-    ('S0063', 'https://picsum.photos/id/241/200/150', '2025-02-08 11:00:00'),
-    ('S0063', 'https://picsum.photos/id/242/200/150', '2025-02-08 13:00:00'),
-    ('S0063', 'https://picsum.photos/id/243/200/150', '2025-02-08 15:00:00');
+    ('S0063', 'https://i.postimg.cc/tRf938tN/vlcsnap-2025-03-03-12h21m31s041.png', '2025-02-08 09:00:00'),
+    ('S0063', 'https://i.postimg.cc/sxty3ZDN/vlcsnap-2025-03-03-12h21m33s887.png', '2025-02-08 11:00:00'),
+    ('S0063', 'https://i.postimg.cc/Kcs891FL/vlcsnap-2025-03-03-12h21m42s866.png', '2025-02-08 13:00:00'),
+    ('S0063', 'https://i.postimg.cc/PJcfNRKK/vlcsnap-2025-03-03-12h21m45s507.png', '2025-02-08 15:00:00');
 
--- Session S0064
+-- Session S0064 -- Height
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0064', 'https://picsum.photos/id/244/200/150', '2025-02-08 10:00:00'),
-    ('S0064', 'https://picsum.photos/id/245/200/150', '2025-02-08 12:00:00'),
-    ('S0064', 'https://picsum.photos/id/246/200/150', '2025-02-08 14:00:00'),
-    ('S0064', 'https://picsum.photos/id/247/200/150', '2025-02-08 16:00:00');
+    ('S0064', 'https://i.postimg.cc/MpTNRzKt/vlcsnap-2025-03-03-11h52m11s306.png', '2025-02-08 10:00:00'),
+    ('S0064', 'https://i.postimg.cc/029LkpTT/vlcsnap-2025-03-03-11h52m21s545.png', '2025-02-08 12:00:00'),
+    ('S0064', 'https://i.postimg.cc/gjW16Rn6/vlcsnap-2025-03-03-11h52m26s274.png', '2025-02-08 14:00:00'),
+    ('S0064', 'https://i.postimg.cc/fbFNkJcx/vlcsnap-2025-03-03-11h52m36s154.png', '2025-02-08 16:00:00');
 
--- Session S0065
+-- Session S0065 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0065', 'https://picsum.photos/id/248/200/150', '2025-02-08 11:00:00'),
-    ('S0065', 'https://picsum.photos/id/249/200/150', '2025-02-08 13:00:00'),
-    ('S0065', 'https://picsum.photos/id/250/200/150', '2025-02-08 15:00:00'),
-    ('S0065', 'https://picsum.photos/id/251/200/150', '2025-02-08 17:00:00');
+    ('S0065', 'https://i.postimg.cc/d1sVfdLR/vlcsnap-2025-03-03-12h21m48s055.png', '2025-02-08 11:00:00'),
+    ('S0065', 'https://i.postimg.cc/xTccYKgt/vlcsnap-2025-03-03-12h21m50s889.png', '2025-02-08 13:00:00'),
+    ('S0065', 'https://i.postimg.cc/GtStG23F/vlcsnap-2025-03-03-12h21m56s634.png', '2025-02-08 15:00:00'),
+    ('S0065', 'https://i.postimg.cc/GtStG23F/vlcsnap-2025-03-03-12h21m56s634.png', '2025-02-08 17:00:00');
 
--- Session S0066
+-- Session S0066 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0066', 'https://picsum.photos/id/252/200/150', '2025-02-08 12:00:00'),
-    ('S0066', 'https://picsum.photos/id/253/200/150', '2025-02-08 14:00:00'),
-    ('S0066', 'https://picsum.photos/id/254/200/150', '2025-02-08 16:00:00'),
-    ('S0066', 'https://picsum.photos/id/255/200/150', '2025-02-08 18:00:00');
+    ('S0066', 'https://i.postimg.cc/3NL4111D/vlcsnap-2025-03-03-12h22m02s312.png', '2025-02-08 12:00:00'),
+    ('S0066', 'https://i.postimg.cc/MHZf1N7S/vlcsnap-2025-03-03-12h22m04s824.png', '2025-02-08 14:00:00'),
+    ('S0066', 'https://i.postimg.cc/qRxCh4Cw/vlcsnap-2025-03-03-12h22m08s888.png', '2025-02-08 16:00:00'),
+    ('S0066', 'https://i.postimg.cc/Y9HWChjj/vlcsnap-2025-03-03-12h22m11s857.png', '2025-02-08 18:00:00');
 
--- Session S0067
+-- Session S0067 -- Entry
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0067', 'https://picsum.photos/id/256/200/150', '2025-02-08 13:00:00'),
-    ('S0067', 'https://picsum.photos/id/257/200/150', '2025-02-08 15:00:00'),
-    ('S0067', 'https://picsum.photos/id/258/200/150', '2025-02-08 17:00:00'),
-    ('S0067', 'https://picsum.photos/id/259/200/150', '2025-02-08 19:00:00');
+    ('S0067', 'https://i.postimg.cc/1zFXksmB/vlcsnap-2025-03-03-13h05m32s035.png', '2025-02-08 13:00:00'),
+    ('S0067', 'https://i.postimg.cc/9FX4r6bX/vlcsnap-2025-03-03-13h05m34s063.png', '2025-02-08 15:00:00'),
+    ('S0067', 'https://i.postimg.cc/XNkGNjwD/vlcsnap-2025-03-03-13h05m35s874.png', '2025-02-08 17:00:00'),
+    ('S0067', 'https://i.postimg.cc/QChFgwrb/vlcsnap-2025-03-03-13h05m37s670.png', '2025-02-08 19:00:00');
 
--- Session S0068
+-- Session S0068 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0068', 'https://picsum.photos/id/260/200/150', '2025-02-09 09:00:00'),
-    ('S0068', 'https://picsum.photos/id/261/200/150', '2025-02-09 11:00:00'),
-    ('S0068', 'https://picsum.photos/id/262/200/150', '2025-02-09 13:00:00'),
-    ('S0068', 'https://picsum.photos/id/263/200/150', '2025-02-09 15:00:00');
+    ('S0068', 'https://i.postimg.cc/sx37wvRb/vlcsnap-2025-03-03-12h22m21s050.png', '2025-02-09 09:00:00'),
+    ('S0068', 'https://i.postimg.cc/MHZf1N7S/vlcsnap-2025-03-03-12h22m04s824.png', '2025-02-09 11:00:00'),
+    ('S0068', 'https://i.postimg.cc/qRxCh4Cw/vlcsnap-2025-03-03-12h22m08s888.png', '2025-02-09 13:00:00'),
+    ('S0068', 'https://i.postimg.cc/Y9HWChjj/vlcsnap-2025-03-03-12h22m11s857.png', '2025-02-09 15:00:00');
 
--- Session S0069
+-- Session S0069 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0069', 'https://picsum.photos/id/264/200/150', '2025-02-09 10:00:00'),
-    ('S0069', 'https://picsum.photos/id/265/200/150', '2025-02-09 12:00:00'),
-    ('S0069', 'https://picsum.photos/id/266/200/150', '2025-02-09 14:00:00'),
-    ('S0069', 'https://picsum.photos/id/267/200/150', '2025-02-09 16:00:00');
+    ('S0069', 'https://i.postimg.cc/sx37wvRb/vlcsnap-2025-03-03-12h22m21s050.png', '2025-02-09 10:00:00'),
+    ('S0069', 'https://i.postimg.cc/mrFYrvwp/vlcsnap-2025-03-03-12h23m39s995.png', '2025-02-09 12:00:00'),
+    ('S0069', 'https://i.postimg.cc/pLSQRWDn/vlcsnap-2025-03-03-12h23m42s912.png', '2025-02-09 14:00:00'),
+    ('S0069', 'https://i.postimg.cc/y6hTczzw/vlcsnap-2025-03-03-12h23m46s339.png', '2025-02-09 16:00:00');
 
--- Session S0070
+-- Session S0070 --Workshop
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0070', 'https://picsum.photos/id/268/200/150', '2025-02-09 11:00:00'),
-    ('S0070', 'https://picsum.photos/id/269/200/150', '2025-02-09 13:00:00'),
-    ('S0070', 'https://picsum.photos/id/270/200/150', '2025-02-09 15:00:00'),
-    ('S0070', 'https://picsum.photos/id/271/200/150', '2025-02-09 17:00:00');
+    ('S0070', 'https://i.postimg.cc/FHs54vxT/Screenshot-2025-03-02-at-2-19-10-PM.png', '2025-02-09 11:00:00'),
+    ('S0070', 'https://i.postimg.cc/vBG58Bdt/Screenshot-2025-03-03-at-12-20-59-pm.png', '2025-02-09 13:00:00'),
+    ('S0070', 'https://i.postimg.cc/QMZK3YB3/vlcsnap-2025-03-03-12h00m25s399.png', '2025-02-09 15:00:00'),
+    ('S0070', 'https://i.postimg.cc/DwX4R3w6/vlcsnap-2025-03-03-12h00m29s242.png', '2025-02-09 17:00:00');
 
--- Session S0071
+-- Session S0071 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0071', 'https://picsum.photos/id/272/200/150', '2025-02-09 12:00:00'),
-    ('S0071', 'https://picsum.photos/id/273/200/150', '2025-02-09 14:00:00'),
-    ('S0071', 'https://picsum.photos/id/274/200/150', '2025-02-09 16:00:00'),
-    ('S0071', 'https://picsum.photos/id/275/200/150', '2025-02-09 18:00:00');
+    ('S0071', 'https://i.postimg.cc/T33QTNFB/vlcsnap-2025-03-03-12h23m49s277.png', '2025-02-09 12:00:00'),
+    ('S0071', 'https://i.postimg.cc/Wp058k0Y/vlcsnap-2025-03-03-12h23m52s620.png', '2025-02-09 14:00:00'),
+    ('S0071', 'https://i.postimg.cc/Ghrq5mQL/vlcsnap-2025-03-03-12h23m55s710.png', '2025-02-09 16:00:00'),
+    ('S0071', 'https://i.postimg.cc/d3RnVbqc/vlcsnap-2025-03-03-12h23m58s444.png', '2025-02-09 18:00:00');
 
--- Session S0072
+-- Session S0072 - General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0072', 'https://picsum.photos/id/276/200/150', '2025-02-09 13:00:00'),
-    ('S0072', 'https://picsum.photos/id/277/200/150', '2025-02-09 15:00:00'),
-    ('S0072', 'https://picsum.photos/id/278/200/150', '2025-02-09 17:00:00'),
-    ('S0072', 'https://picsum.photos/id/279/200/150', '2025-02-09 19:00:00');
+    ('S0072', 'https://i.postimg.cc/kMSpHZPc/vlcsnap-2025-03-03-12h24m01s999.png', '2025-02-09 13:00:00'),
+    ('S0072', 'https://i.postimg.cc/hG3YFRGC/vlcsnap-2025-03-03-12h24m05s198.png', '2025-02-09 15:00:00'),
+    ('S0072', 'https://i.postimg.cc/yNNGr87g/vlcsnap-2025-03-03-12h24m09s044.png', '2025-02-09 17:00:00'),
+    ('S0072', 'https://i.postimg.cc/Bn4kHCyC/vlcsnap-2025-03-03-12h24m12s113.png', '2025-02-09 19:00:00');
 
--- Session S0073
+-- Session S0073 -- Height
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0073', 'https://picsum.photos/id/280/200/150', '2025-02-10 09:00:00'),
-    ('S0073', 'https://picsum.photos/id/281/200/150', '2025-02-10 11:00:00'),
-    ('S0073', 'https://picsum.photos/id/282/200/150', '2025-02-10 13:00:00'),
-    ('S0073', 'https://picsum.photos/id/283/200/150', '2025-02-10 15:00:00');
+    ('S0073', 'https://i.postimg.cc/L8xRKyhQ/vlcsnap-2025-03-03-11h52m43s475.png', '2025-02-10 09:00:00'),
+    ('S0073', 'https://i.postimg.cc/FsQhjd2p/vlcsnap-2025-03-03-11h52m47s780.png', '2025-02-10 11:00:00'),
+    ('S0073', 'https://i.postimg.cc/QCcs2hWc/vlcsnap-2025-03-03-11h52m51s276.png', '2025-02-10 13:00:00'),
+    ('S0073', 'https://i.postimg.cc/Kc3Y7y4G/vlcsnap-2025-03-03-11h52m55s131.png', '2025-02-10 15:00:00');
 
--- Session S0074
+-- Session S0074 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0074', 'https://picsum.photos/id/284/200/150', '2025-02-10 10:00:00'),
-    ('S0074', 'https://picsum.photos/id/285/200/150', '2025-02-10 12:00:00'),
-    ('S0074', 'https://picsum.photos/id/286/200/150', '2025-02-10 14:00:00'),
-    ('S0074', 'https://picsum.photos/id/287/200/150', '2025-02-10 16:00:00');
+    ('S0074', 'https://i.postimg.cc/s2DFdJ42/vlcsnap-2025-03-03-12h24m15s335.png', '2025-02-10 10:00:00'),
+    ('S0074', 'https://i.postimg.cc/jST0vTWP/vlcsnap-2025-03-03-12h24m18s594.png', '2025-02-10 12:00:00'),
+    ('S0074', 'https://i.postimg.cc/15w1pXzy/vlcsnap-2025-03-03-12h24m21s996.png', '2025-02-10 14:00:00'),
+    ('S0074', 'https://i.postimg.cc/d115nHm8/vlcsnap-2025-03-03-12h24m24s943.png', '2025-02-10 16:00:00');
 
--- Session S0075
+-- Session S0075 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0075', 'https://picsum.photos/id/288/200/150', '2025-02-10 11:00:00'),
-    ('S0075', 'https://picsum.photos/id/289/200/150', '2025-02-10 13:00:00'),
-    ('S0075', 'https://picsum.photos/id/290/200/150', '2025-02-10 15:00:00'),
-    ('S0075', 'https://picsum.photos/id/291/200/150', '2025-02-10 17:00:00');
+    ('S0075', 'https://i.postimg.cc/43XLHNY2/vlcsnap-2025-03-03-12h24m28s246.png', '2025-02-10 11:00:00'),
+    ('S0075', 'https://i.postimg.cc/XqrDNHrV/vlcsnap-2025-03-03-12h24m31s003.png', '2025-02-10 13:00:00'),
+    ('S0075', 'https://i.postimg.cc/90sgDd9y/vlcsnap-2025-03-03-12h24m33s984.png', '2025-02-10 15:00:00'),
+    ('S0075', 'https://i.postimg.cc/rwx3tPQs/vlcsnap-2025-03-03-12h24m37s481.png', '2025-02-10 17:00:00');
 
--- Session S0076
+-- Session S0076 -- Entry
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0076', 'https://picsum.photos/id/292/200/150', '2025-02-10 12:00:00'),
-    ('S0076', 'https://picsum.photos/id/293/200/150', '2025-02-10 14:00:00'),
-    ('S0076', 'https://picsum.photos/id/294/200/150', '2025-02-10 16:00:00'),
-    ('S0076', 'https://picsum.photos/id/295/200/150', '2025-02-10 18:00:00');
+    ('S0076', 'https://i.postimg.cc/nL99nqkv/vlcsnap-2025-03-03-13h05m39s593.png', '2025-02-10 12:00:00'),
+    ('S0076', 'https://i.postimg.cc/rwmtYBRZ/vlcsnap-2025-03-03-13h05m42s237.png', '2025-02-10 14:00:00'),
+    ('S0076', 'https://i.postimg.cc/x82zxqLL/vlcsnap-2025-03-03-13h05m44s388.png', '2025-02-10 16:00:00'),
+    ('S0076', 'https://i.postimg.cc/3wkmWsK0/vlcsnap-2025-03-03-13h05m46s196.png', '2025-02-10 18:00:00');
 
--- Session S0077
+-- Session S0077 -- General
 INSERT INTO snapshots (session_id, image_url, "timestamp") VALUES
-    ('S0077', 'https://picsum.photos/id/296/200/150', '2025-02-10 13:00:00'),
-    ('S0077', 'https://picsum.photos/id/297/200/150', '2025-02-10 15:00:00'),
-    ('S0077', 'https://picsum.photos/id/298/200/150', '2025-02-10 17:00:00'),
-    ('S0077', 'https://picsum.photos/id/299/200/150', '2025-02-10 19:00:00');
+    ('S0077', 'https://i.postimg.cc/7hRdgvFG/vlcsnap-2025-03-03-12h24m40s517.png', '2025-02-10 13:00:00'),
+    ('S0077', 'https://i.postimg.cc/MHHgMZFJ/vlcsnap-2025-03-03-12h24m43s916.png', '2025-02-10 15:00:00'),
+    ('S0077', 'https://i.postimg.cc/W3XQ1qS7/vlcsnap-2025-03-03-12h24m46s810.png', '2025-02-10 17:00:00'),
+    ('S0077', 'https://i.postimg.cc/c4rN6hpt/vlcsnap-2025-03-03-12h24m49s298.png', '2025-02-10 19:00:00');
 
 
 
