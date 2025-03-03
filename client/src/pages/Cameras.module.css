@@ -49,6 +49,7 @@ h2 {
 }
 
 .dropdown {
+  width: 400px;
   position: absolute;
   top: 130%;
   right: 0;
@@ -56,7 +57,6 @@ h2 {
   border: 1px solid var(--neutral);
   border-radius: 10px;
   padding: 5px 0;
-  width: 400px;
 }
 
 .dropdown h3 {
@@ -198,27 +198,23 @@ h2 {
   transition: 0.2s;
 }
 
+.connectButton path {
+  transition: 0.2s;
+}
+
 .connectButton:disabled {
   display: none;
-  font-weight: 400;
-  background-color: #e7e7e7;
-  color: #a7a7a7;
-  pointer-events: none;
-  cursor: auto;
 }
 
-.connectButton:disabled path {
-  fill: #a7a7a7;
-}
-
-.connectButton:hover {
+.connectButton:hover,
+.connectButton:focus {
   background-color: var(--primary);
   color: var(--light);
 }
 
-.connectButton:hover path {
+.connectButton:hover path,
+.connectButton:focus path {
   fill: var(--light);
-  transition: 0.2s;
 }
 
 .delete {
@@ -248,4 +244,91 @@ h2 {
   .lastSynced {
     min-width: 0;
   }
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .heading {
+  width: 100%;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.mobile .heading h2 {
+  position: absolute;
+  left: 0;
+  margin-top: 7px;
+}
+
+.mobile .addDeviceContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.mobile .addDeviceButton {
+  white-space: nowrap;
+}
+
+.mobile .dropdown {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.mobile .deviceName {
+  font-size: 12px;
+}
+
+.mobile .row {
+  padding: 12px 10px;
+}
+
+.mobile .icon {
+  margin-right: 4%;
+}
+
+.mobile .name {
+  width: 100%;
+  line-height: normal;
+}
+
+.mobile .status {
+  width: 12%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  order: 4;
+}
+
+.mobile .lastSynced {
+  width: 100%;
+  min-width: auto;
+  font-size: 10px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+.mobile .connectButtonContainer {
+  width: 15%;
+  min-width: auto;
+  height: 32px;
+  order: 3;
+}
+
+.mobile .connectButton {
+  width: fit-content;
+  padding: 9px 9px;
+}
+
+.mobile .delete {
+  order: 5;
+}
+
+.mobile .delete svg {
+  width: 14px;
+  height: 16px;
 }

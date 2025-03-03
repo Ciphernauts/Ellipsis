@@ -80,7 +80,8 @@ const App = () => {
             path='/construction-sites'
             element={<ConstructionSites isPWA={isStandalone} />}
           />
-          <Route path='/cameras' element={<Cameras />} />
+          <Route path='/cameras' element={<Cameras isPWA={isStandalone} />} />
+
           <Route path='/change-mode' element={<ChangeMode />} />
           <Route path='/settings' element={<Settings />} />
         </Route>

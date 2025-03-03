@@ -8,7 +8,7 @@ import ConnectIcon from '../components/icons/ConnectIcon';
 import PlusIcon from '../components/icons/PlusIcon';
 import { truncateText, formatDate } from '../utils/helpers';
 
-export default function Cameras() {
+export default function Cameras({ isPWA = false }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAddingDevice, setIsAddingDevice] = useState(false);
@@ -228,7 +228,7 @@ export default function Cameras() {
   };
 
   return (
-    <div className={styles.cameras}>
+    <div className={`${styles.cameras} ${isPWA ? styles.mobile : ''}`}>
       <h1>Cameras</h1>
       <div className={styles.heading}>
         <h2>Paired Devices</h2>
@@ -282,7 +282,19 @@ export default function Cameras() {
               <div className={styles.icon}>
                 {camera.type === 'drone' ? <DroneIcon /> : <CameraIcon />}
               </div>
-              <div className={styles.name}>{camera.name}</div>
+              <div className={styles.name}>
+                {camera.name}
+                {isPWA &&
+                  !camera.isConnected &&
+                  (camera.lastSyncedDate ? (
+                    <div className={styles.lastSynced}>
+                      {'Last Synced: ' +
+                        formatDate(camera.lastSyncedDate, 'long')}
+                    </div>
+                  ) : (
+                    <div className={styles.lastSynced}>Not synced</div>
+                  ))}
+              </div>
               <div className={styles.status}>
                 <span
                   className={
@@ -290,22 +302,24 @@ export default function Cameras() {
                   }
                 />
                 <span className={styles.statusText}>
-                  {camera.isOnline ? 'Online' : 'Offline'}
+                  {!isPWA && (camera.isOnline ? 'Online' : 'Offline')}
                 </span>
               </div>
-              <div className={styles.lastSynced}>
-                {camera.isConnected
-                  ? ''
-                  : camera.lastSyncedDate
-                    ? 'Last Synced: ' +
-                      formatDate(camera.lastSyncedDate, 'long')
-                    : 'Not synced'}
-              </div>
+              {!isPWA && (
+                <div className={styles.lastSynced}>
+                  {camera.isConnected
+                    ? ''
+                    : camera.lastSyncedDate
+                      ? 'Last Synced: ' +
+                        formatDate(camera.lastSyncedDate, 'long')
+                      : 'Not synced'}
+                </div>
+              )}
               <div className={styles.connectButtonContainer}>
                 {camera.isConnected ? (
                   <span className={styles.connected} disabled={true}>
                     <TickIcon />
-                    Connected
+                    {!isPWA && 'Connected'}
                   </span>
                 ) : (
                   <button
@@ -314,7 +328,7 @@ export default function Cameras() {
                     onClick={() => handleConnectCamera(camera.id)}
                   >
                     <ConnectIcon />
-                    Connect
+                    {!isPWA && 'Connect'}
                   </button>
                 )}
               </div>
