@@ -207,7 +207,7 @@ INSERT INTO construction_sites (name, status, safetyScore, snapshots) VALUES
         "https://picsum.photos/id/80/200/150",
         "https://picsum.photos/id/81/200/150",
         "https://picsum.photos/id/82/200/150"
-    }'::TEXT);
+    }'::TEXT),
 	('Istanbul Project', 'Inactive', 84.4, '{
 	"https://picsum.photos/id/80/200/150",
 	"https://picsum.photos/id/81/200/150",
