@@ -41,9 +41,11 @@ const SafetyTrendTable = ({ data }) => {
                     <ArrowIcon
                       direction={isPositive ? 'up' : 'down'}
                       color={isPositive ? 'green' : 'red'}
+                      size={14}
                     />
-                    {entry.Growth}
+                    {entry.Growth.replace(/[^0-9.]/g, '')}%
                   </td>
+
                   <td className={styles.alertCount}>{entry['Alert Count']}</td>
                 </tr>
               );
