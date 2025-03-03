@@ -1003,11 +1003,13 @@ export default function TimelineCalendar({ isPWA = false }) {
   useEffect(() => {
     if (!calendarData) {
       fetchMonthData(month, year).then(() => {
-        // Set pane data to the month data only during initial render
-        setPaneData(placeholderData.month);
+        // Only set pane data if not in PWA mode
+        if (!isPWA) {
+          setPaneData(placeholderData.month);
+        }
       });
     }
-  }, [month, year, calendarData]);
+  }, [month, year, calendarData, isPWA]);
 
   // Navigation Handlers - Functions to navigate between months and days.
 

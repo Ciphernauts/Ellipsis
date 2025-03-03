@@ -180,7 +180,7 @@
 }
 
 @media (max-width: 1080px) {
-  .paneOpen .delete {
+  .constructionSites:not(.mobile) .paneOpen .delete {
     display: none;
   }
 }
@@ -204,7 +204,7 @@
 }
 
 .mobile .row {
-  height: 97px;
+  height: 121px;
   padding-right: 15px;
 }
 
@@ -232,6 +232,13 @@
   gap: 5px;
 }
 
+.mobile .addSiteContainer input {
+  width: 100%;
+}
+
 .mobile .addSiteToggle {
+  width: auto;
   white-space: nowrap;
+  padding: 10px 16px;
+  gap: 4px;
 }

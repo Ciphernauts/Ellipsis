@@ -150,6 +150,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
             >
               <li>Gloves</li>
             </NavLink>
+            <li className={styles.sectionHeader}>Fall Protection</li>
             <NavLink
               to='/safety-trends/scaffolding'
               className={({ isActive }) =>
@@ -159,7 +160,6 @@ export default function NavPane({ isPWA = false, toggle, className }) {
             >
               <li>Scaffolding</li>
             </NavLink>
-            <li className={styles.sectionHeader}>Fall Protection</li>
             <NavLink
               to='/safety-trends/guardrails'
               className={({ isActive }) =>

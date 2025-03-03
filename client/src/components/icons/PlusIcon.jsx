@@ -1,7 +1,7 @@
 export default function PlusIcon({ className }) {
   return (
     <svg
-      width='13'
+      width='12'
       height='13'
       viewBox='0 0 12 13'
       fill='none'

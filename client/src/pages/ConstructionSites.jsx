@@ -316,7 +316,6 @@ export default function ConstructionSites({ isPWA = false }) {
             ) : (
               <p>No construction sites available.</p>
             )}
-            ;
           </div>
         </div>
       )}
