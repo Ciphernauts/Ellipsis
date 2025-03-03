@@ -48,8 +48,15 @@ const getAllConstructionSites = `SELECT
           ON i.session_id = s.session_id
         WHERE
           s.site_id = cs.site_id AND i.severity = 'Critical'
-      )
+        )
     )
+  ORDER BY
+    (
+      CASE WHEN cs.status = 'Active'
+      THEN 1
+      ELSE 2
+      END
+    ) -- Order by status, Active first
   ) AS response_data
 FROM construction_sites AS cs;`
 
