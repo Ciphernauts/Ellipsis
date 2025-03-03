@@ -8,7 +8,7 @@ import styles from './Settings.module.css';
 
 const TABS = ['profile', 'system', 'notifications'];
 
-const Settings = () => {
+const Settings = ({ isPWA = false }) => {
   const {
     user,
     logout,
@@ -392,7 +392,7 @@ const Settings = () => {
   );
 
   return (
-    <div className={styles.settingsPage}>
+    <div className={`${styles.settingsPage} ${isPWA ? styles.mobile : ''}`}>
       <h1>Settings</h1>
       <div className={styles.settingsContainer}>
         <div className={styles.tabs}>

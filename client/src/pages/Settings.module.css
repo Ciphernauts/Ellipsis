@@ -303,3 +303,15 @@
   width: 180px;
   justify-content: center;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .tabs {
+  gap: 0;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.mobile .tabs button {
+  padding: 10px;
+}
