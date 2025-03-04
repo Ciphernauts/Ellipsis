@@ -242,8 +242,8 @@
         }
       ]
     },
-    "Harnesses": {
-      "displayName": "Harnesses Safety",
+    "Harness": {
+      "displayName": "Harness Safety",
       "data": {
         "currentAverageCompliance": 77,
         "24 hours": [

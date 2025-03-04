@@ -115,7 +115,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
             </NavLink>
             <li className={styles.sectionHeader}>PPE Detection</li>
             <NavLink
-              to='/safety-trends/helmet'
+              to='/safety-trends/ppe/helmet'
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
@@ -124,7 +124,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
               <li>Helmet</li>
             </NavLink>
             <NavLink
-              to='/safety-trends/footwear'
+              to='/safety-trends/ppe/footwear'
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
@@ -133,7 +133,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
               <li>Footwear</li>
             </NavLink>
             <NavLink
-              to='/safety-trends/vest'
+              to='/safety-trends/ppe/vest'
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
@@ -142,7 +142,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
               <li>Vest</li>
             </NavLink>
             <NavLink
-              to='/safety-trends/gloves'
+              to='/safety-trends/ppe/gloves'
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
@@ -152,7 +152,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
             </NavLink>
             <li className={styles.sectionHeader}>Fall Protection</li>
             <NavLink
-              to='/safety-trends/scaffolding'
+              to='/safety-trends/fall-protection/scaffolding'
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
@@ -161,7 +161,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
               <li>Scaffolding</li>
             </NavLink>
             <NavLink
-              to='/safety-trends/guardrails'
+              to='/safety-trends/fall-protection/guardrails'
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
@@ -170,7 +170,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
               <li>Guardrails</li>
             </NavLink>
             <NavLink
-              to='/safety-trends/harness'
+              to='/safety-trends/fall-protection/harness'
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }
