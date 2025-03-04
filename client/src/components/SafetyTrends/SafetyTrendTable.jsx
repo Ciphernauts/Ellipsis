@@ -12,7 +12,6 @@ const SafetyTrendTable = ({ data }) => {
 
   return (
     <div className={styles.safetyTrendTable}>
-      <h1>Safety Trend Data</h1>
       {data.length === 0 ? (
         <p>Loading...</p>
       ) : (
@@ -38,14 +37,14 @@ const SafetyTrendTable = ({ data }) => {
                   <td
                     className={`${styles.growth} ${isPositive ? styles.positive : styles.negative}`}
                   >
-                    <ArrowIcon
-                      direction={isPositive ? 'up' : 'down'}
-                      color={isPositive ? 'green' : 'red'}
-                      size={14}
-                    />
-                    {entry.Growth.replace(/[^0-9.]/g, '')}%
+                    <span>
+                      <ArrowIcon
+                        color={isPositive ? 'green' : 'red'}
+                        className={styles.arrow}
+                      />
+                      {entry.Growth.replace(/[^0-9.]/g, '')}%
+                    </span>
                   </td>
-
                   <td className={styles.alertCount}>{entry['Alert Count']}</td>
                 </tr>
               );

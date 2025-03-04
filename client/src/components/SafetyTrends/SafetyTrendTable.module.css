@@ -102,7 +102,15 @@
   align-items: center; /* Ensures vertical alignment */
   justify-content: center;
   font-weight: bold;
-  gap: 5px; /* Adds space between arrow and text */
+  gap: 10px; /* Adds space between arrow and text */
+}
+
+.growth span {
+  display: inline-flex;
+  align-items: center; /* Ensures vertical alignment */
+  justify-content: center;
+  gap: 8px; /* Adds space between arrow and text */
+  min-width: 60px; /* Ensures consistent spacing */
 }
 
 /* Growth column - green if positive, red if negative */
@@ -114,6 +122,17 @@
 .growth.negative {
   color: red;
   font-weight: bold;
+}
+
+.growth .arrow {
+  flex-shrink: 0; /* Prevents the arrow from shrinking */
+}
+.growth.positive span .arrow {
+  transform: rotate(-90deg); /* Upward */
+}
+
+.growth.negative span .arrow {
+  transform: rotate(90deg); /* Downward */
 }
 
 /* Alert count column - #006684 */
