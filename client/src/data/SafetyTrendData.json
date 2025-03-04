@@ -42,9 +42,8 @@
     },
     "Footwear": {
       "displayName": "Footwear Safety",
-      "currentAverageCompliance": 92,
       "data": {
-        "currentAverageCompliance": 92,
+        "currentAverageCompliance": 85,
         "24 hours": [
           { "date": "2025-03-01T12:00:00Z", "compliance": 75 },
           { "date": "2025-03-02T12:00:00Z", "compliance": 80 },
@@ -83,9 +82,8 @@
     },
     "Vest": {
       "displayName": "Vest Safety",
-      "currentAverageCompliance": 92,
       "data": {
-        "currentAverageCompliance": 92,
+        "currentAverageCompliance": 65,
         "24 hours": [
           { "date": "2025-03-01T12:00:00Z", "compliance": 70 },
           { "date": "2025-03-02T12:00:00Z", "compliance": 75 },
@@ -124,9 +122,8 @@
     },
     "Gloves": {
       "displayName": "Gloves Safety",
-      "currentAverageCompliance": 92,
       "data": {
-        "currentAverageCompliance": 92,
+        "currentAverageCompliance": 84,
         "24 hours": [
           { "date": "2025-03-01T12:00:00Z", "compliance": 65 },
           { "date": "2025-03-02T12:00:00Z", "compliance": 70 },
@@ -167,9 +164,8 @@
   "Fall Protection": {
     "Scaffolding": {
       "displayName": "Scaffolding Safety",
-      "currentAverageCompliance": 92,
       "data": {
-        "currentAverageCompliance": 92,
+        "currentAverageCompliance": 66,
         "24 hours": [
           { "date": "2025-03-01T12:00:00Z", "compliance": 85 },
           { "date": "2025-03-02T12:00:00Z", "compliance": 90 },
@@ -208,9 +204,8 @@
     },
     "Guardrails": {
       "displayName": "Guardrails Safety",
-      "currentAverageCompliance": 92,
       "data": {
-        "currentAverageCompliance": 92,
+        "currentAverageCompliance": 90,
         "24 hours": [
           { "date": "2025-03-01T12:00:00Z", "compliance": 80 },
           { "date": "2025-03-02T12:00:00Z", "compliance": 85 },
@@ -249,9 +244,8 @@
     },
     "Harnesses": {
       "displayName": "Harnesses Safety",
-      "currentAverageCompliance": 92,
       "data": {
-        "currentAverageCompliance": 92,
+        "currentAverageCompliance": 77,
         "24 hours": [
           { "date": "2025-03-01T12:00:00Z", "compliance": 90 },
           { "date": "2025-03-02T12:00:00Z", "compliance": 92 },

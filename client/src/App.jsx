@@ -21,6 +21,7 @@ import Settings from './pages/Settings';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import SafetyTrends from './pages/SafetyTrends';
+import OverallSafetyTrend from './pages/OverallSafetyTrend';
 
 const App = () => {
   const isStandalone = isPWA();
@@ -70,6 +71,11 @@ const App = () => {
           <Route path='/change-mode' element={<ChangeMode />} />
           <Route path='/settings' element={<Settings />} />
 
+          {/* Safety Trends Routes */}
+          <Route
+            path='/safety-trends/overall'
+            element={<OverallSafetyTrend />}
+          />
           <Route
             path='/safety-trends/:category/:subcategory'
             element={<SafetyTrends />}

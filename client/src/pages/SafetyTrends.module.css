@@ -1,0 +1,69 @@
+/* Sync Text Container */
+.syncText {
+  display: flex;
+  align-items: center; /* Align icon & text in a row */
+  gap: 5px; /* Add spacing between icon & text */
+  color: #a8a8a8;
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: right;
+  padding: 8px 12px; /* Add padding around the sync text */
+}
+
+/* Sync Icon */
+.syncIcon {
+  width: 14px; /* Adjust size as needed */
+  height: 14px;
+}
+
+/* Navigation Buttons Container */
+.navButtons {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 10px; /* Space between buttons */
+  margin-bottom: 2px;
+}
+
+/* Button Styles (Matches Figma Design) */
+.navButton {
+  display: flex;
+  align-items: center;
+  height: 33px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  background: var(--Neutral, #cce0e6);
+  border: none;
+  cursor: pointer;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--primary);
+  transition: background 0.3s ease;
+  gap: 5px; /* Space between icon and text */
+}
+
+.navButton:hover {
+  background: #b3d2db;
+}
+
+.navButton:active {
+  background: #99c2cc;
+}
+
+/* Arrow Icon Styling */
+.arrowIcon {
+  width: 16px;
+  height: 16px;
+  margin: 0 5px;
+}
+
+.leftArrow {
+  transform: rotate(180deg);
+}
+
+.rightArrow {
+  transform: rotate(0deg);
+}
