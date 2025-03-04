@@ -8,7 +8,7 @@ import ConnectIcon from '../components/icons/ConnectIcon';
 import PlusIcon from '../components/icons/PlusIcon';
 import { truncateText, formatDate } from '../utils/helpers';
 
-export default function Cameras() {
+export default function Cameras({ isPWA = false }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAddingDevice, setIsAddingDevice] = useState(false);
@@ -40,81 +40,81 @@ export default function Cameras() {
       camera_id: 1,
       name: 'DJI Matrice 300 RTK',
       type: 'drone',
-      isOnline: true,
+      online: true,
       lastSyncedDate: null,
-      isConnected: true,
+      connected: true,
     },
     {
       camera_id: 2,
       name: 'FLIR Quasar 4K IR PTZ',
       type: 'camera',
-      isOnline: true,
+      online: true,
       lastSyncedDate: null,
-      isConnected: true,
+      connected: true,
     },
     {
       camera_id: 3,
       name: 'Axis P1448-LE',
       type: 'camera',
-      isOnline: true,
+      online: true,
       lastSyncedDate: '2025-01-01T14:00:00',
-      isConnected: false,
+      connected: false,
     },
     {
       camera_id: 4,
       name: 'Anali USA',
       type: 'camera',
-      isOnline: true,
+      online: true,
       lastSyncedDate: '2025-01-01T14:00:00',
-      isConnected: false,
+      connected: false,
     },
     {
       camera_id: 5,
       name: 'Auto! Robotics EVO II Pro',
       type: 'drone',
-      isOnline: false,
+      online: false,
       lastSyncedDate: '2024-12-31T08:00:00',
-      isConnected: false,
+      connected: false,
     },
     {
       camera_id: 6,
       name: 'Skydio 2+',
       type: 'drone',
-      isOnline: false,
+      online: false,
       lastSyncedDate: '2024-12-31T08:00:00',
-      isConnected: false,
+      connected: false,
     },
     {
       camera_id: 7,
       name: 'Bosch FLEXIDOME IP starlight 8000i',
       type: 'camera',
-      isOnline: false,
+      online: false,
       lastSyncedDate: '2024-12-30T09:00:00',
-      isConnected: false,
+      connected: false,
     },
     {
       camera_id: 8,
       name: 'Hikvision DS-2CD2387G2-LU',
       type: 'camera',
-      isOnline: false,
+      online: false,
       lastSyncedDate: '2024-11-12T10:00:00',
-      isConnected: false,
+      connected: false,
     },
     {
       camera_id: 9,
       name: 'DJI Inspire 3',
       type: 'drone',
-      isOnline: false,
+      online: false,
       lastSyncedDate: '2024-09-22T22:22:22',
-      isConnected: false,
+      connected: false,
     },
     {
       camera_id: 10,
       name: 'Sony SNC-VM772R',
       type: 'camera',
-      isOnline: false,
+      online: false,
       lastSyncedDate: '2024-08-17T08:00:00',
-      isConnected: false,
+      connected: false,
     },
   ];
   
@@ -228,7 +228,7 @@ export default function Cameras() {
   };
 
   return (
-    <div className={styles.cameras}>
+    <div className={`${styles.cameras} ${isPWA ? styles.mobile : ''}`}>
       <h1>Cameras</h1>
       <div className={styles.heading}>
         <h2>Paired Devices</h2>
@@ -282,7 +282,19 @@ export default function Cameras() {
               <div className={styles.icon}>
                 {camera.type === 'drone' ? <DroneIcon /> : <CameraIcon />}
               </div>
-              <div className={styles.name}>{camera.name}</div>
+              <div className={styles.name}>
+                {camera.name}
+                {isPWA &&
+                  !camera.connected &&
+                  (camera.lastSyncedDate ? (
+                    <div className={styles.lastSynced}>
+                      {'Last Synced: ' +
+                        formatDate(camera.lastSyncedDate, 'long')}
+                    </div>
+                  ) : (
+                    <div className={styles.lastSynced}>Not synced</div>
+                  ))}
+              </div>
               <div className={styles.status}>
                 <span
                   className={
@@ -290,31 +302,33 @@ export default function Cameras() {
                   }
                 />
                 <span className={styles.statusText}>
-                  {camera.online ? 'Online' : 'Offline'}
+                  {!isPWA && (camera.online ? 'Online' : 'Offline')}
                 </span>
               </div>
-              <div className={styles.lastSynced}>
-                {camera.connected
-                  ? ''
-                  : camera.lastSyncedDate
-                    ? 'Last Synced: ' +
-                      formatDate(camera.lastSyncedDate, 'long')
-                    : 'Not synced'}
-              </div>
+              {!isPWA && (
+                <div className={styles.lastSynced}>
+                  {camera.connected
+                    ? ''
+                    : camera.lastSyncedDate
+                      ? 'Last Synced: ' +
+                        formatDate(camera.lastSyncedDate, 'long')
+                      : 'Not synced'}
+                </div>
+              )}
               <div className={styles.connectButtonContainer}>
                 {camera.connected ? (
                   <span className={styles.connected} disabled={true}>
                     <TickIcon />
-                    Connected
+                    {!isPWA && 'Connected'}
                   </span>
                 ) : (
                   <button
                     className={styles.connectButton}
                     disabled={camera.online ? false : true}
-                    onClick={() => { console.log('Connecting camera with id:', camera.camera_id); handleConnectCamera(camera.camera_id)}}
+                    onClick={() => handleConnectCamera(camera.camera_id)}
                   >
                     <ConnectIcon />
-                    Connect
+                    {!isPWA && 'Connect'}
                   </button>
                 )}
               </div>
