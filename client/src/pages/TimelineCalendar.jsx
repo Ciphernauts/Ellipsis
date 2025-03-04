@@ -28,12 +28,12 @@ export default function TimelineCalendar({ isPWA = false }) {
 
   const placeholderData = {
     month: {
-      name: 'February',
+      name: 'March',
       snapshots: [
-        'https://i.postimg.cc/MK0CcsyR/Screenshot-2025-02-28-172929.png',
-        'https://picsum.photos/300/200?random=2',
-        'https://picsum.photos/300/200?random=3',
-        'https://picsum.photos/300/200?random=4',
+        'https://i.postimg.cc/TwNQLVbC/vlcsnap-2025-03-03-12h00m14s340.png',
+        'https://i.postimg.cc/4djVRBVk/vlcsnap-2025-03-03-12h19m16s115.png',
+        'https://i.postimg.cc/zXV6jBXy/vlcsnap-2025-03-03-12h00m33s599.png',
+        'https://i.postimg.cc/3NhV1CN7/vlcsnap-2025-03-03-12h20m36s807.png',
       ],
       safetyScore: 87.5, //avg of every compliance metric
       progress: '+6.5%', //from last month
