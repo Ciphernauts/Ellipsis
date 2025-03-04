@@ -249,7 +249,7 @@ export default function TimelineSessions({ isPWA = false }) {
         };
 
         setPaneData({
-          sessionDetails: placeholderSessionDetails,
+          sessiondetails: placeholderSessionDetails,
           constructionSites: sessionData.constructionSites,
           cameras: sessionData.cameras,
         });

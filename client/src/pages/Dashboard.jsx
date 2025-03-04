@@ -128,17 +128,17 @@ export default function Dashboard({ isPWA = false }) {
         snapshots: [
           {
             id: 'img_001',
-            url: 'https://picsum.photos/284/129',
+            url: 'https://i.postimg.cc/YSnYvDpk/Screenshot-2025-03-02-at-2-35-11-PM.png ',
             metadata: { description: 'Top Image' },
           },
           {
             id: 'img_002',
-            url: 'https://picsum.photos/142/129',
+            url: 'https://i.postimg.cc/4djc5K7S/Screenshot-2025-03-02-at-2-35-36-PM.png ',
             metadata: { description: 'Bottom Left Image' },
           },
           {
             id: 'img_003',
-            url: 'https://picsum.photos/143/129',
+            url: 'https://i.postimg.cc/QCwB7NvP/Screenshot-2025-03-03-at-12-21-45-pm.png ',
             metadata: { description: 'Bottom Right Image' },
           },
         ],

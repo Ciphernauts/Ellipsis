@@ -73,7 +73,7 @@ export default function IncidentHistory({ isPWA = false }) {
           {
             id: 1,
             category: 'helmet',
-            snapshot: 'https://picsum.photos/id/237/200/150',
+            snapshot: 'https://picsum.photos/id/236/200/150',
             site: 'Riverside Apartments Project',
             time: '2025-01-01T03:21:00Z',
             status: 'Open',

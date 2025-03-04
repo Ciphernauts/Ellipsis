@@ -46,7 +46,7 @@ export default function ConstructionSites({ isPWA = false }) {
           id: 1,
           name: 'Riverside Apartments Project',
           snapshots: [
-            'https://picsum.photos/id/237/200/150',
+            'https://picsum.photos/id/236/200/150',
             'https://picsum.photos/id/238/200/150',
             'https://picsum.photos/id/239/200/150',
           ],
