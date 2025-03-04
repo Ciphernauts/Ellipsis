@@ -57,14 +57,13 @@ const SafetyTrendGraph = ({ data, category }) => {
 
   const growthColor = growth.positive ? '#0FD7A5' : '#D21616';
 
-  // Determine best compliance metric
+  // Determine best and worst compliance metrics
   const bestMetric = useMemo(() => {
     if (!chartData.length) return { name: '', score: 0 };
     const best = Math.max(...chartData.map((d) => d.compliance));
     return { name: category, score: best };
   }, [chartData, category]);
 
-  // Determine worst compliance metric
   const worstMetric = useMemo(() => {
     if (!chartData.length) return { name: '', score: 0 };
     const worst = Math.min(...chartData.map((d) => d.compliance));
@@ -80,7 +79,9 @@ const SafetyTrendGraph = ({ data, category }) => {
           {['24 hours', '7 days', '30 days', '12 months'].map((option) => (
             <span
               key={option}
-              className={`${styles.timeOption} ${timeframe === option ? styles.active : ''}`}
+              className={`${styles.timeOption} ${
+                timeframe === option ? styles.active : ''
+              }`}
               onClick={() => setTimeframe(option)}
             >
               Last {option}
@@ -91,72 +92,86 @@ const SafetyTrendGraph = ({ data, category }) => {
 
       {/* Content Section */}
       <div className={styles.content}>
-        <div>
-          {/* Compliance Growth */}
-          <div
-            className={`${styles.growthContainer} ${growth.positive ? styles.growth : styles.decline}`}
-          >
-            <span>
-              <ArrowIcon color={growthColor} className={styles.arrow} />
-              <Percentage
-                number={growth.number}
-                numberSize={22}
-                symbolSize={15}
-              />
-            </span>
-            <p>vs last {timeframe}</p>
-          </div>
-
-          {/* Current Average Compliance with Badge */}
-          <div className={styles.metricContainer}>
-            <div className={styles.metricHeading}>
-              <Percentage
-                number={averageCompliance}
-                label='Avg. Compliance'
-                label2='' // No category name
-                label2size={12}
-                label2weight={600}
-                numberSize={20}
-                symbolSize={16}
-              />
-              {getComplianceBadge(averageCompliance)}
+        <div className={styles.metrics}>
+          <div>
+            {/* Current Average Compliance with Badge */}
+            <div className={styles.metricContainer}>
+              <div className={styles.metricHeading}>
+                <div className={styles.complianceWrapper}>
+                  <div className={styles.metricHeading}>
+                    <span className={styles.metricLabel}>Current Avg.</span>
+                    {getComplianceBadge(averageCompliance)}
+                  </div>
+                  <Percentage
+                    number={averageCompliance}
+                    label=''
+                    label2=''
+                    label2size={12}
+                    label2weight={600}
+                    numberSize={22}
+                    symbolSize={16}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Best Compliance */}
-          <div className={styles.metricContainer}>
-            <Percentage
-              number={bestMetric.score}
-              label='Best Compliance'
-              label2={bestMetric.name}
-              label2size={12}
-              label2weight={600}
-              numberSize={20}
-              symbolSize={16}
-            />
-          </div>
+            {/* Compliance Growth */}
+            <div className={styles.metricContainer}>
+              <div
+                className={`${styles.growthContainer} ${
+                  growth.positive ? styles.growth : styles.decline
+                }`}
+              >
+                <span>
+                  <ArrowIcon color={growthColor} className={styles.arrow} />
+                  <Percentage
+                    number={growth.number}
+                    numberSize={22}
+                    symbolSize={15}
+                  />
+                </span>
+                <p>vs last {timeframe}</p>
+              </div>
+            </div>
 
-          {/* Worst Compliance */}
-          <div className={styles.metricContainer}>
-            <Percentage
-              number={worstMetric.score}
-              label='Worst Compliance'
-              label2={worstMetric.name}
-              label2size={12}
-              label2weight={600}
-              numberSize={20}
-              symbolSize={16}
-            />
+            {/* Best & Worst Compliance Side by Side */}
+            <div className={styles.metricRow}>
+              <div className={styles.metricContainer}>
+                <div className={styles.metricLeftAlign}>
+                  <Percentage
+                    number={bestMetric.score}
+                    label='Best Percentage'
+                    label2size={12}
+                    label2weight={600}
+                    numberSize={20}
+                    symbolSize={16}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.metricContainer}>
+                <div className={styles.leftAlign}>
+                  <Percentage
+                    number={worstMetric.score}
+                    label='Worst Percentage'
+                    label2size={12}
+                    label2weight={600}
+                    numberSize={20}
+                    symbolSize={16}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Chart Section */}
         <div
           className={styles.chartContainer}
-          style={{ width: '100%', height: '250px' }}
+          style={{ width: '90%', minHeight: '200px', height: 'auto' }}
         >
           {chartData.length > 0 ? (
-            <ResponsiveContainer width='100%' height={200}>
+            <ResponsiveContainer width='100%' height={230}>
               <AreaChart key={timeframe} data={chartData}>
                 <defs>
                   <linearGradient

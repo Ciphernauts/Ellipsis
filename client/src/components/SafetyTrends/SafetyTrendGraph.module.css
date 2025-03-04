@@ -3,7 +3,7 @@
   padding: 15px 19px 7px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   gap: 10px;
   background-color: #fff;
   border-radius: 10px;
@@ -30,6 +30,8 @@ h2 {
   white-space: nowrap;
   font-size: 11px;
   font-weight: 300;
+  line-height: normal;
+  word-wrap: normal;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
@@ -49,6 +51,7 @@ h2 {
 .content {
   width: 100%;
   display: flex;
+  align-items: center; /* Center items vertically */
   justify-content: space-between;
 }
 
@@ -59,10 +62,26 @@ h2 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 20px;
+}
+
+.metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-right: 5px; /* Reduce right padding */
 }
 
 .growthContainer {
   font-size: 11px;
+}
+
+.growthContainer.growth {
+  color: #0fd7a5;
+}
+
+.growthContainer.decline {
+  color: #d21616;
 }
 
 .growthContainer span {
@@ -72,27 +91,76 @@ h2 {
   gap: 5px;
 }
 
+.growthContainer.growth span .arrow {
+  transform: rotateZ(-90deg);
+}
+
+.growthContainer.decline span .arrow {
+  transform: rotateZ(90deg);
+}
+
 .chartContainer {
   margin: 0 -20px -10px -50px;
 }
 
 .chartContainer {
-  margin: 0; /* Remove negative margins */
-  width: 100%;
-  height: 200px; /* Ensure height is set */
-  display: flex; /* Ensure it's visible */
-  align-items: center;
+  margin: 0;
+  width: 110%; /* Adjust width */
+  min-height: 250px; /* Allow flexibility */
+  height: auto; /* Let it grow as needed */
+  min-height: unset;
+  display: flex;
+  align-items: flex-start; /* Align chart properly */
   justify-content: center;
 }
 
+.complianceWrapper {
+  display: flex;
+  flex-direction: column; /* Stack percentage & label */
+  align-items: flex-start; /* Aligns everything to the left */
+  gap: 2px; /* Small spacing between percentage and label */
+}
+
+.metricHeading {
+  display: flex;
+  align-items: center; /* Align badge and label in one line */
+  gap: 8px; /* Space between label and badge */
+}
+
+.metricLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary, #333);
+}
+
 .badge {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
-  padding: 4px 10px;
-  border-radius: 12px;
-  display: inline-block;
+  padding: 2px 5px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center; /* Ensures text inside badge is centered */
+  justify-content: center;
+  height: 18px; /* Prevents unnecessary stretching */
   color: white;
-  margin-left: 8px;
+  margin-top: 3px; /* Fine-tune this if needed */
+  gap: 10px;
+}
+
+.metricRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.metricContainer {
+  margin-bottom: 15px; /* Adds spacing between each metric */
+}
+
+.leftAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Left-aligns the entire component */
 }
 
 .good {
