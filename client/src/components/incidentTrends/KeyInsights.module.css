@@ -39,3 +39,10 @@
   height: 12px;
   flex-shrink: 0;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile {
+  width: 100%;
+  padding: 15px 12px;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './KeyInsights.module.css';
 import bulletIcon from '../../assets/bulletPoint_icon.svg'; // Import the bullet point icon
 
-export default function KeyInsights({ data }) {
+export default function KeyInsights({ data, className, isPWA = false }) {
   if (!data) return <div>Loading insights...</div>;
 
   const { alertMetrics, trendsAndBreakdown } = data;
@@ -27,7 +27,9 @@ export default function KeyInsights({ data }) {
   const topSite = metrics.topIncidentConstructionSite;
 
   return (
-    <div className={`${'dashboardCard'} ${styles.card}`}>
+    <div
+      className={`${'dashboardCard'} ${styles.card} ${className} ${isPWA ? styles.mobile : ''}`}
+    >
       <h2>Key Insights</h2>
       <ul className={styles.insightsList}>
         <li>

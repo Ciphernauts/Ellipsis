@@ -98,3 +98,14 @@
   flex-direction: column;
   gap: 13px;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile {
+  margin: 0 -14px 0 -14px;
+  width: auto;
+}
+
+.mobile .snapshotItem img {
+  height: 250px;
+}

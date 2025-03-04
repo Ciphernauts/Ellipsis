@@ -15,3 +15,14 @@ main {
   gap: 20px;
   align-items: stretch;
 }
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .alertMetrics {
+  order: 2;
+}
+
+.mobile .row {
+  order: 1;
+  flex-direction: column;
+}

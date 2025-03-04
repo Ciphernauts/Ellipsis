@@ -106,7 +106,8 @@ li ul {
   left: -80%;
   width: 80%;
   height: 100%;
-  font-size: 16px;
+  font-size: 15px;
+  z-index: 10;
 }
 
 .navpaneHeader {
@@ -139,12 +140,23 @@ li ul {
 }
 
 .mobile .navlink {
-  height: 50px;
+  height: 55px;
+  border-radius: 11px;
+}
+
+.mobile .lastLink {
+  margin-bottom: 20px;
 }
 
 .mobile .navlink p {
   width: 100%;
   padding: 0 20px;
+  font-size: 13px;
+}
+
+.mobile .subNavlink {
+  font-size: 12px;
+  height: 45px;
 }
 
 .mobile .bottomLinks {
@@ -155,10 +167,5 @@ li ul {
 .mobile .changeMode {
   padding: 20px 40px;
   margin: auto auto 10px auto;
-}
-
-@media (max-width: 335px) {
-  .mobile {
-    font-size: 14px;
-  }
+  font-size: 13px;
 }

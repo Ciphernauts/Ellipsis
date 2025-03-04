@@ -16,7 +16,11 @@ import {
 } from 'recharts';
 import CustomTooltip from '../CustomTooltip';
 
-export default function IncidentTrendsAndBreakdownCard({ data }) {
+export default function IncidentTrendsAndBreakdownCard({
+  data,
+  className,
+  isPWA = false,
+}) {
   const [timeframe, setTimeframe] = useState('24 hours');
   const [view, setView] = useState('trends'); // 'trends' or 'breakdown'
 
@@ -57,7 +61,9 @@ export default function IncidentTrendsAndBreakdownCard({ data }) {
   }, [timeframe, data.breakdown]);
 
   return (
-    <div className={`${'dashboardCard'} ${styles.card}`}>
+    <div
+      className={`${'dashboardCard'} ${styles.card} ${className} ${isPWA ? styles.mobile : ''}`}
+    >
       <div className={styles.viewOptions}>
         <div
           className={view === 'trends' ? styles.active : ''}
@@ -102,7 +108,12 @@ export default function IncidentTrendsAndBreakdownCard({ data }) {
             >
               <span>
                 <ArrowIcon color={growthColor} className={styles.arrow} />
-                <Percentage number={growth.number} numberSize={22} symbol='' />
+                <Percentage
+                  number={growth.number}
+                  numberSize={isPWA ? 20 : 22}
+                  symbolSize={isPWA ? 13 : 15}
+                  symbol=''
+                />
               </span>
               <p>
                 vs 1{' '}
@@ -121,7 +132,8 @@ export default function IncidentTrendsAndBreakdownCard({ data }) {
               <Percentage
                 number={averageIncidents}
                 label='Incident Rate'
-                numberSize={20}
+                numberSize={isPWA ? 19 : 20}
+                symbolSize={isPWA ? 12 : 14}
                 symbol={
                   '/ ' +
                   {
@@ -139,14 +151,14 @@ export default function IncidentTrendsAndBreakdownCard({ data }) {
                 number=''
                 label='Top Incident'
                 label2={mostFrequentIncident.name}
-                numberSize={20}
+                label2size={isPWA ? 13 : 12}
                 symbol=''
                 className={styles.info}
               />
             </div>
           </div>
           <ResponsiveContainer
-            width='100%'
+            width={isPWA ? '110%' : '100%'}
             height={182}
             className={styles.chartContainer}
           >
@@ -246,7 +258,7 @@ export default function IncidentTrendsAndBreakdownCard({ data }) {
                 />
               </BarChart>
             )}
-          </ResponsiveContainer>{' '}
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

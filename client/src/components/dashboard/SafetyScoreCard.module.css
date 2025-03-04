@@ -50,12 +50,16 @@
   padding: 0;
 }
 
+.mobile h2 {
+  font-size: 13px;
+}
+
 .mobile .content {
   flex-direction: column;
 }
 
 .mobile .content h2 {
-  margin-top: 11px;
+  margin: 13px 0 7px 0;
 }
 
 .mobile .breakdown {

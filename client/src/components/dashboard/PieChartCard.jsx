@@ -19,12 +19,12 @@ export default function PieChartCard({
           symbolSize={12}
           className={styles.percentage}
         />
-        <ResponsiveContainer width='100%' height={110}>
+        <ResponsiveContainer width='100%' height={120}>
           <PieChart margin={{ top: 24, right: 0, bottom: 0, left: 0 }}>
             <Pie
               data={data}
-              innerRadius={42}
-              outerRadius={55}
+              innerRadius={45}
+              outerRadius={60}
               cornerRadius={10}
               paddingAngle={-5}
               startAngle={225}

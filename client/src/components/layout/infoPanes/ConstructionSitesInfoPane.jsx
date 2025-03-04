@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // Import Axios
 import styles from './ConstructionSitesInfoPane.module.css';
 import PaneInfoPiece from '../../PaneInfoPiece';
 import Duration from '../../Duration';
 
-export default function ConstructionSitesInfoPane({ data, setSiteData }) {
-  // Removed allSites
+export default function ConstructionSitesInfoPane({
+  data,
+  setSiteData,
+  isPWA = false,
+}) {
   const [isActive, setIsActive] = useState(false);
   const [updating, setUpdating] = useState(false);
 
@@ -15,15 +18,20 @@ export default function ConstructionSitesInfoPane({ data, setSiteData }) {
     }
   }, [data]);
 
+  console.log(data);
+
   const handleToggleChange = async () => {
     setUpdating(true);
     const previousIsActive = isActive; // Store the previous state
 
     try {
       // Make API call to update the status
-      const response = await axios.patch(`/api/sites/${data.id}`, {
-        isActive: !isActive, // Toggle the active status
-      });
+      const response = await axios.put(
+        `/api/construction-sites/${data.id}`, // Use the correct API endpoint
+        {
+          isActive: !isActive, // Toggle the active status
+        }
+      );
 
       // Update the data only after a successful API call
       const updatedSiteFromServer = response.data;
@@ -51,7 +59,7 @@ export default function ConstructionSitesInfoPane({ data, setSiteData }) {
   }
 
   return (
-    <div className={styles.pane}>
+    <div className={`${styles.pane} ${isPWA ? styles.mobile : ''}`}>
       <h1>{data.name}</h1>
       <div className={styles.content}>
         <div className={styles.infoBlock}>
@@ -71,7 +79,7 @@ export default function ConstructionSitesInfoPane({ data, setSiteData }) {
           </div>
 
           <div className={styles.row}>
-            <PaneInfoPiece name='Safety Score' value={data.safetyscore} />
+            <PaneInfoPiece name='Safety Score' value={data.safetyScore} />
             <PaneInfoPiece
               name='Duration'
               value={

@@ -37,7 +37,7 @@
 }
 
 .dark:hover,
-.dark:active {
+.dark:focus {
   background-color: var(--primary);
   color: var(--light);
 }
@@ -48,7 +48,7 @@
 }
 
 .primary:hover,
-.primary:active {
+.primary:focus {
   background-color: var(--dark);
   color: var(--light);
 }
@@ -62,7 +62,7 @@
 }
 
 .dark.outlined:hover,
-.dark.outlined:active {
+.dark.outlined:focus {
   background-color: var(--dark);
   color: var(--light);
 }
@@ -74,7 +74,13 @@
 }
 
 .primary.outlined:hover,
-.primary.outlined:active {
+.primary.outlined:focus {
   background-color: var(--primary);
   color: var(--light);
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile.button {
+  padding: 15px 40px;
 }
