@@ -22,18 +22,16 @@ import Settings from './pages/Settings';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
-
-
 const App = () => {
   const isStandalone = isPWA();
 
   fetch('http://localhost:3000/')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.message); // "Welcome to the Ellipsis Website!"
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.message); // "Welcome to the Ellipsis Website!"
     })
-    .catch(error => {
-        console.error('Error:', error);
+    .catch((error) => {
+      console.error('Error:', error);
     });
 
   console.log('is PWA: ', isStandalone);
@@ -94,8 +92,11 @@ const App = () => {
           />
           <Route path='/cameras' element={<Cameras isPWA={isStandalone} />} />
 
-          <Route path='/change-mode' element={<ChangeMode />} />
-          <Route path='/settings' element={<Settings />} />
+          <Route
+            path='/change-mode'
+            element={<ChangeMode isPWA={isStandalone} />}
+          />
+          <Route path='/settings' element={<Settings isPWA={isStandalone} />} />
         </Route>
       </Routes>
     </AppProvider>
