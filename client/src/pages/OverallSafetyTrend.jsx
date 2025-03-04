@@ -45,6 +45,42 @@ const overallSafetyData = {
       'Growth': '-0.2% ↓',
       'Alert Count': 3,
     },
+    {
+      'Timestamp': '2024-12-19 03:45 PM',
+      'Safety Score': '87.9%',
+      'Growth': '-0.2% ↓',
+      'Alert Count': 3,
+    },
+    {
+      'Timestamp': '2024-12-19 03:45 PM',
+      'Safety Score': '87.9%',
+      'Growth': '-0.2% ↓',
+      'Alert Count': 3,
+    },
+    {
+      'Timestamp': '2024-12-19 03:45 PM',
+      'Safety Score': '87.9%',
+      'Growth': '-0.2% ↓',
+      'Alert Count': 3,
+    },
+    {
+      'Timestamp': '2024-12-19 03:45 PM',
+      'Safety Score': '87.9%',
+      'Growth': '-0.2% ↓',
+      'Alert Count': 3,
+    },
+    {
+      'Timestamp': '2024-12-19 03:45 PM',
+      'Safety Score': '87.9%',
+      'Growth': '-0.2% ↓',
+      'Alert Count': 3,
+    },
+    {
+      'Timestamp': '2024-12-19 03:45 PM',
+      'Safety Score': '87.9%',
+      'Growth': '-0.2% ↓',
+      'Alert Count': 3,
+    },
   ],
 };
 
