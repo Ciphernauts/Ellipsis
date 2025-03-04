@@ -13,7 +13,9 @@ export default function IncidentTrends({ isPWA = false }) {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/incidents/incident-trends');
+        const response = await axios.get(
+          '${API_BASE_URL}/incidents/incident-trends'
+        );
         console.log(response.data);
         if (response.data) {
           setCardData(response.data);

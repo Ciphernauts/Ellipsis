@@ -122,7 +122,7 @@ export default function Cameras({ isPWA = false }) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/cameras');
+      const response = await axios.get('${API_BASE_URL}/cameras');
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -141,7 +141,7 @@ export default function Cameras({ isPWA = false }) {
   const fetchAvailableDevices = async () => {
     setDevicesLoading(true);
     try {
-      const response = await axios.get('/api/available-devices');
+      const response = await axios.get('${API_BASE_URL}/available-devices');
       setAvailableDevices(response.data);
     } catch (error) {
       console.error('Error fetching available devices:', error);
@@ -179,7 +179,7 @@ export default function Cameras({ isPWA = false }) {
   // Function to handle connecting a camera
   const handleConnectCamera = async (id) => {
     try {
-      await axios.post(`/api/connect-camera/${id}`);
+      await axios.post(`${API_BASE_URL}/connect-camera/${id}`);
       setData((prevData) =>
         prevData.map((device) =>
           device.id === id ? { ...device, isConnected: true } : device
@@ -193,7 +193,7 @@ export default function Cameras({ isPWA = false }) {
   // Function to handle pairing an available device
   const handlePairDevice = async (id) => {
     try {
-      await axios.post(`/api/pair-device/${id}`);
+      await axios.post(`${API_BASE_URL}/pair-device/${id}`);
       const pairedDevice = availableDevices.find((device) => device.id === id);
       setData((prevData) => [
         ...prevData,
@@ -220,7 +220,7 @@ export default function Cameras({ isPWA = false }) {
   // Function to handle deleting a device
   const handleDeleteDevice = async (id) => {
     try {
-      await axios.delete(`/api/delete-camera/${id}`);
+      await axios.delete(`${API_BASE_URL}/delete-camera/${id}`);
       setData((prevData) => prevData.filter((device) => device.id !== id));
     } catch (error) {
       console.error('Error deleting camera:', error);

@@ -52,7 +52,9 @@ export default function IncidentHistory({ isPWA = false }) {
   // Fetch incidents data from the API
   const fetchIncidents = async () => {
     try {
-      const response = await axios.get('/api/incidents/incident-history');
+      const response = await axios.get(
+        '${API_BASE_URL}/incidents/incident-history'
+      );
       console.log(response.data);
       if (response.data) {
         setData({
