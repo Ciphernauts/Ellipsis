@@ -3,14 +3,7 @@
   functions = "netlify/functions"
   publish = "public"
 
-[functions]
-  external_node_modules = ["express", "cors", "dotenv"]
-  node_bundler = "esbuild"
-  included_files = ["Routes/", "public/"]
-
-
 [[redirects]]
-  from = "/*"
+  from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
-

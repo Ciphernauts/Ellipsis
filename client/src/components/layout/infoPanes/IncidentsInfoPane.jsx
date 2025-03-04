@@ -27,7 +27,7 @@ export default function IncidentsInfoPane({
     try {
       // Use the correct API endpoint to update the incident status
       const response = await axios.put(
-        `/api/incidents/incident-history/${data.id}/${newStatus}`
+        `${API_BASE_URL}/incidents/incident-history/${data.id}/${newStatus}`
       );
       const updatedIncidentFromServer = response.data;
 

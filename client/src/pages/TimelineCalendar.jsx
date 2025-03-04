@@ -1144,7 +1144,7 @@ export default function TimelineCalendar({ isPWA = false }) {
   const fetchMonthData = async (month, year) => {
     try {
       const response = await axios.get(
-        `/api/timeline/calendar/${month + 1}/${year}`
+        `${API_BASE_URL}/timeline/calendar/${month + 1}/${year}`
       );
       if (response.data) {
         setCalendarData(response.data);
