@@ -136,7 +136,7 @@
 }
 
 .chartContainer {
-  margin-left: -20px;
+  margin: 0 0 -10px -40px;
 }
 
 @media (max-width: 1200px) {
@@ -159,4 +159,58 @@
   .header h2 {
     order: 2;
   }
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .cardContent {
+  padding: 8px 12px 7px;
+  gap: 10px;
+}
+
+.mobile .viewOptions {
+  height: 45px;
+  font-size: 12px;
+}
+
+.mobile.card .viewOptions div {
+  border-radius: 0;
+}
+
+.mobile .header h2 {
+  order: 1;
+  margin: 3px 0 0 0;
+}
+
+.mobile .header .options {
+  order: 2;
+  gap: 0;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.mobile .timeOption {
+  width: fit-content;
+  padding: 4px 8px;
+}
+
+.mobile .content {
+  flex-direction: column;
+}
+
+.mobile .content .column {
+  order: 2;
+  width: auto;
+  padding: 11px 15px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.mobile .content .chartContainer {
+  order: 1;
+}
+
+.mobile .chartContainer {
+  margin: 0 0 -10px -50px;
 }

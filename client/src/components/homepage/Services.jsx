@@ -32,7 +32,7 @@ export default function Services() {
               Generate detailed reports with insights on compliance and safety
               performance.
             </p>
-          </div>{' '}
+          </div>
           <div className={styles.service}>
             <div className={styles.iconContainer}>
               <BellIcon />
@@ -42,7 +42,7 @@ export default function Services() {
               Receive real-time notifications for potential risks and critical
               hazards.
             </p>
-          </div>{' '}
+          </div>
           <div className={styles.service}>
             <div className={styles.iconContainer}>
               <DashboardIcon />

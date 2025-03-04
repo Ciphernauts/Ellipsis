@@ -19,6 +19,7 @@ export default function TimelineSessions({ isPWA = false }) {
   const fetchSessions = async () => {
     try {
       const response = await axios.get('/api/timeline/sessions');
+
       if (response.data) {
         setSessionData(response.data);
       } else {
@@ -205,7 +206,7 @@ export default function TimelineSessions({ isPWA = false }) {
 
         if (sessionDetails) {
           setPaneData({
-            sessionDetails: sessionDetails,
+            ...sessionDetails,
             constructionSites: sessionData.constructionSites,
             cameras: sessionData.cameras,
           });
@@ -278,28 +279,39 @@ export default function TimelineSessions({ isPWA = false }) {
             </tr>
           </thead>
           <tbody className={styles.tableBody}>
-            {sessionData.sessions.map((session) => (
-              <tr
-                key={session.sessionId}
-                className={`${styles.row} ${selectedSessionId === session.sessionId ? styles.active : ''}`}
-                onClick={() => handleSessionClick(session.sessionId)}
-              >
-                <td className={styles.sessionId}>{session.sessionId}</td>
-                {isPaneOpen ||
-                  (!isPWA && (
-                    <>
-                      <td>{session.safetyScore}</td>
-                      {!isPWA && <td>{session.mode}</td>}
-                    </>
-                  ))}
-                <td>
-                  <div className={styles.timeValues}>
-                    <span>{session.startTime}</span>
-                    <span>{session.endTime}</span>
-                  </div>
+            {sessionData.sessions.length > 0 ? (
+              sessionData.sessions.map((session) => (
+                <tr
+                  key={session.sessionId}
+                  className={`${styles.row} ${selectedSessionId === session.sessionId ? styles.active : ''}`}
+                  onClick={() => handleSessionClick(session.sessionId)}
+                >
+                  <td className={styles.sessionId}>{session.sessionId}</td>
+                  {isPaneOpen ||
+                    (!isPWA && (
+                      <>
+                        <td>{session.safetyScore}</td>
+                        {!isPWA && <td>{session.mode}</td>}
+                      </>
+                    ))}
+                  <td>
+                    <div className={styles.timeValues}>
+                      <span>{session.startTime}</span>
+                      <span>{session.endTime}</span>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={isPaneOpen || !isPWA ? (isPWA ? 2 : 4) : 2}
+                  className={styles.noSessionsMessage}
+                >
+                  No sessions found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       )}

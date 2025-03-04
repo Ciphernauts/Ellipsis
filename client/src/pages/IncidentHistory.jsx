@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import styles from './IncidentHistory.module.css';
 import DefaultImage from '../assets/DefaultImage.png';
-import axios from 'axios'; // Import Axios
+import {
+  formatDate,
+  formatTime,
+  incidentCategoryToNameMap,
+} from '../utils/helpers';
+import axios from 'axios';
 
-export default function IncidentHistory() {
+export default function IncidentHistory({ isPWA = false }) {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
-  const [data, setData] = useState({ incidents: [], filters: {} });
+  const [data, setData] = useState({ incidents: [], constructionSites: [] });
   const [loading, setLoading] = useState(true);
   const [selectedIncidentId, setSelectedIncidentId] = useState(null);
   const [filters, setFilters] = useState({
@@ -16,20 +21,46 @@ export default function IncidentHistory() {
     severity: 'All',
   });
 
+  const incidentTypes = [
+    'All',
+    'Helmet',
+    'Shoes',
+    'Scaffolding',
+    'Harness',
+    'Vest',
+    'Guardrail',
+  ];
+
+  const severityTypes = ['All', 'Moderate', 'Critical'];
+
   useEffect(() => {
     if (!isPaneOpen) {
       setSelectedIncidentId(null); // Clear selection when pane closes
     }
   }, [isPaneOpen]);
 
+  // Helper function to format date based on isPWA
+  const formatDateConditionally = (dateString) => {
+    const date = new Date(dateString);
+    if (isPWA) {
+      return formatDate(date, 'dateCode');
+    } else {
+      return formatDate(date, 'dateOnly');
+    }
+  };
+
   // Fetch incidents data from the API
   const fetchIncidents = async () => {
     try {
       const response = await axios.get('/api/incidents/incident-history');
+      console.log(response.data);
       if (response.data) {
         setData({
-          incidents: response.data.incidents,
-          filters: response.data.filters,
+          incidents: response.data[0].response_data.incidents,
+          constructionSites: [
+            'All',
+            ...response.data[0].response_data.constructionSites,
+          ],
         });
       } else {
         throw new Error('No data returned from API');
@@ -41,7 +72,7 @@ export default function IncidentHistory() {
         incidents: [
           {
             id: 1,
-            name: 'Missing helmet',
+            category: 'helmet',
             snapshot: 'https://picsum.photos/id/237/200/150',
             site: 'Riverside Apartments Project',
             time: '2025-01-01T03:21:00Z',
@@ -53,7 +84,7 @@ export default function IncidentHistory() {
           },
           {
             id: 2,
-            name: 'Improper footwear',
+            category: 'footwear',
             snapshot: 'https://picsum.photos/id/238/200/150',
             site: 'Hilltop Heights Construction',
             time: '2024-12-31T05:34:00Z',
@@ -65,7 +96,7 @@ export default function IncidentHistory() {
           },
           {
             id: 3,
-            name: 'Improper scaffolding',
+            category: 'scaffolding',
             snapshot: 'https://picsum.photos/id/239/200/150',
             site: 'Downtown Mall Construction',
             time: '2024-12-31T05:11:00Z',
@@ -77,18 +108,18 @@ export default function IncidentHistory() {
           },
           {
             id: 4,
-            name: 'Falling worker',
+            category: 'harness',
             site: 'Hilltop Heights Construction',
             time: '2024-12-31T04:49:00Z',
             status: 'Open',
-            isCritical: true,
+            isCritical: false,
             sessionId: 'S0004',
             mode: 'Height',
             device: { name: 'Drone Model Y', type: 'drone' },
           },
           {
             id: 5,
-            name: 'Missing harness',
+            category: 'harness',
             snapshot: 'https://picsum.photos/id/241/200/150',
             site: 'Riverside Apartments Project',
             time: '2024-12-31T04:12:00Z',
@@ -100,7 +131,7 @@ export default function IncidentHistory() {
           },
           {
             id: 6,
-            name: 'Missing vest',
+            category: 'vest',
             snapshot: 'https://picsum.photos/id/242/200/150',
             site: 'Cedar Lane Residences',
             time: '2024-12-31T11:59:00Z',
@@ -112,7 +143,7 @@ export default function IncidentHistory() {
           },
           {
             id: 7,
-            name: 'Missing helmet',
+            category: 'helmet',
             snapshot: 'https://picsum.photos/id/243/200/150',
             site: 'Cedar Lane Residences',
             time: '2024-12-31T11:45:00Z',
@@ -124,7 +155,7 @@ export default function IncidentHistory() {
           },
           {
             id: 8,
-            name: 'Improper scaffolding',
+            category: 'scaffolding',
             snapshot: 'https://picsum.photos/id/244/200/150',
             site: 'Downtown Mall Construction',
             time: '2024-12-30T04:30:00Z',
@@ -136,7 +167,7 @@ export default function IncidentHistory() {
           },
           {
             id: 9,
-            name: 'Missing vest',
+            category: 'vest',
             snapshot: 'https://picsum.photos/id/245/200/150',
             site: 'Cedar Lane Residences',
             time: '2024-12-30T11:59:00Z',
@@ -148,7 +179,7 @@ export default function IncidentHistory() {
           },
           {
             id: 10,
-            name: 'Missing gloves',
+            category: 'gloves',
             snapshot: 'https://picsum.photos/id/246/200/150',
             site: 'Riverside Apartments Project',
             time: '2024-12-29T08:18:00Z',
@@ -160,7 +191,7 @@ export default function IncidentHistory() {
           },
           {
             id: 11,
-            name: 'Improper footwear',
+            category: 'footwear',
             snapshot: 'https://picsum.photos/id/247/200/150',
             site: 'Skyscraper Construction',
             time: '2024-12-28T09:25:00Z',
@@ -172,7 +203,7 @@ export default function IncidentHistory() {
           },
           {
             id: 12,
-            name: 'Missing helmet',
+            category: 'helmet',
             snapshot: 'https://picsum.photos/id/248/200/150',
             site: 'Luxury Condos Project',
             time: '2024-12-27T14:50:00Z',
@@ -184,7 +215,7 @@ export default function IncidentHistory() {
           },
           {
             id: 13,
-            name: 'Improper scaffolding',
+            category: 'scaffolding',
             snapshot: 'https://picsum.photos/id/249/200/150',
             site: 'Industrial Warehouse',
             time: '2024-12-26T17:15:00Z',
@@ -196,19 +227,19 @@ export default function IncidentHistory() {
           },
           {
             id: 14,
-            name: 'Fire hazard',
+            category: 'scaffolding',
             snapshot: 'https://picsum.photos/id/250/200/150',
             site: 'Commercial Building',
             time: '2024-12-25T20:40:00Z',
             status: 'Resolved',
-            isCritical: true,
+            isCritical: false,
             sessionId: 'S0014',
             mode: 'Entry',
             device: { name: 'Drone Model X', type: 'drone' },
           },
           {
             id: 15,
-            name: 'Missing harness',
+            category: 'harness',
             snapshot: 'https://picsum.photos/id/251/200/150',
             site: 'Residential Complex',
             time: '2024-12-24T23:05:00Z',
@@ -220,7 +251,7 @@ export default function IncidentHistory() {
           },
           {
             id: 16,
-            name: 'Missing guardrails',
+            category: 'guardrails',
             snapshot: 'https://picsum.photos/id/252/200/150',
             site: 'Historical Landmark',
             time: '2024-12-23T02:30:00Z',
@@ -231,26 +262,19 @@ export default function IncidentHistory() {
             device: { name: 'Drone Model Y', type: 'drone' },
           },
         ],
-        filters: {
-          constructionSite: [
-            'All',
-            'Riverside Apartments Project',
-            'Hilltop Heights Construction',
-            'Downtown Mall Construction',
-            'Cedar Lane Residences',
-          ],
-          incident: [
-            'All',
-            'Missing helmet',
-            'Improper footwear',
-            'Improper scaffolding',
-            'Falling worker',
-            'Missing harness',
-            'Missing vest',
-            'Missing guardrails',
-          ],
-          severity: ['All', 'Moderate', 'Critical'],
-        },
+        constructionSites: [
+          'All',
+          'Riverside Apartments Project',
+          'Hilltop Heights Construction',
+          'Downtown Mall Construction',
+          'Cedar Lane Residences',
+          'Skyscraper Construction',
+          'Luxury Condos Project',
+          'Industrial Warehouse',
+          'Commercial Building',
+          'Residential Complex',
+          'Historical Landmark',
+        ],
       });
     } finally {
       setLoading(false);
@@ -260,41 +284,6 @@ export default function IncidentHistory() {
   useEffect(() => {
     fetchIncidents(); // Fetch data on component mount
   }, []);
-
-  // Helper function to format time as HH:MM am/pm
-  const formatTime = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
-
-  // Helper function to format date as "31st December 2024"
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const year = date.getFullYear();
-    const daySuffix = getDaySuffix(day);
-    return `${day}${daySuffix} ${month} ${year}`;
-  };
-
-  // Helper function to get the suffix for the day (st, nd, rd, th)
-  const getDaySuffix = (day) => {
-    if (day > 3 && day < 21) return 'th'; // 11th, 12th, 13th, etc.
-    switch (day % 10) {
-      case 1:
-        return 'st';
-      case 2:
-        return 'nd';
-      case 3:
-        return 'rd';
-      default:
-        return 'th';
-    }
-  };
 
   // Handle incident click
   const handleIncidentClick = (id) => {
@@ -313,8 +302,10 @@ export default function IncidentHistory() {
         (incident) => incident.id === id
       );
       if (incidentDetails) {
-        console.log('Setting pane data:', incidentDetails); // Debugging
-        setPaneData(incidentDetails);
+        setPaneData({
+          ...incidentDetails,
+          name: incidentCategoryToNameMap[incidentDetails.category],
+        });
         setIsPaneOpen(true);
       }
     }
@@ -331,7 +322,7 @@ export default function IncidentHistory() {
       (filters.date === '' ||
         new Date(incident.time).toLocaleDateString() ===
           new Date(filters.date).toLocaleDateString()) &&
-      (filters.incident === 'All' || incident.name === filters.incident) &&
+      (filters.incident === 'All' || incident.category === filters.incident) && // Updated to use 'category'
       (filters.severity === 'All' ||
         (filters.severity === 'Critical'
           ? incident.isCritical
@@ -341,7 +332,7 @@ export default function IncidentHistory() {
 
   return (
     <div
-      className={`${styles.incidentHistory} ${isPaneOpen ? styles.paneOpen : ''}`}
+      className={`${styles.incidentHistory} ${isPaneOpen ? styles.paneOpen : ''} ${isPWA ? styles.mobile : ''}`}
     >
       <h1>Incident History</h1>
       {loading ? (
@@ -351,7 +342,7 @@ export default function IncidentHistory() {
           <div
             className={`${styles.filters} ${isPaneOpen ? styles.paneOpen : ''}`}
           >
-            <div className={styles.filterGroup}>
+            <div className={`${styles.filterGroup} ${styles.constructionSite}`}>
               <label htmlFor='constructionSite'>Construction Site</label>
               <select
                 id='constructionSite'
@@ -360,7 +351,7 @@ export default function IncidentHistory() {
                   handleFilterChange('constructionSite', e.target.value)
                 }
               >
-                {data.filters.constructionSite.map((site) => (
+                {data.constructionSites.map((site) => (
                   <option key={site} value={site}>
                     {site}
                   </option>
@@ -385,7 +376,7 @@ export default function IncidentHistory() {
                 value={filters.incident}
                 onChange={(e) => handleFilterChange('incident', e.target.value)}
               >
-                {data.filters.incident.map((incident) => (
+                {incidentTypes.map((incident) => (
                   <option key={incident} value={incident}>
                     {incident}
                   </option>
@@ -400,7 +391,7 @@ export default function IncidentHistory() {
                 value={filters.severity}
                 onChange={(e) => handleFilterChange('severity', e.target.value)}
               >
-                {data.filters.severity.map((severity) => (
+                {severityTypes.map((severity) => (
                   <option key={severity} value={severity}>
                     {severity}
                   </option>
@@ -409,66 +400,89 @@ export default function IncidentHistory() {
             </div>
           </div>
           <div className={styles.incidentsList}>
-            {filteredIncidents.map((incident) => (
-              <div
-                key={incident.id}
-                className={`${styles.row} ${selectedIncidentId === incident.id ? styles.active : ''} ${incident.isCritical ? styles.critical : ''}`}
-                onClick={() => handleIncidentClick(incident.id)}
-              >
-                <div className={styles.img}>
-                  {incident.snapshot ? (
-                    <img
-                      src={incident.snapshot}
-                      alt=''
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = DefaultImage;
-                      }}
-                    />
-                  ) : (
-                    <img src={DefaultImage} alt='Default' />
-                  )}
-                </div>
-                <div className={styles.desc}>
-                  <div
-                    className={`${styles.incidentName} ${isPaneOpen ? styles.paneOpen : ''}`}
-                  >
-                    {incident.name}
-                    {incident.isCritical && (
-                      <span className={styles.criticalBadge}>Critical</span>
+            {filteredIncidents.length > 0 ? (
+              filteredIncidents.map((incident) => (
+                <div
+                  key={incident.id}
+                  className={`${styles.row} ${selectedIncidentId === incident.id ? styles.active : ''} ${incident.isCritical ? styles.critical : ''}`}
+                  onClick={() => handleIncidentClick(incident.id)}
+                >
+                  <div className={styles.img}>
+                    {incident.snapshot ? (
+                      <img
+                        src={incident.snapshot}
+                        alt=''
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = DefaultImage;
+                        }}
+                      />
+                    ) : (
+                      <img src={DefaultImage} alt='Default' />
                     )}
                   </div>
-                  {!isPaneOpen && (
-                    <div className={styles.site}>{incident.site}</div>
-                  )}
+                  <div className={styles.desc}>
+                    <div
+                      className={`${styles.incidentName} ${isPaneOpen ? styles.paneOpen : ''}`}
+                    >
+                      {incidentCategoryToNameMap[incident.category]}
+                      {!isPWA && incident.isCritical && (
+                        <span className={styles.criticalBadge}>Critical</span>
+                      )}
+                      {isPWA && incident.status && (
+                        <span className={styles.status}>
+                          <span
+                            className={
+                              styles[
+                                incident.status.toLowerCase().replace(' ', '')
+                              ]
+                            }
+                          >
+                            {incident.status.substring(0, 1)}
+                          </span>
+                        </span>
+                      )}
+                    </div>
+                    {!isPaneOpen && (
+                      <div className={styles.site}>{incident.site}</div>
+                    )}
+                  </div>
+                  <div
+                    className={`${styles.details} ${isPaneOpen ? styles.paneOpen : ''}`}
+                  >
+                    {isPWA && incident.isCritical && (
+                      <span className={styles.criticalBadge}>Critical</span>
+                    )}
+
+                    {!isPWA && incident.status && (
+                      <span className={styles.status}>
+                        <span
+                          className={
+                            styles[
+                              incident.status.toLowerCase().replace(' ', '')
+                            ]
+                          }
+                        >
+                          {incident.status}
+                        </span>
+                      </span>
+                    )}
+                    {incident.time && (
+                      <>
+                        <span className={styles.date}>
+                          {formatDateConditionally(incident.time, 'dateOnly')}
+                        </span>
+                        <span className={styles.time}>
+                          {formatTime(incident.time)}
+                        </span>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <div
-                  className={`${styles.details} ${isPaneOpen ? styles.paneOpen : ''}`}
-                >
-                  {incident.status && (
-                    <span className={styles.status}>
-                      <span
-                        className={
-                          styles[incident.status.toLowerCase().replace(' ', '')]
-                        }
-                      >
-                        {incident.status}
-                      </span>
-                    </span>
-                  )}
-                  {incident.time && (
-                    <>
-                      <span className={styles.date}>
-                        {formatDate(incident.time)}
-                      </span>
-                      <span className={styles.time}>
-                        {formatTime(incident.time)}
-                      </span>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No incidents found.</p>
+            )}
           </div>
         </div>
       )}

@@ -1,24 +1,16 @@
 const pool = require('../Database/database');
 const queries = require('../Queries/TimelineCalendarQueries');
 
-const getStatsForMonth = (req, res) => {
-    const month = parseInt(req.params.month);
-    pool.query(queries.getStatsForMonth, [month], (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
-}
-
-const getStatsForDay = (req, res) => {
-    const month = parseInt(req.params.month);
-    const day = parseInt(req.params.day);
-    pool.query(queries.getStatsForDay, [month, day], (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
+const getStatsForMonthAndDays = async (req, res) => {
+    try {
+        const { month, days } = req.params;
+        const response = await pool.query(queries.getStatsForMonthAndDays, [month, days]);
+        res.status(200).json(response.rows[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 }
 
 module.exports = {
-    getStatsForMonth,
-    getStatsForDay
+    getStatsForMonthAndDays,
 };

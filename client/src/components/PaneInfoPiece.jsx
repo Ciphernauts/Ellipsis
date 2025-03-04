@@ -6,7 +6,8 @@ export default function PaneInfoPiece({
   name,
   value,
   className,
-  fontSize = isPWA ? 15 : 13,
+  // fontSize = isPWA ? 15 : 13,
+  fontSize = 13,
 }) {
   const isStandalone = isPWA();
   return (

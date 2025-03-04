@@ -32,7 +32,8 @@
   cursor: pointer;
 }
 
-.tableBody .row:hover {
+.tableBody .row:hover,
+.tableBody .row:focus {
   background-color: var(--neutral);
 }
 
@@ -69,10 +70,22 @@
 
 /* -------------------- APP STYLES --------------------  */
 
+.mobile .row {
+  height: fit-content;
+  padding: 10px 0;
+}
+
+.mobile td,
+.mobile th {
+  height: fit-content;
+  padding: 15px 0;
+}
+
 .mobile .tableHeader .row th {
   font-weight: 500;
 }
 
 .mobile .tableBody tr td .timeValues {
   font-size: 11px;
+  gap: 11px;
 }

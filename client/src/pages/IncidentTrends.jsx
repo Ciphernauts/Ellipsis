@@ -5,7 +5,7 @@ import KeyInsights from '../components/incidentTrends/KeyInsights';
 import AlertMetrics from '../components/incidentTrends/AlertMetrics';
 import axios from 'axios'; // Import Axios for API calls
 
-export default function IncidentTrends() {
+export default function IncidentTrends({ isPWA = false }) {
   const [cardData, setCardData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -13,9 +13,10 @@ export default function IncidentTrends() {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/incidents/trends-trends');
+        const response = await axios.get('/api/incidents/incident-trends');
+        console.log(response.data);
         if (response.data) {
-          setCardData(response.data); // Set the data from the API response
+          setCardData(response.data);
         } else {
           throw new Error('No data returned from API');
         }
@@ -168,13 +169,21 @@ export default function IncidentTrends() {
   }
 
   return (
-    <div className={styles.incidentTrends}>
+    <div className={`${styles.incidentTrends} ${isPWA ? styles.mobile : ''}`}>
       <h1>Incident Trends</h1>
       <main>
-        <AlertMetrics data={cardData.alertMetrics} />
+        <AlertMetrics
+          data={cardData.alertMetrics}
+          className={styles.alertMetrics}
+          isPWA={isPWA}
+        />
         <div className={styles.row}>
-          <IncidentTrendsAndBreakdownCard data={cardData.trendsAndBreakdown} />
-          <KeyInsights />
+          <IncidentTrendsAndBreakdownCard
+            data={cardData.trendsAndBreakdown}
+            className={styles.incidentTrendsAndBreakdown}
+            isPWA={isPWA}
+          />
+          <KeyInsights className={styles.keyInsights} isPWA={isPWA} />
         </div>
       </main>
     </div>

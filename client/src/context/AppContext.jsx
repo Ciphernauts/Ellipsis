@@ -50,19 +50,18 @@ export function AppProvider({ children }) {
         try {
           const response = {
             data: {
-              username: 'Vi',
-              email: 'dontsugarcoatitcupcake@gmail.com',
-              profilePicture:
-                'https://arcanecharacters.com/_next/image?url=%2Fimages%2Fcharacters%2Fvi.jpg&w=3840&q=75',
+              username: 'Pejman Jouzi',
+              email: 'pejmanjouziandpartners@gmail.com',
+              profilePicture: '',
             },
           };
-          setUser(response.data); // Update the user state in the context
-          resolve(response); // Resolve the Promise
+          setUser(response.data);
+          resolve(response);
         } catch (error) {
           console.error('Failed to fetch profile:', error);
-          reject(error); // Reject on error
+          reject(error);
         }
-      }, 500); // Simulate a 500ms delay
+      }, 100); // Simulate a 500ms delay
     });
   };
 

@@ -3,9 +3,10 @@ import styles from './ConstructionSites.module.css';
 import { useOutletContext } from 'react-router-dom';
 import PlusIcon from '../components/icons/PlusIcon';
 import DefaultImage from '../assets/DefaultImage.png';
-import axios from 'axios'; // Import Axios
+import { formatDate, truncateText } from '../utils/helpers';
+import axios from 'axios';
 
-export default function ConstructionSites() {
+export default function ConstructionSites({ isPWA = false }) {
   const { setPaneData, setIsPaneOpen, isPaneOpen } = useOutletContext();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,41 +15,11 @@ export default function ConstructionSites() {
   const [newSiteName, setNewSiteName] = useState('');
   const [placeholder, setPlaceholder] = useState('Enter site name');
 
-  // Helper function to format date and time as "31st December 3:46 PM"
-  const formatDateTime = (dateString) => {
-    if (!dateString) return null;
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const daySuffix = getDaySuffix(day);
-    const time = date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-    return `${day}${daySuffix} ${month} ${time}`;
-  };
-
   useEffect(() => {
     if (!isPaneOpen) {
       setSelectedSiteId(null); // Clear selection when pane closes
     }
   }, [isPaneOpen]);
-
-  // Helper function to get the suffix for the day (st, nd, rd, th)
-  const getDaySuffix = (day) => {
-    if (day > 3 && day < 21) return 'th'; // 11th, 12th, 13th, etc.
-    switch (day % 10) {
-      case 1:
-        return 'st';
-      case 2:
-        return 'nd';
-      case 3:
-        return 'rd';
-      default:
-        return 'th';
-    }
-  };
 
   // Fetch construction sites data from the API
   const fetchConstructionSites = async () => {
@@ -59,11 +30,10 @@ export default function ConstructionSites() {
         },
       });
 
-      console.log('API Response:', response.data); // Log the API response
-
       // Ensure the response data is an array
       if (Array.isArray(response.data)) {
         setData(response.data); // Set the data if it's an array
+        console.log(response.data);
       } else {
         console.error('API response is not an array:', response.data);
         throw new Error('API response is not an array'); // Force fallback
@@ -218,8 +188,8 @@ export default function ConstructionSites() {
   // Function to handle deleting a site
   const handleDeleteSite = async (id) => {
     try {
-      await axios.delete(`/api/construction-sites/${id}`); // Replace with your API endpoint
-      setData((prevData) => prevData.filter((site) => site.id !== id)); // Remove deleted site from the array
+      await axios.delete(`/api/construction-sites/${id}`);
+      setData((prevData) => prevData.filter((site) => site.id !== id));
     } catch (error) {
       console.error('Error deleting site:', error);
     }
@@ -227,7 +197,7 @@ export default function ConstructionSites() {
 
   return (
     <div
-      className={`${styles.constructionSites} ${isPaneOpen ? styles.paneOpen : ''}`}
+      className={`${styles.constructionSites} ${isPaneOpen ? styles.paneOpen : ''} ${isPWA ? styles.mobile : ''}`}
     >
       <h1>Construction Sites</h1>
       {loading ? (
@@ -293,20 +263,31 @@ export default function ConstructionSites() {
                   </div>
                   <div className={styles.desc}>
                     <div className={styles.siteName}>
-                      {site.name}
-                      <span
-                        className={
-                          styles[site.isActive ? 'active' : 'inactive']
-                        }
-                      >
-                        {site.isActive ? 'Active' : 'Inactive'}
-                      </span>
+                      {isPWA ? (
+                        truncateText(site.name, 21)
+                      ) : (
+                        <>
+                          {site.name}
+                          <span
+                            className={`${styles.statusBadge} ${styles[site.isActive ? 'active' : 'inactive']}`}
+                          >
+                            {site.isActive ? 'Active' : 'Inactive'}
+                          </span>
+                        </>
+                      )}
                     </div>
                     <div className={styles.time}>
                       {site.lastReport
-                        ? `Last report: ${formatDateTime(site.lastReport)}`
+                        ? `Last report: ${formatDate(site.lastReport)}`
                         : 'No records yet'}
                     </div>
+                    {isPWA && !site.isActive && (
+                      <span
+                        className={`${styles.statusBadge} ${styles[site.isActive ? 'active' : 'inactive']}`}
+                      >
+                        {site.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.delete}>
                     <button
@@ -332,9 +313,9 @@ export default function ConstructionSites() {
                 </div>
               ))
             ) : (
-              <p>No construction sites available.</p> // Fallback UI if data is empty or invalid
+              <p>No construction sites available.</p>
             )}
-          </div>{' '}
+          </div>
         </div>
       )}
     </div>

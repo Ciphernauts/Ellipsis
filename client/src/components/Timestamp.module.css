@@ -34,12 +34,17 @@
   min-width: 0;
 }
 
+.mobile .fullTime {
+  line-height: normal;
+}
+
 .mobile .time {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .mobile .amPm {
   font-size: 10px;
+  font-weight: 400;
 }
 
 .mobile .date {
@@ -48,15 +53,17 @@
   white-space: nowrap;
 }
 
-@media (max-width: 340px) {
+@media (max-width: 370px) {
   .mobile.timestamp {
     width: 29px;
   }
+
   .mobile .fullTime {
     line-height: normal;
     gap: 0;
     flex-direction: column;
   }
+
   .mobile .time {
     font-size: 12px;
   }

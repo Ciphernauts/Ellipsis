@@ -10,8 +10,10 @@ import userIcon from '../assets/username_icon.svg';
 import passwordIcon from '../assets/password_icon.svg';
 import eyeIcon from '../assets/eye_icon.svg';
 import axios from 'axios';
+import logo from '../assets/Icon_black_png.png';
 
-function Register() {
+
+function Register({ isPWA = false }) {
   const navigate = useNavigate();
   const {
     register,
@@ -43,13 +45,11 @@ function Register() {
 };
 
   return (
-    <div className={styles.registerPage}>
+    <div className={`${styles.registerPage} ${isPWA ? styles.mobile : ''}`}>
       <div className={styles.waveBackgroundContainer}>
         <WaveBackground className={styles.waveBackground} />
       </div>
-
-      <NavBar homepage={false} />
-
+      {!isPWA && <NavBar homepage={false} />}
       <div className={styles.registerContainer}>
         <div className={styles.welcomeSection}>
           <h1 className={styles.welcomeTitle}>Hello!</h1>
@@ -57,6 +57,7 @@ function Register() {
             Enter your personal details and start your journey with us.
           </p>
         </div>
+        <img src={logo} alt='Logo' className={styles.logo} />
 
         <div className={styles.formSection}>
           <h2 className={styles.formTitle}>REGISTER</h2>
@@ -65,7 +66,6 @@ function Register() {
             className={styles.registerForm}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {/* Email Field */}
             <div className={styles.inputWrapper}>
               <input
                 type='email'
@@ -144,7 +144,12 @@ function Register() {
               </Link>
             </p>
 
-            <Button type='submit' text='Register' disabled={!isValid} />
+            <Button
+              type='submit'
+              text='Register'
+              disabled={!isValid}
+              color={isPWA ? 'primary' : 'dark'}
+            />
           </form>
         </div>
       </div>

@@ -16,6 +16,7 @@ import TimelineSessions from './pages/TimelineSessions';
 import IncidentTrends from './pages/IncidentTrends';
 import IncidentHistory from './pages/IncidentHistory';
 import ConstructionSites from './pages/ConstructionSites';
+import Cameras from './pages/Cameras';
 import ChangeMode from './pages/ChangeMode';
 import Settings from './pages/Settings';
 import Register from './pages/Register';
@@ -23,6 +24,16 @@ import Login from './pages/Login';
 
 const App = () => {
   const isStandalone = isPWA();
+
+  fetch('http://localhost:3000/')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.message); // "Welcome to the Ellipsis Website!"
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
   console.log('is PWA: ', isStandalone);
 
   return (
@@ -33,8 +44,8 @@ const App = () => {
           path='/'
           element={isStandalone ? <OnboardingPage /> : <HomePage />}
         />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register isPWA={isStandalone} />} />
+        <Route path='/login' element={<Login isPWA={isStandalone} />} />
 
         {/* Routes with nav pane */}
         <Route element={isStandalone ? <PWALayout /> : <Layout />}>
@@ -43,7 +54,7 @@ const App = () => {
             path='/dashboard'
             element={<Dashboard isPWA={isStandalone} />}
           />
-          <Route path='/safety-trends' element={<Dashboard />} />
+          <Route path='/safety-trends' />
 
           {/* Redirect from /timeline to /timeline/calendar */}
           <Route
@@ -68,17 +79,24 @@ const App = () => {
 
           <Route
             path='/incidents/incident-trends'
-            element={<IncidentTrends />}
+            element={<IncidentTrends isPWA={isStandalone} />}
           />
           <Route
             path='/incidents/incident-history'
-            element={<IncidentHistory />}
+            element={<IncidentHistory isPWA={isStandalone} />}
           />
 
-          <Route path='/construction-sites' element={<ConstructionSites />} />
-          <Route path='/cameras' element={<Dashboard />} />
-          <Route path='/change-mode' element={<ChangeMode />} />
-          <Route path='/settings' element={<Settings />} />
+          <Route
+            path='/construction-sites'
+            element={<ConstructionSites isPWA={isStandalone} />}
+          />
+          <Route path='/cameras' element={<Cameras isPWA={isStandalone} />} />
+
+          <Route
+            path='/change-mode'
+            element={<ChangeMode isPWA={isStandalone} />}
+          />
+          <Route path='/settings' element={<Settings isPWA={isStandalone} />} />
         </Route>
       </Routes>
     </AppProvider>

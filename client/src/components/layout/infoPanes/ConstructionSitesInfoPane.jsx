@@ -4,7 +4,11 @@ import styles from './ConstructionSitesInfoPane.module.css';
 import PaneInfoPiece from '../../PaneInfoPiece';
 import Duration from '../../Duration';
 
-export default function ConstructionSitesInfoPane({ data, setSiteData }) {
+export default function ConstructionSitesInfoPane({
+  data,
+  setSiteData,
+  isPWA = false,
+}) {
   const [isActive, setIsActive] = useState(false);
   const [updating, setUpdating] = useState(false);
 
@@ -13,6 +17,8 @@ export default function ConstructionSitesInfoPane({ data, setSiteData }) {
       setIsActive(data.isActive || false);
     }
   }, [data]);
+
+  console.log(data);
 
   const handleToggleChange = async () => {
     setUpdating(true);
@@ -53,7 +59,7 @@ export default function ConstructionSitesInfoPane({ data, setSiteData }) {
   }
 
   return (
-    <div className={styles.pane}>
+    <div className={`${styles.pane} ${isPWA ? styles.mobile : ''}`}>
       <h1>{data.name}</h1>
       <div className={styles.content}>
         <div className={styles.infoBlock}>
@@ -73,7 +79,7 @@ export default function ConstructionSitesInfoPane({ data, setSiteData }) {
           </div>
 
           <div className={styles.row}>
-            <PaneInfoPiece name='Safety Score' value={data.safetyscore} />
+            <PaneInfoPiece name='Safety Score' value={data.safetyScore} />
             <PaneInfoPiece
               name='Duration'
               value={
