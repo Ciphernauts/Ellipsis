@@ -157,7 +157,7 @@ export default function IncidentTrends() {
         <AlertMetrics data={cardData.alertMetrics} />
         <div className={styles.row}>
           <IncidentTrendsAndBreakdownCard data={cardData.trendsAndBreakdown} />
-          <KeyInsights />
+          <KeyInsights data={cardData} />
         </div>
       </main>
     </div>
