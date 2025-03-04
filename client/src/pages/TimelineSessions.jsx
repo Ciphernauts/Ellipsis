@@ -19,6 +19,7 @@ export default function TimelineSessions({ isPWA = false }) {
   const fetchSessions = async () => {
     try {
       const response = await axios.get('/api/timeline/sessions');
+
       if (response.data) {
         setSessionData(response.data);
       } else {
@@ -205,7 +206,7 @@ export default function TimelineSessions({ isPWA = false }) {
 
         if (sessionDetails) {
           setPaneData({
-            sessionDetails: sessionDetails,
+            ...sessionDetails,
             constructionSites: sessionData.constructionSites,
             cameras: sessionData.cameras,
           });

@@ -4,7 +4,7 @@ const pool = new Pool ({
     //connectionString: 'postgres://postgres:root@localhost:5432/postgres'
     user:"postgres",
     host:"localhost",
-    database:"ObjectDetection",
+    database:"postgres",
     password:"root",
     port:5432
 });

@@ -1,54 +1,53 @@
 const pool = require('../Database/database');
 const queries = require('../Queries/ConstructionSitesQueries');
 
-const getAllConstructionSites = (req, res) => {
-    pool.query(queries.getAllConstructionSites, (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
+const getAllConstructionSites = async (req, res) => {
+  try {
+    const response = await pool.query(queries.getAllConstructionSites);
+    res.status(200).json(response.rows[0].response_data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
-const getConstructionSiteById = (req, res
-    ) => {
-    const id = parseInt(req.params.site_id);
-    pool.query(queries.getConstructionSiteById, [id], (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
+const updateStatus = async (req, res) => {
+  const { site_id } = req.params;
+  const { isActive } = req.body;
+
+  try {
+    const response = await pool.query(queries.updateStatus, [site_id, isActive]);
+    res.status(200).json(response.rows[0].response_data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
-const updateStatus = (req, res) => {
-    const id = parseInt(req.params.site_id);
-    const { status } = req.body;
+const addConstructionSite = async (req, res) => {
+  const { name } = req.params;
 
-    pool.query(queries.updateStatus, [status, id], (error, results) => {
-        if (error) throw error;
-        res.status(200).send(`Construction Site modified with ID: ${id}`);
-    });
+  try {
+    const response = await pool.query(queries.addConstructionSite, [name]);
+    res.status(201).json(response.rows[0].response_data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
-const addConstructionSite = (req, res) => {
-    const { name } = req.params;
+const deleteConstructionSite = async (req, res) => {
+  const { site_id } = req.params;
 
-    pool.query(queries.addConstructionSite, [name], (error, results) => {
-        if (error) throw error;
-        res.status(201).send(`Construction Site added with ID: ${results.insertId}`);
-    });
-}
-
-const deleteConstructionSite = (req, res) => {
-    const id = parseInt(req.params.site_id);
-
-    pool.query(queries.deleteConstructionSite, [id], (error, results) => {
-        if (error) throw error;
-        res.status(200).send(`Construction Site deleted with ID: ${id}`);
-    });
+  try {
+    await pool.query(queries.deleteConstructionSite, [site_id]);
+    res.status(204).end();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
 module.exports = {
     getAllConstructionSites,
-    getConstructionSiteById,
     updateStatus,
     addConstructionSite,
     deleteConstructionSite
+
 };

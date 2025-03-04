@@ -7,7 +7,7 @@ import WorkshopModeIcon from '../components/icons/WorkshopModeIcon';
 import Button from '../components/Button';
 import { useApp } from '../context/AppContext';
 
-export default function ChangeMode() {
+export default function ChangeMode({ isPWA = false }) {
   const { mode: activeMode, isLoading, updateMode } = useApp();
 
   const modes = [
@@ -42,18 +42,21 @@ export default function ChangeMode() {
   }
 
   return (
-    <div className={styles.changeMode}>
+    <div className={`${styles.changeMode} ${isPWA ? styles.mobile : ''}`}>
       <h1>Change Mode</h1>
       <div className={styles.modesContainer}>
         {modes.map((mode) => (
           <div
             key={mode.id}
             className={`${styles.mode} ${'dashboardCard'} ${mode.name === activeMode ? styles.active : ''}`}
+            onClick={() => (isPWA ? updateMode(mode.name) : '')}
           >
             <div className={styles.icon}>{mode.icon}</div>
-            <h2>{mode.name}</h2>
-            <p>{mode.description}</p>
-            {mode.name !== activeMode && (
+            <div className={styles.descGroup}>
+              <h2>{mode.name}</h2>
+              <p>{mode.description}</p>
+            </div>
+            {!isPWA && mode.name !== activeMode && (
               <Button
                 text='Activate'
                 size='small'

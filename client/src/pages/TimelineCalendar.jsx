@@ -1003,11 +1003,13 @@ export default function TimelineCalendar({ isPWA = false }) {
   useEffect(() => {
     if (!calendarData) {
       fetchMonthData(month, year).then(() => {
-        // Set pane data to the month data only during initial render
-        setPaneData(placeholderData.month);
+        // Only set pane data if not in PWA mode
+        if (!isPWA) {
+          setPaneData(placeholderData.month);
+        }
       });
     }
-  }, [month, year, calendarData]);
+  }, [month, year, calendarData, isPWA]);
 
   // Navigation Handlers - Functions to navigate between months and days.
 
@@ -1142,7 +1144,7 @@ export default function TimelineCalendar({ isPWA = false }) {
   const fetchMonthData = async (month, year) => {
     try {
       const response = await axios.get(
-        `/api/timeline/calendar/${month + 1}?year=${year}`
+        `/api/timeline/calendar/${month + 1}/${year}`
       );
       if (response.data) {
         setCalendarData(response.data);
