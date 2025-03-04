@@ -1,3 +1,4 @@
+/*
 // I GENERATED THESE BASED ON THE ENDPOINTS I USED IN THE FRONTEND
 // YOU COULD CHANGE IT TO MAKE IT MORE CONSISTENT WITH THE OTHER ROUTES IDK
 
@@ -25,5 +26,18 @@ router.post('/pair-device/:device_id', controller.pairDevice);
 // Delete a camera
 router.delete('/delete-camera/:camera_id', controller.deleteCamera);
 // client/src/pages/Cameras.jsx: lines 121-128
+
+module.exports = router;
+*/
+
+const express = require('express');
+const router = express.Router();
+const camerasController = require('../Controllers/Cameras');
+
+router.get('/cameras', camerasController.getAllCameras);
+router.get('/available-devices', camerasController.getAvailableDevices);
+router.post('/connect-camera/:id', camerasController.connectCamera);
+router.post('/pair-device/:id', camerasController.pairDevice);
+router.delete('/delete-camera/:id', camerasController.deleteCamera);
 
 module.exports = router;
