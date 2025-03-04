@@ -49,11 +49,14 @@ export default function ChangeMode({ isPWA = false }) {
           <div
             key={mode.id}
             className={`${styles.mode} ${'dashboardCard'} ${mode.name === activeMode ? styles.active : ''}`}
+            onClick={() => (isPWA ? updateMode(mode.name) : '')}
           >
             <div className={styles.icon}>{mode.icon}</div>
-            <h2>{mode.name}</h2>
-            <p>{mode.description}</p>
-            {mode.name !== activeMode && (
+            <div className={styles.descGroup}>
+              <h2>{mode.name}</h2>
+              <p>{mode.description}</p>
+            </div>
+            {!isPWA && mode.name !== activeMode && (
               <Button
                 text='Activate'
                 size='small'

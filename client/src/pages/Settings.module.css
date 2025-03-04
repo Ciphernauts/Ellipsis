@@ -313,7 +313,7 @@
 .mobile .tabs {
   gap: 0;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .mobile .tabs button {
