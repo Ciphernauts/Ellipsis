@@ -183,7 +183,11 @@ export default function IncidentTrends({ isPWA = false }) {
             className={styles.incidentTrendsAndBreakdown}
             isPWA={isPWA}
           />
-          <KeyInsights className={styles.keyInsights} isPWA={isPWA} />
+          <KeyInsights
+            data={cardData}
+            className={styles.keyInsights}
+            isPWA={isPWA}
+          />
         </div>
       </main>
     </div>

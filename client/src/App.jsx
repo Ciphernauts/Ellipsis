@@ -21,6 +21,8 @@ import ChangeMode from './pages/ChangeMode';
 import Settings from './pages/Settings';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import SafetyTrends from './pages/SafetyTrends';
+import OverallSafetyTrend from './pages/OverallSafetyTrend';
 
 const App = () => {
   const isStandalone = isPWA();
@@ -54,7 +56,10 @@ const App = () => {
             path='/dashboard'
             element={<Dashboard isPWA={isStandalone} />}
           />
-          <Route path='/safety-trends' />
+          <Route
+            path='/safety-trends'
+            element={<Navigate to='/safety-trends/overall' />}
+          />
 
           {/* Redirect from /timeline to /timeline/calendar */}
           <Route
@@ -76,7 +81,6 @@ const App = () => {
             path='/incidents'
             element={<Navigate to='/incidents/incident-trends' replace />}
           />
-
           <Route
             path='/incidents/incident-trends'
             element={<IncidentTrends isPWA={isStandalone} />}
@@ -84,6 +88,16 @@ const App = () => {
           <Route
             path='/incidents/incident-history'
             element={<IncidentHistory isPWA={isStandalone} />}
+          />
+
+          {/* Safety Trends Routes */}
+          <Route
+            path='/safety-trends/overall'
+            element={<OverallSafetyTrend />}
+          />
+          <Route
+            path='/safety-trends/:category/:subcategory'
+            element={<SafetyTrends />}
           />
 
           <Route

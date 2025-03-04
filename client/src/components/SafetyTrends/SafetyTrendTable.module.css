@@ -1,0 +1,168 @@
+.safetyTrendTable {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.trendTable {
+  width: 100%;
+  border-collapse: separate; /* Allows spacing between rows */
+  border-spacing: 0 8px; /* Adds gap between rows */
+  table-layout: fixed;
+}
+
+.row {
+  height: 48px;
+}
+
+/* Table Header */
+.tableHeader {
+  background-color: var(--primary);
+  color: var(--light);
+  padding: 20px 12px;
+}
+
+.tableHeader .row th {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tableHeader th {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 13px;
+}
+
+/* Table Body */
+.tableBody {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.tableBody td {
+  padding: 16px; /* Increase padding for more spacing */
+  border: none;
+}
+
+.tableBody .row {
+  text-align: center;
+  background-color: var(--light);
+  cursor: pointer;
+  border-radius: 15px; /* Rounded corners for each row */
+  overflow: hidden;
+  height: 48px;
+}
+
+.tableBody .row:hover {
+  background-color: var(--neutral);
+}
+
+.tableBody .row.active {
+  background-color: var(--secondary);
+}
+
+.tableBody td {
+  padding: 16x;
+  border: none;
+}
+
+/* Rounded corners for the header row */
+.tableHeader .row th:first-child {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-left: 10px;
+}
+
+.tableHeader .row th:last-child {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding-right: 10px;
+}
+
+/* Ensures each row has rounded corners */
+.row td:first-child {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-left: 10px;
+}
+
+.row td:last-child {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding-right: 10px;
+}
+
+/* First column (Timestamp) - bold & colored */
+.timestamp {
+  font-weight: bold;
+  color: #006684;
+}
+
+.growth {
+  display: flex;
+  align-items: center; /* Ensures vertical alignment */
+  justify-content: center;
+  font-weight: bold;
+  gap: 10px; /* Adds space between arrow and text */
+}
+
+.growth span {
+  display: inline-flex;
+  align-items: center; /* Ensures vertical alignment */
+  justify-content: center;
+  gap: 8px; /* Adds space between arrow and text */
+  min-width: 60px; /* Ensures consistent spacing */
+}
+
+/* Growth column - green if positive, red if negative */
+.growth.positive {
+  color: green;
+  font-weight: bold;
+}
+
+.growth.negative {
+  color: red;
+  font-weight: bold;
+}
+
+.growth .arrow {
+  flex-shrink: 0; /* Prevents the arrow from shrinking */
+}
+.growth.positive span .arrow {
+  transform: rotate(-90deg); /* Upward */
+}
+
+.growth.negative span .arrow {
+  transform: rotate(90deg); /* Downward */
+}
+
+/* Alert count column - #006684 */
+.alertCount {
+  color: #006684;
+  font-weight: bold;
+}
+
+/* Container for Sync Status */
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Styling for the "Next Sync" Line */
+.syncStatus {
+  display: flex;
+  align-items: center;
+  color: #a8a8a8;
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  text-align: right;
+}
+
+/* Loading icon spacing */
+.syncIcon {
+  margin-right: 5px;
+  width: 14px; /* Adjust size if needed */
+  height: 14px;
+}
