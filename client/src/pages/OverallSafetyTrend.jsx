@@ -6,7 +6,7 @@ import styles from './SafetyTrends.module.css';
 import ArrowIcon from '../components/icons/ArrowIcon';
 
 const overallSafetyData = {
-  displayName: 'Overall Safety Trend',
+  displayName: 'Overall Safety',
   data: {
     'currentAverageCompliance': 88,
     '24 hours': [

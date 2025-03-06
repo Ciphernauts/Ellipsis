@@ -97,7 +97,7 @@ const SafetyTrend = () => {
             onClick={() => navigate('/safety-trends')}
           >
             <ArrowIcon className={styles.leftArrow} />
-            Back to Overall Safety Trend
+            Back to Overall Safety
           </button>
         )}
 
