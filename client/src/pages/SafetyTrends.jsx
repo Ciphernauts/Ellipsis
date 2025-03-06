@@ -17,7 +17,7 @@ const findKeyIgnoreCase = (obj, key) =>
 // Define categories with subcategories (Maintaining Correct Order)
 const categories = {
   'ppe': ['Helmet', 'Footwear', 'Vest', 'Gloves'],
-  'fall-protection': ['Scaffolding', 'Guardrails', 'Harnesses'],
+  'fall-protection': ['Scaffolding', 'Guardrails', 'Harness'],
 };
 
 const categoryOrder = ['ppe', 'fall-protection']; // Ensure correct category order
@@ -90,6 +90,17 @@ const SafetyTrend = () => {
 
       {/* Navigation Buttons */}
       <div className={styles.navButtons}>
+        {/* Back to Overall Safety Trends (only on Helmet page) */}
+        {category === 'ppe' && subcategory.toLowerCase() === 'helmet' && (
+          <button
+            className={styles.navButton}
+            onClick={() => navigate('/safety-trends')}
+          >
+            <ArrowIcon className={styles.leftArrow} />
+            Back to Overall Safety Trends
+          </button>
+        )}
+
         {prevSubcategory && (
           <button
             className={styles.navButton}
@@ -103,6 +114,7 @@ const SafetyTrend = () => {
             Back to {prevSubcategory}
           </button>
         )}
+
         {nextSubcategory && (
           <button
             className={styles.navButton}
