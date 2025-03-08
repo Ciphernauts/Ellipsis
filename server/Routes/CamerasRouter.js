@@ -35,6 +35,7 @@ const router = express.Router();
 const camerasController = require('../Controllers/Cameras');
 
 router.get('/cameras', camerasController.getAllCameras);
+router.get('/paired-cameras', camerasController.getPairedCameras);
 router.get('/available-devices', camerasController.getAvailableDevices);
 router.post('/connect-camera/:id', camerasController.connectCamera);
 router.post('/pair-device/:id', camerasController.pairDevice);
