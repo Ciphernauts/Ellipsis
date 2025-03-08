@@ -167,6 +167,17 @@
   margin-bottom: -62px;
 }
 
+.apiError {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  margin: 0 auto;
+  color: #b91515;
+  font-size: 0.65rem;
+  text-align: left;
+  transform: translateX(-50%);
+}
+
 /* Login Redirect */
 .loginRedirect {
   margin-top: 0.1rem;
