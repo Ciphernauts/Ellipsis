@@ -11,7 +11,6 @@ import eyeIcon from '../assets/eye_icon.svg';
 import axios from 'axios';
 import logo from '../assets/Icon_black_png.png';
 
-
 function Login({ isPWA = false }) {
   const navigate = useNavigate();
   const {
@@ -26,20 +25,20 @@ function Login({ isPWA = false }) {
     setShowPassword((prev) => !prev);
   };
 
+  const [apiError, setApiError] = useState('');
+
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/users/login", {
-          email: data.email,
-          password: data.password
+      const res = await axios.post('http://localhost:3000/api/users/login', {
+        email: data.email,
+        password: data.password,
       });
-      
-      navigate('/dashboard');
 
-      //alert(res.data.message);
-  } catch (error) {
-      alert("Login failed: " + error.response.data.message);
-  }
-};
+      navigate('/dashboard');
+    } catch (error) {
+      setApiError('Login failed: ' + error.response.data.message);
+    }
+  };
 
   return (
     <div className={`${styles.registerPage} ${isPWA ? styles.mobile : ''}`}>
@@ -121,6 +120,7 @@ function Login({ isPWA = false }) {
               disabled={!isValid}
               color={isPWA ? 'primary' : 'dark'}
             />
+            {apiError && <div className={styles.apiError}>{apiError}</div>}
           </form>
         </div>
       </div>
