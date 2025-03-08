@@ -27,7 +27,7 @@ app.get("/", (req,res) => {
     res.json({message: "Welcome to the Ellipsis Website!"});
 });
 
-app.use('/api/users', userRoutes);
+app.use('/api', userRoutes);
 app.use('', timelineSessionsRoutes);
 app.use('', timelineCalendarRoutes);
 app.use('', incidentTrendsRoutes);
