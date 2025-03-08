@@ -5,14 +5,6 @@ import ArrowIcon from '../components/icons/ArrowIcon';
 import Button from '../components/Button';
 import axios from 'axios';
 
-// TimelineCalendar: Main component function.
-// isPWA: Prop to determine if the component is used in a Progressive Web App.
-// setPaneData: Function from context to set data in a parent component.
-// calendarData: State to hold calendar data.
-// currentDate: Current date object.
-// month, year: State to track the current month and year.
-// activeSelection: State to track the selected month or day.
-
 export default function TimelineCalendar({ isPWA = false }) {
   const { setPaneData } = useOutletContext();
   const [calendarData, setCalendarData] = useState(null);
@@ -26,990 +18,112 @@ export default function TimelineCalendar({ isPWA = false }) {
     day: null,
   });
 
-  const placeholderData = {
-    month: {
-      name: 'March',
-      snapshots: [
-        'https://i.postimg.cc/TwNQLVbC/vlcsnap-2025-03-03-12h00m14s340.png',
-        'https://i.postimg.cc/4djVRBVk/vlcsnap-2025-03-03-12h19m16s115.png',
-        'https://i.postimg.cc/zXV6jBXy/vlcsnap-2025-03-03-12h00m33s599.png',
-        'https://i.postimg.cc/3NhV1CN7/vlcsnap-2025-03-03-12h20m36s807.png',
-      ],
-      safetyScore: 87.5, //avg of every compliance metric
-      progress: '+6.5%', //from last month
-      totalIncidents: 96, //1,1,0.5,0.5
-      criticalIncidents: 1, //
-      duration: {
-        hours: 5, //
-        minutes: 27, //
-        seconds: 12, //
-      },
-      trends: [
-        { date: '2025-02-01', score: 85.2 }, //
-        { date: '2025-02-02', score: 86.5 },
-        { date: '2025-02-03', score: 84.3 },
-        { date: '2025-02-04', score: 85.7 },
-        { date: '2025-02-05', score: 87.9 },
-        { date: '2025-02-06', score: 86.2 },
-        { date: '2025-02-07', score: 88.1 },
-        { date: '2025-02-08', score: 87.3 },
-        { date: '2025-02-09', score: 85.9 },
-        { date: '2025-02-10', score: 86.8 },
-        { date: '2025-02-11', score: 88.0 },
-        { date: '2025-02-12', score: 84.7 },
-        { date: '2025-02-13', score: 87.5 },
-      ],
-      safetyScoreDistribution: {
-        helmet: 14.1,
-        footwear: 22.9,
-        vest: 16.2,
-        gloves: 12.4,
-        scaffolding: 11.3, //
-        guardrails: 23.1, //
-        harness: 18.5, //
-      },
-      top3: {
-        improvements: [
-          {
-            name: 'footwear',
-            positive: true,
-            value: 2.5,
-          },
-          {
-            name: 'harness',
-            positive: true,
-            value: 1.5,
-          },
-          {
-            name: 'scaffolding',
-            positive: false,
-            value: 1.3,
-          },
-        ],
-        declinedMetrics: [
-          {
-            name: 'scaffolding',
-            positive: false,
-            value: 1.3,
-          },
-          {
-            name: 'helmet',
-            positive: false,
-            value: 0.5,
-          },
-          {
-            name: 'gloves',
-            positive: false,
-            value: 1.2,
-          },
-        ],
-      },
+  // Placeholder data for a month
+  const monthPlaceholderData = {
+    name: 'March',
+    safetyScore: 87.5,
+    progress: '+6.5%',
+    totalIncidents: 96,
+    criticalIncidents: 1,
+    duration: { hours: 5, minutes: 27, seconds: 12 },
+    trends: [
+      { date: '2025-02-01', score: 85.2 },
+      { date: '2025-02-02', score: 86.5 },
+      { date: '2025-02-03', score: 84.3 },
+      { date: '2025-02-04', score: 85.7 },
+      { date: '2025-02-05', score: 87.9 },
+      { date: '2025-02-06', score: 86.2 },
+      { date: '2025-02-07', score: 88.1 },
+      { date: '2025-02-08', score: 87.3 },
+      { date: '2025-02-09', score: 85.9 },
+      { date: '2025-02-10', score: 86.8 },
+      { date: '2025-02-11', score: 88.0 },
+      { date: '2025-02-12', score: 84.7 },
+      { date: '2025-02-13', score: 87.5 },
+    ],
+    safetyScoreDistribution: {
+      helmet: 14.1,
+      footwear: 22.9,
+      vest: 16.2,
+      gloves: 12.4,
+      scaffolding: 11.3,
+      guardrails: 23.1,
+      harness: 18.5,
     },
-    days: [
-      {
-        date: '2025-02-01',
-        safetyScore: 85,
-        progress: '+4.7%',
-        totalIncidents: 12,
-        criticalIncidents: 1,
-        duration: { hours: 8, minutes: 15, seconds: 40 },
-        safetyScoreDistribution: {
-          helmet: 13.0,
-          footwear: 18.0,
-          vest: 20.0,
-          gloves: 15.0,
-          scaffolding: 12.5,
-          guardrails: 14.0,
-          harness: 7.5,
-        },
-        top3: {
-          improvements: [
-            { name: 'vest', positive: true, value: 4.0 },
-            { name: 'footwear', positive: true, value: 2.0 },
-            { name: 'helmet', positive: false, value: 0.0 },
-          ],
-          declinedMetrics: [
-            { name: 'scaffolding', positive: false, value: 0.5 },
-            { name: 'harness', positive: false, value: 0.5 },
-            { name: 'guardrails', positive: false, value: 0.4 },
-          ],
-        },
-        trends: [
-          { time: '3am', score: 85 },
-          { time: '6am', score: 86 },
-          { time: '9am', score: 84 },
-          { time: '12pm', score: 85 },
-          { time: '3pm', score: 83 },
-          { time: '6pm', score: 86 },
-          { time: '9pm', score: 87 },
-        ],
+    top3: {
+      improvements: [
+        { name: 'footwear', positive: true, value: 2.5 },
+        { name: 'harness', positive: true, value: 1.5 },
+        { name: 'scaffolding', positive: false, value: 1.3 },
+      ],
+      declinedMetrics: [
+        { name: 'scaffolding', positive: false, value: 1.3 },
+        { name: 'helmet', positive: false, value: 0.5 },
+        { name: 'gloves', positive: false, value: 1.2 },
+      ],
+    },
+  };
 
-        snapshots: [
-          'https://picsum.photos/400/300?random=1',
-          'https://picsum.photos/400/300?random=2',
-          'https://picsum.photos/400/300?random=3',
-          'https://picsum.photos/400/300?random=4',
-        ],
-      },
-      {
-        date: '2025-02-02',
-        safetyScore: 88,
-        progress: '+4.7%',
-        totalIncidents: 3,
-        criticalIncidents: 0,
-        duration: { hours: 7, minutes: 43, seconds: 12 },
-        safetyScoreDistribution: {
-          helmet: 15.0,
-          footwear: 20.0,
-          vest: 18.0,
-          gloves: 14.0,
-          scaffolding: 11.0,
-          guardrails: 21.0,
-          harness: 6.0,
-        },
-        top3: {
-          improvements: [
-            { name: 'vest', positive: true, value: 2.0 },
-            { name: 'footwear', positive: true, value: 1.5 },
-            { name: 'helmet', positive: true, value: 1.0 },
-          ],
-          declinedMetrics: [
-            { name: 'scaffolding', positive: false, value: 0.5 },
-            { name: 'harness', positive: false, value: 0.3 },
-            { name: 'guardrails', positive: false, value: 0.4 },
-          ],
-        },
-        trends: [
-          { time: '3am', score: 86 },
-          { time: '6am', score: 88 },
-          { time: '9am', score: 90 },
-          { time: '12pm', score: 89 },
-          { time: '3pm', score: 87 },
-          { time: '6pm', score: 88 },
-          { time: '9pm', score: 90 },
-        ],
-
-        snapshots: [
-          'https://picsum.photos/300/500?random=1',
-          'https://picsum.photos/300/500?random=2',
-          'https://picsum.photos/300/500?random=3',
-          'https://picsum.photos/300/500?random=4',
-        ],
-      },
-      {
-        date: '2025-02-03',
-        safetyScore: 90,
-        progress: '+4.7%',
-        totalIncidents: 1,
-        criticalIncidents: 0,
-        duration: { hours: 9, minutes: 5, seconds: 30 },
-        safetyScoreDistribution: {
-          helmet: 16.0,
-          footwear: 21.0,
-          vest: 19.0,
-          gloves: 16.0,
-          scaffolding: 12.0,
-          guardrails: 20.0,
-          harness: 7.0,
-        },
-        top3: {
-          improvements: [
-            { name: 'footwear', positive: true, value: 3.0 },
-            { name: 'helmet', positive: true, value: 2.0 },
-            { name: 'scaffolding', positive: false, value: 0.5 },
-          ],
-          declinedMetrics: [
-            { name: 'gloves', positive: false, value: 0.4 },
-            { name: 'guardrails', positive: false, value: 0.3 },
-            { name: 'harness', positive: false, value: 0.2 },
-          ],
-        },
-        trends: [
-          { time: '3am', score: 89 },
-          { time: '6am', score: 91 },
-          { time: '9am', score: 90 },
-          { time: '12pm', score: 92 },
-          { time: '3pm', score: 91 },
-          { time: '6pm', score: 90 },
-          { time: '9pm', score: 92 },
-        ],
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-04',
-        safetyScore: 86,
-        progress: '+4.7%',
-        totalIncidents: 8,
-        criticalIncidents: 1,
-        duration: { hours: 7, minutes: 50, seconds: 10 },
-        safetyScoreDistribution: {
-          helmet: 14.5,
-          footwear: 19.0,
-          vest: 17.0,
-          gloves: 13.0,
-          scaffolding: 13.5,
-          guardrails: 15.0,
-          harness: 8.5,
-        },
-        top3: {
-          improvements: [
-            { name: 'vest', positive: true, value: 2.5 },
-            { name: 'footwear', positive: true, value: 2.0 },
-            { name: 'helmet', positive: false, value: 0.0 },
-          ],
-          declinedMetrics: [
-            { name: 'scaffolding', positive: false, value: 0.5 },
-            { name: 'guardrails', positive: false, value: 0.5 },
-            { name: 'harness', positive: false, value: 0.2 },
-          ],
-        },
-        trends: [
-          { time: '3am', score: 85 },
-          { time: '6am', score: 88 },
-          { time: '9am', score: 87 },
-          { time: '12pm', score: 89 },
-          { time: '3pm', score: 88 },
-          { time: '6pm', score: 90 },
-          { time: '9pm', score: 91 },
-        ],
-
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-05',
-        safetyScore: 89,
-        progress: '+4.7%',
-        totalIncidents: 5,
-        criticalIncidents: 0,
-        duration: { hours: 8, minutes: 0, seconds: 5 },
-        safetyScoreDistribution: {
-          helmet: 14.8,
-          footwear: 22.5,
-          vest: 18.0,
-          gloves: 13.5,
-          scaffolding: 10.0,
-          guardrails: 19.2,
-          harness: 8.0,
-        },
-        top3: {
-          improvements: [
-            { name: 'footwear', positive: true, value: 3.0 },
-            { name: 'vest', positive: true, value: 2.0 },
-            { name: 'helmet', positive: true, value: 1.5 },
-          ],
-          declinedMetrics: [
-            { name: 'scaffolding', positive: false, value: 0.5 },
-            { name: 'harness', positive: false, value: 0.3 },
-            { name: 'guardrails', positive: false, value: 0.4 },
-          ],
-        },
-        trends: [
-          { time: '12am', score: 80 },
-          { time: '1am', score: 82 },
-          { time: '2am', score: 85 },
-          { time: '3am', score: 83 },
-          { time: '4am', score: 79 },
-          { time: '5am', score: 80 },
-          { time: '6am', score: 81 },
-          { time: '7am', score: 82 },
-          { time: '8am', score: 83 },
-          { time: '9am', score: 82 },
-          { time: '10am', score: 85 },
-          { time: '11am', score: 86 },
-          { time: '12pm', score: 84 },
-          { time: '1pm', score: 85 },
-          { time: '2pm', score: 84 },
-          { time: '3pm', score: 83 },
-          { time: '4pm', score: 81 },
-          { time: '5pm', score: 82 },
-          { time: '6pm', score: 80 },
-          { time: '7pm', score: 79 },
-          { time: '8pm', score: 81 },
-        ],
-
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-06',
-        safetyScore: 83,
-        progress: '+4.7%',
-        totalIncidents: 20,
-        criticalIncidents: 3,
-        duration: {
-          hours: 6,
-          minutes: 50,
-          seconds: 45,
-        },
-        safetyScoreDistribution: {
-          helmet: 12.0,
-          footwear: 18.5,
-          vest: 21.0,
-          gloves: 11.0,
-          scaffolding: 14.5,
-          guardrails: 19.5,
-          harness: 7.5,
-        },
-        top3: {
-          improvements: [
-            {
-              name: 'vest',
-              positive: true,
-              value: 4.5,
-            },
-            {
-              name: 'guardrails',
-              positive: true,
-              value: 2.0,
-            },
-            {
-              name: 'footwear',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-          declinedMetrics: [
-            {
-              name: 'helmet',
-              positive: false,
-              value: 1.0,
-            },
-            {
-              name: 'scaffolding',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'harness',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-        },
-        trends: [
-          { time: '12am', score: 85 },
-          { time: '1am', score: 82 },
-          { time: '2am', score: 83 },
-          { time: '3am', score: 85 },
-          { time: '4am', score: 81 },
-          { time: '5am', score: 82 },
-          { time: '6am', score: 80 },
-          { time: '7am', score: 84 },
-          { time: '8am', score: 86 },
-          { time: '9am', score: 85 },
-          { time: '10am', score: 87 },
-          { time: '11am', score: 84 },
-          { time: '12pm', score: 83 },
-          { time: '1pm', score: 85 },
-          { time: '2pm', score: 86 },
-          { time: '3pm', score: 87 },
-          { time: '4pm', score: 84 },
-          { time: '5pm', score: 83 },
-          { time: '6pm', score: 82 },
-          { time: '7pm', score: 80 },
-          { time: '8pm', score: 81 },
-        ],
-
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-07',
-        safetyScore: 84,
-        progress: '+4.7%',
-        totalIncidents: 15,
-        criticalIncidents: 2,
-        duration: {
-          hours: 7,
-          minutes: 30,
-          seconds: 10,
-        },
-        safetyScoreDistribution: {
-          helmet: 14.3,
-          footwear: 20.0,
-          vest: 18.5,
-          gloves: 14.5,
-          scaffolding: 11.0,
-          guardrails: 22.0,
-          harness: 8.5,
-        },
-        top3: {
-          improvements: [
-            {
-              name: 'guardrails',
-              positive: true,
-              value: 4.0,
-            },
-            {
-              name: 'footwear',
-              positive: true,
-              value: 3.0,
-            },
-            {
-              name: 'harness',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-          declinedMetrics: [
-            {
-              name: 'helmet',
-              positive: false,
-              value: 1.0,
-            },
-            {
-              name: 'scaffolding',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'vest',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-        },
-        trends: [
-          { time: '12am', score: 90 },
-          { time: '1am', score: 92 },
-          { time: '2am', score: 93 },
-          { time: '3am', score: 94 },
-          { time: '4am', score: 91 },
-          { time: '5am', score: 89 },
-          { time: '6am', score: 88 },
-          { time: '7am', score: 91 },
-          { time: '8am', score: 93 },
-          { time: '9am', score: 95 },
-          { time: '10am', score: 94 },
-          { time: '11am', score: 92 },
-          { time: '12pm', score: 91 },
-          { time: '1pm', score: 92 },
-          { time: '2pm', score: 90 },
-          { time: '3pm', score: 92 },
-          { time: '4pm', score: 91 },
-          { time: '5pm', score: 90 },
-          { time: '6pm', score: 92 },
-          { time: '7pm', score: 93 },
-          { time: '8pm', score: 94 },
-        ],
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-08',
-        safetyScore: 91,
-        progress: '+4.7%',
-        totalIncidents: 2,
-        criticalIncidents: 0,
-        duration: {
-          hours: 8,
-          minutes: 5,
-          seconds: 20,
-        },
-        safetyScoreDistribution: {
-          helmet: 18.0,
-          footwear: 23.0,
-          vest: 17.0,
-          gloves: 14.0,
-          scaffolding: 11.0,
-          guardrails: 19.0,
-          harness: 6.0,
-        },
-        top3: {
-          improvements: [
-            {
-              name: 'footwear',
-              positive: true,
-              value: 5.0,
-            },
-            {
-              name: 'helmet',
-              positive: true,
-              value: 3.0,
-            },
-            {
-              name: 'scaffolding',
-              positive: false,
-              value: 1.0,
-            },
-          ],
-          declinedMetrics: [
-            {
-              name: 'guardrails',
-              positive: false,
-              value: 1.0,
-            },
-            {
-              name: 'harness',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'vest',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-        },
-        trends: [
-          { time: '12am', score: 80 },
-          { time: '1am', score: 82 },
-          { time: '2am', score: 85 },
-          { time: '3am', score: 83 },
-          { time: '4am', score: 79 },
-          { time: '5am', score: 80 },
-          { time: '6am', score: 81 },
-          { time: '7am', score: 82 },
-          { time: '8am', score: 83 },
-          { time: '9am', score: 82 },
-          { time: '10am', score: 85 },
-          { time: '11am', score: 86 },
-          { time: '12pm', score: 84 },
-          { time: '1pm', score: 85 },
-          { time: '2pm', score: 84 },
-          { time: '3pm', score: 83 },
-          { time: '4pm', score: 81 },
-          { time: '5pm', score: 82 },
-          { time: '6pm', score: 80 },
-          { time: '7pm', score: 79 },
-          { time: '8pm', score: 81 },
-        ],
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-09',
-        safetyScore: 87,
-        progress: '+4.7%',
-        totalIncidents: 10,
-        criticalIncidents: 1,
-        duration: {
-          hours: 7,
-          minutes: 40,
-          seconds: 5,
-        },
-        safetyScoreDistribution: {
-          helmet: 15.0,
-          footwear: 20.0,
-          vest: 18.0,
-          gloves: 14.0,
-          scaffolding: 12.0,
-          guardrails: 17.0,
-          harness: 6.0,
-        },
-        top3: {
-          improvements: [
-            {
-              name: 'vest',
-              positive: true,
-              value: 4.0,
-            },
-            {
-              name: 'scaffolding',
-              positive: true,
-              value: 2.0,
-            },
-            {
-              name: 'footwear',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-          declinedMetrics: [
-            {
-              name: 'helmet',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'guardrails',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'harness',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-        },
-        trends: [
-          { time: '12am', score: 80 },
-          { time: '1am', score: 82 },
-          { time: '2am', score: 85 },
-          { time: '3am', score: 83 },
-          { time: '4am', score: 79 },
-          { time: '5am', score: 80 },
-          { time: '6am', score: 81 },
-          { time: '7am', score: 82 },
-          { time: '8am', score: 83 },
-          { time: '9am', score: 82 },
-          { time: '10am', score: 85 },
-          { time: '11am', score: 86 },
-          { time: '12pm', score: 84 },
-          { time: '1pm', score: 85 },
-          { time: '2pm', score: 84 },
-          { time: '3pm', score: 83 },
-          { time: '4pm', score: 81 },
-          { time: '5pm', score: 82 },
-          { time: '6pm', score: 80 },
-          { time: '7pm', score: 79 },
-          { time: '8pm', score: 81 },
-        ],
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-10',
-        safetyScore: 90,
-        progress: '+4.7%',
-        totalIncidents: 5,
-        criticalIncidents: 1,
-        duration: {
-          hours: 6,
-          minutes: 40,
-          seconds: 20,
-        },
-        safetyScoreDistribution: {
-          helmet: 19.0,
-          footwear: 21.0,
-          vest: 17.5,
-          gloves: 14.0,
-          scaffolding: 12.0,
-          guardrails: 15.0,
-          harness: 10.5,
-        },
-        top3: {
-          improvements: [
-            {
-              name: 'helmet',
-              positive: true,
-              value: 3.0,
-            },
-            {
-              name: 'footwear',
-              positive: true,
-              value: 2.0,
-            },
-            {
-              name: 'scaffolding',
-              positive: false,
-              value: 1.0,
-            },
-          ],
-          declinedMetrics: [
-            {
-              name: 'guardrails',
-              positive: false,
-              value: 1.0,
-            },
-            {
-              name: 'harness',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'vest',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-        },
-        trends: [
-          { time: '12am', score: 80 },
-          { time: '1am', score: 82 },
-          { time: '2am', score: 85 },
-          { time: '3am', score: 83 },
-          { time: '4am', score: 79 },
-          { time: '5am', score: 80 },
-          { time: '6am', score: 81 },
-          { time: '7am', score: 82 },
-          { time: '8am', score: 83 },
-          { time: '9am', score: 82 },
-          { time: '10am', score: 85 },
-          { time: '11am', score: 86 },
-          { time: '12pm', score: 84 },
-          { time: '1pm', score: 85 },
-          { time: '2pm', score: 84 },
-          { time: '3pm', score: 83 },
-          { time: '4pm', score: 81 },
-          { time: '5pm', score: 82 },
-          { time: '6pm', score: 80 },
-          { time: '7pm', score: 79 },
-          { time: '8pm', score: 81 },
-        ],
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-11',
-        safetyScore: 85,
-        progress: '+4.7%',
-        totalIncidents: 12,
-        criticalIncidents: 2,
-        duration: {
-          hours: 7,
-          minutes: 25,
-          seconds: 15,
-        },
-        safetyScoreDistribution: {
-          helmet: 17.0,
-          footwear: 22.0,
-          vest: 16.0,
-          gloves: 13.5,
-          scaffolding: 11.5,
-          guardrails: 18.0,
-          harness: 7.0,
-        },
-        top3: {
-          improvements: [
-            {
-              name: 'footwear',
-              positive: true,
-              value: 3.0,
-            },
-            {
-              name: 'helmet',
-              positive: true,
-              value: 2.0,
-            },
-            {
-              name: 'scaffolding',
-              positive: false,
-              value: 1.0,
-            },
-          ],
-          declinedMetrics: [
-            {
-              name: 'guardrails',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'harness',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'vest',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-        },
-        trends: [
-          { time: '3am', score: 89 },
-          { time: '6am', score: 91 },
-          { time: '9am', score: 90 },
-          { time: '12pm', score: 92 },
-          { time: '3pm', score: 91 },
-          { time: '6pm', score: 90 },
-          { time: '9pm', score: 92 },
-        ],
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-12',
-        safetyScore: 88,
-        progress: '+4.7%',
-        totalIncidents: 8,
-        criticalIncidents: 1,
-        duration: {
-          hours: 7,
-          minutes: 50,
-          seconds: 30,
-        },
-        safetyScoreDistribution: {
-          helmet: 20.5,
-          footwear: 19.0,
-          vest: 15.0,
-          gloves: 13.5,
-          scaffolding: 12.0,
-          guardrails: 14.5,
-          harness: 7.5,
-        },
-        top3: {
-          improvements: [
-            {
-              name: 'footwear',
-              positive: true,
-              value: 3.0,
-            },
-            {
-              name: 'helmet',
-              positive: true,
-              value: 2.5,
-            },
-            {
-              name: 'guardrails',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-          declinedMetrics: [
-            {
-              name: 'scaffolding',
-              positive: false,
-              value: 1.0,
-            },
-            {
-              name: 'harness',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'vest',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-        },
-        trends: [
-          { date: '2025-02-01', score: 85.2 },
-          { date: '2025-02-02', score: 86.5 },
-          { date: '2025-02-03', score: 84.3 },
-          { date: '2025-02-04', score: 85.7 },
-          { date: '2025-02-05', score: 87.9 },
-          { date: '2025-02-06', score: 86.2 },
-          { date: '2025-02-07', score: 88.1 },
-          { date: '2025-02-08', score: 87.3 },
-          { date: '2025-02-09', score: 85.9 },
-          { date: '2025-02-10', score: 86.8 },
-          { date: '2025-02-11', score: 88.0 },
-          { date: '2025-02-12', score: 84.7 },
-          { date: '2025-02-13', score: 87.5 },
-        ],
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
-      {
-        date: '2025-02-13',
-        safetyScore: 93,
-        progress: '+4.7%',
-        totalIncidents: 3,
-        criticalIncidents: 0,
-        duration: {
-          hours: 8,
-          minutes: 10,
-          seconds: 50,
-        },
-        safetyScoreDistribution: {
-          helmet: 21.0,
-          footwear: 24.0,
-          vest: 17.0,
-          gloves: 14.5,
-          scaffolding: 11.0,
-          guardrails: 18.0,
-          harness: 8.5,
-        },
-        top3: {
-          improvements: [
-            {
-              name: 'footwear',
-              positive: true,
-              value: 4.0,
-            },
-            {
-              name: 'helmet',
-              positive: true,
-              value: 3.0,
-            },
-            {
-              name: 'scaffolding',
-              positive: false,
-              value: 1.0,
-            },
-          ],
-          declinedMetrics: [
-            {
-              name: 'guardrails',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'harness',
-              positive: false,
-              value: 0.5,
-            },
-            {
-              name: 'vest',
-              positive: false,
-              value: 0.5,
-            },
-          ],
-        },
-        trends: [
-          { time: '3am', score: 85 },
-          { time: '6am', score: 88 },
-          { time: '9am', score: 87 },
-          { time: '12pm', score: 89 },
-          { time: '3pm', score: 88 },
-          { time: '6pm', score: 90 },
-          { time: '9pm', score: 91 },
-        ],
-        snapshots: [
-          'https://picsum.photos/300/200?random=1',
-          'https://picsum.photos/300/200?random=2',
-          'https://picsum.photos/300/200?random=3',
-          'https://picsum.photos/300/200?random=4',
-        ],
-      },
+  // Placeholder data for a single day
+  const dayPlaceholderData = {
+    date: '2025-03-01',
+    safetyScore: 85,
+    progress: '+4.7%',
+    totalIncidents: 12,
+    criticalIncidents: 1,
+    duration: { hours: 8, minutes: 15, seconds: 40 },
+    safetyScoreDistribution: {
+      helmet: 13.0,
+      footwear: 18.0,
+      vest: 20.0,
+      gloves: 15.0,
+      scaffolding: 12.5,
+      guardrails: 14.0,
+      harness: 7.5,
+    },
+    top3: {
+      improvements: [
+        { name: 'vest', positive: true, value: 4.0 },
+        { name: 'footwear', positive: true, value: 2.0 },
+        { name: 'helmet', positive: false, value: 0.0 },
+      ],
+      declinedMetrics: [
+        { name: 'scaffolding', positive: false, value: 0.5 },
+        { name: 'harness', positive: false, value: 0.5 },
+        { name: 'guardrails', positive: false, value: 0.4 },
+      ],
+    },
+    trends: [
+      { time: '3am', score: 85 },
+      { time: '6am', score: 86 },
+      { time: '9am', score: 84 },
+      { time: '12pm', score: 85 },
+      { time: '3pm', score: 83 },
+      { time: '6pm', score: 86 },
+      { time: '9pm', score: 87 },
+    ],
+    snapshots: [
+      'https://picsum.photos/400/300?random=1',
+      'https://picsum.photos/400/300?random=2',
+      'https://picsum.photos/400/300?random=3',
+      'https://picsum.photos/400/300?random=4',
     ],
   };
 
   useEffect(() => {
-    if (!calendarData) {
-      fetchMonthData(month, year).then(() => {
-        // Only set pane data if not in PWA mode
-        if (!isPWA) {
-          setPaneData(placeholderData.month);
+    const fetchData = async () => {
+      if (!isPWA) {
+        try {
+          const monthData = await fetchMonthData(month, year);
+          setPaneData(monthData.month_data);
+        } catch (error) {
+          console.error('Error fetching month data:', error);
         }
-      });
-    }
-  }, [month, year, calendarData, isPWA]);
+      }
+    };
+
+    fetchData();
+  }, [isPWA]);
 
   // Navigation Handlers - Functions to navigate between months and days.
 
@@ -1139,22 +253,38 @@ export default function TimelineCalendar({ isPWA = false }) {
 
   // Event Handlers
 
-  // Fetch data for a specific month and year
-
+  // Fetch month data
   const fetchMonthData = async (month, year) => {
     try {
       const response = await axios.get(
-        `/api/timeline/calendar/${month + 1}/${year}`
+        `http://localhost:3000/api/timeline/calendar/month/${month + 1}/${year}`
       );
       if (response.data) {
-        setCalendarData(response.data);
+        return response.data;
       } else {
         throw new Error('No data returned from API');
       }
     } catch (error) {
-      console.error('Error fetching calendar data:', error);
-      // Fallback to placeholder data
-      setCalendarData(placeholderData);
+      console.error('Error fetching month data:', error);
+      return monthPlaceholderData;
+    }
+  };
+
+  // Fetch day data
+  const fetchDayData = async (day, month, year) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/timeline/calendar/day/${day}/${month + 1}/${year}`
+      );
+      if (response.data) {
+        return response.data; // Return fetched day data
+      } else {
+        throw new Error('No data returned from API');
+      }
+    } catch (error) {
+      console.error('Error fetching day data:', error);
+      // Fallback to day placeholder data
+      return dayPlaceholderData;
     }
   };
 
@@ -1176,84 +306,45 @@ export default function TimelineCalendar({ isPWA = false }) {
       return;
     }
 
-    // Check if the selected month is already the active month
     if (activeSelection.month === clickedMonth && activeSelection.day === null)
       return;
 
-    // Fetch data for the selected month and year
-    await fetchMonthData(clickedMonth, targetYear);
+    // Fetch month data
+    const monthData = await fetchMonthData(clickedMonth, targetYear);
 
-    // Update activeSelection after fetch
+    // Update activeSelection and pane data
     setActiveSelection({ month: clickedMonth, day: null });
-
-    // Set pane data to the month data only if the month is explicitly selected
-    if (calendarData) {
-      setPaneData(calendarData.month);
-    }
+    setPaneData(monthData.month_data);
   };
 
   // Handle day click
   const handleDayClick = async (date) => {
-    if (
-      date.getFullYear() > currentDate.getFullYear() ||
-      (date.getFullYear() === currentDate.getFullYear() &&
-        date.getMonth() > currentDate.getMonth()) ||
-      (date.getFullYear() === currentDate.getFullYear() &&
-        date.getMonth() === currentDate.getMonth() &&
-        date.getDate() > currentDate.getDate())
-    ) {
+    if (date > currentDate) {
       console.log('Cannot select a future date:', date);
       return;
     }
 
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-    // Check if the selected day is already the active day
     if (activeSelection.day === formattedDate) return;
 
-    // Check if the selected day's month data has already been fetched
-    if (
-      calendarData &&
-      calendarData.month.name === getMonthName(date.getMonth()) &&
-      calendarData.month.year === date.getFullYear()
-    ) {
-      // If the month data is already fetched, update paneData to the selected day's data
-      const selectedDay = calendarData.days.find(
-        (day) => day.date === formattedDate
-      );
-      if (selectedDay) {
-        setPaneData({
-          ...selectedDay,
-          name: new Date(selectedDay.date).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'long',
-          }),
-          handleFunctions: handleFunctions,
-        });
-        setActiveSelection({ month: null, day: formattedDate });
-      }
-    } else {
-      // If the month data has not been fetched, fetch it first
-      await fetchMonthData(date.getMonth(), date.getFullYear());
+    // Fetch day data
+    const dayData = await fetchDayData(
+      date.getDate(),
+      date.getMonth(),
+      date.getFullYear()
+    );
 
-      // Update paneData to the selected day's data only if it exists
-      const selectedDay = calendarData.days.find(
-        (day) => day.date === formattedDate
-      );
-      if (selectedDay) {
-        setPaneData({
-          ...selectedDay,
-          name: new Date(selectedDay.date).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'long',
-          }),
-          handleFunctions: handleFunctions,
-        });
-        setActiveSelection({ month: null, day: formattedDate });
-      }
-    }
+    // Update activeSelection and pane data
+    setActiveSelection({ month: null, day: formattedDate });
+    setPaneData({
+      ...dayData.day_data,
+      name: new Date(dayData.day_data.date).toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'long',
+      }),
+      handleFunctions: handleFunctions,
+    });
   };
 
   // Render
