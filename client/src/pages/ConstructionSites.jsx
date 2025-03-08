@@ -24,11 +24,14 @@ export default function ConstructionSites({ isPWA = false }) {
   // Fetch construction sites data from the API
   const fetchConstructionSites = async () => {
     try {
-      const response = await axios.get('/api/construction-sites', {
-        headers: {
-          Accept: 'application/json', // Ensure the server knows we expect JSON
-        },
-      });
+      const response = await axios.get(
+        'http://localhost:3000/api/construction-sites',
+        {
+          headers: {
+            Accept: 'application/json', // Ensure the server knows we expect JSON
+          },
+        }
+      );
 
       // Ensure the response data is an array
       if (Array.isArray(response.data)) {
@@ -165,7 +168,7 @@ export default function ConstructionSites({ isPWA = false }) {
         try {
           // Send only the site name as a URL parameter
           const response = await axios.post(
-            `/api/construction-sites/${newSiteName.trim()}`
+            `http://localhost:3000/api/construction-sites/${newSiteName.trim()}`
           );
           if (response.data) {
             setData((prevData) => [...prevData, response.data]); // Add new site to the array
@@ -188,7 +191,7 @@ export default function ConstructionSites({ isPWA = false }) {
   // Function to handle deleting a site
   const handleDeleteSite = async (id) => {
     try {
-      await axios.delete(`/api/construction-sites/${id}`);
+      await axios.delete(`http://localhost:3000/api/construction-sites/${id}`);
       setData((prevData) => prevData.filter((site) => site.id !== id));
     } catch (error) {
       console.error('Error deleting site:', error);

@@ -117,13 +117,15 @@ export default function Cameras({ isPWA = false }) {
       connected: false,
     },
   ];
-  
+
   // Function to fetch data
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3000/api/cameras");
-  
+      const response = await axios.get(
+        'http://localhost:3000http://localhost:3000/api/cameras'
+      );
+
       // Sorting logic: Online first, then alphabetical order
       const sortedData = response.data.sort((a, b) => {
         if (a.online === b.online) {
@@ -131,11 +133,11 @@ export default function Cameras({ isPWA = false }) {
         }
         return b.online - a.online; // Online first (true > false)
       });
-  
+
       setData(sortedData);
     } catch (error) {
-      console.error("Error fetching data:", error);
-  
+      console.error('Error fetching data:', error);
+
       // Sorting placeholder data in case of an error
       const sortedPlaceholder = placeholderData.sort((a, b) => {
         if (a.online === b.online) {
@@ -143,7 +145,7 @@ export default function Cameras({ isPWA = false }) {
         }
         return b.online - a.online;
       });
-  
+
       setData(sortedPlaceholder);
     } finally {
       setLoading(false);
@@ -159,7 +161,9 @@ export default function Cameras({ isPWA = false }) {
   const fetchAvailableDevices = async () => {
     setDevicesLoading(true);
     try {
-      const response = await axios.get('http://localhost:3000/api/available-devices');
+      const response = await axios.get(
+        'http://localhost:3000/api/available-devices'
+      );
       setAvailableDevices(response.data);
     } catch (error) {
       console.error('Error fetching available devices:', error);
@@ -200,7 +204,9 @@ export default function Cameras({ isPWA = false }) {
       await axios.post(`http://localhost:3000/api/connect-camera/${camera_id}`);
       setData((prevData) =>
         prevData.map((device) =>
-          device.camera_id === camera_id ? { ...device, connected: true } : device
+          device.camera_id === camera_id
+            ? { ...device, connected: true }
+            : device
         )
       );
     } catch (error) {
@@ -212,7 +218,9 @@ export default function Cameras({ isPWA = false }) {
   const handlePairDevice = async (camera_id) => {
     try {
       await axios.post(`http://localhost:3000/api/pair-device/${camera_id}`);
-      const pairedDevice = availableDevices.find((device) => device.camera_id === camera_id);
+      const pairedDevice = availableDevices.find(
+        (device) => device.camera_id === camera_id
+      );
       setData((prevData) => [
         ...prevData,
         { ...pairedDevice, connected: true },
@@ -238,8 +246,12 @@ export default function Cameras({ isPWA = false }) {
   // Function to handle deleting a device
   const handleDeleteDevice = async (camera_id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/delete-camera/${camera_id}`);
-      setData((prevData) => prevData.filter((device) => device.camera_id !== camera_id));
+      await axios.delete(
+        `http://localhost:3000/api/delete-camera/${camera_id}`
+      );
+      setData((prevData) =>
+        prevData.filter((device) => device.camera_id !== camera_id)
+      );
     } catch (error) {
       console.error('Error deleting camera:', error);
     }
@@ -334,23 +346,23 @@ export default function Cameras({ isPWA = false }) {
                 </div>
               )}
               <div className={styles.connectButtonContainer}>
-              {camera.connected ? (
-                <span className={styles.connected} disabled={true}>
-                  <TickIcon />
-                  {!isPWA && "Connected"}
-                </span>
-              ) : camera.online ? ( // Only show Connect if the device is online
-                <button
-                  className={styles.connectButton}
-                  onClick={() => handleConnectCamera(camera.camera_id)}
-                >
-                  <ConnectIcon />
-                  {!isPWA && "Connect"}
-                </button>
-              ) : null} {/* Hide button if Offline */}
+                {camera.connected ? (
+                  <span className={styles.connected} disabled={true}>
+                    <TickIcon />
+                    {!isPWA && 'Connected'}
+                  </span>
+                ) : camera.online ? ( // Only show Connect if the device is online
+                  <button
+                    className={styles.connectButton}
+                    onClick={() => handleConnectCamera(camera.camera_id)}
+                  >
+                    <ConnectIcon />
+                    {!isPWA && 'Connect'}
+                  </button>
+                ) : null}{' '}
+                {/* Hide button if Offline */}
               </div>
-              
-              
+
               <div className={styles.delete}>
                 <button
                   onClick={(e) => {
