@@ -213,9 +213,21 @@
   cursor: pointer;
 }
 
+.standardUserPreferences .dropdownField select,
+.standardUserPreferences .dropdownField,
+.standardUserPreferences .dropdownField p {
+  color: #a7a7a7;
+  cursor: auto;
+}
+
 .dropdownField select:hover {
   background-color: var(--background-color);
   border: 1px solid var(--background-color);
+}
+
+.standardUserPreferences .dropdownField select:hover {
+  background-color: transparent;
+  border: 1px solid var(--neutral);
 }
 
 .dropdownField select:focus {

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from './Cameras.module.css';
+import { useApp } from '../context/AppContext';
 import DroneIcon from '../components/icons/DroneIcon';
 import CameraIcon from '../components/icons/CameraIcon';
 import TickIcon from '../components/icons/TickIcon';
@@ -15,6 +16,7 @@ export default function Cameras({ isPWA = false }) {
   const [availableDevices, setAvailableDevices] = useState([]);
   const [devicesLoading, setDevicesLoading] = useState(false);
   const dropdownRef = useRef(null);
+  const { isAdmin } = useApp();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -117,7 +119,7 @@ export default function Cameras({ isPWA = false }) {
       connected: false,
     },
   ];
-  
+
   // Function to fetch data
   const fetchData = async () => {
     try {
@@ -141,7 +143,9 @@ export default function Cameras({ isPWA = false }) {
   const fetchAvailableDevices = async () => {
     setDevicesLoading(true);
     try {
-      const response = await axios.get('http://localhost:3000/api/available-devices');
+      const response = await axios.get(
+        'http://localhost:3000/api/available-devices'
+      );
       setAvailableDevices(response.data);
     } catch (error) {
       console.error('Error fetching available devices:', error);
@@ -194,7 +198,9 @@ export default function Cameras({ isPWA = false }) {
   const handlePairDevice = async (camera_id) => {
     try {
       await axios.post(`http://localhost:3000/api/pair-device/${camera_id}`);
-      const pairedDevice = availableDevices.find((device) => device.id === camera_id);
+      const pairedDevice = availableDevices.find(
+        (device) => device.id === camera_id
+      );
       setData((prevData) => [
         ...prevData,
         { ...pairedDevice, connected: true },
@@ -220,8 +226,12 @@ export default function Cameras({ isPWA = false }) {
   // Function to handle deleting a device
   const handleDeleteDevice = async (camera_id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/delete-camera/${camera_id}`);
-      setData((prevData) => prevData.filter((device) => device.id !== camera_id));
+      await axios.delete(
+        `http://localhost:3000/api/delete-camera/${camera_id}`
+      );
+      setData((prevData) =>
+        prevData.filter((device) => device.id !== camera_id)
+      );
     } catch (error) {
       console.error('Error deleting camera:', error);
     }
@@ -333,25 +343,27 @@ export default function Cameras({ isPWA = false }) {
                 )}
               </div>
               <div className={styles.delete}>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteDevice(camera.camera_id);
-                  }}
-                >
-                  <svg
-                    width='16'
-                    height='19'
-                    viewBox='0 0 16 19'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
+                {isAdmin && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteDevice(camera.camera_id);
+                    }}
                   >
-                    <path
-                      d='M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM13 3.5H3V16.5H13V3.5ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z'
-                      fill='var(--secondary)'
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      width='16'
+                      height='19'
+                      viewBox='0 0 16 19'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <path
+                        d='M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM13 3.5H3V16.5H13V3.5ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z'
+                        fill='var(--secondary)'
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           ))
