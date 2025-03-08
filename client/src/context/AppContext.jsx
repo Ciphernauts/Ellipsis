@@ -43,7 +43,7 @@ export function AppProvider({ children }) {
           username: 'Pejman Jouzi',
           email: 'pejmanjouziandpartners@gmail.com',
           profilePicture: '',
-          role: 'admin',
+          role: 'standard',
         },
       };
 
