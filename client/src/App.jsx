@@ -4,7 +4,8 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
-import { AppProvider } from './context/AppContext';
+import { useEffect } from 'react';
+import { AppProvider, useApp } from './context/AppContext';
 import { isPWA } from './utils/isPWA';
 import Layout from './components/layout/Layout';
 import PWALayout from './components/layout/PWALayout';
@@ -23,23 +24,30 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import SafetyTrends from './pages/SafetyTrends';
 import OverallSafetyTrend from './pages/OverallSafetyTrend';
+import AdminDashboard from './pages/AdminDashboard';
+
+// Create a wrapper component to handle fetching the profile
+const AppWrapper = () => {
+  const { fetchProfile } = useApp(); // Use useApp inside AppProvider
+
+  // Fetch user profile when the app loads
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      fetchProfile();
+    }
+  }, [fetchProfile]);
+
+  return null; // This component doesn't render anything
+};
 
 const App = () => {
   const isStandalone = isPWA();
-
-  fetch('http://localhost:3000/')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.message); // "Welcome to the Ellipsis Website!"
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
 
   console.log('is PWA: ', isStandalone);
 
   return (
     <AppProvider>
+      <AppWrapper />
       <Routes>
         {/* Route without nav pane */}
         <Route
@@ -51,7 +59,7 @@ const App = () => {
 
         {/* Routes with nav pane */}
         <Route element={isStandalone ? <PWALayout /> : <Layout />}>
-          <Route path='/test' />
+          <Route path='/admin-dashboard' element={<AdminDashboard />} />
           <Route
             path='/dashboard'
             element={<Dashboard isPWA={isStandalone} />}
