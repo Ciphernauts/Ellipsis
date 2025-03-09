@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from './Cameras.module.css';
+import { useApp } from '../context/AppContext';
 import DroneIcon from '../components/icons/DroneIcon';
 import CameraIcon from '../components/icons/CameraIcon';
 import TickIcon from '../components/icons/TickIcon';
@@ -15,6 +16,7 @@ export default function Cameras({ isPWA = false }) {
   const [availableDevices, setAvailableDevices] = useState([]);
   const [devicesLoading, setDevicesLoading] = useState(false);
   const dropdownRef = useRef(null);
+  const { isAdmin } = useApp();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -123,7 +125,7 @@ export default function Cameras({ isPWA = false }) {
     try {
       setLoading(true);
       const response = await axios.get(
-        'http://localhost:3000http://localhost:3000/api/cameras'
+        'http://localhost:3000/api/paired-cameras'
       );
 
       // Sorting logic: Online first, then alphabetical order
@@ -221,10 +223,7 @@ export default function Cameras({ isPWA = false }) {
       const pairedDevice = availableDevices.find(
         (device) => device.camera_id === camera_id
       );
-      setData((prevData) => [
-        ...prevData,
-        { ...pairedDevice, connected: true },
-      ]);
+      setData((prevData) => [...prevData, { ...pairedDevice, paired: true }]);
       setAvailableDevices((prevDevices) =>
         prevDevices.filter((device) => device.camera_id !== camera_id)
       );
@@ -280,7 +279,7 @@ export default function Cameras({ isPWA = false }) {
                   <div
                     key={device.id}
                     className={styles.dropdownItem}
-                    onClick={() => handlePairDevice(device.id)}
+                    onClick={() => handlePairDevice(device.camera_id)}
                   >
                     <div className={styles.deviceName}>
                       {truncateText(device.name, 23)}
@@ -364,25 +363,27 @@ export default function Cameras({ isPWA = false }) {
               </div>
 
               <div className={styles.delete}>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteDevice(camera.camera_id);
-                  }}
-                >
-                  <svg
-                    width='16'
-                    height='19'
-                    viewBox='0 0 16 19'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
+                {isAdmin && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteDevice(camera.camera_id);
+                    }}
                   >
-                    <path
-                      d='M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM13 3.5H3V16.5H13V3.5ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z'
-                      fill='var(--secondary)'
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      width='16'
+                      height='19'
+                      viewBox='0 0 16 19'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <path
+                        d='M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM13 3.5H3V16.5H13V3.5ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z'
+                        fill='var(--secondary)'
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           ))

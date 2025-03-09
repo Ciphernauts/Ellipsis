@@ -45,31 +45,36 @@ export function AppProvider({ children }) {
 
   // Fetch user profile from the server
   const fetchProfile = async () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        try {
-          const response = {
-            data: {
-              username: 'Pejman Jouzi',
-              email: 'pejmanjouziandpartners@gmail.com',
-              profilePicture: '',
-            },
-          };
-          setUser(response.data);
-          resolve(response);
-        } catch (error) {
-          console.error('Failed to fetch profile:', error);
-          reject(error);
-        }
-      }, 100); // Simulate a 500ms delay
-    });
+    try {
+      // Try to fetch user data from the API
+      const response = await axios.get('http://localhost:3000/api/users', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      setUser(response.data); // Set the user data from the API response
+      return response; // Return the API response
+    } catch (error) {
+      console.error('Failed to fetch profile from API:', error);
+
+      // Fallback to placeholder data if the API call fails
+      const placeholderResponse = {
+        data: {
+          username: 'Pejman Jouzi',
+          email: 'pejmanjouziandpartners@gmail.com',
+          profilePicture: '',
+          role: 'standard',
+        },
+      };
+
+      setUser(placeholderResponse.data); // Set the placeholder data
+      return placeholderResponse; // Return the placeholder data
+    }
   };
 
   // Login function
   const login = async (credentials) => {
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/login',
+        'http://localhost:3000/api/users/login',
         credentials
       );
       localStorage.setItem('token', response.data.token);
@@ -90,7 +95,7 @@ export function AppProvider({ children }) {
   const updateUserInfo = async (updates) => {
     try {
       const response = await axios.put(
-        'http://localhost:3000/api/update-profile',
+        'http://localhost:3000/api/users/update-profile',
         updates,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -116,7 +121,7 @@ export function AppProvider({ children }) {
   const deleteUserAccount = async () => {
     try {
       const response = await axios.delete(
-        'http://localhost:3000/api/delete-account',
+        'http://localhost:3000/api/users/delete-account',
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
@@ -142,7 +147,7 @@ export function AppProvider({ children }) {
   // Fetch mode from the server
   //   const fetchMode = async () => {
   //     try {
-  //       const response = await axios.get('http://localhost:3000/api/current-mode');
+  //       const response = await axios.get('http://localhost:3000/api/users/current-mode');
   //       setMode(response.data.mode);
   //     } catch (error) {
   //       console.error('Error fetching mode:', error);
@@ -171,7 +176,9 @@ export function AppProvider({ children }) {
     try {
       const response = await axios.post(
         'http://localhost:3000/api/update-mode',
-        { mode: newMode }
+        {
+          mode: newMode,
+        }
       );
 
       if (response.status === 200) {
@@ -189,7 +196,7 @@ export function AppProvider({ children }) {
   // Fetch settings from the server
   //   const fetchSettings = async () => {
   //     try {
-  //       const response = await axios.get('http://localhost:3000/api/settings', {
+  //       const response = await axios.get('http://localhost:3000/api/users/settings', {
   //         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
   //       });
   //       setSettings(response.data);
@@ -227,7 +234,7 @@ export function AppProvider({ children }) {
   const updateSettings = async (newSettings) => {
     try {
       const response = await axios.put(
-        'http://localhost:3000/api/settings',
+        'http://localhost:3000/api/users/settings',
         newSettings,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -258,6 +265,7 @@ export function AppProvider({ children }) {
       value={{
         // User
         user,
+        isAdmin: user?.role === 'admin', // Derived admin check
         login,
         logout,
         fetchProfile,

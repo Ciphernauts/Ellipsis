@@ -6,11 +6,12 @@ import Button from '../components/Button';
 import { useApp } from '../context/AppContext';
 import styles from './Settings.module.css';
 
-const TABS = ['profile', 'system', 'notifications'];
+const TABS = ['profile', 'notifications', 'system'];
 
 const Settings = ({ isPWA = false }) => {
   const {
     user,
+    isAdmin,
     logout,
     fetchProfile,
     updateUserInfo,
@@ -373,13 +374,15 @@ const Settings = ({ isPWA = false }) => {
     options,
     state,
     setState,
-    description
+    description,
+    isDisabled
   ) => (
     <div className={styles.dropdownField}>
       <label>{label}</label>
       <select
         value={state[field]}
         onChange={(e) => setState({ ...state, [field]: e.target.value })}
+        disabled={isDisabled}
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -465,14 +468,18 @@ const Settings = ({ isPWA = false }) => {
                 </div>
               )}
               {activeTab === 'system' && (
-                <div className={styles.systemPreferences}>
+                <div
+                  className={`${styles.systemPreferences} ${!isAdmin ? styles.standardUserPreferences : ''}`}
+                >
+                  {!isAdmin && 'Only the admin can update system settings.'}
                   {renderDropdownField(
                     'System Mode',
                     'defaultMode',
                     ['General', 'Entry', 'Height', 'Workshop'],
                     updatedSystem,
                     setUpdatedSystem,
-                    "Set the system's default operational mode on startup."
+                    "Set the system's default operational mode on startup.",
+                    !isAdmin
                   )}
                   <div className={styles.dropdownRow}>
                     {renderDropdownField(
@@ -481,7 +488,8 @@ const Settings = ({ isPWA = false }) => {
                       ['1 minute', '3 minutes', '5 minutes', '10 minutes'],
                       updatedSystem,
                       setUpdatedSystem,
-                      'Adjust how frequently the dashboard updates its data.'
+                      'Adjust how frequently the dashboard updates its data.',
+                      !isAdmin
                     )}
                     {renderDropdownField(
                       'Data Transfer Interval',
@@ -489,7 +497,8 @@ const Settings = ({ isPWA = false }) => {
                       ['1 minute', '3 minutes', '5 minutes', '10 minutes'],
                       updatedSystem,
                       setUpdatedSystem,
-                      'Adjust how frequently the data syncs between devices.'
+                      'Adjust how frequently the data syncs between devices.',
+                      !isAdmin
                     )}
                   </div>
                   {errorMessage && (
@@ -505,7 +514,7 @@ const Settings = ({ isPWA = false }) => {
                     updatedNotifications,
                     setUpdatedNotifications
                   )}
-                  {renderToggleField(
+                  {/* {renderToggleField(
                     'Email Alerts',
                     'emailAlerts',
                     updatedNotifications,
@@ -516,7 +525,7 @@ const Settings = ({ isPWA = false }) => {
                     'highPriorityAlerts',
                     updatedNotifications,
                     setUpdatedNotifications
-                  )}
+                  )} */}
                   {errorMessage && (
                     <p className={styles.errorMessage}>{errorMessage}</p>
                   )}

@@ -1,0 +1,116 @@
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.infoCard {
+  width: 100%;
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.infoCard .icon {
+  width: 60px;
+  min-width: 60px;
+  height: 60px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.infoCard .desc {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoCard .desc .value {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.infoCard .label {
+  width: 100%;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* Table Section */
+
+.usersContainer h2 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.usersTable {
+  width: 100%;
+  border-spacing: 0 8px;
+}
+
+.tableRow {
+  height: 48px;
+}
+
+.tableHeader {
+  background-color: var(--primary);
+  color: var(--light);
+}
+
+.tableHeader .tableRow th {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tableBody {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.tableBody .tableRow {
+  text-align: center;
+  background-color: var(--light);
+}
+
+.tableBody .tableRow:hover,
+.tableBody .tableRow:focus {
+  background-color: var(--neutral);
+}
+
+.tableBody .tableRow.active {
+  background-color: var(--secondary);
+}
+
+.sessionId {
+  font-weight: 600;
+}
+
+.tableBody tr td .timeValues {
+  font-size: 12px;
+  line-height: 8px;
+  display: flex;
+  flex-direction: column;
+  color: var(--Primary, #006684);
+  gap: 9px;
+}
+
+.tableRow td:first-child,
+.tableRow th:first-child {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-left: 10px;
+}
+
+.tableRow td:last-child,
+.tableRow th:last-child {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding-right: 10px;
+}

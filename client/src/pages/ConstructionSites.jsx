@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ConstructionSites.module.css';
+import { useApp } from '../context/AppContext';
 import { useOutletContext } from 'react-router-dom';
 import PlusIcon from '../components/icons/PlusIcon';
 import DefaultImage from '../assets/DefaultImage.png';
@@ -14,6 +15,7 @@ export default function ConstructionSites({ isPWA = false }) {
   const [isAddingNewSite, setIsAddingNewSite] = useState(false);
   const [newSiteName, setNewSiteName] = useState('');
   const [placeholder, setPlaceholder] = useState('Enter site name');
+  const { isAdmin } = useApp();
 
   useEffect(() => {
     if (!isPaneOpen) {
@@ -293,25 +295,27 @@ export default function ConstructionSites({ isPWA = false }) {
                     )}
                   </div>
                   <div className={styles.delete}>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteSite(site.id);
-                      }}
-                    >
-                      <svg
-                        width='16'
-                        height='19'
-                        viewBox='0 0 16 19'
-                        fill='none'
-                        xmlns='http://www.w3.org/2000/svg'
+                    {isAdmin && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteSite(site.id);
+                        }}
                       >
-                        <path
-                          d='M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM13 3.5H3V16.5H13V3.5ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z'
-                          fill='var(--secondary)'
-                        />
-                      </svg>
-                    </button>
+                        <svg
+                          width='16'
+                          height='19'
+                          viewBox='0 0 16 19'
+                          fill='none'
+                          xmlns='http://www.w3.org/2000/svg'
+                        >
+                          <path
+                            d='M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM13 3.5H3V16.5H13V3.5ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z'
+                            fill='var(--secondary)'
+                          />
+                        </svg>
+                      </button>
+                    )}
                   </div>
                 </div>
               ))
