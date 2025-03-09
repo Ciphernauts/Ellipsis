@@ -98,7 +98,7 @@ export default function CalendarInfoPane({ data, isPWA = false, className }) {
                 {data.snapshots.map((item, index) => (
                   <div key={index} className={styles.snapshotItem}>
                     <img
-                      src={item}
+                      src={item.image_url}
                       alt={`Snapshot ${index + 1}`}
                       className={styles.snapshotImage}
                     />

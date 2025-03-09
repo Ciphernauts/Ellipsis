@@ -124,7 +124,9 @@ export default function Cameras({ isPWA = false }) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:3000/api/paired-cameras');
+      const response = await axios.get(
+        'http://localhost:3000/api/paired-cameras'
+      );
 
       // Sorting logic: Online first, then alphabetical order
       const sortedData = response.data.sort((a, b) => {
@@ -221,10 +223,7 @@ export default function Cameras({ isPWA = false }) {
       const pairedDevice = availableDevices.find(
         (device) => device.camera_id === camera_id
       );
-      setData((prevData) => [
-        ...prevData,
-        { ...pairedDevice, paired: true },
-      ]);
+      setData((prevData) => [...prevData, { ...pairedDevice, paired: true }]);
       setAvailableDevices((prevDevices) =>
         prevDevices.filter((device) => device.camera_id !== camera_id)
       );
