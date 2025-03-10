@@ -18,7 +18,9 @@ export default function TimelineSessions({ isPWA = false }) {
   // Fetch sessions data from the API
   const fetchSessions = async () => {
     try {
-      const response = await axios.get('/api/timeline/sessions');
+      const response = await axios.get(
+        'http://localhost:3000/api/timeline/sessions'
+      );
 
       if (response.data) {
         setSessionData(response.data);
@@ -201,7 +203,9 @@ export default function TimelineSessions({ isPWA = false }) {
 
       try {
         // Fetch detailed session data dynamically
-        const response = await axios.get(`/api/timeline/sessions/${id}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/timeline/sessions/${id}`
+        );
         const sessionDetails = response.data;
 
         if (sessionDetails) {
