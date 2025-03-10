@@ -1,3 +1,5 @@
 ph1env/
 # Local Netlify folder
 .netlify
+# Ignore environment variables file
+server/.env
