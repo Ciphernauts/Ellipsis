@@ -1,7 +1,7 @@
 import styles from './SafetyTrendTable.module.css';
 import ArrowIcon from '../icons/ArrowIcon'; // Import the ArrowIcon component
 
-const SafetyTrendTable = ({ data }) => {
+const SafetyTrendTable = ({ data, isPWA = false }) => {
   if (!Array.isArray(data)) {
     console.error(
       "SafetyTrendTable Error: Expected 'data' to be an array, but received:",
@@ -11,7 +11,7 @@ const SafetyTrendTable = ({ data }) => {
   }
 
   return (
-    <div className={styles.safetyTrendTable}>
+    <div className={`${styles.safetyTrendTable} ${isPWA ? styles.mobile : ''}`}>
       {data.length === 0 ? (
         <p>Loading...</p>
       ) : (
@@ -30,7 +30,17 @@ const SafetyTrendTable = ({ data }) => {
 
               return (
                 <tr key={index} className={styles.row}>
-                  <td className={styles.timestamp}>{entry.Timestamp}</td>
+                  <td className={styles.timestamp}>
+                    {isPWA ? (
+                      <>
+                        {entry.Timestamp.split(' ')[0]}
+                        <br />
+                        {entry.Timestamp.split(' ').slice(1).join(' ')}{' '}
+                      </>
+                    ) : (
+                      entry.Timestamp
+                    )}
+                  </td>{' '}
                   <td className={styles.safetyScore}>
                     {entry['Safety Score']}
                   </td>
@@ -39,10 +49,10 @@ const SafetyTrendTable = ({ data }) => {
                   >
                     <span>
                       <ArrowIcon
-                        color={isPositive ? 'green' : 'red'}
+                        color={isPositive ? '#0fd7a5' : '#d21616'}
                         className={styles.arrow}
                       />
-                      {entry.Growth.replace(/[^0-9.]/g, '')}%
+                      {entry.Growth}%
                     </span>
                   </td>
                   <td className={styles.alertCount}>{entry['Alert Count']}</td>

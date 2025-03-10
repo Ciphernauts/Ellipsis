@@ -5,18 +5,22 @@
   gap: 5px; /* Add spacing between icon & text */
   color: #a8a8a8;
   font-family: Inter, sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   text-align: right;
-  padding: 8px 12px; /* Add padding around the sync text */
+  padding: 4px 0 6px 0;
+}
+
+.syncText.tableSyncText {
+  padding: 9px 0 0 0;
 }
 
 /* Sync Icon */
 .syncIcon {
-  width: 14px; /* Adjust size as needed */
-  height: 14px;
+  width: 12px; /* Adjust size as needed */
+  height: 12px;
 }
 
 /* Navigation Buttons Container */
@@ -38,11 +42,11 @@
   border: none;
   cursor: pointer;
   font-family: Inter, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   color: var(--primary);
   transition: background 0.3s ease;
-  gap: 5px; /* Space between icon and text */
+  gap: 7px; /* Space between icon and text */
 }
 
 .navButton:hover {
@@ -66,4 +70,28 @@
 
 .rightArrow {
   transform: rotate(0deg);
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .navButtons {
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.mobile .navButton {
+  height: 30px;
+  padding: 0;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.mobile .navButton:only-child {
+  flex-grow: 0;
+  padding: 10px 15px;
+  justify-content: flex-end;
+}
+
+.mobile .navButtons:has(.navButton:only-child) {
+  justify-content: flex-end;
 }

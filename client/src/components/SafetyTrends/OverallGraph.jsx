@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 import CustomTooltip from '../CustomTooltip';
 
-const OverallGraph = ({ data, bestMetric, worstMetric }) => {
+const OverallGraph = ({ data, bestMetric, worstMetric, isPWA = false }) => {
   const [timeframe, setTimeframe] = useState('24 hours');
 
   // Fetch current average compliance percentage
@@ -58,7 +58,9 @@ const OverallGraph = ({ data, bestMetric, worstMetric }) => {
   const growthColor = growth.positive ? '#0FD7A5' : '#D21616';
 
   return (
-    <div className={styles.card}>
+    <div
+      className={`${styles.card} ${'dashboardCard'} ${isPWA ? styles.mobile : ''}`}
+    >
       {/* Header Section */}
       <div className={styles.header}>
         <h2>Safety Compliance Trends</h2>
@@ -80,36 +82,36 @@ const OverallGraph = ({ data, bestMetric, worstMetric }) => {
       {/* Content Section */}
       <div className={styles.content}>
         <div className={styles.metrics}>
-          <div>
-            {/* Current Average Compliance with Badge */}
-            <div className={styles.metricContainer}>
-              <div className={styles.metricHeading}>
-                <div className={styles.complianceWrapper}>
-                  <div className={styles.metricHeading}>
-                    <span className={styles.metricLabel}>Current Avg.</span>
-                    {getComplianceBadge(averageCompliance)}
-                  </div>
-                  <Percentage number={averageCompliance} numberSize={22} />
+          {/* Current Average Compliance with Badge */}
+          <div className={styles.metricContainer}>
+            <div className={styles.metricHeading}>
+              <div className={styles.complianceWrapper}>
+                <div className={styles.metricHeading}>
+                  <span className={styles.metricLabel}>Current Avg.</span>
+                  {getComplianceBadge(averageCompliance)}
                 </div>
+                <Percentage number={averageCompliance} numberSize={22} />
               </div>
             </div>
+          </div>
 
-            {/* Compliance Growth */}
-            <div className={styles.metricContainer}>
-              <div
-                className={`${styles.growthContainer} ${
-                  growth.positive ? styles.growth : styles.decline
-                }`}
-              >
-                <span>
-                  <ArrowIcon color={growthColor} className={styles.arrow} />
-                  <Percentage number={growth.number} numberSize={22} />
-                </span>
-                <p>vs last {timeframe}</p>
-              </div>
+          {/* Compliance Growth */}
+          <div className={styles.metricContainer}>
+            <div
+              className={`${styles.growthContainer} ${
+                growth.positive ? styles.growth : styles.decline
+              }`}
+            >
+              <span>
+                <ArrowIcon color={growthColor} className={styles.arrow} />
+                <Percentage number={growth.number} numberSize={22} />
+              </span>
+              <p>vs last {timeframe}</p>
             </div>
+          </div>
 
-            {/* Best & Worst Compliance Side by Side */}
+          {/* Best & Worst Compliance Side by Side */}
+          {!isPWA && (
             <div className={styles.metricRow}>
               <div className={styles.metricContainer}>
                 <div className={styles.metricLeftAlign}>
@@ -137,16 +139,16 @@ const OverallGraph = ({ data, bestMetric, worstMetric }) => {
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Chart Section */}
         <div
           className={styles.chartContainer}
-          style={{ width: '90%', minHeight: '200px', height: 'auto' }}
+          style={{ minHeight: '200px', height: 'auto' }}
         >
           {chartData.length > 0 ? (
-            <ResponsiveContainer width='100%' height={230}>
+            <ResponsiveContainer width={isPWA ? '119%' : '100%'} height={230}>
               <AreaChart key={timeframe} data={chartData}>
                 <defs>
                   <linearGradient

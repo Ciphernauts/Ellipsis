@@ -84,13 +84,15 @@ const overallSafetyData = {
   ],
 };
 
-const OverallSafetyTrend = () => {
+const OverallSafetyTrend = ({ isPWA = false }) => {
   const navigate = useNavigate();
   const lastSync = '2025-03-03 10:15 AM';
   const nextSync = '2025-03-03 10:45 AM';
 
   return (
-    <div className={styles.safetyTrendContainer}>
+    <div
+      className={`${styles.safetyTrendContainer} ${isPWA ? styles.mobile : ''}`}
+    >
       <h1>{overallSafetyData.displayName}</h1>
 
       {/* Navigation Buttons */}
@@ -114,16 +116,17 @@ const OverallSafetyTrend = () => {
           data={overallSafetyData.data}
           bestMetric={overallSafetyData.bestMetric}
           worstMetric={overallSafetyData.worstMetric}
+          isPWA={isPWA}
         />
       </div>
 
       {/* Table Section */}
       <div className={styles.section}>
-        <div className={styles.syncText}>
+        <div className={`${styles.syncText} ${styles.tableSyncText}`}>
           <img src={syncIcon} alt='Sync Icon' className={styles.syncIcon} />
           <p>Next sync: {nextSync}</p>
         </div>
-        <SafetyTrendTable data={overallSafetyData.tableData} />
+        <SafetyTrendTable data={overallSafetyData.tableData} isPWA={isPWA} />
       </div>
     </div>
   );
