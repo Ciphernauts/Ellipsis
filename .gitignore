@@ -3,3 +3,4 @@ ph1env/
 .netlify
 # Ignore environment variables file
 server/.env
+#added  production
