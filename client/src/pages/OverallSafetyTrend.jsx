@@ -1,99 +1,126 @@
 import { useNavigate } from 'react-router-dom';
-import OverallGraph from '../components/SafetyTrends/OverallGraph';
+import { useState, useEffect } from 'react';
+import SafetyTrendGraph from '../components/SafetyTrends/SafetyTrendGraph';
 import SafetyTrendTable from '../components/SafetyTrends/SafetyTrendTable';
 import syncIcon from '../assets/sync_icon.svg';
 import styles from './SafetyTrends.module.css';
 import ArrowIcon from '../components/icons/ArrowIcon';
-
-const overallSafetyData = {
-  displayName: 'Overall Safety Trend',
-  data: {
-    'currentAverageCompliance': 88,
-    '24 hours': [
-      { date: '2025-03-01T12:00:00Z', compliance: 78 },
-      { date: '2025-03-02T12:00:00Z', compliance: 82 },
-      { date: '2025-03-03T12:00:00Z', compliance: 86 },
-    ],
-    '7 days': [
-      { date: '2025-02-23T12:00:00Z', compliance: 74 },
-      { date: '2025-02-24T12:00:00Z', compliance: 77 },
-      { date: '2025-02-25T12:00:00Z', compliance: 81 },
-    ],
-    '30 days': [
-      { date: '2025-02-01T12:00:00Z', compliance: 70 },
-      { date: '2025-02-05T12:00:00Z', compliance: 73 },
-      { date: '2025-02-10T12:00:00Z', compliance: 76 },
-    ],
-    '12 months': [
-      { date: '2024-03-01T12:00:00Z', compliance: 65 },
-      { date: '2024-06-01T12:00:00Z', compliance: 69 },
-      { date: '2024-09-01T12:00:00Z', compliance: 72 },
-    ],
-  },
-  bestMetric: { name: 'Helmet', score: 90 }, // Hardcoded best metric
-  worstMetric: { name: 'Scaffolding', score: 65 }, // Hardcoded worst metric
-  tableData: [
-    {
-      'Timestamp': '2024-12-20 10:00 AM',
-      'Safety Score': '88.5%',
-      'Growth': '0.3% ↑',
-      'Alert Count': 2,
-    },
-    {
-      'Timestamp': '2024-12-19 03:45 PM',
-      'Safety Score': '87.9%',
-      'Growth': '-0.2% ↓',
-      'Alert Count': 3,
-    },
-    {
-      'Timestamp': '2024-12-19 03:45 PM',
-      'Safety Score': '87.9%',
-      'Growth': '-0.2% ↓',
-      'Alert Count': 3,
-    },
-    {
-      'Timestamp': '2024-12-19 03:45 PM',
-      'Safety Score': '87.9%',
-      'Growth': '-0.2% ↓',
-      'Alert Count': 3,
-    },
-    {
-      'Timestamp': '2024-12-19 03:45 PM',
-      'Safety Score': '87.9%',
-      'Growth': '-0.2% ↓',
-      'Alert Count': 3,
-    },
-    {
-      'Timestamp': '2024-12-19 03:45 PM',
-      'Safety Score': '87.9%',
-      'Growth': '-0.2% ↓',
-      'Alert Count': 3,
-    },
-    {
-      'Timestamp': '2024-12-19 03:45 PM',
-      'Safety Score': '87.9%',
-      'Growth': '-0.2% ↓',
-      'Alert Count': 3,
-    },
-    {
-      'Timestamp': '2024-12-19 03:45 PM',
-      'Safety Score': '87.9%',
-      'Growth': '-0.2% ↓',
-      'Alert Count': 3,
-    },
-  ],
-};
+import axios from 'axios';
 
 const OverallSafetyTrend = ({ isPWA = false }) => {
   const navigate = useNavigate();
-  const lastSync = '2025-03-03 10:15 AM';
-  const nextSync = '2025-03-03 10:45 AM';
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/safety-trendss`
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // Set placeholder data if the API call fails
+        setData({
+          currentAvg: 82.25,
+          growth: {
+            '24 hours': 0,
+            '7 days': 0,
+            '30 days': 0,
+            '12 months': 0,
+          },
+          bestMetric: {
+            category: 'vest',
+            value: 94,
+          },
+          worstMetric: {
+            category: 'harness',
+            value: 79,
+          },
+          nextSync: '2025-03-10 10:15 AM',
+          trends: {
+            '24 hours': [
+              { name: '10:00', value: 85.0 },
+              { name: '09:00', value: 83.5 },
+              { name: '08:00', value: 82.0 },
+              { name: '07:00', value: 81.0 },
+              { name: '06:00', value: 80.0 },
+            ],
+            '7 days': [
+              { name: '05 Mar', value: 88.0 },
+              { name: '04 Mar', value: 86.0 },
+              { name: '03 Mar', value: 85.0 },
+              { name: '02 Mar', value: 84.0 },
+              { name: '01 Mar', value: 83.0 },
+            ],
+            '30 days': [
+              { name: '10 Feb', value: 90.0 },
+              { name: '09 Feb', value: 88.0 },
+              { name: '08 Feb', value: 87.0 },
+              { name: '07 Feb', value: 86.0 },
+              { name: '06 Feb', value: 85.0 },
+            ],
+            '12 months': [
+              { name: 'Mar', value: 92.0 },
+              { name: 'Feb', value: 90.0 },
+              { name: 'Jan', value: 88.0 },
+              { name: 'Dec', value: 87.0 },
+              { name: 'Nov', value: 86.0 },
+            ],
+          },
+          records: [
+            {
+              timestamp: '2025-02-02 02:45 PM',
+              safetyScore: 84,
+              growth: 1,
+              alertCount: 1,
+            },
+            {
+              timestamp: '2025-02-02 02:30 PM',
+              safetyScore: 90,
+              growth: -6,
+              alertCount: 1,
+            },
+            {
+              timestamp: '2025-02-02 02:00 PM',
+              safetyScore: 83,
+              growth: 7,
+              alertCount: 1,
+            },
+            {
+              timestamp: '2025-02-02 01:45 PM',
+              safetyScore: 89,
+              growth: -6,
+              alertCount: 1,
+            },
+            {
+              timestamp: '2025-02-02 01:30 PM',
+              safetyScore: 75,
+              growth: 14,
+              alertCount: 2,
+            },
+          ],
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!data) {
+    return <h2>Overall data not found.</h2>;
+  }
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div
       className={`${styles.safetyTrendContainer} ${isPWA ? styles.mobile : ''}`}
     >
-      <h1>{overallSafetyData.displayName}</h1>
+      <h1>Overall Safety Trends</h1>
 
       {/* Navigation Buttons */}
       <div className={styles.navButtons}>
@@ -108,25 +135,26 @@ const OverallSafetyTrend = ({ isPWA = false }) => {
 
       {/* Graph Section */}
       <div className={styles.section}>
-        <div className={styles.syncText}>
+        {/* <div className={styles.syncText}>
           <img src={syncIcon} alt='Sync Icon' className={styles.syncIcon} />
           <p>Last synced: {lastSync}</p>
-        </div>
-        <OverallGraph
+        </div> */}
+        {/* <OverallGraph
           data={overallSafetyData.data}
           bestMetric={overallSafetyData.bestMetric}
           worstMetric={overallSafetyData.worstMetric}
           isPWA={isPWA}
-        />
+        /> */}
+        <SafetyTrendGraph data={data} isPWA={isPWA} />
       </div>
 
       {/* Table Section */}
       <div className={styles.section}>
         <div className={`${styles.syncText} ${styles.tableSyncText}`}>
           <img src={syncIcon} alt='Sync Icon' className={styles.syncIcon} />
-          <p>Next sync: {nextSync}</p>
+          <p>Next sync: {data.nextSync}</p>
         </div>
-        <SafetyTrendTable data={overallSafetyData.tableData} isPWA={isPWA} />
+        <SafetyTrendTable data={data.records} isPWA={isPWA} />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import styles from './SafetyTrendGraph.module.css';
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import Percentage from '../Percentage';
 import ArrowIcon from '../icons/ArrowIcon';
 import {
@@ -12,12 +12,13 @@ import {
   CartesianGrid,
 } from 'recharts';
 import CustomTooltip from '../CustomTooltip';
+import { capitalizeFirstLetter } from '../../utils/helpers';
 
-const SafetyTrendGraph = ({ data, category, isPWA = false }) => {
+const SafetyTrendGraph = ({ data, isPWA = false }) => {
   const [timeframe, setTimeframe] = useState('24 hours');
 
   // Fetch current average compliance percentage
-  const averageCompliance = data?.currentAverageCompliance || 0;
+  const averageCompliance = data?.currentAvg || 0;
 
   // Badge function for compliance level
   const getComplianceBadge = (compliance) => {
@@ -35,40 +36,9 @@ const SafetyTrendGraph = ({ data, category, isPWA = false }) => {
   };
 
   // Transform data for the selected timeframe
-  const chartData = useMemo(() => {
-    return (
-      data[timeframe]?.map((entry) => ({
-        time: new Date(entry.date).toLocaleDateString(),
-        compliance: entry.compliance,
-      })) || []
-    );
-  }, [timeframe, data]);
+  const chartData = data.trends[timeframe] || [];
 
-  // Calculate growth trend
-  const growth = useMemo(() => {
-    if (chartData.length < 2) return { number: 0, positive: true };
-    const last = chartData[chartData.length - 1].compliance;
-    const secondLast = chartData[chartData.length - 2].compliance;
-    return {
-      number: Math.abs(last - secondLast).toFixed(1),
-      positive: last > secondLast,
-    };
-  }, [chartData]);
-
-  const growthColor = growth.positive ? '#0FD7A5' : '#D21616';
-
-  // Determine best and worst compliance metrics
-  const bestMetric = useMemo(() => {
-    if (!chartData.length) return { name: '', score: 0 };
-    const best = Math.max(...chartData.map((d) => d.compliance));
-    return { name: category, score: best };
-  }, [chartData, category]);
-
-  const worstMetric = useMemo(() => {
-    if (!chartData.length) return { name: '', score: 0 };
-    const worst = Math.min(...chartData.map((d) => d.compliance));
-    return { name: category, score: worst };
-  }, [chartData, category]);
+  const growthColor = data.growth[timeframe] >= 0 ? '#0FD7A5' : '#D21616';
 
   return (
     <div
@@ -81,9 +51,7 @@ const SafetyTrendGraph = ({ data, category, isPWA = false }) => {
           {['24 hours', '7 days', '30 days', '12 months'].map((option) => (
             <span
               key={option}
-              className={`${styles.timeOption} ${
-                timeframe === option ? styles.active : ''
-              }`}
+              className={`${styles.timeOption} ${timeframe === option ? styles.active : ''}`}
               onClick={() => setTimeframe(option)}
             >
               Last {option}
@@ -115,52 +83,92 @@ const SafetyTrendGraph = ({ data, category, isPWA = false }) => {
               </div>
             </div>
           </div>
+
           {/* Compliance Growth */}
           <div className={styles.metricContainer}>
             <div
-              className={`${styles.growthContainer} ${
-                growth.positive ? styles.growth : styles.decline
-              }`}
+              className={`${styles.growthContainer} ${data.growth[timeframe] >= 0 ? styles.growth : styles.decline}`}
             >
               <span>
                 <ArrowIcon color={growthColor} className={styles.arrow} />
                 <Percentage
-                  number={growth.number}
+                  number={Math.abs(data.growth[timeframe])} // Ensure positive number
                   numberSize={22}
                   symbolSize={15}
                 />
               </span>
-              <p>vs last {timeframe}</p>
+              <p>
+                vs 1{' '}
+                {
+                  {
+                    '24 hours': 'hour',
+                    '7 days': 'day',
+                    '30 days': 'day',
+                    '12 months': 'month',
+                  }[timeframe]
+                }{' '}
+                ago
+              </p>
             </div>
           </div>
-          {/* Best & Worst Compliance Side by Side */}
-          {!isPWA && (
-            <div className={styles.metricRow}>
-              <div className={styles.metricContainer}>
-                <div className={styles.leftAlign}>
-                  <Percentage
-                    number={bestMetric.score}
-                    label='Max Score'
-                    labelSize={11}
-                    numberSize={20}
-                    symbolSize={16}
-                  />
-                </div>
-              </div>
 
-              <div className={styles.metricContainer}>
-                <div className={styles.leftAlign}>
-                  <Percentage
-                    number={worstMetric.score}
-                    label='Min Score'
-                    labelSize={11}
-                    numberSize={20}
-                    symbolSize={16}
-                  />
+          {/* Best & Worst Compliance Side by Side */}
+          {!isPWA &&
+            (data.maxScore ? (
+              <div className={styles.metricRow}>
+                <div className={styles.metricContainer}>
+                  <div className={styles.leftAlign}>
+                    <Percentage
+                      number={data.maxScore[timeframe]}
+                      label='Max Score'
+                      labelSize={11}
+                      numberSize={20}
+                      symbolSize={16}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.metricContainer}>
+                  <div className={styles.leftAlign}>
+                    <Percentage
+                      number={data.minScore[timeframe]}
+                      label='Min Score'
+                      labelSize={11}
+                      numberSize={20}
+                      symbolSize={16}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          )}{' '}
+            ) : data.bestMetric.category ? (
+              <div className={styles.metricRow}>
+                <div className={styles.metricContainer}>
+                  <div className={styles.leftAlign}>
+                    <Percentage
+                      number={data.bestMetric.value}
+                      label='Best Metric'
+                      label2={capitalizeFirstLetter(data.bestMetric.category)}
+                      labelSize={11}
+                      numberSize={20}
+                      symbolSize={16}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.metricContainer}>
+                  <div className={styles.leftAlign}>
+                    <Percentage
+                      number={data.worstMetric.value}
+                      label='Worst Metric'
+                      label2={capitalizeFirstLetter(data.worstMetric.category)}
+                      labelSize={11}
+                      numberSize={20}
+                      symbolSize={16}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : null)}
         </div>
 
         {/* Chart Section */}
@@ -196,7 +204,7 @@ const SafetyTrendGraph = ({ data, category, isPWA = false }) => {
                   stroke='var(--neutral)'
                 />
                 <XAxis
-                  dataKey='time'
+                  dataKey='name'
                   fontSize={11}
                   fontWeight={600}
                   tick={{ fill: 'var(--neutral)' }}
@@ -210,7 +218,7 @@ const SafetyTrendGraph = ({ data, category, isPWA = false }) => {
                 <Tooltip content={<CustomTooltip />} />
                 <Area
                   type='monotone'
-                  dataKey='compliance'
+                  dataKey='value'
                   stroke='none'
                   fill='url(#colorGradient)'
                   fillOpacity={1}

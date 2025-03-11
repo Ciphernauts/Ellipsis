@@ -179,7 +179,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
               <li>Scaffolding</li>
             </NavLink>
             <NavLink
-              to='/safety-trends/fall-protection/guardrails'
+              to='/safety-trends/fall-protection/guardrail'
               className={({ isActive }) =>
                 `${styles.subNavlink} ${isActive ? styles.active : ''}`
               }

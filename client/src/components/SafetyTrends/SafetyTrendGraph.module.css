@@ -119,13 +119,14 @@ h2 {
 }
 
 .metricLabel {
+  white-space: nowrap;
   font-size: 12px;
   font-weight: 500;
 }
 
 .badge {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 500;
   padding: 2px 5px;
   border-radius: 6px;
   display: flex;
@@ -163,7 +164,7 @@ h2 {
 
 .satisfactory {
   background-color: #ffb400; /* Yellow */
-  color: black;
+  /* color: black; */
 }
 
 .poor {

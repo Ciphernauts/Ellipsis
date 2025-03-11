@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 const { fileURLToPath } = require("url");
 const userRoutes = require("./Routes/UserRoutes");
+const safetyTrendsRoutes = require("./Routes/SafetyTrendsRoutes");
 const timelineSessionsRoutes = require("./Routes/TimelineSessionsRoutes");
 const timelineCalendarRoutes = require("./Routes/TimelineCalendarRoutes");
 const incidentTrendsRoutes = require("./Routes/IncidentTrendsRoutes");
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", userRoutes);
+app.use("/api", safetyTrendsRoutes);
 app.use("/api", timelineSessionsRoutes);
 app.use("/api", timelineCalendarRoutes);
 app.use("/api", incidentTrendsRoutes);
