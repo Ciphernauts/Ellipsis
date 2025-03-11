@@ -5,8 +5,8 @@
 
 .trendTable {
   width: 100%;
-  border-collapse: separate; /* Allows spacing between rows */
-  border-spacing: 0 8px; /* Adds gap between rows */
+  border-collapse: separate;
+  border-spacing: 0 8px;
   table-layout: fixed;
 }
 
@@ -18,7 +18,6 @@
 .tableHeader {
   background-color: var(--primary);
   color: var(--light);
-  padding: 20px 12px;
 }
 
 .tableHeader .row th {
@@ -29,7 +28,6 @@
 .tableHeader th {
   font-size: 14px;
   font-weight: 600;
-  padding: 13px;
 }
 
 /* Table Body */
@@ -46,46 +44,21 @@
 .tableBody .row {
   text-align: center;
   background-color: var(--light);
-  cursor: pointer;
-  border-radius: 15px; /* Rounded corners for each row */
-  overflow: hidden;
-  height: 48px;
 }
 
 .tableBody .row:hover {
   background-color: var(--neutral);
 }
 
-.tableBody .row.active {
-  background-color: var(--secondary);
-}
-
-.tableBody td {
-  padding: 16x;
-  border: none;
-}
-
-/* Rounded corners for the header row */
-.tableHeader .row th:first-child {
+.row td:first-child,
+.row th:first-child {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   padding-left: 10px;
 }
 
-.tableHeader .row th:last-child {
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  padding-right: 10px;
-}
-
-/* Ensures each row has rounded corners */
-.row td:first-child {
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-  padding-left: 10px;
-}
-
-.row td:last-child {
+.row td:last-child,
+.row th:last-child {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   padding-right: 10px;
@@ -93,39 +66,31 @@
 
 /* First column (Timestamp) - bold & colored */
 .timestamp {
-  font-weight: bold;
-  color: #006684;
-}
-
-.growth {
-  display: flex;
-  align-items: center; /* Ensures vertical alignment */
-  justify-content: center;
-  font-weight: bold;
-  gap: 10px; /* Adds space between arrow and text */
+  font-weight: 600;
+  color: var(--primary);
 }
 
 .growth span {
   display: inline-flex;
-  align-items: center; /* Ensures vertical alignment */
+  align-items: center;
   justify-content: center;
-  gap: 8px; /* Adds space between arrow and text */
-  min-width: 60px; /* Ensures consistent spacing */
+  gap: 8px;
+  min-width: 60px;
 }
 
 /* Growth column - green if positive, red if negative */
 .growth.positive {
-  color: green;
+  color: #0fd7a5;
   font-weight: bold;
 }
 
 .growth.negative {
-  color: red;
+  color: #d21616;
   font-weight: bold;
 }
 
 .growth .arrow {
-  flex-shrink: 0; /* Prevents the arrow from shrinking */
+  flex-shrink: 0;
 }
 .growth.positive span .arrow {
   transform: rotate(-90deg); /* Upward */
@@ -137,8 +102,8 @@
 
 /* Alert count column - #006684 */
 .alertCount {
-  color: #006684;
-  font-weight: bold;
+  color: var(--primary);
+  font-weight: 600;
 }
 
 /* Container for Sync Status */
@@ -165,4 +130,30 @@
   margin-right: 5px;
   width: 14px; /* Adjust size if needed */
   height: 14px;
+}
+
+/* -------------------- APP STYLES --------------------  */
+
+.mobile .trendTable {
+  table-layout: auto;
+}
+
+.mobile .row {
+  height: fit-content;
+  padding: 10px 0;
+}
+
+.mobile td,
+.mobile th {
+  height: fit-content;
+  padding: 15px 0;
+}
+
+.mobile .tableHeader .row th {
+  font-weight: 500;
+}
+
+.mobile .tableBody tr td .timeValues {
+  font-size: 11px;
+  gap: 11px;
 }

@@ -50,7 +50,7 @@
   line-height: 8px;
   display: flex;
   flex-direction: column;
-  color: var(--Primary, #006684);
+  color: var(--primary);
   gap: 9px;
 }
 

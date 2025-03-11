@@ -5,87 +5,68 @@ import SafetyTrendData from '../data/SafetyTrendData.json';
 import syncIcon from '../assets/sync_icon.svg';
 import styles from './SafetyTrends.module.css';
 import ArrowIcon from '../components/icons/ArrowIcon';
+import { capitalizeFirstLetter } from '../utils/helpers';
 
-// Helper function to find a key case-insensitively and handle spaces/hyphens
-const findKeyIgnoreCase = (obj, key) =>
-  Object.keys(obj).find(
-    (k) =>
-      k.toLowerCase().replace(/-/g, ' ') ===
-      key.toLowerCase().replace(/-/g, ' ')
-  );
-
-// Define categories with subcategories (Maintaining Correct Order)
+// Define categories with subcategories
 const categories = {
   'ppe': ['Helmet', 'Footwear', 'Vest', 'Gloves'],
-  'fall-protection': ['Scaffolding', 'Guardrails', 'Harnesses'],
+  'fall-protection': ['Scaffolding', 'Guardrails', 'Harness'],
 };
 
 const categoryOrder = ['ppe', 'fall-protection']; // Ensure correct category order
 
-const SafetyTrend = () => {
+const SafetyTrends = ({ isPWA = false }) => {
   const { category, subcategory } = useParams();
   const navigate = useNavigate();
 
-  // Find matching category and subcategory keys
-  const matchedCategory = findKeyIgnoreCase(SafetyTrendData, category);
-  const categoryData = SafetyTrendData[matchedCategory];
-
-  const matchedSubcategory = categoryData
-    ? findKeyIgnoreCase(categoryData, subcategory)
-    : null;
-  const subcategoryData = categoryData?.[matchedSubcategory];
-
-  // Get display names or fallback to formatted category/subcategory names
-  const categoryDisplayName =
-    categoryData?.displayName ||
-    (matchedCategory ? matchedCategory.replace('-', ' ') : '');
-  const subcategoryDisplayName =
-    subcategoryData?.displayName ||
-    (matchedSubcategory ? matchedSubcategory.replace('-', ' ') : '');
+  // Find matching subcategory data
+  const subcategoryData = SafetyTrendData[subcategory];
 
   // Handle missing data
-  if (!categoryData || !subcategoryData) {
-    return <h2>Category or Subcategory not found.</h2>;
+  if (!subcategoryData) {
+    return <h2>Subcategory not found.</h2>;
   }
+
+  // Get display names or fallback to formatted category and subcategory names
+  const categoryDisplayName = category?.replace('-', ' ');
+  const subcategoryDisplayName = capitalizeFirstLetter(subcategory) + ' Safety';
 
   // Find the current category index
   const currentCategoryIndex = categoryOrder.indexOf(category);
-  const subcategoryList = categories[category] || [];
 
   // Find the index of the current subcategory
+  const subcategoryList = categories[category] || [];
   const currentIndex = subcategoryList.findIndex(
     (item) => item.toLowerCase() === subcategory.toLowerCase()
   );
 
   // Determine previous and next navigation targets
-  let prevSubcategory = null;
-  let prevCategory = category;
-  let nextSubcategory = null;
-  let nextCategory = category;
+  const prevSubcategory =
+    currentIndex > 0
+      ? subcategoryList[currentIndex - 1]
+      : currentCategoryIndex > 0
+        ? categories[categoryOrder[currentCategoryIndex - 1]].slice(-1)[0]
+        : null;
 
-  if (currentIndex > 0) {
-    // Previous subcategory within the same category
-    prevSubcategory = subcategoryList[currentIndex - 1];
-  } else if (currentCategoryIndex > 0) {
-    // Move to the last subcategory of the previous category
-    prevCategory = categoryOrder[currentCategoryIndex - 1];
-    prevSubcategory =
-      categories[prevCategory][categories[prevCategory].length - 1];
-  }
-
-  if (currentIndex < subcategoryList.length - 1) {
-    // Next subcategory within the same category
-    nextSubcategory = subcategoryList[currentIndex + 1];
-  } else if (currentCategoryIndex < categoryOrder.length - 1) {
-    // Move to the first subcategory of the next category
-    nextCategory = categoryOrder[currentCategoryIndex + 1];
-    nextSubcategory = categories[nextCategory][0];
-  }
+  const nextSubcategory =
+    currentIndex < subcategoryList.length - 1
+      ? subcategoryList[currentIndex + 1]
+      : currentCategoryIndex < categoryOrder.length - 1
+        ? categories[categoryOrder[currentCategoryIndex + 1]][0]
+        : null;
 
   return (
-    <div className={styles.safetyTrendContainer}>
+    <div
+      className={`${styles.safetyTrendContainer} ${isPWA ? styles.mobile : ''}`}
+    >
+      {/* Display both category and subcategory in the h1 */}
       <h1>
-        {categoryDisplayName} : {subcategoryDisplayName}
+        {
+          { 'ppe': 'PPE', 'fall protection': 'Fall Protection' }[
+            categoryDisplayName
+          ]
+        }{' '}
+        : {subcategoryDisplayName}
       </h1>
 
       {/* Navigation Buttons */}
@@ -95,7 +76,7 @@ const SafetyTrend = () => {
             className={styles.navButton}
             onClick={() =>
               navigate(
-                `/safety-trends/${prevCategory}/${prevSubcategory.toLowerCase()}`
+                `/safety-trends/${categoryOrder[currentCategoryIndex > 0 ? currentCategoryIndex - 1 : 0]}/${prevSubcategory.toLowerCase()}`
               )
             }
           >
@@ -108,7 +89,7 @@ const SafetyTrend = () => {
             className={styles.navButton}
             onClick={() =>
               navigate(
-                `/safety-trends/${nextCategory}/${nextSubcategory.toLowerCase()}`
+                `/safety-trends/${categoryOrder[currentCategoryIndex < categoryOrder.length - 1 ? currentCategoryIndex + 1 : currentCategoryIndex]}/${nextSubcategory.toLowerCase()}`
               )
             }
           >
@@ -127,19 +108,23 @@ const SafetyTrend = () => {
         <SafetyTrendGraph
           data={subcategoryData?.data || []}
           category={subcategoryDisplayName}
+          isPWA={isPWA}
         />
       </div>
 
       {/* Table Section */}
       <div className={styles.section}>
-        <div className={styles.syncText}>
+        <div className={`${styles.syncText} ${styles.tableSyncText}`}>
           <img src={syncIcon} alt='Sync Icon' className={styles.syncIcon} />
           <p>Next sync: 2025-03-03 10:45 AM</p>
         </div>
-        <SafetyTrendTable data={subcategoryData?.tableData || []} />
+        <SafetyTrendTable
+          data={subcategoryData?.tableData || []}
+          isPWA={isPWA}
+        />
       </div>
     </div>
   );
 };
 
-export default SafetyTrend;
+export default SafetyTrends;

@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 import CustomTooltip from '../CustomTooltip';
 
-const SafetyTrendGraph = ({ data, category }) => {
+const SafetyTrendGraph = ({ data, category, isPWA = false }) => {
   const [timeframe, setTimeframe] = useState('24 hours');
 
   // Fetch current average compliance percentage
@@ -71,7 +71,9 @@ const SafetyTrendGraph = ({ data, category }) => {
   }, [chartData, category]);
 
   return (
-    <div className={styles.card}>
+    <div
+      className={`${styles.card} ${'dashboardCard'} ${isPWA ? styles.mobile : ''}`}
+    >
       {/* Header Section */}
       <div className={styles.header}>
         <h2>Safety Compliance Trends</h2>
@@ -93,56 +95,53 @@ const SafetyTrendGraph = ({ data, category }) => {
       {/* Content Section */}
       <div className={styles.content}>
         <div className={styles.metrics}>
-          <div>
-            {/* Current Average Compliance with Badge */}
-            <div className={styles.metricContainer}>
-              <div className={styles.metricHeading}>
-                <div className={styles.complianceWrapper}>
-                  <div className={styles.metricHeading}>
-                    <span className={styles.metricLabel}>Current Avg.</span>
-                    {getComplianceBadge(averageCompliance)}
-                  </div>
-                  <Percentage
-                    number={averageCompliance}
-                    label=''
-                    label2=''
-                    label2size={12}
-                    label2weight={600}
-                    numberSize={22}
-                    symbolSize={16}
-                  />
+          {/* Current Average Compliance with Badge */}
+          <div className={styles.metricContainer}>
+            <div className={styles.metricHeading}>
+              <div className={styles.complianceWrapper}>
+                <div className={styles.metricHeading}>
+                  <span className={styles.metricLabel}>Current Avg.</span>
+                  {getComplianceBadge(averageCompliance)}
                 </div>
+                <Percentage
+                  number={averageCompliance}
+                  label=''
+                  label2=''
+                  label2size={12}
+                  label2weight={600}
+                  numberSize={22}
+                  symbolSize={16}
+                />
               </div>
             </div>
-
-            {/* Compliance Growth */}
-            <div className={styles.metricContainer}>
-              <div
-                className={`${styles.growthContainer} ${
-                  growth.positive ? styles.growth : styles.decline
-                }`}
-              >
-                <span>
-                  <ArrowIcon color={growthColor} className={styles.arrow} />
-                  <Percentage
-                    number={growth.number}
-                    numberSize={22}
-                    symbolSize={15}
-                  />
-                </span>
-                <p>vs last {timeframe}</p>
-              </div>
+          </div>
+          {/* Compliance Growth */}
+          <div className={styles.metricContainer}>
+            <div
+              className={`${styles.growthContainer} ${
+                growth.positive ? styles.growth : styles.decline
+              }`}
+            >
+              <span>
+                <ArrowIcon color={growthColor} className={styles.arrow} />
+                <Percentage
+                  number={growth.number}
+                  numberSize={22}
+                  symbolSize={15}
+                />
+              </span>
+              <p>vs last {timeframe}</p>
             </div>
-
-            {/* Best & Worst Compliance Side by Side */}
+          </div>
+          {/* Best & Worst Compliance Side by Side */}
+          {!isPWA && (
             <div className={styles.metricRow}>
               <div className={styles.metricContainer}>
-                <div className={styles.metricLeftAlign}>
+                <div className={styles.leftAlign}>
                   <Percentage
                     number={bestMetric.score}
-                    label='Best Percentage'
-                    label2size={12}
-                    label2weight={600}
+                    label='Max Score'
+                    labelSize={11}
                     numberSize={20}
                     symbolSize={16}
                   />
@@ -153,25 +152,21 @@ const SafetyTrendGraph = ({ data, category }) => {
                 <div className={styles.leftAlign}>
                   <Percentage
                     number={worstMetric.score}
-                    label='Worst Percentage'
-                    label2size={12}
-                    label2weight={600}
+                    label='Min Score'
+                    labelSize={11}
                     numberSize={20}
                     symbolSize={16}
                   />
                 </div>
               </div>
             </div>
-          </div>
+          )}{' '}
         </div>
 
         {/* Chart Section */}
-        <div
-          className={styles.chartContainer}
-          style={{ width: '90%', minHeight: '200px', height: 'auto' }}
-        >
+        <div className={styles.chartContainer}>
           {chartData.length > 0 ? (
-            <ResponsiveContainer width='100%' height={230}>
+            <ResponsiveContainer width={isPWA ? '119%' : '100%'} height={230}>
               <AreaChart key={timeframe} data={chartData}>
                 <defs>
                   <linearGradient

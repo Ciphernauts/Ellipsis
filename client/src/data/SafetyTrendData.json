@@ -1,7 +1,5 @@
 {
-  "PPE": {
-    "Helmet": {
-      "displayName": "Helmet Safety",
+    "helmet": {
       "data": {
         "currentAverageCompliance": 92,
         "24 hours": [
@@ -76,8 +74,7 @@
         }
       ]
     },
-    "Footwear": {
-      "displayName": "Footwear Safety",
+    "footwear": {
       "data": {
         "currentAverageCompliance": 85,
         "24 hours": [
@@ -152,8 +149,7 @@
         }
       ]
     },
-    "Vest": {
-      "displayName": "Vest Safety",
+    "vest": {
       "data": {
         "currentAverageCompliance": 65,
         "24 hours": [
@@ -228,8 +224,7 @@
         }
       ]
     },
-    "Gloves": {
-      "displayName": "Gloves Safety",
+    "gloves": {
       "data": {
         "currentAverageCompliance": 84,
         "24 hours": [
@@ -303,11 +298,8 @@
           "Alert Count": 1
         }
       ]
-    }
-  },
-  "Fall Protection": {
-    "Scaffolding": {
-      "displayName": "Scaffolding Safety",
+    },
+    "scaffolding": {
       "data": {
         "currentAverageCompliance": 66,
         "24 hours": [
@@ -335,55 +327,54 @@
         {
           "Timestamp": "2024-12-20 08:00 AM",
           "Safety Score": "91.2%",
-          "Growth": "0.4% ↑",
+          "Growth": "0.4",
           "Alert Count": 0
         },
         {
           "Timestamp": "2024-12-18 03:15 PM",
           "Safety Score": "90.7%",
-          "Growth": "-0.1% ↓",
+          "Growth": "-0.1",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
           "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Growth": "0.1",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
           "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Growth": "0.1",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
           "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Growth": "0.1",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
           "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Growth": "0.1",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
           "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Growth": "0.1",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
           "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Growth": "0.1",
           "Alert Count": 1
         }
       ]
     },
-    "Guardrails": {
-      "displayName": "Guardrails Safety",
+    "guardrails": {
       "data": {
         "currentAverageCompliance": 90,
         "24 hours": [
@@ -410,20 +401,19 @@
       "tableData": [
         {
           "Timestamp": "2024-12-20 07:40 AM",
-          "Safety Score": "88.3%",
-          "Growth": "0.3% ↑",
+          "Safety Score": "88.3",
+          "Growth": "0.3%",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-18 02:30 PM",
-          "Safety Score": "87.6%",
-          "Growth": "-0.2% ↓",
+          "Safety Score": "87.6",
+          "Growth": "-0.2%",
           "Alert Count": 2
         }
       ]
     },
-    "Harness": {
-      "displayName": "Harness Safety",
+    "harness": {
       "data": {
         "currentAverageCompliance": 77,
         "24 hours": [
@@ -451,52 +441,51 @@
         {
           "Timestamp": "2024-12-20 06:50 AM",
           "Safety Score": "95.1%",
-          "Growth": "0.2% ↑",
+          "Growth": "0.2%",
           "Alert Count": 0
         },
         {
           "Timestamp": "2024-12-18 01:20 PM",
-          "Safety Score": "94.8%",
-          "Growth": "-0.1% ↓",
+          "Safety Score": "94.8",
+          "Growth": "-0.1%",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
-          "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
-          "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
-          "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
-          "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
-          "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
           "Alert Count": 1
         },
         {
           "Timestamp": "2024-12-20 09:25 AM",
-          "Safety Score": "87.5%",
-          "Growth": "0.1% ↑",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
           "Alert Count": 1
         }
       ]
     }
-  }
 }

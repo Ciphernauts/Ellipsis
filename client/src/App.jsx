@@ -101,11 +101,11 @@ const App = () => {
           {/* Safety Trends Routes */}
           <Route
             path='/safety-trends/overall'
-            element={<OverallSafetyTrend />}
+            element={<OverallSafetyTrend isPWA={isStandalone} />}
           />
           <Route
             path='/safety-trends/:category/:subcategory'
-            element={<SafetyTrends />}
+            element={<SafetyTrends isPWA={isStandalone} />}
           />
 
           <Route
