@@ -71,6 +71,17 @@ const SafetyTrends = ({ isPWA = false }) => {
 
       {/* Navigation Buttons */}
       <div className={styles.navButtons}>
+        {/* Back to Overall Safety Trends (only on Helmet page) */}
+        {category === 'ppe' && subcategory.toLowerCase() === 'helmet' && (
+          <button
+            className={styles.navButton}
+            onClick={() => navigate('/safety-trends')}
+          >
+            <ArrowIcon className={styles.leftArrow} />
+            Back to Overall Safety
+          </button>
+        )}
+
         {prevSubcategory && (
           <button
             className={styles.navButton}
@@ -84,6 +95,7 @@ const SafetyTrends = ({ isPWA = false }) => {
             Back to {prevSubcategory}
           </button>
         )}
+
         {nextSubcategory && (
           <button
             className={styles.navButton}
