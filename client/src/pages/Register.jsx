@@ -9,8 +9,10 @@ import emailIcon from '../assets/email_icon.svg';
 import userIcon from '../assets/username_icon.svg';
 import passwordIcon from '../assets/password_icon.svg';
 import eyeIcon from '../assets/eye_icon.svg';
+import axios from 'axios';
+import logo from '../assets/Icon_black_png.png';
 
-function Register() {
+function Register({ isPWA = false }) {
   const navigate = useNavigate();
   const {
     register,
@@ -26,19 +28,29 @@ function Register() {
     setShowPassword((prev) => !prev);
   };
 
-  const onSubmit = (data) => {
-    console.log(data); // Replace with API call when ready
-    navigate('/login');
+  const [apiError, setApiError] = useState('');
+
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post('http://localhost:3000/api/users/register', {
+        username: data.username,
+        uemail: data.email,
+        password: data.password,
+      });
+
+      alert(res.data.message);
+      navigate('/login');
+    } catch (error) {
+      setApiError('Registration failed: ' + error.response.data.message);
+    }
   };
 
   return (
-    <div className={styles.registerPage}>
+    <div className={`${styles.registerPage} ${isPWA ? styles.mobile : ''}`}>
       <div className={styles.waveBackgroundContainer}>
         <WaveBackground className={styles.waveBackground} />
       </div>
-
-      <NavBar homepage={false} />
-
+      {!isPWA && <NavBar homepage={false} />}
       <div className={styles.registerContainer}>
         <div className={styles.welcomeSection}>
           <h1 className={styles.welcomeTitle}>Hello!</h1>
@@ -46,6 +58,7 @@ function Register() {
             Enter your personal details and start your journey with us.
           </p>
         </div>
+        <img src={logo} alt='Logo' className={styles.logo} />
 
         <div className={styles.formSection}>
           <h2 className={styles.formTitle}>REGISTER</h2>
@@ -54,7 +67,6 @@ function Register() {
             className={styles.registerForm}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {/* Email Field */}
             <div className={styles.inputWrapper}>
               <input
                 type='email'
@@ -133,7 +145,13 @@ function Register() {
               </Link>
             </p>
 
-            <Button type='submit' text='Register' disabled={!isValid} />
+            <Button
+              type='submit'
+              text='Register'
+              disabled={!isValid}
+              color={isPWA ? 'primary' : 'dark'}
+            />
+            {apiError && <span className={styles.apiError}>{apiError}</span>}
           </form>
         </div>
       </div>

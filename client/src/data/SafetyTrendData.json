@@ -1,0 +1,491 @@
+{
+    "helmet": {
+      "data": {
+        "currentAverageCompliance": 92,
+        "24 hours": [
+          { "date": "2025-03-01T12:00:00Z", "compliance": 80 },
+          { "date": "2025-03-02T12:00:00Z", "compliance": 85 },
+          { "date": "2025-03-03T12:00:00Z", "compliance": 90 }
+        ],
+        "7 days": [
+          { "date": "2025-02-23T12:00:00Z", "compliance": 75 },
+          { "date": "2025-02-24T12:00:00Z", "compliance": 78 },
+          { "date": "2025-02-25T12:00:00Z", "compliance": 82 }
+        ],
+        "30 days": [
+          { "date": "2025-02-01T12:00:00Z", "compliance": 70 },
+          { "date": "2025-02-05T12:00:00Z", "compliance": 74 },
+          { "date": "2025-02-10T12:00:00Z", "compliance": 80 }
+        ],
+        "12 months": [
+          { "date": "2024-03-01T12:00:00Z", "compliance": 60 },
+          { "date": "2024-06-01T12:00:00Z", "compliance": 65 },
+          { "date": "2024-09-01T12:00:00Z", "compliance": 72 }
+        ]
+      },
+      "tableData": [
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-19 02:45 PM",
+          "Safety Score": "86.3%",
+          "Growth": "-0.2% ↓",
+          "Alert Count": 2
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        }
+      ]
+    },
+    "footwear": {
+      "data": {
+        "currentAverageCompliance": 85,
+        "24 hours": [
+          { "date": "2025-03-01T12:00:00Z", "compliance": 75 },
+          { "date": "2025-03-02T12:00:00Z", "compliance": 80 },
+          { "date": "2025-03-03T12:00:00Z", "compliance": 88 }
+        ],
+        "7 days": [
+          { "date": "2025-02-23T12:00:00Z", "compliance": 72 },
+          { "date": "2025-02-24T12:00:00Z", "compliance": 77 },
+          { "date": "2025-02-25T12:00:00Z", "compliance": 80 }
+        ],
+        "30 days": [
+          { "date": "2025-02-01T12:00:00Z", "compliance": 68 },
+          { "date": "2025-02-05T12:00:00Z", "compliance": 73 },
+          { "date": "2025-02-10T12:00:00Z", "compliance": 78 }
+        ],
+        "12 months": [
+          { "date": "2024-03-01T12:00:00Z", "compliance": 65 },
+          { "date": "2024-06-01T12:00:00Z", "compliance": 69 },
+          { "date": "2024-09-01T12:00:00Z", "compliance": 74 }
+        ]
+      },
+      "tableData": [
+        {
+          "Timestamp": "2024-12-20 10:10 AM",
+          "Safety Score": "89.0%",
+          "Growth": "0.3% ↑",
+          "Alert Count": 0
+        },
+        {
+          "Timestamp": "2024-12-18 05:30 PM",
+          "Safety Score": "88.5%",
+          "Growth": "-0.1% ↓",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        }
+      ]
+    },
+    "vest": {
+      "data": {
+        "currentAverageCompliance": 65,
+        "24 hours": [
+          { "date": "2025-03-01T12:00:00Z", "compliance": 70 },
+          { "date": "2025-03-02T12:00:00Z", "compliance": 75 },
+          { "date": "2025-03-03T12:00:00Z", "compliance": 82 }
+        ],
+        "7 days": [
+          { "date": "2025-02-23T12:00:00Z", "compliance": 68 },
+          { "date": "2025-02-24T12:00:00Z", "compliance": 71 },
+          { "date": "2025-02-25T12:00:00Z", "compliance": 74 }
+        ],
+        "30 days": [
+          { "date": "2025-02-01T12:00:00Z", "compliance": 62 },
+          { "date": "2025-02-05T12:00:00Z", "compliance": 65 },
+          { "date": "2025-02-10T12:00:00Z", "compliance": 70 }
+        ],
+        "12 months": [
+          { "date": "2024-03-01T12:00:00Z", "compliance": 58 },
+          { "date": "2024-06-01T12:00:00Z", "compliance": 63 },
+          { "date": "2024-09-01T12:00:00Z", "compliance": 67 }
+        ]
+      },
+      "tableData": [
+        {
+          "Timestamp": "2024-12-20 11:05 AM",
+          "Safety Score": "85.4%",
+          "Growth": "0.2% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-19 04:20 PM",
+          "Safety Score": "84.8%",
+          "Growth": "-0.1% ↓",
+          "Alert Count": 2
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        }
+      ]
+    },
+    "gloves": {
+      "data": {
+        "currentAverageCompliance": 84,
+        "24 hours": [
+          { "date": "2025-03-01T12:00:00Z", "compliance": 65 },
+          { "date": "2025-03-02T12:00:00Z", "compliance": 70 },
+          { "date": "2025-03-03T12:00:00Z", "compliance": 78 }
+        ],
+        "7 days": [
+          { "date": "2025-02-23T12:00:00Z", "compliance": 60 },
+          { "date": "2025-02-24T12:00:00Z", "compliance": 64 },
+          { "date": "2025-02-25T12:00:00Z", "compliance": 68 }
+        ],
+        "30 days": [
+          { "date": "2025-02-01T12:00:00Z", "compliance": 58 },
+          { "date": "2025-02-05T12:00:00Z", "compliance": 62 },
+          { "date": "2025-02-10T12:00:00Z", "compliance": 65 }
+        ],
+        "12 months": [
+          { "date": "2024-03-01T12:00:00Z", "compliance": 55 },
+          { "date": "2024-06-01T12:00:00Z", "compliance": 60 },
+          { "date": "2024-09-01T12:00:00Z", "compliance": 62 }
+        ]
+      },
+      "tableData": [
+        {
+          "Timestamp": "2024-12-20 01:15 PM",
+          "Safety Score": "80.0%",
+          "Growth": "0.5% ↑",
+          "Alert Count": 0
+        },
+        {
+          "Timestamp": "2024-12-18 06:45 PM",
+          "Safety Score": "79.3%",
+          "Growth": "-0.2% ↓",
+          "Alert Count": 3
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1% ↑",
+          "Alert Count": 1
+        }
+      ]
+    },
+    "scaffolding": {
+      "data": {
+        "currentAverageCompliance": 66,
+        "24 hours": [
+          { "date": "2025-03-01T12:00:00Z", "compliance": 85 },
+          { "date": "2025-03-02T12:00:00Z", "compliance": 90 },
+          { "date": "2025-03-03T12:00:00Z", "compliance": 92 }
+        ],
+        "7 days": [
+          { "date": "2025-02-23T12:00:00Z", "compliance": 80 },
+          { "date": "2025-02-24T12:00:00Z", "compliance": 85 },
+          { "date": "2025-02-25T12:00:00Z", "compliance": 88 }
+        ],
+        "30 days": [
+          { "date": "2025-02-01T12:00:00Z", "compliance": 78 },
+          { "date": "2025-02-05T12:00:00Z", "compliance": 82 },
+          { "date": "2025-02-10T12:00:00Z", "compliance": 84 }
+        ],
+        "12 months": [
+          { "date": "2024-03-01T12:00:00Z", "compliance": 75 },
+          { "date": "2024-06-01T12:00:00Z", "compliance": 80 },
+          { "date": "2024-09-01T12:00:00Z", "compliance": 82 }
+        ]
+      },
+      "tableData": [
+        {
+          "Timestamp": "2024-12-20 08:00 AM",
+          "Safety Score": "91.2%",
+          "Growth": "0.4",
+          "Alert Count": 0
+        },
+        {
+          "Timestamp": "2024-12-18 03:15 PM",
+          "Safety Score": "90.7%",
+          "Growth": "-0.1",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5%",
+          "Growth": "0.1",
+          "Alert Count": 1
+        }
+      ]
+    },
+    "guardrails": {
+      "data": {
+        "currentAverageCompliance": 90,
+        "24 hours": [
+          { "date": "2025-03-01T12:00:00Z", "compliance": 80 },
+          { "date": "2025-03-02T12:00:00Z", "compliance": 85 },
+          { "date": "2025-03-03T12:00:00Z", "compliance": 88 }
+        ],
+        "7 days": [
+          { "date": "2025-02-23T12:00:00Z", "compliance": 77 },
+          { "date": "2025-02-24T12:00:00Z", "compliance": 79 },
+          { "date": "2025-02-25T12:00:00Z", "compliance": 83 }
+        ],
+        "30 days": [
+          { "date": "2025-02-01T12:00:00Z", "compliance": 70 },
+          { "date": "2025-02-05T12:00:00Z", "compliance": 73 },
+          { "date": "2025-02-10T12:00:00Z", "compliance": 75 }
+        ],
+        "12 months": [
+          { "date": "2024-03-01T12:00:00Z", "compliance": 65 },
+          { "date": "2024-06-01T12:00:00Z", "compliance": 69 },
+          { "date": "2024-09-01T12:00:00Z", "compliance": 72 }
+        ]
+      },
+      "tableData": [
+        {
+          "Timestamp": "2024-12-20 07:40 AM",
+          "Safety Score": "88.3",
+          "Growth": "0.3%",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-18 02:30 PM",
+          "Safety Score": "87.6",
+          "Growth": "-0.2%",
+          "Alert Count": 2
+        }
+      ]
+    },
+    "harness": {
+      "data": {
+        "currentAverageCompliance": 77,
+        "24 hours": [
+          { "date": "2025-03-01T12:00:00Z", "compliance": 90 },
+          { "date": "2025-03-02T12:00:00Z", "compliance": 92 },
+          { "date": "2025-03-03T12:00:00Z", "compliance": 95 }
+        ],
+        "7 days": [
+          { "date": "2025-02-23T12:00:00Z", "compliance": 85 },
+          { "date": "2025-02-24T12:00:00Z", "compliance": 88 },
+          { "date": "2025-02-25T12:00:00Z", "compliance": 90 }
+        ],
+        "30 days": [
+          { "date": "2025-02-01T12:00:00Z", "compliance": 80 },
+          { "date": "2025-02-05T12:00:00Z", "compliance": 82 },
+          { "date": "2025-02-10T12:00:00Z", "compliance": 85 }
+        ],
+        "12 months": [
+          { "date": "2024-03-01T12:00:00Z", "compliance": 75 },
+          { "date": "2024-06-01T12:00:00Z", "compliance": 78 },
+          { "date": "2024-09-01T12:00:00Z", "compliance": 80 }
+        ]
+      },
+      "tableData": [
+        {
+          "Timestamp": "2024-12-20 06:50 AM",
+          "Safety Score": "95.1%",
+          "Growth": "0.2%",
+          "Alert Count": 0
+        },
+        {
+          "Timestamp": "2024-12-18 01:20 PM",
+          "Safety Score": "94.8",
+          "Growth": "-0.1%",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
+          "Alert Count": 1
+        },
+        {
+          "Timestamp": "2024-12-20 09:25 AM",
+          "Safety Score": "87.5",
+          "Growth": "0.1%",
+          "Alert Count": 1
+        }
+      ]
+    }
+}

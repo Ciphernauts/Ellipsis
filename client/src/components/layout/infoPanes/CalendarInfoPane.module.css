@@ -138,6 +138,10 @@
 
 /* -------------------- APP STYLES --------------------  */
 
+.mobile {
+  margin: 0 -14px 0 -14px;
+}
+
 .mobile .snapshotItem img {
   height: 250px;
 }
@@ -174,4 +178,15 @@
 
 .mobile .prevArrow {
   transform: rotate(180deg);
+}
+
+.mobile .top3 ul {
+  height: fit-content;
+  margin: 10px 0;
+  gap: 14px;
+}
+
+.mobile .top3 ul li {
+  height: auto;
+  padding: 10px 15px;
 }
