@@ -1,363 +1,360 @@
 const getStatsForMonth = `
-WITH month_data AS (
+WITH monthly_data AS (
     SELECT
-        s.session_id,
-        s.start_time,
-        s.end_time,
-        s.safety_score,
-        s.progress,
-        cs.name AS site_name,
-        c.name AS camera_name,
-        ss.image_url,
-        ss."timestamp",
-        sd.helmet_score,
-        sd.footwear_score,
-        sd.vest_score,
-        sd.gloves_score,
-        sd.scaffolding_score,
-        sd.guardrails_score,
-        sd.harness_score,
-        st.trend_id,
-        st.score,
-        st."timestamp" AS trend_timestamp,
-        i.severity
-    FROM sessions s
-    LEFT JOIN construction_sites cs
-        ON s.site_id = cs.site_id
-    LEFT JOIN cameras c
-        ON s.camera_id = c.camera_id
-    LEFT JOIN snapshots ss
-        ON s.session_id = ss.session_id
-    LEFT JOIN safety_score_distribution sd
-        ON s.session_id = sd.session_id
-    LEFT JOIN safety_score_trends st
-        ON s.session_id = st.session_id
-    LEFT JOIN incidents i
-        ON s.session_id = i.session_id
+        DATE_TRUNC('day', r.Timestamp) AS record_date,
+        AVG(r.helmet_score) AS avg_helmet_score,
+        AVG(r.footwear_score) AS avg_footwear_score,
+        AVG(r.vest_score) AS avg_vest_score,
+        AVG(r.gloves_score) AS avg_gloves_score,
+        AVG(r.harness_score) AS avg_harness_score,
+        AVG(r.scaffolding_score) AS avg_scaffolding_score,
+        AVG(r.guardrail_score) AS avg_guardrail_score,
+        COUNT(DISTINCT i.incident_id) AS total_incidents,
+        COUNT(DISTINCT CASE WHEN i.severity = 'Critical' THEN i.incident_id END) AS critical_incidents,
+        SUM(EXTRACT(EPOCH FROM (s.end_time - s.start_time))) AS total_duration
+    FROM records r
+    LEFT JOIN sessions s ON r.session_id = s.session_id
+    LEFT JOIN incidents i ON s.session_id = i.session_id
     WHERE
-        EXTRACT(MONTH FROM s.start_time) = $1 AND EXTRACT(YEAR FROM s.start_time) = $2
-), PrevMonthData AS (
+        EXTRACT(MONTH FROM r.Timestamp) = $1
+        AND EXTRACT(YEAR FROM r.Timestamp) = $2
+    GROUP BY record_date
+), previous_month_data AS (
     SELECT
-        AVG(s.safety_score) AS prev_month_safety_score,
-        AVG(sd.helmet_score) AS prev_helmet_score,
-        AVG(sd.footwear_score) AS prev_footwear_score,
-        AVG(sd.vest_score) AS prev_vest_score,
-        AVG(sd.gloves_score) AS prev_gloves_score,
-        AVG(sd.scaffolding_score) AS prev_scaffolding_score,
-        AVG(sd.guardrails_score) AS prev_guardrails_score,
-        AVG(sd.harness_score) AS prev_harness_score
-    FROM sessions s
-    LEFT JOIN safety_score_distribution sd
-        ON s.session_id = sd.session_id
+        AVG(helmet_score) AS prev_helmet_score,
+        AVG(footwear_score) AS prev_footwear_score,
+        AVG(vest_score) AS prev_vest_score,
+        AVG(gloves_score) AS prev_gloves_score,
+        AVG(harness_score) AS prev_harness_score,
+        AVG(scaffolding_score) AS prev_scaffolding_score,
+        AVG(guardrail_score) AS prev_guardrail_score
+    FROM records
     WHERE
-        EXTRACT(MONTH FROM start_time) = $1 - 1 AND EXTRACT(YEAR FROM start_time) = $2
+        (EXTRACT(MONTH FROM Timestamp) = $1 - 1 AND EXTRACT(YEAR FROM Timestamp) = $2) OR
+        ($1 = 1 AND EXTRACT(MONTH FROM Timestamp) = 12 AND EXTRACT(YEAR FROM Timestamp) = $2 - 1)
+), trends AS (
+    SELECT
+        DATE_TRUNC('day', Timestamp) AS record_date,
+        (AVG(helmet_score) + AVG(footwear_score) + AVG(vest_score) + AVG(gloves_score) + AVG(scaffolding_score) + AVG(guardrail_score) + AVG(harness_score)) / 7 AS daily_avg_safety_score
+    FROM records
+    WHERE
+        EXTRACT(MONTH FROM Timestamp) = $1
+        AND EXTRACT(YEAR FROM Timestamp) = $2
+    GROUP BY record_date
+), snapshots AS (
+    SELECT
+        session_id,
+        image_url,
+        "timestamp"
+    FROM snapshots
+    WHERE
+        session_id IN (SELECT session_id FROM sessions WHERE EXTRACT(MONTH FROM start_time) = $1 AND EXTRACT(YEAR FROM start_time) = $2)
+    ORDER BY "timestamp" DESC
+    LIMIT 15
+), percentage_changes AS (
+    SELECT
+        'helmet' AS item,
+        AVG(md.avg_helmet_score - pmd.prev_helmet_score) AS change
+    FROM monthly_data md
+    CROSS JOIN previous_month_data pmd
+	group by pmd.prev_helmet_score
+    UNION ALL
+    SELECT
+        'footwear',
+        AVG(md.avg_footwear_score - pmd.prev_footwear_score) AS change
+    FROM monthly_data md
+    CROSS JOIN previous_month_data pmd
+    group by pmd.prev_footwear_score
+	UNION ALL
+    SELECT
+        'vest',
+        AVG(md.avg_vest_score - pmd.prev_vest_score) AS change
+    FROM monthly_data md
+    CROSS JOIN previous_month_data pmd
+    group by pmd.prev_vest_score
+    UNION ALL
+    SELECT
+        'gloves',
+        AVG(md.avg_gloves_score - pmd.prev_gloves_score) AS change
+    FROM monthly_data md
+    CROSS JOIN previous_month_data pmd
+    group by pmd.prev_gloves_score
+    UNION ALL
+    SELECT
+        'harness',
+        AVG(md.avg_harness_score - pmd.prev_harness_score) AS change
+    FROM monthly_data md
+    CROSS JOIN previous_month_data pmd
+    group by pmd.prev_harness_score
+    UNION ALL
+    SELECT
+        'scaffolding',
+        AVG(md.avg_scaffolding_score - pmd.prev_scaffolding_score) AS change
+    FROM monthly_data md
+    CROSS JOIN previous_month_data pmd
+    group by pmd.prev_scaffolding_score
+    UNION ALL
+    SELECT
+        'guardrail',
+        AVG(md.avg_guardrail_score - pmd.prev_guardrail_score) AS change
+    FROM monthly_data md
+    CROSS JOIN previous_month_data pmd
+    group by pmd.prev_guardrail_score
+), top3_improvements AS (
+    SELECT
+        item,
+        change
+    FROM percentage_changes
+    ORDER BY change DESC
+    LIMIT 3
+), top3_declined AS (
+    SELECT
+        item,
+        change
+    FROM percentage_changes
+    ORDER BY change ASC
+    LIMIT 3
 )
-SELECT
-    JSON_BUILD_OBJECT(
-        'name', to_char(to_date($1::TEXT, 'MM'), 'Month'),
-        'safetyScore', COALESCE(ROUND(AVG(month_data.safety_score)::NUMERIC, 2), 0),
+SELECT JSON_BUILD_OBJECT(
+        'name', TO_CHAR(TO_DATE($1::TEXT, 'MM'), 'Month'),
+        'safetyScore', COALESCE(ROUND(AVG(md.avg_helmet_score), 2), 0),
         'progress', COALESCE(
             CASE
-                WHEN (AVG(month_data.safety_score) - (SELECT prev_month_safety_score FROM PrevMonthData)) > 0
-                THEN '+' || to_char(
-                    ((AVG(month_data.safety_score) - (SELECT prev_month_safety_score FROM PrevMonthData)) /
-                    NULLIF((SELECT prev_month_safety_score FROM PrevMonthData), 0)) * 100,
+                WHEN (ROUND(AVG(md.avg_helmet_score), 2) - (SELECT prev_helmet_score FROM previous_month_data)) > 0
+                THEN '+' || TO_CHAR(
+                    ((ROUND(AVG(md.avg_helmet_score), 2) - (SELECT prev_helmet_score FROM previous_month_data)) /
+                    NULLIF((SELECT prev_helmet_score FROM previous_month_data), 0)) * 100,
                     'FM999999999.00%'
                 )
-                ELSE to_char(
-                    ((AVG(month_data.safety_score) - (SELECT prev_month_safety_score FROM PrevMonthData)) /
-                    NULLIF((SELECT prev_month_safety_score FROM PrevMonthData), 0)) * 100,
+                ELSE TO_CHAR(
+                    ((ROUND(AVG(md.avg_helmet_score), 2) - (SELECT prev_helmet_score FROM previous_month_data)) /
+                    NULLIF((SELECT prev_helmet_score FROM previous_month_data), 0)) * 100,
                     'FM999999999.00%'
                 )
             END,
             '0.00%'
         ),
-        'totalIncidents', COUNT(DISTINCT i.incident_id),
-        'criticalIncidents', COUNT(DISTINCT CASE WHEN i.severity = 'Critical' THEN i.incident_id ELSE NULL END),
-        'duration', json_build_object(
-            'hours', COALESCE(EXTRACT(HOUR FROM SUM(end_time - start_time)), 0),
-            'minutes', COALESCE(EXTRACT(MINUTE FROM SUM(end_time - start_time)), 0),
-            'seconds', COALESCE(EXTRACT(SECOND FROM SUM(end_time - start_time)), 0)
+        'totalIncidents', COALESCE(SUM(md.total_incidents), 0),
+        'criticalIncidents', COALESCE(SUM(md.critical_incidents), 0),
+        'duration', JSON_BUILD_OBJECT(
+            'hours', COALESCE(SUM(md.total_duration) / 3600, 0),
+            'minutes', COALESCE((SUM(md.total_duration) % 3600) / 60, 0 ),
+            'seconds', COALESCE(SUM(md.total_duration) % 60, 0)
         ),
-        'trends', (
-            SELECT JSON_AGG(
-                JSON_BUILD_OBJECT('date', trend_timestamp::DATE, 'score', score)
-            )
-            FROM (
-                SELECT DISTINCT ON (trend_timestamp::DATE)
-                    trend_timestamp::DATE,
-                    score
-                FROM month_data
-                ORDER BY trend_timestamp::DATE, trend_timestamp DESC
-            ) AS unique_trends
+        'trends', (SELECT JSON_AGG(
+            JSON_BUILD_OBJECT('date', record_date, 'score', ROUND(daily_avg_safety_score, 0))
+        ) FROM trends),
+        'safetyScoreDistribution', JSON_BUILD_OBJECT(
+            'helmet', COALESCE(ROUND(AVG(md.avg_helmet_score), 1), 0),
+            'footwear', COALESCE(ROUND(AVG(md.avg_footwear_score), 1), 0),
+            'vest', COALESCE(ROUND(AVG(md.avg_vest_score), 1), 0),
+            'gloves', COALESCE(ROUND(AVG(md.avg_gloves_score), 1), 0),
+            'harness', COALESCE(ROUND(AVG(md.avg_harness_score), 1), 0),
+            'scaffolding', COALESCE(ROUND(AVG(md.avg_scaffolding_score), 1), 0),
+            'guardrails', COALESCE(ROUND(AVG(md.avg_guardrail_score), 1), 0)
         ),
-        'safetyScoreDistribution', json_build_object(
-            'helmet', COALESCE(ROUND(AVG(sd.helmet_score)::NUMERIC, 1), 0),
-            'footwear', COALESCE(ROUND(AVG(sd.footwear_score)::NUMERIC, 1), 0),
-            'vest', COALESCE(ROUND(AVG(sd.vest_score)::NUMERIC, 1), 0),
-            'gloves', COALESCE(ROUND(AVG(sd.gloves_score)::NUMERIC, 1), 0),
-            'scaffolding', COALESCE(ROUND(AVG(sd.scaffolding_score)::NUMERIC, 1), 0),
-            'guardrails', COALESCE(ROUND(AVG(sd.guardrails_score)::NUMERIC, 1), 0),
-            'harness', COALESCE(ROUND(AVG(sd.harness_score)::NUMERIC, 1), 0)
-        ),
-        'top3', (
-            SELECT
-                json_build_object(
-                    'improvements', (
-                        SELECT json_agg(
-                            json_build_object('name', metric, 'positive', diff > 0, 'value', ABS(ROUND(diff::NUMERIC, 1)))
-                        )
-                        FROM (
-                            SELECT
-                                metric,
-                                current_score,
-                                prev_score,
-                                current_score - prev_score AS diff
-                            FROM (
-                                VALUES
-                                    ('helmet', COALESCE(AVG(sd.helmet_score), 0), (SELECT prev_helmet_score FROM PrevMonthData)),
-                                    ('footwear', COALESCE(AVG(sd.footwear_score), 0), (SELECT prev_footwear_score FROM PrevMonthData)),
-                                    ('vest', COALESCE(AVG(sd.vest_score), 0), (SELECT prev_vest_score FROM PrevMonthData)),
-                                    ('gloves', COALESCE(AVG(sd.gloves_score), 0), (SELECT prev_gloves_score FROM PrevMonthData)),
-                                    ('scaffolding', COALESCE(AVG(sd.scaffolding_score), 0), (SELECT prev_scaffolding_score FROM PrevMonthData)),
-                                    ('guardrails', COALESCE(AVG(sd.guardrails_score), 0), (SELECT prev_guardrails_score FROM PrevMonthData)),
-                                    ('harness', COALESCE(AVG(sd.harness_score), 0), (SELECT prev_harness_score FROM PrevMonthData))
-                            ) AS metrics(metric, current_score, prev_score)
-                            ORDER BY ABS(current_score - prev_score) DESC
-                            LIMIT 3
-                        )
-                    ),
-                    'declinedMetrics', (
-                        SELECT json_agg(
-                            json_build_object('name', metric, 'positive', diff > 0, 'value', ABS(ROUND(diff::NUMERIC, 1)))
-                        )
-                        FROM (
-                            SELECT
-                                metric,
-                                current_score,
-                                prev_score,
-                                current_score - prev_score AS diff
-                            FROM (
-                                VALUES
-                                    ('helmet', COALESCE(AVG(sd.helmet_score), 0), (SELECT prev_helmet_score FROM PrevMonthData)),
-                                    ('footwear', COALESCE(AVG(sd.footwear_score), 0), (SELECT prev_footwear_score FROM PrevMonthData)),
-                                    ('vest', COALESCE(AVG(sd.vest_score), 0), (SELECT prev_vest_score FROM PrevMonthData)),
-                                    ('gloves', COALESCE(AVG(sd.gloves_score), 0), (SELECT prev_gloves_score FROM PrevMonthData)),
-                                    ('scaffolding', COALESCE(AVG(sd.scaffolding_score), 0), (SELECT prev_scaffolding_score FROM PrevMonthData)),
-                                    ('guardrails', COALESCE(AVG(sd.guardrails_score), 0), (SELECT prev_guardrails_score FROM PrevMonthData)),
-                                    ('harness', COALESCE(AVG(sd.harness_score), 0), (SELECT prev_harness_score FROM PrevMonthData))
-                            ) AS metrics(metric, current_score, prev_score)
-                            ORDER BY ABS(current_score - prev_score) DESC
-                            OFFSET 3
-                            LIMIT 3
-                        )
-                    )
-                )
-        ),
-        'snapshots', (
-            SELECT JSON_AGG(
-                JSON_BUILD_OBJECT('image_url', image_url, 'timestamp', "timestamp")
-            )
-            FROM (
-                SELECT
-                    image_url,
-                    "timestamp"
-                FROM snapshots
-                WHERE
-                    EXTRACT(MONTH FROM "timestamp") = $1
-                    AND EXTRACT(YEAR FROM "timestamp") = $2
-                ORDER BY "timestamp" DESC
-                LIMIT 15
-            ) AS latest_snapshots
+        'snapshots', (SELECT JSON_AGG(
+            JSON_BUILD_OBJECT('session_id', session_id, 'image_url', image_url, 'timestamp', "timestamp")
+        ) FROM snapshots),
+        'top3', JSON_BUILD_OBJECT(
+            'improvements', (SELECT JSON_AGG(
+                JSON_BUILD_OBJECT('name', item, 'positive', change>=0, 'value', ROUND(ABS(change), 1))
+            ) FROM top3_improvements),
+            'declinedMetrics', (SELECT JSON_AGG(
+                JSON_BUILD_OBJECT('name', item, 'positive', change>=0, 'value', ROUND(ABS(change), 1))
+            ) FROM top3_declined)
         )
-    ) AS month_data
-FROM month_data
-LEFT JOIN incidents i ON month_data.session_id = i.session_id
-LEFT JOIN safety_score_distribution sd ON month_data.session_id = sd.session_id;
-`;
+    )
+FROM monthly_data md;
+ `;
 
 const getStatsForDay = `
 WITH day_data AS (
     SELECT
-        s.session_id,
-        s.start_time,
-        s.end_time,
-        s.safety_score,
-        s.progress,
-        cs.name AS site_name,
-        c.name AS camera_name,
-        ss.image_url,
-        ss."timestamp",
-        sd.helmet_score,
-        sd.footwear_score,
-        sd.vest_score,
-        sd.gloves_score,
-        sd.scaffolding_score,
-        sd.guardrails_score,
-        sd.harness_score,
-        st.trend_id,
-        st.score,
-        st."timestamp" AS trend_timestamp,
-        i.severity,
-        i.incident_id,  -- Include incident_id in day_data
-        sd.distribution_id -- Include distribution_id in day_data
-    FROM sessions s
-    LEFT JOIN construction_sites cs
-        ON s.site_id = cs.site_id
-    LEFT JOIN cameras c
-        ON s.camera_id = c.camera_id
-    LEFT JOIN snapshots ss
-        ON s.session_id = ss.session_id
-    LEFT JOIN safety_score_distribution sd
-        ON s.session_id = sd.session_id
-    LEFT JOIN safety_score_trends st
-        ON s.session_id = st.session_id
-    LEFT JOIN incidents i
-        ON s.session_id = i.session_id
-    WHERE
-        EXTRACT(DAY FROM s.start_time) = $1
-        AND EXTRACT(MONTH FROM s.start_time) = $2
-        AND EXTRACT(YEAR FROM s.start_time) = $3
-), PrevDayData AS (
+        DATE_TRUNC('hour', r.Timestamp) AS record_hour,
+        AVG(r.helmet_score) AS avg_helmet_score,
+        AVG(r.footwear_score) AS avg_footwear_score,
+        AVG(r.vest_score) AS avg_vest_score,
+        AVG(r.gloves_score) AS avg_gloves_score,
+        AVG(r.harness_score) AS avg_harness_score,
+        AVG(r.scaffolding_score) AS avg_scaffolding_score,
+        AVG(r.guardrail_score) AS avg_guardrail_score,
+        COUNT(DISTINCT i.incident_id) AS total_incidents,
+        COUNT(DISTINCT CASE WHEN i.severity = 'Critical' THEN i.incident_id END) AS critical_incidents,
+        SUM(EXTRACT(EPOCH FROM (s.end_time - s.start_time))) AS total_duration
+    FROM records r
+    LEFT JOIN sessions s ON r.session_id = s.session_id
+    LEFT JOIN incidents i ON s.session_id = i.session_id
+    WHERE EXTRACT(DAY FROM r.Timestamp) = $1
+      AND EXTRACT(MONTH FROM r.Timestamp) = $2
+      AND EXTRACT(YEAR FROM r.Timestamp) = $3
+    GROUP BY record_hour
+),
+previous_day_data AS (
     SELECT
-        AVG(s.safety_score) AS prev_day_safety_score,
-        AVG(sd.helmet_score) AS prev_helmet_score,
-        AVG(sd.footwear_score) AS prev_footwear_score,
-        AVG(sd.vest_score) AS prev_vest_score,
-        AVG(sd.gloves_score) AS prev_gloves_score,
-        AVG(sd.scaffolding_score) AS prev_scaffolding_score,
-        AVG(sd.guardrails_score) AS prev_guardrails_score,
-        AVG(sd.harness_score) AS prev_harness_score
-    FROM sessions s
-    LEFT JOIN safety_score_distribution sd
-        ON s.session_id = sd.session_id
-    WHERE
-        EXTRACT(DAY FROM start_time) = $1 - 1
-        AND EXTRACT(MONTH FROM start_time) = $2
-        AND EXTRACT(YEAR FROM start_time) = $3
+        AVG(r.helmet_score) AS prev_helmet_score,
+        AVG(r.footwear_score) AS prev_footwear_score,
+        AVG(r.vest_score) AS prev_vest_score,
+        AVG(r.gloves_score) AS prev_gloves_score,
+        AVG(r.harness_score) AS prev_harness_score,
+        AVG(r.scaffolding_score) AS prev_scaffolding_score,
+        AVG(r.guardrail_score) AS prev_guardrail_score
+    FROM records r
+    WHERE 
+        (EXTRACT(DAY FROM r.Timestamp) = $1 - 1
+        AND EXTRACT(MONTH FROM r.Timestamp) = $2
+        AND EXTRACT(YEAR FROM r.Timestamp) = $3
+    OR 
+        ($1 = 1 
+         AND EXTRACT(DAY FROM r.Timestamp) = 
+             CASE 
+                 WHEN $2 = 1 THEN 31 
+                 ELSE DATE_PART('day', (DATE_TRUNC('month', MAKE_DATE($3::INT, $2::INT, 1)) - INTERVAL '1 day')::DATE)
+             END
+         AND EXTRACT(MONTH FROM r.Timestamp) = 
+             CASE 
+                 WHEN $2 = 1 THEN 12 
+                 ELSE $2 - 1 
+             END
+         AND EXTRACT(YEAR FROM r.Timestamp) = 
+             CASE 
+                 WHEN $2 = 1 THEN $3 - 1 
+                 ELSE $3 
+             END
+))),
+trends AS (
+    SELECT
+        TO_CHAR(r.Timestamp, 'HH24:MI') AS record_hour,
+        (AVG(r.helmet_score) + AVG(r.footwear_score) + AVG(r.vest_score) + AVG(r.gloves_score) + 
+        AVG(r.scaffolding_score) + AVG(r.guardrail_score) + AVG(r.harness_score)) / 7 AS hourly_avg_safety_score
+    FROM records r
+    WHERE EXTRACT(DAY FROM r.Timestamp) = $1
+      AND EXTRACT(MONTH FROM r.Timestamp) = $2
+      AND EXTRACT(YEAR FROM r.Timestamp) = $3
+    GROUP BY record_hour
+),
+snapshots AS (
+    SELECT
+        session_id,
+        image_url,
+        "timestamp"
+    FROM snapshots
+    WHERE session_id IN (
+        SELECT session_id
+        FROM sessions
+        WHERE EXTRACT(DAY FROM start_time) = $1
+          AND EXTRACT(MONTH FROM start_time) = $2
+          AND EXTRACT(YEAR FROM start_time) = $3
+    )
+    ORDER BY "timestamp" DESC
+    LIMIT 15
+),
+percentage_changes AS (
+    SELECT
+        'helmet' AS item,
+        AVG(dd.avg_helmet_score - pdd.prev_helmet_score) AS change
+    FROM day_data dd
+    CROSS JOIN previous_day_data pdd
+    GROUP BY pdd.prev_helmet_score
+    UNION ALL
+    SELECT 'footwear' AS item, AVG(dd.avg_footwear_score - pdd.prev_footwear_score) AS change
+    FROM day_data dd
+    CROSS JOIN previous_day_data pdd
+    GROUP BY pdd.prev_footwear_score
+    UNION ALL
+    SELECT 'vest' AS item, AVG(dd.avg_vest_score - pdd.prev_vest_score) AS change
+    FROM day_data dd
+    CROSS JOIN previous_day_data pdd
+    GROUP BY pdd.prev_vest_score
+    UNION ALL
+    SELECT 'gloves' AS item, AVG(dd.avg_gloves_score - pdd.prev_gloves_score) AS change
+    FROM day_data dd
+    CROSS JOIN previous_day_data pdd
+    GROUP BY pdd.prev_gloves_score
+    UNION ALL
+    SELECT 'harness' AS item, AVG(dd.avg_harness_score - pdd.prev_harness_score) AS change
+    FROM day_data dd
+    CROSS JOIN previous_day_data pdd
+    GROUP BY pdd.prev_harness_score
+    UNION ALL
+    SELECT 'scaffolding' AS item, AVG(dd.avg_scaffolding_score - pdd.prev_scaffolding_score) AS change
+    FROM day_data dd
+    CROSS JOIN previous_day_data pdd
+    GROUP BY pdd.prev_scaffolding_score
+    UNION ALL
+    SELECT 'guardrail' AS item, AVG(dd.avg_guardrail_score - pdd.prev_guardrail_score) AS change
+    FROM day_data dd
+    CROSS JOIN previous_day_data pdd
+    GROUP BY pdd.prev_guardrail_score
+),
+top3_improvements AS (
+    SELECT item, change
+    FROM percentage_changes
+    ORDER BY change DESC
+    LIMIT 3
+),
+top3_declined AS (
+    SELECT item, change
+    FROM percentage_changes
+    ORDER BY change ASC
+    LIMIT 3
 )
-SELECT
-    JSON_BUILD_OBJECT(
-        'date', to_char(to_date($1::TEXT || '-' || $2::TEXT || '-' || $3::TEXT, 'DD-MM-YYYY'), 'YYYY-MM-DD'),
-        'safetyScore', COALESCE(ROUND(AVG(day_data.safety_score)::NUMERIC, 2), 0),
-        'progress', COALESCE(
-            CASE
-                WHEN (AVG(day_data.safety_score) - (SELECT prev_day_safety_score FROM PrevDayData)) > 0
-                THEN '+' || to_char(
-                    ((AVG(day_data.safety_score) - (SELECT prev_day_safety_score FROM PrevDayData)) /
-                    NULLIF((SELECT prev_day_safety_score FROM PrevDayData), 0)) * 100,
-                    'FM999999999.00%'
-                )
-                ELSE to_char(
-                    ((AVG(day_data.safety_score) - (SELECT prev_day_safety_score FROM PrevDayData)) /
-                    NULLIF((SELECT prev_day_safety_score FROM PrevDayData), 0)) * 100,
-                    'FM999999999.00%'
-                )
-            END,
-            '0.00%'
-        ),
-        'totalIncidents', COUNT(DISTINCT incident_id),
-        'criticalIncidents', COUNT(DISTINCT CASE WHEN severity = 'Critical' THEN incident_id ELSE NULL END),
-        'duration', json_build_object(
-            'hours', COALESCE(EXTRACT(HOUR FROM SUM(end_time - start_time)), 0),
-            'minutes', COALESCE(EXTRACT(MINUTE FROM SUM(end_time - start_time)), 0),
-            'seconds', COALESCE(EXTRACT(SECOND FROM SUM(end_time - start_time)), 0)
-        ),
-        'trends', (
+SELECT JSON_BUILD_OBJECT(
+    'date', TO_CHAR(TO_DATE($1::TEXT || '-' || $2::TEXT || '-' || $3::TEXT, 'DD-MM-YYYY'), 'YYYY-MM-DD'),
+    'safetyScore', COALESCE(ROUND(AVG(dd.avg_helmet_score), 2), 0),
+    'progress', COALESCE(
+        CASE 
+            WHEN (ROUND(AVG(dd.avg_helmet_score), 2) - (SELECT prev_helmet_score FROM previous_day_data)) > 0 
+            THEN '+' || TO_CHAR(
+                ((ROUND(AVG(dd.avg_helmet_score), 2) - (SELECT prev_helmet_score FROM previous_day_data)) / 
+                NULLIF((SELECT prev_helmet_score FROM previous_day_data), 0)) * 100, 'FM999999999.00%'
+            )
+            ELSE TO_CHAR(
+                ((ROUND(AVG(dd.avg_helmet_score), 2) - (SELECT prev_helmet_score FROM previous_day_data)) / 
+                NULLIF((SELECT prev_helmet_score FROM previous_day_data), 0)) * 100, 'FM999999999.00%'
+            )
+        END, '0.00%'
+    ),
+    'totalIncidents', COALESCE(SUM(dd.total_incidents), 0),
+    'criticalIncidents', COALESCE(SUM(dd.critical_incidents), 0),
+    'duration', JSON_BUILD_OBJECT(
+        'hours', COALESCE(SUM(dd.total_duration) / 3600, 0),
+        'minutes', COALESCE((SUM(dd.total_duration) % 3600) / 60, 0),
+        'seconds', COALESCE(SUM(dd.total_duration) % 60, 0)
+    ),
+    'trends', (
+        SELECT JSON_AGG(
+            JSON_BUILD_OBJECT('time', record_hour, 'score', ROUND(hourly_avg_safety_score, 0))
+        ) FROM trends
+    ),
+    'safetyScoreDistribution', JSON_BUILD_OBJECT(
+        'helmet', COALESCE(ROUND(AVG(dd.avg_helmet_score), 1), 0),
+        'footwear', COALESCE(ROUND(AVG(dd.avg_footwear_score), 1), 0),
+        'vest', COALESCE(ROUND(AVG(dd.avg_vest_score), 1), 0),
+        'gloves', COALESCE(ROUND(AVG(dd.avg_gloves_score), 1), 0),
+        'harness', COALESCE(ROUND(AVG(dd.avg_harness_score), 1), 0),
+        'scaffolding', COALESCE(ROUND(AVG(dd.avg_scaffolding_score), 1), 0),
+        'guardrails', COALESCE(ROUND(AVG(dd.avg_guardrail_score), 1), 0)
+    ),
+    'snapshots', (
+        SELECT JSON_AGG(
+            JSON_BUILD_OBJECT('session_id', session_id, 'image_url', image_url, 'timestamp', "timestamp")
+        ) FROM snapshots
+    ),
+    'top3', JSON_BUILD_OBJECT(
+        'improvements', (
             SELECT JSON_AGG(
-                JSON_BUILD_OBJECT('time', to_char(trend_timestamp, 'HH12am'), 'score', score)
-            )
-            FROM (
-                SELECT DISTINCT ON (trend_timestamp::TIME)
-                    trend_timestamp,
-                    score
-                FROM day_data
-                ORDER BY trend_timestamp::TIME, trend_timestamp DESC
-            ) AS unique_trends
+                JSON_BUILD_OBJECT('name', item, 'positive', change >= 0, 'value', ROUND(ABS(change), 1))
+            ) FROM top3_improvements
         ),
-        'safetyScoreDistribution', json_build_object(
-            'helmet', COALESCE(ROUND(AVG(sd.helmet_score)::NUMERIC, 1), 0),
-            'footwear', COALESCE(ROUND(AVG(sd.footwear_score)::NUMERIC, 1), 0),
-            'vest', COALESCE(ROUND(AVG(sd.vest_score)::NUMERIC, 1), 0),
-            'gloves', COALESCE(ROUND(AVG(sd.gloves_score)::NUMERIC, 1), 0),
-            'scaffolding', COALESCE(ROUND(AVG(sd.scaffolding_score)::NUMERIC, 1), 0),
-            'guardrails', COALESCE(ROUND(AVG(sd.guardrails_score)::NUMERIC, 1), 0),
-            'harness', COALESCE(ROUND(AVG(sd.harness_score)::NUMERIC, 1), 0)
-        ),
-        'top3', (
-            SELECT
-                json_build_object(
-                    'improvements', (
-                        SELECT json_agg(
-                            json_build_object('name', metric, 'positive', diff > 0, 'value', ABS(ROUND(diff::NUMERIC, 1)))
-                        )
-                        FROM (
-                            SELECT
-                                metric,
-                                current_score,
-                                prev_score,
-                                current_score - prev_score AS diff
-                            FROM (
-                                VALUES
-                                    ('helmet', COALESCE(AVG(sd.helmet_score), 0), (SELECT prev_helmet_score FROM PrevDayData)),
-                                    ('footwear', COALESCE(AVG(sd.footwear_score), 0), (SELECT prev_footwear_score FROM PrevDayData)),
-                                    ('vest', COALESCE(AVG(sd.vest_score), 0), (SELECT prev_vest_score FROM PrevDayData)),
-                                    ('gloves', COALESCE(AVG(sd.gloves_score), 0), (SELECT prev_gloves_score FROM PrevDayData)),
-                                    ('scaffolding', COALESCE(AVG(sd.scaffolding_score), 0), (SELECT prev_scaffolding_score FROM PrevDayData)),
-                                    ('guardrails', COALESCE(AVG(sd.guardrails_score), 0), (SELECT prev_guardrails_score FROM PrevDayData)),
-                                    ('harness', COALESCE(AVG(sd.harness_score), 0), (SELECT prev_harness_score FROM PrevDayData))
-                            ) AS metrics(metric, current_score, prev_score)
-                            ORDER BY ABS(current_score - prev_score) DESC
-                            LIMIT 3)
-                    ),
-                    'declinedMetrics', (
-                        SELECT json_agg(
-                            json_build_object('name', metric, 'positive', diff > 0, 'value', ABS(ROUND(diff::NUMERIC, 1)))
-                        )
-                        FROM (
-                            SELECT
-                                metric,
-                                current_score,
-                                prev_score,
-                                current_score - prev_score AS diff
-                            FROM (
-                                VALUES
-                                    ('helmet', COALESCE(AVG(sd.helmet_score), 0), (SELECT prev_helmet_score FROM PrevDayData)),
-                                    ('footwear', COALESCE(AVG(sd.footwear_score), 0), (SELECT prev_footwear_score FROM PrevDayData)),
-                                    ('vest', COALESCE(AVG(sd.vest_score), 0), (SELECT prev_vest_score FROM PrevDayData)),
-                                    ('gloves', COALESCE(AVG(sd.gloves_score), 0), (SELECT prev_gloves_score FROM PrevDayData)),
-                                    ('scaffolding', COALESCE(AVG(sd.scaffolding_score), 0), (SELECT prev_scaffolding_score FROM PrevDayData)),
-                                    ('guardrails', COALESCE(AVG(sd.guardrails_score), 0), (SELECT prev_guardrails_score FROM PrevDayData)),
-                                    ('harness', COALESCE(AVG(sd.harness_score), 0), (SELECT prev_harness_score FROM PrevDayData))
-                            ) AS metrics(metric, current_score, prev_score)
-                            ORDER BY ABS(current_score - prev_score) DESC
-                            OFFSET 3
-                            LIMIT 3 
-                    )
-                )
-            )
-        ),
-        'snapshots', (
+        'declinedMetrics', (
             SELECT JSON_AGG(
-                JSON_BUILD_OBJECT('image_url', image_url, 'timestamp', "timestamp")
-            )
-            FROM (
-                SELECT
-                    image_url,
-                    "timestamp"
-                FROM snapshots
-                WHERE
-                    EXTRACT(DAY FROM "timestamp") = $1
-                    AND EXTRACT(MONTH FROM "timestamp") = $2
-                    AND EXTRACT(YEAR FROM "timestamp") = $3
-                ORDER BY "timestamp" DESC
-                LIMIT 15
-            ) AS latest_snapshots
+                JSON_BUILD_OBJECT('name', item, 'positive', change >= 0, 'value', ROUND(ABS(change), 1))
+            ) FROM top3_declined
         )
-    ) AS day_data
-FROM day_data
-LEFT JOIN safety_score_distribution sd
-    ON day_data.distribution_id = sd.distribution_id;
+    )
+) AS day_data
+FROM day_data dd;
 `;
 
 module.exports = {
