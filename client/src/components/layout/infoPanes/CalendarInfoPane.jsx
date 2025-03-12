@@ -263,7 +263,10 @@ export default function CalendarInfoPane({ data, isPWA = false, className }) {
           {top3Categories.map(({ title, key }) => (
             <div className={styles.top3} key={key}>
               <h2>{title}</h2>
-              {data.top3 && data.top3[key] && data.top3[key].length > 0 ? (
+              {data.top3 &&
+              data.top3[key] &&
+              data.top3[key].length > 0 &&
+              data.top3[key][0].value != null ? (
                 <ul>
                   {data.top3[key].map((item) => (
                     <li
@@ -289,7 +292,7 @@ export default function CalendarInfoPane({ data, isPWA = false, className }) {
                   ))}
                 </ul>
               ) : (
-                <p>No {key} data available.</p>
+                <p>No data available.</p>
               )}
             </div>
           ))}

@@ -28,7 +28,7 @@
   display: flex;
   justify-content: flex-end; /* Align buttons to the right */
   gap: 10px; /* Space between buttons */
-  margin-bottom: 2px;
+  margin-bottom: 10px;
 }
 
 /* Button Styles (Matches Figma Design) */

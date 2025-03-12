@@ -26,24 +26,22 @@ const SafetyTrendTable = ({ data, isPWA = false }) => {
           </thead>
           <tbody className={styles.tableBody}>
             {data.map((entry, index) => {
-              const isPositive = parseFloat(entry.Growth) > 0;
+              const isPositive = parseFloat(entry.growth) > 0;
 
               return (
                 <tr key={index} className={styles.row}>
                   <td className={styles.timestamp}>
                     {isPWA ? (
                       <>
-                        {entry.Timestamp.split(' ')[0]}
+                        {entry.timestamp.split(' ')[0]}
                         <br />
-                        {entry.Timestamp.split(' ').slice(1).join(' ')}{' '}
+                        {entry.timestamp.split(' ').slice(1).join(' ')}
                       </>
                     ) : (
-                      entry.Timestamp
+                      entry.timestamp
                     )}
-                  </td>{' '}
-                  <td className={styles.safetyScore}>
-                    {entry['Safety Score']}
                   </td>
+                  <td className={styles.safetyScore}>{entry.safetyScore}</td>
                   <td
                     className={`${styles.growth} ${isPositive ? styles.positive : styles.negative}`}
                   >
@@ -52,10 +50,10 @@ const SafetyTrendTable = ({ data, isPWA = false }) => {
                         color={isPositive ? '#0fd7a5' : '#d21616'}
                         className={styles.arrow}
                       />
-                      {entry.Growth}%
+                      {entry.growth.toString().replace('-', '')}%
                     </span>
                   </td>
-                  <td className={styles.alertCount}>{entry['Alert Count']}</td>
+                  <td className={styles.alertCount}>{entry.alertCount}</td>
                 </tr>
               );
             })}

@@ -115,7 +115,7 @@ export default function TimelineCalendar({ isPWA = false }) {
       if (!isPWA) {
         try {
           const monthData = await fetchMonthData(month, year);
-          setPaneData(monthData.month_data);
+          setPaneData(monthData);
         } catch (error) {
           console.error('Error fetching month data:', error);
         }
@@ -260,7 +260,7 @@ export default function TimelineCalendar({ isPWA = false }) {
         `http://localhost:3000/api/timeline/calendar/month/${month + 1}/${year}`
       );
       if (response.data) {
-        return response.data;
+        return response.data.json_build_object;
       } else {
         throw new Error('No data returned from API');
       }
@@ -314,7 +314,7 @@ export default function TimelineCalendar({ isPWA = false }) {
 
     // Update activeSelection and pane data
     setActiveSelection({ month: clickedMonth, day: null });
-    setPaneData(monthData.month_data);
+    setPaneData(monthData);
   };
 
   // Handle day click
