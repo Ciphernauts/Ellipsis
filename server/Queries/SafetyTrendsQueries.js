@@ -48,14 +48,15 @@ trends_24_hours AS (
                 ELSE NULL
             END
         )::numeric, 0) AS value,
-        date_trunc('hour', r.timestamp) AS timestamp -- Add timestamp for sorting
+		date_trunc('hour', r.timestamp) AS timestamp
     FROM
         records r
     WHERE
         r.timestamp >= NOW() - INTERVAL '24 hours'
     GROUP BY
         date_trunc('hour', r.timestamp)
-),
+    ORDER BY timestamp ASC
+	),
 trends_7_days AS (
     SELECT
         to_char(date_trunc('day', r.timestamp), 'DD Mon') AS name,
@@ -71,13 +72,14 @@ trends_7_days AS (
                 ELSE NULL
             END
         )::numeric, 0) AS value,
-        date_trunc('day', r.timestamp) AS timestamp -- Add timestamp for sorting
+		date_trunc('day', r.timestamp) AS timestamp
     FROM
         records r
     WHERE
         r.timestamp >= NOW() - INTERVAL '7 days'
     GROUP BY
         date_trunc('day', r.timestamp)
+	ORDER BY timestamp ASC
 ),
 trends_30_days AS (
     SELECT
@@ -94,13 +96,14 @@ trends_30_days AS (
                 ELSE NULL
             END
         )::numeric, 0) AS value,
-        date_trunc('day', r.timestamp) AS timestamp -- Add timestamp for sorting
+		date_trunc('day', r.timestamp) AS timestamp
     FROM
         records r
     WHERE
         r.timestamp >= NOW() - INTERVAL '30 days'
     GROUP BY
         date_trunc('day', r.timestamp)
+	ORDER BY timestamp ASC
 ),
 trends_12_months AS (
     SELECT
@@ -117,13 +120,14 @@ trends_12_months AS (
                 ELSE NULL
             END
         )::numeric, 0) AS value,
-        date_trunc('month', r.timestamp) AS timestamp -- Add timestamp for sorting
+		date_trunc('month', r.timestamp) AS timestamp
     FROM
         records r
     WHERE
         r.timestamp >= NOW() - INTERVAL '12 months'
     GROUP BY
         date_trunc('month', r.timestamp)
+	ORDER BY timestamp ASC
 ),
 growth_calculation AS (
     SELECT
@@ -235,16 +239,9 @@ latest_records AS (
     FROM
         records r
     LEFT JOIN
-        incidents i ON r.session_id = i.session_id
+        incidents i ON r.recordid = i.recordid
     GROUP BY
-        r.timestamp,
-        r.helmet_score,
-        r.footwear_score,
-        r.vest_score,
-        r.gloves_score,
-        r.scaffolding_score,
-        r.guardrail_score,
-        r.harness_score
+		r.recordid
     ORDER BY
         r.timestamp DESC
     LIMIT 50
@@ -314,6 +311,7 @@ trends_24_hours AS (
         r.timestamp >= NOW() - INTERVAL '24 hours'
     GROUP BY
         date_trunc('hour', r.timestamp)
+	ORDER BY timestamp ASC
 ),
 trends_7_days AS (
     SELECT
@@ -328,6 +326,7 @@ trends_7_days AS (
         r.timestamp >= NOW() - INTERVAL '7 days'
     GROUP BY
         date_trunc('day', r.timestamp)
+	ORDER BY timestamp ASC
 ),
 trends_30_days AS (
     SELECT
@@ -342,6 +341,7 @@ trends_30_days AS (
         r.timestamp >= NOW() - INTERVAL '30 days'
     GROUP BY
         date_trunc('day', r.timestamp)
+	ORDER BY timestamp ASC
 ),
 trends_12_months AS (
     SELECT
@@ -356,6 +356,7 @@ trends_12_months AS (
         r.timestamp >= NOW() - INTERVAL '12 months'
     GROUP BY
         date_trunc('month', r.timestamp)
+	ORDER BY timestamp ASC
 ),
 growth_calculation AS (
     SELECT
@@ -407,16 +408,9 @@ latest_records AS (
     FROM
         records r
     LEFT JOIN
-        incidents i ON r.session_id = i.session_id
+        incidents i ON r.recordid = i.recordid
     GROUP BY
-        r.timestamp,
-        r.helmet_score,
-        r.footwear_score,
-        r.vest_score,
-        r.gloves_score,
-        r.scaffolding_score,
-        r.guardrail_score,
-        r.harness_score
+		r.recordid
     ORDER BY
         r.timestamp DESC
     LIMIT 50

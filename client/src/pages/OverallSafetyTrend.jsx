@@ -16,7 +16,7 @@ const OverallSafetyTrend = ({ isPWA = false }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/safety-trendss`
+          `http://localhost:3000/api/safety-trends`
         );
         setData(response.data);
       } catch (error) {
