@@ -6,27 +6,18 @@
   position: relative;
 }
 
-.defaultOverlay {
-  background-color: transparent !important;
-  overflow: auto;
-}
-
-.paneOverlay {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 0; /* Ensure the overlay is above other content */
-  pointer-events: none; /* Allow clicks to pass through when opacity is 0 */
-}
-
 .main {
-  margin: 10px 10px 60px 10px;
+  margin: 10px 10px 0 10px;
+  padding-bottom: 90px;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
   overflow-x: hidden;
+}
+
+.main.mainInfoOpen {
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .main h1 {
@@ -42,6 +33,16 @@
   align-items: center;
   padding: 10px;
   margin-bottom: 10px;
+  z-index: 1;
+  transition: 0.3s;
+}
+
+.backButton.fixedBackButton {
+  position: fixed;
+}
+
+.backButton.fixedBackButton path {
+  stroke: var(--light);
 }
 
 .backButton svg {
@@ -58,11 +59,10 @@
 
 .footer {
   width: 100%;
-  height: 50px;
+  height: 60px;
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
   background-color: var(--neutral);
   padding: 0 15px;
   border-radius: 40px 40px 0 0;
@@ -71,6 +71,7 @@
   align-items: center;
   z-index: 21;
   transition: 0.3s ease;
+  pointer-events: all;
 }
 
 .footer.navPaneOpen {
@@ -78,8 +79,8 @@
 }
 
 .footerItem {
-  width: 38px;
-  height: 38px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -88,7 +89,7 @@
 
 .footerItem.active,
 .footerItem:active {
-  background-color: var(--dark);
+  background-color: var(--primary);
 }
 
 .footerItem.active path,
@@ -135,8 +136,63 @@
   transform: translateX(100%);
 }
 
+.defaultOverlay {
+  background-color: transparent !important;
+  overflow: auto;
+  z-index: 2;
+}
+
+.incDefaultOverlay {
+  height: fit-content;
+  overflow-y: hidden;
+}
+
+.paneOverlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.imgOverlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.imgOverlay::before {
+  position: fixed;
+  display: block;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 15%);
+}
+
+.imgOverlay img {
+  width: auto;
+  min-width: 100%;
+  height: 40vh;
+  object-fit: cover;
+}
+
+.imgOverlay p {
+  color: #a3a3a3;
+  text-align: center;
+  margin-top: 17vh;
+}
+
 .slidingPane {
   height: fit-content;
+  min-height: calc(100vh - 65px);
   position: relative;
   background: var(--light);
   padding: 0 0 35px 0;
@@ -144,11 +200,26 @@
   border-radius: 52px 52px 0 0;
   box-shadow: none !important;
   font-size: 13px;
+  z-index: 4;
   pointer-events: all;
 }
 
-.infoClose.slidingPane {
-  display: none;
+.incidentSlidingPane {
+  background: none;
+}
+
+.insidePane {
+  height: fit-content;
+  position: relative;
+  background: var(--light);
+  margin-top: 25vh;
+  min-height: calc(100vh - 35vh);
+  border-radius: 40px 40px 0 0;
+  padding: 20px 18px 55px 18px;
+  box-shadow: none !important;
+  font-size: 13px;
+  pointer-events: all;
+  overflow-y: auto;
 }
 
 .slidingPane > div {
@@ -156,16 +227,22 @@
   overflow-x: hidden;
 }
 
-.slidingPane h1 {
-  font-size: 30px;
+.incidentSlidingPane > div {
+  padding: 0;
+}
+
+.slidingPane h1,
+.insidePane h1 {
+  font-size: 25px;
   font-weight: 500;
   letter-spacing: 1.28px;
   text-align: center;
   margin-bottom: 30px;
 }
 
-.slidingPane h2 {
-  font-size: 17px;
+.slidingPane h2,
+.insidePane h2 {
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.72px;
 }
@@ -178,6 +255,8 @@
   display: flex;
   align-items: center;
   padding: 10px;
+  opacity: 1;
+  z-index: 20;
 }
 
 .infoPaneBackButton svg {
@@ -185,4 +264,8 @@
   height: 28px;
   z-index: 50;
   transform: scaleX(-1);
+}
+
+.infoClose.insidePane {
+  display: none;
 }

@@ -4,7 +4,8 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
-import { AppProvider } from './context/AppContext';
+import { useEffect } from 'react';
+import { AppProvider, useApp } from './context/AppContext';
 import { isPWA } from './utils/isPWA';
 import Layout from './components/layout/Layout';
 import PWALayout from './components/layout/PWALayout';
@@ -16,34 +17,57 @@ import TimelineSessions from './pages/TimelineSessions';
 import IncidentTrends from './pages/IncidentTrends';
 import IncidentHistory from './pages/IncidentHistory';
 import ConstructionSites from './pages/ConstructionSites';
+import Cameras from './pages/Cameras';
 import ChangeMode from './pages/ChangeMode';
 import Settings from './pages/Settings';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import SafetyTrends from './pages/SafetyTrends';
+import OverallSafetyTrend from './pages/OverallSafetyTrend';
+import AdminDashboard from './pages/AdminDashboard';
+
+// Create a wrapper component to handle fetching the profile
+const AppWrapper = () => {
+  const { fetchProfile } = useApp(); // Use useApp inside AppProvider
+
+  // Fetch user profile when the app loads
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      fetchProfile();
+    }
+  }, [fetchProfile]);
+
+  return null; // This component doesn't render anything
+};
 
 const App = () => {
   const isStandalone = isPWA();
+
   console.log('is PWA: ', isStandalone);
 
   return (
     <AppProvider>
+      <AppWrapper />
       <Routes>
         {/* Route without nav pane */}
         <Route
           path='/'
           element={isStandalone ? <OnboardingPage /> : <HomePage />}
         />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register isPWA={isStandalone} />} />
+        <Route path='/login' element={<Login isPWA={isStandalone} />} />
 
         {/* Routes with nav pane */}
         <Route element={isStandalone ? <PWALayout /> : <Layout />}>
-          <Route path='/test' />
+          <Route path='/admin-dashboard' element={<AdminDashboard />} />
           <Route
             path='/dashboard'
             element={<Dashboard isPWA={isStandalone} />}
           />
-          <Route path='/safety-trends' element={<Dashboard />} />
+          <Route
+            path='/safety-trends'
+            element={<Navigate to='/safety-trends/overall' />}
+          />
 
           {/* Redirect from /timeline to /timeline/calendar */}
           <Route
@@ -65,20 +89,36 @@ const App = () => {
             path='/incidents'
             element={<Navigate to='/incidents/incident-trends' replace />}
           />
-
           <Route
             path='/incidents/incident-trends'
-            element={<IncidentTrends />}
+            element={<IncidentTrends isPWA={isStandalone} />}
           />
           <Route
             path='/incidents/incident-history'
-            element={<IncidentHistory />}
+            element={<IncidentHistory isPWA={isStandalone} />}
           />
 
-          <Route path='/construction-sites' element={<ConstructionSites />} />
-          <Route path='/cameras' element={<Dashboard />} />
-          <Route path='/change-mode' element={<ChangeMode />} />
-          <Route path='/settings' element={<Settings />} />
+          {/* Safety Trends Routes */}
+          <Route
+            path='/safety-trends/overall'
+            element={<OverallSafetyTrend isPWA={isStandalone} />}
+          />
+          <Route
+            path='/safety-trends/:category/:subcategory'
+            element={<SafetyTrends isPWA={isStandalone} />}
+          />
+
+          <Route
+            path='/construction-sites'
+            element={<ConstructionSites isPWA={isStandalone} />}
+          />
+          <Route path='/cameras' element={<Cameras isPWA={isStandalone} />} />
+
+          <Route
+            path='/change-mode'
+            element={<ChangeMode isPWA={isStandalone} />}
+          />
+          <Route path='/settings' element={<Settings isPWA={isStandalone} />} />
         </Route>
       </Routes>
     </AppProvider>

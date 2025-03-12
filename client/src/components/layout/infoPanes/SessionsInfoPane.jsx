@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // Import Axios
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -30,9 +30,9 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
   useEffect(() => {
     if (data) {
       // Set selectedSite to the construction site ID if it exists, otherwise null
-      setSelectedSite(data.sessionDetails?.constructionSite?.id || null);
+      setSelectedSite(data.sessiondetails?.constructionSite?.id || null);
       // Set selectedCamera to the camera ID if it exists, otherwise null
-      setSelectedCamera(data.sessionDetails?.camera?.id || null);
+      setSelectedCamera(data.sessiondetails?.camera?.id || null);
     }
   }, [data]);
 
@@ -42,10 +42,10 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
 
   // Check if required data exists, use defaults if not
   const safetyScoreDistribution =
-    data?.sessionDetails?.safetyScoreDistribution || {};
-  const trends = data?.sessionDetails?.trends || [];
-  const snapshots = data?.sessionDetails?.snapshots || [];
-  const duration = data?.sessionDetails?.duration || {
+    data?.sessiondetails?.safetyScoreDistribution || {};
+  const trends = data?.sessiondetails?.trends || [];
+  const snapshots = data?.sessiondetails?.snapshots || [];
+  const duration = data?.sessiondetails?.duration || {
     hours: 0,
     minutes: 0,
     seconds: 0,
@@ -66,11 +66,11 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
     return isoString.replace('T', ' ').replace('Z', '');
   };
 
-  const startTime = data?.sessionDetails?.startTime
-    ? formatTimestamp(data.sessionDetails.startTime)
+  const startTime = data?.sessiondetails?.startTime
+    ? formatTimestamp(data.sessiondetails.startTime)
     : '';
-  const endTime = data?.sessionDetails?.endTime
-    ? formatTimestamp(data.sessionDetails.endTime)
+  const endTime = data?.sessiondetails?.endTime
+    ? formatTimestamp(data.sessiondetails.endTime)
     : '';
 
   const trendsData = trends.map((trend) => ({
@@ -94,7 +94,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
       await updateSession(newSite, selectedCamera);
     } catch (error) {
       console.error('Error updating site:', error);
-      setSelectedSite(data.sessionDetails?.constructionSite?.id || null); // Revert to the previous site in case of an error
+      setSelectedSite(data.sessiondetails?.constructionSite?.id || null); // Revert to the previous site in case of an error
       alert('Error updating site. Please try again.');
     } finally {
       setUpdating(false);
@@ -110,7 +110,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
       await updateSession(selectedSite, newCamera);
     } catch (error) {
       console.error('Error updating camera:', error);
-      setSelectedCamera(data.sessionDetails?.camera?.id || null); // Revert to the previous camera in case of an error
+      setSelectedCamera(data.sessiondetails?.camera?.id || null); // Revert to the previous camera in case of an error
       alert('Error updating camera. Please try again.');
     } finally {
       setUpdating(false);
@@ -119,17 +119,20 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
 
   const updateSession = async (siteId, cameraId) => {
     try {
-      const response = await axios.patch(`/api/sessions/${data.sessionId}`, {
-        constructionSiteId: siteId,
-        cameraId: cameraId,
-      });
+      const response = await axios.put(
+        `http://localhost:3000/api/timeline/sessions/${data.sessiondetails.sessionId}`,
+        {
+          constructionSiteId: siteId,
+          cameraId: cameraId,
+        }
+      );
 
       if (response.data) {
         // Update the local state directly
-        data.sessionDetails.constructionSite = constructionSites.find(
+        data.sessiondetails.constructionSite = constructionSites.find(
           (site) => site.id === siteId
         );
-        data.sessionDetails.camera = cameras.find(
+        data.sessiondetails.camera = cameras.find(
           (camera) => camera.id === cameraId
         );
       }
@@ -149,7 +152,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
 
   return (
     <div className={`${styles.pane} ${isPWA ? styles.mobile : ''}`}>
-      <h1>{data?.sessionDetails?.sessionId || 'Session Details'}</h1>
+      <h1>{data?.sessiondetails?.sessionId || 'Session Details'}</h1>
       <div className={styles.content}>
         <div className={styles.dropdowns}>
           <PaneInfoPiece
@@ -164,7 +167,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
                 <option value=''>Select Construction Site</option>
                 {constructionSites.map((site) => (
                   <option key={site.id} value={site.id}>
-                    {site.name}
+                    {site.siteName}
                   </option>
                 ))}
               </select>
@@ -183,7 +186,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
                 <option value=''>Select Camera</option>
                 {cameras.map((camera) => (
                   <option key={camera.id} value={camera.id}>
-                    {camera.name}
+                    {camera.cameraName}
                   </option>
                 ))}
               </select>
@@ -215,7 +218,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
           <div className={styles.row}>
             <PaneInfoPiece
               name='Mode'
-              value={data?.sessionDetails?.mode || 'N/A'}
+              value={data?.sessiondetails?.mode || 'N/A'}
             />
             <PaneInfoPiece
               name='Duration'
@@ -238,12 +241,12 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
             <PaneInfoPiece
               name='Start'
               value={formatTimestamp(startTime)}
-              fontSize={isPWA ? 13 : 12}
+              fontSize={12}
             />
             <PaneInfoPiece
               name='End'
               value={formatTimestamp(endTime)}
-              fontSize={isPWA ? 13 : 12}
+              fontSize={12}
             />
           </div>
         </div>
@@ -251,21 +254,21 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
           <div className={styles.row}>
             <PaneInfoPiece
               name='Safety score'
-              value={data?.sessionDetails?.safetyScore || 'N/A'}
+              value={data?.sessiondetails?.safetyScore || 'N/A'}
             />
             <PaneInfoPiece
               name='Session Progress'
-              value={data?.sessionDetails?.progress || 'N/A'}
+              value={data?.sessiondetails?.progress || 'N/A'}
             />
           </div>
           <div className={styles.row}>
             <PaneInfoPiece
               name='Total incidents'
-              value={data?.sessionDetails?.totalIncidents || 0}
+              value={data?.sessiondetails?.totalIncidents || 0}
             />
             <PaneInfoPiece
               name='Critical incidents'
-              value={data?.sessionDetails?.criticalIncidents || 0}
+              value={data?.sessiondetails?.criticalIncidents || 0}
             />
           </div>
         </div>

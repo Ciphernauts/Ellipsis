@@ -31,7 +31,7 @@ export function AppProvider({ children }) {
   // Fetch user profile from the server
   //   const fetchProfile = async () => {
   //     try {
-  //       const response = await axios.get('/api/profile', {
+  //       const response = await axios.get('http://localhost:3000/api/profile', {
   //         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
   //       });
   //       setUser(response.data);
@@ -45,31 +45,38 @@ export function AppProvider({ children }) {
 
   // Fetch user profile from the server
   const fetchProfile = async () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        try {
-          const response = {
-            data: {
-              username: 'Vi',
-              email: 'dontsugarcoatitcupcake@gmail.com',
-              profilePicture:
-                'https://arcanecharacters.com/_next/image?url=%2Fimages%2Fcharacters%2Fvi.jpg&w=3840&q=75',
-            },
-          };
-          setUser(response.data); // Update the user state in the context
-          resolve(response); // Resolve the Promise
-        } catch (error) {
-          console.error('Failed to fetch profile:', error);
-          reject(error); // Reject on error
-        }
-      }, 500); // Simulate a 500ms delay
-    });
+    try {
+      // Try to fetch user data from the API
+      const response = await axios.get('http://localhost:3000/api/users', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      setUser(response.data); // Set the user data from the API response
+      return response; // Return the API response
+    } catch (error) {
+      console.error('Failed to fetch profile from API:', error);
+
+      // Fallback to placeholder data if the API call fails
+      const placeholderResponse = {
+        data: {
+          username: 'Pejman Jouzi',
+          email: 'pejmanjouziandpartners@gmail.com',
+          profilePicture: '',
+          role: 'standard',
+        },
+      };
+
+      setUser(placeholderResponse.data); // Set the placeholder data
+      return placeholderResponse; // Return the placeholder data
+    }
   };
 
   // Login function
   const login = async (credentials) => {
     try {
-      const response = await axios.post('/api/login', credentials);
+      const response = await axios.post(
+        'http://localhost:3000/api/users/login',
+        credentials
+      );
       localStorage.setItem('token', response.data.token);
       setUser(response.data.user);
     } catch (error) {
@@ -87,9 +94,13 @@ export function AppProvider({ children }) {
   // Update user profile (username, email, password, profile picture)
   const updateUserInfo = async (updates) => {
     try {
-      const response = await axios.put('/api/update-profile', updates, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await axios.put(
+        'http://localhost:3000/api/users/update-profile',
+        updates,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      );
 
       if (response.status === 200) {
         setUser((prevUser) => ({ ...prevUser, ...updates })); // Merge changes into user state
@@ -109,9 +120,12 @@ export function AppProvider({ children }) {
   // Delete user account
   const deleteUserAccount = async () => {
     try {
-      const response = await axios.delete('/api/delete-account', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await axios.delete(
+        'http://localhost:3000/api/users/delete-account',
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      );
 
       if (response.status === 200) {
         logout(); // Clear user state and token
@@ -133,7 +147,7 @@ export function AppProvider({ children }) {
   // Fetch mode from the server
   //   const fetchMode = async () => {
   //     try {
-  //       const response = await axios.get('/api/current-mode');
+  //       const response = await axios.get('http://localhost:3000/api/users/current-mode');
   //       setMode(response.data.mode);
   //     } catch (error) {
   //       console.error('Error fetching mode:', error);
@@ -147,7 +161,7 @@ export function AppProvider({ children }) {
   // Fetch mode from the server (with simulated response)
   const fetchMode = async () => {
     try {
-      // const response = await axios.get('/api/current-mode'); // Uncomment when API is ready
+      // const response = await axios.get('http://localhost:3000/api/current-mode'); // Uncomment when API is ready
       const response = { data: { mode: 'General' } }; // Simulate API response
       setMode(response.data.mode);
     } catch (error) {
@@ -160,7 +174,12 @@ export function AppProvider({ children }) {
   // Update mode
   const updateMode = async (newMode) => {
     try {
-      const response = await axios.post('/api/update-mode', { mode: newMode });
+      const response = await axios.post(
+        'http://localhost:3000/api/update-mode',
+        {
+          mode: newMode,
+        }
+      );
 
       if (response.status === 200) {
         setMode(newMode);
@@ -177,7 +196,7 @@ export function AppProvider({ children }) {
   // Fetch settings from the server
   //   const fetchSettings = async () => {
   //     try {
-  //       const response = await axios.get('/api/settings', {
+  //       const response = await axios.get('http://localhost:3000/api/users/settings', {
   //         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
   //       });
   //       setSettings(response.data);
@@ -214,9 +233,13 @@ export function AppProvider({ children }) {
   // Update settings
   const updateSettings = async (newSettings) => {
     try {
-      const response = await axios.put('/api/settings', newSettings, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await axios.put(
+        'http://localhost:3000/api/users/settings',
+        newSettings,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      );
 
       if (response.status === 200) {
         setSettings((prev) => ({ ...prev, ...newSettings }));
@@ -242,6 +265,7 @@ export function AppProvider({ children }) {
       value={{
         // User
         user,
+        isAdmin: user?.role === 'admin', // Derived admin check
         login,
         logout,
         fetchProfile,

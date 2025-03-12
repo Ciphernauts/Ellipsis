@@ -197,6 +197,11 @@ ol {
   padding: 0;
 }
 
+select,
+input {
+  background-color: var(--light);
+}
+
 /* Buttons */
 button {
   font-family: inherit;
