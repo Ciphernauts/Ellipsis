@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS cameras (
     type VARCHAR(50) NOT NULL,
     online BOOLEAN,
     connected BOOLEAN,
+    paired BOOLEAN,
     last_synced_time TIMESTAMP
 );
 
@@ -215,17 +216,17 @@ INSERT INTO construction_sites (name, status, safetyScore, snapshots) VALUES
 
 
 
-INSERT INTO cameras (name, type, online, connected, last_synced_time) VALUES
-    ('DJI Matrice 300 RTK', 'drone', TRUE, TRUE, '2025-03-01 16:15:00'),
-    ('FLIR Quasar 4K IR PTZ', 'camera', TRUE, FALSE, '2025-03-01 12:10:00'),
-    ('Axis P1448-LE', 'camera', FALSE, TRUE, '2025-03-01 08:05:00'),
-    ('Anafi USA', 'drone', TRUE, TRUE, '2025-03-01 10:00:00'),
-    ('Autel Robotics EVO II Pro', 'drone', FALSE, FALSE, '2025-02-28 18:00:00'),
-    ('Skydio 2+', 'camera', TRUE, TRUE, '2025-03-01 14:30:00'),
-    ('Bosch FLEXIDOME IP starlight 8000i', 'camera', TRUE, FALSE, '2025-03-01 11:45:00'),
-    ('Hikvision DS-2CD2387G2-LU', 'camera', FALSE, TRUE, '2025-03-01 09:20:00'),
-    ('DJI Inspire 3', 'drone', TRUE, TRUE, '2025-03-01 15:50:00'),
-    ('Sony SNC-VM772R', 'camera', TRUE, TRUE, '2025-03-01 13:15:00');
+INSERT INTO cameras (name, type, online, connected, paired, last_synced_time) VALUES
+    ('DJI Matrice 300 RTK', 'drone', TRUE, TRUE, TRUE, '2025-03-01 16:15:00'),
+    ('FLIR Quasar 4K IR PTZ', 'camera', TRUE, FALSE, FALSE, '2025-03-01 12:10:00'),
+    ('Axis P1448-LE', 'camera', TRUE, FALSE, TRUE, '2025-03-01 08:05:00'),
+    ('Anafi USA', 'drone', TRUE, TRUE, FALSE, '2025-03-01 10:00:00'),
+    ('Autel Robotics EVO II Pro', 'drone', TRUE, FALSE, TRUE, '2025-02-28 18:00:00'),
+    ('Skydio 2+', 'camera', TRUE, TRUE, TRUE,'2025-03-01 14:30:00'),
+    ('Bosch FLEXIDOME IP starlight 8000i', 'camera', TRUE, FALSE, FALSE, '2025-03-01 11:45:00'),
+    ('Hikvision DS-2CD2387G2-LU', 'camera', TRUE, TRUE, FALSE, '2025-03-01 09:20:00'),
+    ('DJI Inspire 3', 'drone', TRUE, TRUE, TRUE, '2025-03-01 15:50:00'),
+    ('Sony SNC-VM772R', 'camera', TRUE, TRUE, FALSE, '2025-03-01 13:15:00');
 
 INSERT INTO sessions (session_id, site_id, camera_id, mode, start_time, end_time, safety_score) VALUES
     ('S0028', 1, 1, 'General', '2025-02-01 08:00:00', '2025-02-01 16:00:00', 82.5),
@@ -829,4 +830,4 @@ INSERT INTO incidents (session_id, recordID, incident_time, severity, status, ca
     ('S0040', 4, '2025-02-03 11:45:00', 'Moderate', 'Open', 'Helmet'),
     ('S0040', 8, '2025-02-03 15:10:00', 'Critical', 'Resolved', 'Scaffolding'),
     ('S0040', 16, '2025-02-03 17:50:00', 'Critical', 'Open', 'Harness'),
-    ('S0042', 16, '2025-02-03 16:00:00', 'Moderate', 'Resolved', 'Guardrail');    ('S0040', 4, '2025-02-03 11:45:00', 'Moderate', 'Open', 'Helmet'),
+    ('S0042', 16, '2025-02-03 16:00:00', 'Moderate', 'Resolved', 'Guardrail');
