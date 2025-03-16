@@ -8,7 +8,7 @@ const getDashboardData = (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     } else {
       if (results.rows.length > 0) {
-        res.status(200).json(results.rows[0].result);
+        res.status(200).json(results.rows[0].json_build_object);
       } else {
         res.status(404).json({ message: "No data found" });
       }

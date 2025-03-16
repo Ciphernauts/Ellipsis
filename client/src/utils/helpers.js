@@ -84,9 +84,18 @@ export const formatTime = (dateString) => {
 export const incidentCategoryToNameMap = {
   Helmet: 'Missing helmet',
   Shoes: 'Improper footwear',
+  Footwear: 'Improper footwear',
   Vest: 'Missing vest',
   Gloves: 'Missing gloves',
   Scaffolding: 'Improper scaffolding',
   Guardrail: 'Missing guardrails',
   Harness: 'Missing harness',
+  helmet: 'Missing helmet',
+  shoes: 'Improper footwear',
+  footwear: 'Improper footwear',
+  vest: 'Missing vest',
+  gloves: 'Missing gloves',
+  scaffolding: 'Improper scaffolding',
+  guardrail: 'Missing guardrails',
+  harness: 'Missing harness',
 };

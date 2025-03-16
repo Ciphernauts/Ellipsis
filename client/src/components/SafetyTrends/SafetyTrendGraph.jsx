@@ -15,7 +15,19 @@ import CustomTooltip from '../CustomTooltip';
 import { capitalizeFirstLetter } from '../../utils/helpers';
 
 const SafetyTrendGraph = ({ data, isPWA = false }) => {
-  const [timeframe, setTimeframe] = useState('24 hours');
+  const timeframes = ['24 hours', '7 days', '30 days', '12 months'];
+
+  // Function to find the first timeframe with non-empty data
+  const findFirstValidTimeframe = () => {
+    for (const timeframe of timeframes) {
+      if (data.trends[timeframe] && data.trends[timeframe].length > 0) {
+        return timeframe;
+      }
+    }
+    return timeframes[0]; // Fallback to the first timeframe if none are valid
+  };
+
+  const [timeframe, setTimeframe] = useState(findFirstValidTimeframe());
 
   // Fetch current average compliance percentage
   const averageCompliance = data?.currentAvg || 0;
@@ -226,7 +238,13 @@ const SafetyTrendGraph = ({ data, isPWA = false }) => {
               </AreaChart>
             </ResponsiveContainer>
           ) : (
-            <p style={{ textAlign: 'center', marginTop: '20px' }}>
+            <p
+              style={{
+                textAlign: 'center',
+                marginTop: '20px',
+                color: '#a8a8a8',
+              }}
+            >
               No data available
             </p>
           )}

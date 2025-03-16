@@ -31,8 +31,8 @@ export default function ComplianceBreakdown({
 }) {
   const [selectedOption, setSelectedOption] = useState('PPE Detection');
 
-  const averageScorePPE = calculateAverageScore(data.ppe);
-  const averageScoreFall = calculateAverageScore(data.fall);
+  const averageScorePPE = calculateAverageScore(data?.ppe);
+  const averageScoreFall = calculateAverageScore(data?.fall);
 
   const pieChartConfig = [
     {

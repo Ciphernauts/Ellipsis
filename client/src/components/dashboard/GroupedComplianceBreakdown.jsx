@@ -51,7 +51,7 @@ export default function GroupedComplianceBreakdown({ title, data }) {
         <div>
           <div>
             <Percentage
-              number={averageScore}
+              number={averageScore.toFixed(1)}
               numberSize={24}
               symbolSize={12}
               className={styles.percentage}
@@ -59,7 +59,7 @@ export default function GroupedComplianceBreakdown({ title, data }) {
             <PieChart
               width={120}
               height={90}
-              margin={{ top: 12, right: 0, bottom: 0, left: 0 }}
+              margin={{ top: 17, right: 0, bottom: 0, left: 0 }}
             >
               <Pie
                 data={avgPieData}
