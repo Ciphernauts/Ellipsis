@@ -3,7 +3,7 @@ import styles from './IncidentTrends.module.css';
 import IncidentTrendsAndBreakdownCard from '../components/incidentTrends/IncidentTrendsAndBreakdownCard';
 import KeyInsights from '../components/incidentTrends/KeyInsights';
 import AlertMetrics from '../components/incidentTrends/AlertMetrics';
-import axios from 'axios'; // Import Axios for API calls
+import axios from 'axios';
 
 export default function IncidentTrends({ isPWA = false }) {
   const [cardData, setCardData] = useState(null);
@@ -155,6 +155,7 @@ export default function IncidentTrends({ isPWA = false }) {
             },
           },
         });
+      } finally {
         setLoading(false);
       }
     };
