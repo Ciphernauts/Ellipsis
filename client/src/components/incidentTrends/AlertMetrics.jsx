@@ -64,7 +64,11 @@ export default function AlertMetrics({ data, className, isPWA = false }) {
                   <div
                     className={`${styles.metricValue} ${metric.className || ''}`}
                   >
-                    {data[timeframe][metric.key]}
+                    {data[timeframe][metric.key] === null ? (
+                      <span>No data available</span>
+                    ) : (
+                      data[timeframe][metric.key]
+                    )}
                   </div>
                   <div className={styles.metricLabel}>{metric.label}</div>
                 </div>
@@ -79,7 +83,11 @@ export default function AlertMetrics({ data, className, isPWA = false }) {
                   <div
                     className={`${styles.metricValue} ${metric.className || ''}`}
                   >
-                    {data[timeframe][metric.key]}
+                    {data[timeframe][metric.key] === null ? (
+                      <span>No data available</span>
+                    ) : (
+                      data[timeframe][metric.key]
+                    )}
                   </div>
                   <div className={styles.metricLabel}>{metric.label}</div>
                 </div>
@@ -94,7 +102,11 @@ export default function AlertMetrics({ data, className, isPWA = false }) {
                   <div
                     className={`${styles.metricValue} ${metric.className || ''}`}
                   >
-                    {data[timeframe][metric.key]}
+                    {data[timeframe][metric.key] === null ? (
+                      <span>No data available</span>
+                    ) : (
+                      data[timeframe][metric.key]
+                    )}
                   </div>
                   <div className={styles.metricLabel}>{metric.label}</div>
                 </div>
@@ -110,7 +122,11 @@ export default function AlertMetrics({ data, className, isPWA = false }) {
               <div
                 className={`${styles.metricValue} ${metric.className || ''}`}
               >
-                {data[timeframe][metric.key]}
+                {data[timeframe][metric.key] === null ? (
+                  <span>Not available</span>
+                ) : (
+                  data[timeframe][metric.key]
+                )}
               </div>
               <div className={styles.metricLabel}>{metric.label}</div>
             </div>

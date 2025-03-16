@@ -21,7 +21,19 @@ export default function IncidentTrendsAndBreakdownCard({
   className,
   isPWA = false,
 }) {
-  const [timeframe, setTimeframe] = useState('24 hours');
+  const timeframes = ['24 hours', '7 days', '30 days', '12 months'];
+
+  // Function to find the first timeframe with non-empty data
+  const findFirstValidTimeframe = () => {
+    for (const timeframe of timeframes) {
+      if (data.trends[timeframe] && data.trends[timeframe].length > 0) {
+        return timeframe;
+      }
+    }
+    return timeframes[0]; // Fallback to the first timeframe if none are valid
+  };
+
+  const [timeframe, setTimeframe] = useState(findFirstValidTimeframe());
   const [view, setView] = useState('trends'); // 'trends' or 'breakdown'
 
   const trendsData = useMemo(() => data.trends[timeframe] || [], [timeframe]);
@@ -81,7 +93,17 @@ export default function IncidentTrendsAndBreakdownCard({
       <div className={styles.cardContent}>
         <div className={styles.header}>
           {view === 'trends' ? (
-            <h2>Incident Frequency Over Time</h2>
+            <h2>
+              Incident Frequency for Every{' '}
+              {
+                {
+                  '24 hours': 'Hour',
+                  '7 days': 'Day',
+                  '30 days': 'Day',
+                  '12 months': 'Month',
+                }[timeframe]
+              }
+            </h2>
           ) : (
             <h2>Breaking Down Incidents by Category</h2>
           )}
@@ -100,165 +122,171 @@ export default function IncidentTrendsAndBreakdownCard({
           </div>
         </div>
         <div className={styles.content}>
-          <div className={styles.column}>
-            <div
-              className={`${styles.growthContainer} ${
-                growth.positive ? styles.growth : styles.decline
-              }`}
-            >
-              <span>
-                <ArrowIcon color={growthColor} className={styles.arrow} />
-                <Percentage
-                  number={growth.number}
-                  numberSize={isPWA ? 20 : 22}
-                  symbolSize={isPWA ? 13 : 15}
-                  symbol=''
-                />
-              </span>
-              <p>
-                vs 1{' '}
-                {
-                  {
-                    '24 hours': 'hour',
-                    '7 days': 'day',
-                    '30 days': 'day',
-                    '12 months': 'month',
-                  }[timeframe]
-                }{' '}
-                ago
-              </p>
-            </div>
-            <div className={styles.incidentRate}>
-              <Percentage
-                number={averageIncidents}
-                label='Incident Rate'
-                numberSize={isPWA ? 19 : 20}
-                symbolSize={isPWA ? 12 : 14}
-                symbol={
-                  '/ ' +
-                  {
-                    '24 hours': 'hr',
-                    '7 days': 'day',
-                    '30 days': 'day',
-                    '12 months': 'mon',
-                  }[timeframe]
-                }
-                className={styles.info}
-              />
-            </div>
-            <div className={styles.mostFrequentIncident}>
-              <Percentage
-                number=''
-                label='Top Incident'
-                label2={mostFrequentIncident.name}
-                label2size={isPWA ? 13 : 12}
-                symbol=''
-                className={styles.info}
-              />
-            </div>
-          </div>
-          <ResponsiveContainer
-            width={isPWA ? '110%' : '100%'}
-            height={182}
-            className={styles.chartContainer}
-          >
-            {view === 'trends' ? (
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient
-                    id='colorGradient'
-                    x1='0'
-                    y1='0'
-                    x2='0'
-                    y2='1'
-                  >
-                    <stop
-                      offset='20%'
-                      stopColor='var(--primary)'
-                      stopOpacity={1}
+          {trendsData.length ? (
+            <>
+              <div className={styles.column}>
+                <div
+                  className={`${styles.growthContainer} ${
+                    growth.positive ? styles.growth : styles.decline
+                  }`}
+                >
+                  <span>
+                    <ArrowIcon color={growthColor} className={styles.arrow} />
+                    <Percentage
+                      number={growth.number}
+                      numberSize={isPWA ? 20 : 22}
+                      symbolSize={isPWA ? 13 : 15}
+                      symbol=''
                     />
-                    <stop
-                      offset='100%'
-                      stopColor='var(--primary)'
-                      stopOpacity={0.1}
+                  </span>
+                  <p>
+                    vs 1{' '}
+                    {
+                      {
+                        '24 hours': 'hour',
+                        '7 days': 'day',
+                        '30 days': 'day',
+                        '12 months': 'month',
+                      }[timeframe]
+                    }{' '}
+                    ago
+                  </p>
+                </div>
+                <div className={styles.incidentRate}>
+                  <Percentage
+                    number={averageIncidents}
+                    label='Incident Rate'
+                    numberSize={isPWA ? 19 : 20}
+                    symbolSize={isPWA ? 12 : 14}
+                    symbol={
+                      '/ ' +
+                      {
+                        '24 hours': 'hr',
+                        '7 days': 'day',
+                        '30 days': 'day',
+                        '12 months': 'mon',
+                      }[timeframe]
+                    }
+                    className={styles.info}
+                  />
+                </div>
+                <div className={styles.mostFrequentIncident}>
+                  <Percentage
+                    number=''
+                    label='Top Incident'
+                    label2={mostFrequentIncident.name}
+                    label2size={isPWA ? 13 : 12}
+                    symbol=''
+                    className={styles.info}
+                  />
+                </div>
+              </div>
+              <ResponsiveContainer
+                width={isPWA ? '110%' : '100%'}
+                height={182}
+                className={styles.chartContainer}
+              >
+                {view === 'trends' ? (
+                  <AreaChart data={chartData}>
+                    <defs>
+                      <linearGradient
+                        id='colorGradient'
+                        x1='0'
+                        y1='0'
+                        x2='0'
+                        y2='1'
+                      >
+                        <stop
+                          offset='20%'
+                          stopColor='var(--primary)'
+                          stopOpacity={1}
+                        />
+                        <stop
+                          offset='100%'
+                          stopColor='var(--primary)'
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid
+                      strokeDasharray='3 3'
+                      vertical={true}
+                      horizontal={false}
+                      stroke='var(--neutral)'
                     />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid
-                  strokeDasharray='3 3'
-                  vertical={true}
-                  horizontal={false}
-                  stroke='var(--neutral)'
-                />
-                <XAxis
-                  dataKey='name'
-                  fontSize={11}
-                  fontWeight={600}
-                  tick={{ fill: 'var(--neutral)' }}
-                />
-                <YAxis
-                  fontSize={11}
-                  fontWeight={600}
-                  tick={{ fill: 'var(--neutral)' }}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Area
-                  type='monotone'
-                  dataKey='value'
-                  stroke='none'
-                  fill='url(#colorGradient)'
-                  fillOpacity={1}
-                />
-              </AreaChart>
-            ) : (
-              <BarChart data={chartData} barSize={'7%'}>
-                <defs>
-                  <linearGradient
-                    id='colorGradient'
-                    x1='0'
-                    y1='0'
-                    x2='0'
-                    y2='1'
-                  >
-                    <stop
-                      offset='20%'
-                      stopColor='var(--primary)'
-                      stopOpacity={1}
+                    <XAxis
+                      dataKey='name'
+                      fontSize={11}
+                      fontWeight={600}
+                      tick={{ fill: 'var(--neutral)' }}
                     />
-                    <stop
-                      offset='100%'
-                      stopColor='var(--primary)'
-                      stopOpacity={0.1}
+                    <YAxis
+                      fontSize={11}
+                      fontWeight={600}
+                      tick={{ fill: 'var(--neutral)' }}
                     />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid
-                  strokeDasharray='3 3'
-                  vertical={false}
-                  horizontal={false}
-                  stroke='var(--neutral)'
-                />
-                <XAxis
-                  dataKey='name'
-                  fontSize={11}
-                  fontWeight={600}
-                  tick={{ fill: 'var(--neutral)' }}
-                />
-                <YAxis
-                  fontSize={11}
-                  fontWeight={600}
-                  tick={{ fill: 'var(--neutral)' }}
-                />
-                <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Area
+                      type='monotone'
+                      dataKey='value'
+                      stroke='none'
+                      fill='url(#colorGradient)'
+                      fillOpacity={1}
+                    />
+                  </AreaChart>
+                ) : (
+                  <BarChart data={chartData} barSize={'7%'}>
+                    <defs>
+                      <linearGradient
+                        id='colorGradient'
+                        x1='0'
+                        y1='0'
+                        x2='0'
+                        y2='1'
+                      >
+                        <stop
+                          offset='20%'
+                          stopColor='var(--primary)'
+                          stopOpacity={1}
+                        />
+                        <stop
+                          offset='100%'
+                          stopColor='var(--primary)'
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid
+                      strokeDasharray='3 3'
+                      vertical={false}
+                      horizontal={false}
+                      stroke='var(--neutral)'
+                    />
+                    <XAxis
+                      dataKey='name'
+                      fontSize={11}
+                      fontWeight={600}
+                      tick={{ fill: 'var(--neutral)' }}
+                    />
+                    <YAxis
+                      fontSize={11}
+                      fontWeight={600}
+                      tick={{ fill: 'var(--neutral)' }}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
 
-                <Bar
-                  dataKey='value'
-                  fill='url(#colorGradient)'
-                  radius={[10, 10, 0, 0]}
-                />
-              </BarChart>
-            )}
-          </ResponsiveContainer>
+                    <Bar
+                      dataKey='value'
+                      fill='url(#colorGradient)'
+                      radius={[10, 10, 0, 0]}
+                    />
+                  </BarChart>
+                )}
+              </ResponsiveContainer>
+            </>
+          ) : (
+            <p className={styles.noData}>No data available.</p>
+          )}
         </div>
       </div>
     </div>
