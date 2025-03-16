@@ -17,7 +17,7 @@ const CustomTooltip = ({ active, payload, label, ...props }) => {
       }}
     >
       <p>{label}</p>
-      <p>{payload[0].value}</p>
+      <p>{payload[0]?.value}</p>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Timestamp from '../Timestamp';
 import styles from './RecentIncidents.module.css';
 import Slider from 'react-slick';
@@ -32,7 +32,9 @@ export default function RecentIncidents({ data, className, isPWA = false }) {
     >
       <h2>Recent Incidents</h2>
       <div className={styles.incidents}>
-        {isPWA ? (
+        {data.length === 0 ? (
+          <p className={styles.errorMessage}>No recent incidents to display.</p>
+        ) : isPWA ? (
           // Render as a carousel for PWA
           <Slider {...carouselSettings}>
             {data.map((incident, index) => {
@@ -41,9 +43,8 @@ export default function RecentIncidents({ data, className, isPWA = false }) {
               );
 
               return (
-                <div className={styles.incidentContainer}>
+                <div key={index} className={styles.incidentContainer}>
                   <div
-                    key={index}
                     className={`${styles.incident} ${incident.severity === 'High' ? styles.critical : ''}`}
                   >
                     <Timestamp
@@ -52,7 +53,6 @@ export default function RecentIncidents({ data, className, isPWA = false }) {
                       date={dateFormatted}
                       isPWA={isPWA}
                     />
-                    {!isPWA && <span className={styles.bullet}></span>}
                     <div className={styles.desc}>
                       <p className={styles.name}>
                         {incidentCategoryToNameMap[incident.category]}

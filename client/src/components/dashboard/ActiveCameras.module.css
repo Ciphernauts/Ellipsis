@@ -17,6 +17,27 @@
   justify-content: center;
 }
 
+@media (max-width: 1224px) {
+  .card {
+    padding: 4px 5px 11px 5px;
+  }
+}
+
+@media (max-width: 1201px) {
+  .card {
+    width: 100%;
+    height: 100%;
+    padding: 15px 10px 15px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .card h2 {
+    text-align: center;
+  }
+}
+
 /* -------------------- APP STYLES --------------------  */
 
 .mobile {

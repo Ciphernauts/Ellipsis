@@ -29,7 +29,7 @@
 
 .titleCard div div .percentage {
   position: absolute;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .titleCard div p {
@@ -100,3 +100,17 @@
   text-align: center;
   line-height: 1.3;
 }
+
+/* @media (max-width: 1175px) {
+  .card {
+    padding: 23px 5px 23px 14px;
+  }
+
+  .titleCard {
+    padding: 16px 10px;
+  }
+
+  .titleCard h2 {
+    font-size: 18px;
+  }
+} */
