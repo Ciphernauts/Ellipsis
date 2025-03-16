@@ -24,6 +24,32 @@ main {
   gap: 15px;
 }
 
+@media (max-width: 1201px) {
+  .row.secondRow {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .column {
+    width: 100%;
+    max-width: none;
+    height: 200px;
+    flex-direction: row;
+  }
+
+  .column .row {
+    width: 100px;
+    height: auto;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 18px;
+  }
+
+  .column .row .card {
+    width: 100%;
+  }
+}
+
 /* -------------------- APP STYLES --------------------  */
 
 .mobile main {

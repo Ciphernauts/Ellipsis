@@ -44,6 +44,18 @@
   margin-top: 4px;
 }
 
+@media (max-width: 1217px) {
+  .card {
+    padding: 15px 19px 30px 19px;
+  }
+}
+
+@media (max-width: 1201px) {
+  .card {
+    padding: 15px 19px 60px 19px;
+  }
+}
+
 /* -------------------- APP STYLES --------------------  */
 
 .mobile.card {
