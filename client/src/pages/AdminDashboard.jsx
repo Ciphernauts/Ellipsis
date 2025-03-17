@@ -4,14 +4,16 @@ import axios from 'axios';
 import { capitalizeFirstLetter } from '../utils/helpers';
 
 export default function AdminDashboard() {
-  const [data, setData] = useState({ users: [] });
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [data, setData] = useState({ users: [], stats: {} });
+  const [loading, setLoading] = useState(true);
 
   const placeholderData = {
-    totalUsers: 5,
-    totalConstructionSites: 9,
-    activeCameras: 3,
-    avgIncidentResolutionTime: 2,
+    stats: {
+      totalusers: 5,
+      activeconstructionsites: 9,
+      activecameras: 3,
+      avgincidentresolutiontime: 2,
+    },
     users: [
       {
         id: 1,
@@ -30,27 +32,51 @@ export default function AdminDashboard() {
     ],
   };
 
-  // Fetch data from the API
-  const fetchData = async () => {
+  // Fetch user data from the API
+  const fetchUserData = async () => {
     try {
-      const response = await axios.get('/api/admin-dashboard'); // Replace with your API endpoint
+      const response = await axios.get('http://localhost:3000/api/users');
       if (response.data) {
-        setData(response.data); // Set data from the API response
+        setData((prevData) => ({ ...prevData, users: response.data }));
+        console.log('user data:', response.data);
       } else {
         throw new Error('No data returned from API');
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
-      setData(placeholderData); // Fallback to placeholder data if there's an error
+      console.error('Error fetching user data:', error);
+      setData((prevData) => ({ ...prevData, users: placeholderData.users }));
     } finally {
-      setLoading(false); // Set loading to false after fetching (success or error)
+      setLoading(false);
+    }
+  };
+
+  // Fetch stats from the API
+  const fetchStats = async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:3000/api/admin-dashboard'
+      );
+      if (response.data) {
+        setData((prevData) => ({ ...prevData, stats: response.data }));
+        console.log('stats data:', response.data);
+      } else {
+        throw new Error('No data returned from API');
+      }
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+      setData((prevData) => ({ ...prevData, stats: placeholderData.stats }));
+    } finally {
+      setLoading(false);
     }
   };
 
   // Fetch data when the component mounts
   useEffect(() => {
-    fetchData();
+    fetchUserData();
+    fetchStats();
   }, []);
+
+  console.log('data:', data);
 
   // Loading state
   if (loading) {
@@ -90,7 +116,7 @@ export default function AdminDashboard() {
               </svg>
             </div>
             <div className={styles.desc}>
-              <span className={styles.value}>{data.totalUsers}</span>
+              <span className={styles.value}>{data?.stats?.totalusers}</span>
               <span className={styles.label}>Total Users</span>
             </div>
           </div>
@@ -104,8 +130,8 @@ export default function AdminDashboard() {
                 fill='none'
               >
                 <path
-                  fill-rule='evenodd'
-                  clip-rule='evenodd'
+                  fillRule='evenodd'
+                  clipRule='evenodd'
                   d='M33.9167 22.4412C33.9167 22.7173 33.6928 22.9412 33.4167 22.9412H26.7083C26.4322 22.9412 26.2083 22.7173 26.2083 22.4412V18.8529C26.2083 18.5768 26.4322 18.3529 26.7083 18.3529H33.4167C33.6928 18.3529 33.9167 18.5768 33.9167 18.8529V22.4412ZM34.4167 15.2941C34.1405 15.2941 33.9167 15.0703 33.9167 14.7941V8.14706C33.9167 7.87092 33.6928 7.64706 33.4167 7.64706H26.7083C26.4322 7.64706 26.2083 7.4232 26.2083 7.14706V0.5C26.2083 0.223857 25.9845 0 25.7083 0H15.4167H12.3333H3.58333C3.30719 0 3.08333 0.223858 3.08333 0.5V7.14706C3.08333 7.4232 2.85948 7.64706 2.58333 7.64706H0.5C0.223857 7.64706 0 7.87092 0 8.14706V17.8529C0 18.1291 0.223858 18.3529 0.5 18.3529H2.58333C2.85948 18.3529 3.08333 18.5768 3.08333 18.8529V25.5C3.08333 25.7761 3.30719 26 3.58333 26H12.3333H15.4167H23.125H26.2083H36.5C36.7761 26 37 25.7761 37 25.5V15.7941C37 15.518 36.7761 15.2941 36.5 15.2941H34.4167ZM30.3333 15.2941C30.6095 15.2941 30.8333 15.0703 30.8333 14.7941V11.2059C30.8333 10.9297 30.6095 10.7059 30.3333 10.7059H26.2083H23.625C23.3489 10.7059 23.125 10.9297 23.125 11.2059V14.7941C23.125 15.0703 23.3489 15.2941 23.625 15.2941H26.2083H30.3333ZM23.125 18.8529C23.125 18.5768 22.9011 18.3529 22.625 18.3529H20.0417H15.9167C15.6405 18.3529 15.4167 18.5768 15.4167 18.8529V22.4412C15.4167 22.7173 15.6405 22.9412 15.9167 22.9412H22.625C22.9011 22.9412 23.125 22.7173 23.125 22.4412V18.8529ZM19.5417 10.7059C19.8178 10.7059 20.0417 10.9297 20.0417 11.2059V14.7941C20.0417 15.0703 19.8178 15.2941 19.5417 15.2941H12.8333C12.5572 15.2941 12.3333 15.0703 12.3333 14.7941V11.2059C12.3333 10.9297 12.5572 10.7059 12.8333 10.7059H15.4167H19.5417ZM11.8333 18.3529C12.1095 18.3529 12.3333 18.5768 12.3333 18.8529V22.4412C12.3333 22.7173 12.1095 22.9412 11.8333 22.9412H6.66667C6.39052 22.9412 6.16667 22.7173 6.16667 22.4412V18.8529C6.16667 18.5768 6.39052 18.3529 6.66667 18.3529H11.8333ZM23.125 3.55882C23.125 3.28268 22.9011 3.05882 22.625 3.05882H15.9167C15.6405 3.05882 15.4167 3.28268 15.4167 3.55882V7.14706C15.4167 7.4232 15.6405 7.64706 15.9167 7.64706H22.625C22.9011 7.64706 23.125 7.4232 23.125 7.14706V3.55882ZM3.58333 10.7059C3.30719 10.7059 3.08333 10.9297 3.08333 11.2059V14.7941C3.08333 15.0703 3.30719 15.2941 3.58333 15.2941H8.75C9.02614 15.2941 9.25 15.0703 9.25 14.7941V11.2059C9.25 10.9297 9.02614 10.7059 8.75 10.7059H3.58333ZM6.16667 7.14706C6.16667 7.4232 6.39052 7.64706 6.66667 7.64706H11.8333C12.1095 7.64706 12.3333 7.4232 12.3333 7.14706V3.55882C12.3333 3.28268 12.1095 3.05882 11.8333 3.05882H6.66667C6.39052 3.05882 6.16667 3.28268 6.16667 3.55882V7.14706Z'
                   fill='var(--light)'
                 />
@@ -113,7 +139,7 @@ export default function AdminDashboard() {
             </div>
             <div className={styles.desc}>
               <span className={styles.value}>
-                {data.totalConstructionSites}
+                {data?.stats?.activeconstructionsites}
               </span>
               <span className={styles.label}>Active Sites</span>
             </div>
@@ -134,7 +160,7 @@ export default function AdminDashboard() {
               </svg>
             </div>
             <div className={styles.desc}>
-              <span className={styles.value}>{data.activeCameras}</span>
+              <span className={styles.value}>{data?.stats?.activecameras}</span>
               <span className={styles.label}>Active Cameras</span>
             </div>
           </div>
@@ -155,7 +181,7 @@ export default function AdminDashboard() {
             </div>
             <div className={styles.desc}>
               <span className={styles.value}>
-                {data.avgIncidentResolutionTime}
+                {data?.stats?.avgincidentresolutiontime}
               </span>
               <span className={styles.label}>Avg Incident Resolution Time</span>
             </div>
@@ -176,24 +202,36 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody className={styles.tableBody}>
-              {data.users.map((user) => (
-                <tr key={user.id} className={styles.tableRow}>
-                  <td>{user.id}</td>
-                  <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{capitalizeFirstLetter(user.role)}</td>
-                  <td>
-                    <div className={styles.timeValues}>
-                      <span>
-                        {new Date(user.lastLogin).toLocaleDateString()}
-                      </span>
-                      <span>
-                        {new Date(user.lastLogin).toLocaleTimeString()}
-                      </span>
-                    </div>
-                  </td>
+              {data?.users?.length > 0 ? (
+                data?.users?.map((user) => (
+                  <tr key={user.uid} className={styles.tableRow}>
+                    <td>{user.uid}</td>
+                    <td>{user.username}</td>
+                    <td>{user.uemail}</td>
+                    <td>{capitalizeFirstLetter(user.role)}</td>
+                    <td>
+                      <div className={styles.timeValues}>
+                        {user.lastLogin ? (
+                          <>
+                            <span>
+                              {new Date(user.lastLogin).toLocaleDateString()}
+                            </span>
+                            <span>
+                              {new Date(user.lastLogin).toLocaleTimeString()}
+                            </span>
+                          </>
+                        ) : (
+                          <span>Never</span>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className={styles.tableRow}>
+                  <td colSpan='5'>No users found</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
