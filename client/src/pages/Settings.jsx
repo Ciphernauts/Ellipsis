@@ -89,16 +89,18 @@ const Settings = ({ isPWA = false }) => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      setUpdatedProfile({
-        username: user.username,
-        email: user.email,
-        password: '',
-        confirmPassword: '',
-        profilePicture: user.profilePicture || UserDefaultImage,
-      });
+    console.log("Settings useEffect triggered, user:", user);
+    if (user && (user.username !== updatedProfile.username || user.email !== updatedProfile.email)) {
+        console.log("User data found, setting updatedProfile:", user);
+        setUpdatedProfile({
+            username: user.username,
+            email: user.uemail,
+            password: '',
+            confirmPassword: '',
+            profilePicture: user.profilePicture || UserDefaultImage,
+        });
     }
-  }, [user]);
+}, [user]);
 
   useEffect(() => {
     if (settings) {
@@ -150,101 +152,106 @@ const Settings = ({ isPWA = false }) => {
     setErrorMessage(''); // Clear any previous error messages
 
     try {
-      // Validation checks for each tab
-      if (activeTab === 'profile') {
-        if (updatedProfile.password !== updatedProfile.confirmPassword) {
-          setErrorMessage('Passwords do not match.');
-          return;
+        // Validation checks for each tab
+        if (activeTab === 'profile') {
+            if (updatedProfile.password !== updatedProfile.confirmPassword) {
+                setErrorMessage('Passwords do not match.');
+                return;
+            }
+
+            if (updatedProfile.email && !updatedProfile.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                setErrorMessage('Please enter a valid email address.');
+                return;
+            }
+
+            if (
+                updatedProfile.password &&
+                !updatedProfile.password.match(
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+                )
+            ) {
+                setErrorMessage(
+                    'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+                );
+                return;
+            }
+
+            // Check if any profile data has changed before saving
+            const hasProfileChanged = Object.keys(updatedProfile).some(
+                (key) =>
+                    updatedProfile[key] !== user[key] &&
+                    // Exclude 'confirmPassword' from change check
+                    key !== 'confirmPassword'
+            );
+
+            if (!hasProfileChanged) {
+                setErrorMessage('No changes have been made to your profile.');
+                return;
+            }
+
+            const updatedProfileData = {
+                username: editableFields.username ? updatedProfile.username : undefined,
+                email: editableFields.email ? updatedProfile.email : undefined,
+                password: editableFields.password ? updatedProfile.password : undefined,
+                profilePicture: updatedProfile.profilePicture,
+            };
+
+            const response = await updateUserInfo(updatedProfileData);
+
+            if (response?.success) {
+                alert(response.message || 'Settings saved successfully!');
+                await fetchProfile(); // Fetch the updated profile
+                await fetchSettings(); // Fetch the updated settings
+                setEditableFields({ username: false, email: false, password: false }); // Disable edit mode
+            } else {
+                setErrorMessage(response?.message || 'Failed to update profile.');
+            }
+        } else if (activeTab === 'system') {
+            // Check if any system settings have changed before saving
+            const hasSystemChanged = Object.keys(updatedSystem).some(
+                (key) => updatedSystem[key] !== settings[key]
+            );
+
+            if (!hasSystemChanged) {
+                setErrorMessage('No changes have been made to system settings.');
+                return;
+            }
+
+            const response = await updateSettings(updatedSystem);
+
+            if (response?.success) {
+                alert(response.message || 'Settings saved successfully!');
+                await fetchProfile(); // Fetch the updated profile
+                await fetchSettings(); // Fetch the updated settings
+            } else {
+                setErrorMessage(response?.message || 'Failed to update system settings.');
+            }
+        } else if (activeTab === 'notifications') {
+            // Check if any notification settings have changed before saving
+            const hasNotificationsChanged = Object.keys(updatedNotifications).some(
+                (key) => updatedNotifications[key] !== settings[key]
+            );
+
+            if (!hasNotificationsChanged) {
+                setErrorMessage('No changes have been made to notification settings.');
+                return;
+            }
+
+            const response = await updateSettings(updatedNotifications);
+
+            if (response?.success) {
+                alert(response.message || 'Settings saved successfully!');
+                await fetchProfile(); // Fetch the updated profile
+                await fetchSettings(); // Fetch the updated settings
+            } else {
+                setErrorMessage(response?.message || 'Failed to update notification settings.');
+            }
         }
-
-        if (!updatedProfile.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-          setErrorMessage('Please enter a valid email address.');
-          return;
-        }
-
-        if (
-          updatedProfile.password &&
-          !updatedProfile.password.match(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-          )
-        ) {
-          setErrorMessage(
-            'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
-          );
-          return;
-        }
-
-        // Check if any profile data has changed before saving
-        const hasProfileChanged = Object.keys(updatedProfile).some(
-          (key) =>
-            updatedProfile[key] !== user[key] &&
-            // Exclude 'confirmPassword' from change check
-            key !== 'confirmPassword'
-        );
-
-        if (!hasProfileChanged) {
-          setErrorMessage('No changes have been made to your profile.');
-          return;
-        }
-      } else if (activeTab === 'system') {
-        // Check if any system settings have changed before saving
-        const hasSystemChanged = Object.keys(updatedSystem).some(
-          (key) => updatedSystem[key] !== settings[key]
-        );
-
-        if (!hasSystemChanged) {
-          setErrorMessage('No changes have been made to system settings.');
-          return;
-        }
-      } else if (activeTab === 'notifications') {
-        // Check if any notification settings have changed before saving
-        const hasNotificationsChanged = Object.keys(updatedNotifications).some(
-          (key) => updatedNotifications[key] !== settings[key]
-        );
-
-        if (!hasNotificationsChanged) {
-          setErrorMessage(
-            'No changes have been made to notification settings.'
-          );
-          return;
-        }
-      }
-
-      let response;
-      if (activeTab === 'profile') {
-        const updatedProfileData = {
-          username: editableFields.username
-            ? updatedProfile.username
-            : undefined,
-          email: editableFields.email ? updatedProfile.email : undefined,
-          password: editableFields.password
-            ? updatedProfile.password
-            : undefined,
-          profilePicture: updatedProfile.profilePicture,
-        };
-        response = await updateUserInfo(updatedProfileData);
-      } else if (activeTab === 'system') {
-        response = await updateSettings(updatedSystem);
-      } else if (activeTab === 'notifications') {
-        response = await updateSettings(updatedNotifications);
-      }
-
-      if (response?.success) {
-        alert(response.message || 'Settings saved successfully!');
-        fetchProfile();
-        fetchSettings();
-      } else {
-        setErrorMessage(
-          response?.message || `Failed to save ${activeTab} settings.`
-        );
-      }
     } catch (error) {
-      console.error('Error saving settings:', error);
-      setErrorMessage(
-        'An error occurred while saving settings. Please try again.'
-      );
+        console.error('Error saving settings:', error);
+        setErrorMessage('An error occurred while saving settings. Please try again.');
     }
-  };
+};
 
   const handleCancel = () => {
     setEditableFields({ username: false, email: false, password: false });
