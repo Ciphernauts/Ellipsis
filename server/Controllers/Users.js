@@ -119,7 +119,46 @@ const updateUser = (req, res) => {
         });
     });
     
-}
+};
+
+const updateUserProfile = async (req, res) => {
+    const uid = parseInt(req.params.uid);
+    const { username, email, password } = req.body;
+
+    console.log('Updating user profile for uid:', uid);
+    console.log('Request body:', req.body);
+
+
+    try {
+        // Check if email is being updated and if it already exists
+        if (email) {
+            const emailCheckResult = await pool.query(queries.checkEmailExists, [email]);
+            if (emailCheckResult.rows.length > 0 && emailCheckResult.rows[0].uid !== uid) {
+                return res.status(400).json({ message: "Email already exists" });
+            }
+        }
+
+        let hashedPassword = null;
+        if (password) {
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
+
+        pool.query(
+            queries.updateUserProfile,
+            [username, email, hashedPassword, uid],
+            (error, results) => {
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({ message: 'Error updating user profile' });
+                }
+                res.status(200).json({ message: 'Profile updated successfully!' });
+            }
+        );
+    } catch (error) {
+        console.error('Error in updateUserProfile:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 
 /*
 const loginUser = (req, res) => {
@@ -219,7 +258,7 @@ module.exports = {
     getUserById,
     addUser,
     removeUser,
-    updateUser,
+    updateUserProfile,
     loginUser,
     registerUser
 };
