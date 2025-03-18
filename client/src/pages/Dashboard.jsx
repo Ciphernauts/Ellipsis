@@ -17,7 +17,7 @@ export default function Dashboard({ isPWA = false }) {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/dashboard');
+        const response = await axios.get('https://ellipsis-1.onrender.com/api/dashboard');
         if (response.data) {
           setData(response.data);
         } else {

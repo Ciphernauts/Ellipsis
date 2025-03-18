@@ -35,7 +35,7 @@ export default function AdminDashboard() {
   // Fetch user data from the API
   const fetchUserData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/users');
+      const response = await axios.get('https://ellipsis-1.onrender.com/api/users');
       if (response.data) {
         setData((prevData) => ({ ...prevData, users: response.data }));
         console.log('user data:', response.data);
@@ -54,7 +54,7 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/api/admin-dashboard'
+        'https://ellipsis-1.onrender.com/api/admin-dashboard'
       );
       if (response.data) {
         setData((prevData) => ({ ...prevData, stats: response.data }));

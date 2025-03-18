@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 // Create the AppContext
@@ -12,6 +12,8 @@ export function AppProvider({ children }) {
   // User state
   const [user, setUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const previousUser = useRef(null);
+
 
   // Mode state
   const [mode, setMode] = useState('General');
@@ -46,12 +48,16 @@ export function AppProvider({ children }) {
   // Fetch user profile from the server
   const fetchProfile = async () => {
     try {
-      // Try to fetch user data from the API
-      const response = await axios.get('http://localhost:3000/api/users', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      const response = await axios.get('https://ellipsis-yxv0.onrender.com/api/users', {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      setUser(response.data); // Set the user data from the API response
-      return response; // Return the API response
+      console.log("fetchProfile API response:", response);
+      if (previousUser.current !== JSON.stringify(response.data[0])) { // Compare the first element
+          setUser(response.data[0]); // Set user to the first element
+          previousUser.current = JSON.stringify(response.data[0]); // Update ref
+          console.log("User data set in AppContext (API):", response.data[0]);
+      }
+      return response;
     } catch (error) {
       console.error('Failed to fetch profile from API:', error);
 
@@ -71,19 +77,21 @@ export function AppProvider({ children }) {
   };
 
   // Login function
-  const login = async (credentials) => {
+  const login = async (email, password) => {
     try {
-      const response = await axios.post(
-        'http://localhost:3000/api/users/login',
-        credentials
-      );
-      localStorage.setItem('token', response.data.token);
-      setUser(response.data.user);
+        const response = await axios.post(
+            'https://ellipsis-1.onrender.com/api/users/login',
+            { email, password }
+        );
+        localStorage.setItem('token', response.data.token);
+        setUser(response.data.user); // Store user data from the response
+        console.log("User data in AppContext:", response.data.user); // Added console log
+        return response.data;
     } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
+        console.error('Login failed:', error);
+        throw error;
     }
-  };
+};
 
   // Logout function
   const logout = () => {
@@ -92,36 +100,48 @@ export function AppProvider({ children }) {
   };
 
   // Update user profile (username, email, password, profile picture)
-  const updateUserInfo = async (updates) => {
+  const updateUserInfo = async (updatedData) => {
     try {
-      const response = await axios.put(
-        'http://localhost:3000/api/users/update-profile',
-        updates,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        }
-      );
+        const response = await axios.put(
+            `https://ellipsis-1.onrender.com/api/users/${user.uid}`,
+            updatedData,
+            {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }
+        );
 
-      if (response.status === 200) {
-        setUser((prevUser) => ({ ...prevUser, ...updates })); // Merge changes into user state
-        return { success: true, message: 'Profile updated successfully!' };
-      } else {
-        return { success: false, message: 'Failed to update profile.' };
-      }
+        console.log('Update User Info Response:', response); // Log the entire response
+
+        if (response.data.message) {
+            // If the update was successful, update the user context
+            if (response.status === 200) {
+                if (updatedData.username) {
+                    setUser((prevUser) => ({ ...prevUser, username: updatedData.username }));
+                    console.log('Username updated in context:', updatedData.username);
+                }
+                if (updatedData.email) {
+                    setUser((prevUser) => ({ ...prevUser, uemail: updatedData.email }));
+                    console.log('Email updated in context:', updatedData.email);
+                }
+            }
+            return { success: true, message: response.data.message };
+        } else {
+            return { success: false, message: 'Failed to update user info.' };
+        }
     } catch (error) {
-      console.error('Error updating profile:', error);
-      return {
-        success: false,
-        message: error.response?.data?.message || 'Error updating profile',
-      };
+        console.error('Failed to update user info:', error);
+        return {
+            success: false,
+            message: error.response?.data?.message || 'An error occurred while updating user info.',
+        };
     }
-  };
+};
 
   // Delete user account
   const deleteUserAccount = async () => {
     try {
       const response = await axios.delete(
-        'http://localhost:3000/api/users/delete-account',
+        'https://ellipsis-1.onrender.com/api/users/delete-account',
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
@@ -175,7 +195,7 @@ export function AppProvider({ children }) {
   const updateMode = async (newMode) => {
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/update-mode',
+        'https://ellipsis-1.onrender.com/api/update-mode',
         {
           mode: newMode,
         }
@@ -234,7 +254,7 @@ export function AppProvider({ children }) {
   const updateSettings = async (newSettings) => {
     try {
       const response = await axios.put(
-        'http://localhost:3000/api/users/settings',
+        'https://ellipsis-1.onrender.com/api/users/settings',
         newSettings,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

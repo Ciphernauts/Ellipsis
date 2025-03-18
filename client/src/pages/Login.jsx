@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useApp } from '../context/AppContext';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './LoginRegister.module.css';
 import Button from '../components/Button';
@@ -12,6 +13,7 @@ import axios from 'axios';
 import logo from '../assets/Icon_black_png.png';
 
 function Login({ isPWA = false }) {
+  const { login } = useApp();
   const navigate = useNavigate();
   const {
     register,
@@ -29,16 +31,20 @@ function Login({ isPWA = false }) {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post('http://localhost:3000/api/users/login', {
-        email: data.email,
-        password: data.password,
-      });
+        console.log("Form data:", data);
+        const response = await login(data.email, data.password);
+        console.log("Login response:", response);
 
-      navigate('/dashboard');
+        if (response && response.message === 'Login successful') {
+            navigate('/dashboard');
+        } else {
+            setApiError(response?.message || 'Login failed');
+        }
     } catch (error) {
-      setApiError('Login failed: ' + error.response.data.message);
+        console.error("Login Error:", error);
+        setApiError(error.response?.data?.message || 'Login failed');
     }
-  };
+};
 
   return (
     <div className={`${styles.registerPage} ${isPWA ? styles.mobile : ''}`}>

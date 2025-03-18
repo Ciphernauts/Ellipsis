@@ -125,7 +125,7 @@ export default function Cameras({ isPWA = false }) {
     try {
       setLoading(true);
       const response = await axios.get(
-        'http://localhost:3000/api/paired-cameras'
+        'https://ellipsis-1.onrender.com/api/paired-cameras'
       );
 
       // Sorting logic: Online first, then alphabetical order
@@ -164,7 +164,7 @@ export default function Cameras({ isPWA = false }) {
     setDevicesLoading(true);
     try {
       const response = await axios.get(
-        'http://localhost:3000/api/available-devices'
+        'https://ellipsis-1.onrender.com/api/available-devices'
       );
       setAvailableDevices(response.data);
     } catch (error) {
@@ -203,7 +203,7 @@ export default function Cameras({ isPWA = false }) {
   // Function to handle connecting a camera
   const handleConnectCamera = async (camera_id) => {
     try {
-      await axios.post(`http://localhost:3000/api/connect-camera/${camera_id}`);
+      await axios.post(`https://ellipsis-1.onrender.com/api/connect-camera/${camera_id}`);
       setData((prevData) =>
         prevData.map((device) =>
           device.camera_id === camera_id
@@ -219,7 +219,7 @@ export default function Cameras({ isPWA = false }) {
   // Function to handle pairing an available device
   const handlePairDevice = async (camera_id) => {
     try {
-      await axios.post(`http://localhost:3000/api/pair-device/${camera_id}`);
+      await axios.post(`https://ellipsis-1.onrender.com/api/pair-device/${camera_id}`);
       const pairedDevice = availableDevices.find(
         (device) => device.camera_id === camera_id
       );
@@ -246,7 +246,7 @@ export default function Cameras({ isPWA = false }) {
   const handleDeleteDevice = async (camera_id) => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/delete-camera/${camera_id}`
+        `https://ellipsis-1.onrender.com/api/delete-camera/${camera_id}`
       );
       setData((prevData) =>
         prevData.filter((device) => device.camera_id !== camera_id)

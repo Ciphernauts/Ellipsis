@@ -1,15 +1,20 @@
 # Ellipsis
 
+
+![Ellipsis Logo](https://i.postimg.cc/mZ9y1TqR/Screenshot-2025-03-18-211910.png)
+
+**DETECT. PREVENT. PROTECT.**
+
+
 A real-time safety compliance monitoring system designed to detect and address construction site hazards using computer vision developed by The Ciphernauts. The system features a website and mobile app, both equipped with dashboards, for real-time monitoring and reporting.
 
-### YOLOv11x Object Detection Classes By Phase:
+
+## YOLOv11x Object Detection Classes By Phase:
 
 - **Phase 1 (PPE Detection)**: Person, Helmet, No Helmet, Vest, No Vest, Glove, No Glove, Shoe, No Shoe
-- **Phase 2 (Fall Protection Monitoring)**: Person, Harness, No Harness, Guardrail, Good Scaffolding, Damaged Scaffolding
+- **Phase 2 (Fall Protection Monitoring)**: Person, Helmet, No Helmet, Harness, No Harness, Scaffolding, Guardrail
 
 More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#performance-metrics 
-
-**Note**: This repository currently focuses exclusively on the website and mobile app components of the project. Computer vision/object detection is being run on Google Colab. 
 
 ## Tech Stack
 
@@ -24,7 +29,7 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
 ### Clone
 
    ```bash
-   git clone https://github.com/Mariah0-0/Ellipsis.git
+   git clone https://github.com/Ciphernauts/Ellipsis.git
    cd Ellipsis
    ```
 
@@ -44,6 +49,13 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
    npm install
    ```
 
+3. **Computer Vision**
+
+   ```bash
+   cd computer_vision
+   pip install -r requirements.txt
+   ```
+
 ### Run
 
 1. **Frontend**
@@ -59,3 +71,47 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
    cd server
    npm run dev
    ```
+
+3. **Computer Vision**
+
+   - **Phase 1**
+
+   ```bash
+   cd computer_vision
+   python Phase_1_PPE_Detection.py
+   ```
+
+   - **Phase 2**
+
+   ```bash
+   cd computer_vision
+   python Phase_2_Fall_Monitoring.py
+   ```
+
+## The Team
+
+- Aryan Malhotra  \
+**LinkedIn**: https://www.linkedin.com/in/aryan-malhotra-a64008279  \
+**GitHub**: https://github.com/Aryan-M-10  \
+**Email**: am407@uowmail.edu.au  
+
+- Hadiyya Mattumathodi  \
+**LinkedIn**: https://www.linkedin.com/in/hadiyya-s-mattummathodi-b345831a9  \
+**GitHub**: https://github.com/HadiyyaMattummathodi  \
+**Email**: hsshh999@uowmail.edu.au
+
+- Laxmi Biju  \
+**LinkedIn**: https://www.linkedin.com/in/laxmi-b-iu732/  \
+**GitHub**: https://github.com/Lemoneybaee  \
+**Email**: lb898@uowmail.edu.au
+
+- Mariah Khalifa  \
+**LinkedIn**: https://www.linkedin.com/in/mariah-khalifa  \
+**GitHub**: https://github.com/Mariah0-0  \
+**Email**: mak873@uowmail.edu.au
+
+- Nuraiman Hisham  \
+**LinkedIn**: https://www.linkedin.com/in/nuraiman-hisham-266022253  \
+**GitHub**: https://github.com/nuramnz  \
+**Email**: nbmh634@uowmail.edu.au 
+
