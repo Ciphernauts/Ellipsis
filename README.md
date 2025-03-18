@@ -49,6 +49,13 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
    npm install
    ```
 
+3. **Computer Vision**
+
+   ```bash
+   cd computer_vision
+   pip install -r requirements.txt
+   ```
+
 ### Run
 
 1. **Frontend**
