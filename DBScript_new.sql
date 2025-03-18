@@ -8,6 +8,17 @@
 -- Section 1: Table Creation
 -- ----------------------------------------------------------------------
 
+-- Create the 'users' table
+CREATE TABLE USERS (
+    Uid SERIAL PRIMARY KEY,                   
+    Username VARCHAR(50) UNIQUE NOT NULL,  
+    Uemail VARCHAR(100) UNIQUE NOT NULL,       
+    password TEXT NOT NULL,                   
+    role VARCHAR(20) CHECK (role IN ('admin', 'standard')) NOT NULL, 
+    last_signin TIMESTAMP DEFAULT NULL  
+);
+
+
 -- Create Phase 1 PPE Detection Table
 CREATE TABLE IF NOT EXISTS phase_1_detections (
     frameID SERIAL PRIMARY KEY,  -- Primary key for Phase 1
