@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS sessions (
     camera_id INT,
     mode session_mode NOT NULL,
     start_time TIMESTAMP NOT NULL,
-    end_time TIMESTAMP NOT NULL,
-    safety_score DECIMAL(5,2) NOT NULL,
-    FOREIGN KEY (site_id) REFERENCES construction_sites(site_id) ON DELETE CASCADE,
+    end_time TIMESTAMP,
+    safety_score DECIMAL(5,2),
+    FOREIGN KEY (site_id) REFERENCES construction_sites(site_id) ON DELETE SET NULL,
     FOREIGN KEY (camera_id) REFERENCES cameras(camera_id) ON DELETE SET NULL
 );
 
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS snapshots (
     session_id VARCHAR(10),
     image_url VARCHAR(255) NOT NULL,
     "timestamp" TIMESTAMP NOT NULL,
-    FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
+    FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE SET NULL
 );
 
 -- Create the 'records' table to store calculated scores
@@ -896,3 +896,328 @@ INSERT INTO incidents (session_id, recordID, incident_time, severity, status, ca
     ('S0031', 32, '2025-03-04 15:00:00', 'Critical', 'Resolved', 'Vest'),
     ('S0032', 33, '2025-03-05 10:00:00', 'Moderate', 'Open', 'Shoes'),
     ('S0032', 34, '2025-03-05 14:00:00', 'Critical', 'Resolved', 'Harness');
+
+
+-- ----------------------------------------------------------------------
+-- Section 3: Triggers and Automation
+-- ----------------------------------------------------------------------
+
+-- Function to calculate average scores for a specific record
+CREATE OR REPLACE FUNCTION average_scores(record_id INT)
+RETURNS DECIMAL(5, 2) AS $$
+DECLARE
+    avg_safety_score DECIMAL(5, 2);
+BEGIN
+    -- Calculate the average of the scores for the given record_id, ignoring NULLs
+    SELECT AVG(score) INTO avg_safety_score
+    FROM (
+        SELECT helmet_score AS score FROM records WHERE recordID = record_id
+        UNION ALL
+        SELECT footwear_score FROM records WHERE recordID = record_id
+        UNION ALL
+        SELECT vest_score FROM records WHERE recordID = record_id
+        UNION ALL
+        SELECT gloves_score FROM records WHERE recordID = record_id
+        UNION ALL
+        SELECT harness_score FROM records WHERE recordID = record_id
+        UNION ALL
+        SELECT scaffolding_score FROM records WHERE recordID = record_id
+        UNION ALL
+        SELECT guardrail_score FROM records WHERE recordID = record_id
+    ) AS scores
+    WHERE score IS NOT NULL;  -- Filter out NULL scores
+
+    -- If no valid scores were found, return 0 instead of NULL
+    IF avg_safety_score IS NULL THEN
+        RETURN 0;  -- Or you can choose to return a different default value
+    END IF;
+
+    RETURN avg_safety_score;  -- Return the calculated average
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to calculate individual scores
+CREATE OR REPLACE FUNCTION calculate_score(
+    item_count INTEGER,
+    no_item_count INTEGER,
+    person_count INTEGER
+) RETURNS DECIMAL(5, 2) AS $$
+DECLARE
+    score DECIMAL(5, 2);
+    valid_scores DECIMAL(5, 2)[] := ARRAY[]::DECIMAL(5, 2)[];  -- Array to hold valid scores
+BEGIN
+    -- Calculate the first score
+    IF item_count + no_item_count > 0 THEN
+        valid_scores := array_append(valid_scores, (item_count::DECIMAL / (item_count + no_item_count)) * 100);
+    END IF;
+
+    -- Calculate the second score
+    IF person_count > 0 THEN
+        valid_scores := array_append(valid_scores, (item_count::DECIMAL / person_count) * 100);
+    END IF;
+
+    -- Calculate the third score
+    IF person_count > 0 AND no_item_count < person_count THEN
+        valid_scores := array_append(valid_scores, (GREATEST(person_count - no_item_count, 0)::DECIMAL / person_count) * 100);
+    END IF;
+
+    -- Calculate the average of valid scores
+    IF array_length(valid_scores, 1) > 0 THEN
+        score := (SELECT AVG(val) FROM unnest(valid_scores) AS val);
+    ELSE
+        score := NULL;  -- If no valid scores, return NULL
+    END IF;
+
+    RETURN score;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to log incidents based on detection values
+CREATE OR REPLACE FUNCTION log_incidents(
+    session_id VARCHAR(10),
+    record_id INT,
+    no_helmet INT,
+    no_footwear INT,
+    no_vest INT,
+    no_gloves INT,
+    bad_scaffolding INT,
+    no_guardrails INT,
+    no_harness INT
+) RETURNS VOID AS $$
+BEGIN
+    -- Check for each condition and insert incidents if necessary
+    IF no_helmet > 0 THEN
+        INSERT INTO incidents (session_id, recordID, incident_time, severity, status, category)
+        VALUES (session_id, record_id, CURRENT_TIMESTAMP, 'Moderate', 'Open', 'Helmet');
+    END IF;
+
+    IF no_footwear > 0 THEN
+        INSERT INTO incidents (session_id, recordID, incident_time, severity, status, category)
+        VALUES (session_id, record_id, CURRENT_TIMESTAMP, 'Moderate', 'Open', 'Shoes');
+    END IF;
+
+    IF no_vest > 0 THEN
+        INSERT INTO incidents (session_id, recordID, incident_time, severity, status, category)
+        VALUES (session_id, record_id, CURRENT_TIMESTAMP, 'Moderate', 'Open', 'Vest');
+    END IF;
+
+    IF no_gloves > 0 THEN
+        INSERT INTO incidents (session_id, recordID, incident_time, severity, status, category)
+        VALUES (session_id, record_id, CURRENT_TIMESTAMP, 'Moderate', 'Open', 'Gloves');
+    END IF;
+
+    IF bad_scaffolding > 0 THEN
+        INSERT INTO incidents (session_id, recordID, incident_time, severity, status, category)
+        VALUES (session_id, record_id, CURRENT_TIMESTAMP, 'Moderate', 'Open', 'Scaffolding');
+    END IF;
+
+    IF no_guardrails > 0 THEN
+        INSERT INTO incidents (session_id, recordID, incident_time, severity, status, category)
+        VALUES (session_id, record_id, CURRENT_TIMESTAMP, 'Moderate', 'Open', 'Guardrail');
+    END IF;
+
+    IF no_harness > 0 THEN
+        INSERT INTO incidents (session_id, recordID, incident_time, severity, status, category)
+        VALUES (session_id, record_id, CURRENT_TIMESTAMP, 'Moderate', 'Open', 'Harness');
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Modify the existing trigger function for phase 1 detections
+CREATE OR REPLACE FUNCTION update_records_from_phase1()
+RETURNS TRIGGER AS $$
+DECLARE
+    helmet_score DECIMAL(5, 2);
+    footwear_score DECIMAL(5, 2);
+    vest_score DECIMAL(5, 2);
+    gloves_score DECIMAL(5, 2);
+    phase1_session_id VARCHAR := 'S0100';  -- Hardcoded session ID for phase 1
+    record_id INT;
+BEGIN
+    -- Check if the session_id already exists in the sessions table
+    IF NOT EXISTS (SELECT 1 FROM sessions WHERE session_id = phase1_session_id) THEN
+        -- If it doesn't exist, insert a new session with a safety score of 0
+        INSERT INTO sessions (
+            session_id, site_id, camera_id, mode, start_time, end_time, safety_score
+        )
+        VALUES (
+            phase1_session_id,  -- Use the hardcoded session_id
+            NULL,               -- site_id is NULL
+            NULL,               -- camera_id is NULL
+            'General',          -- mode is 'General'
+            NOW(),              -- start_time is the current timestamp
+            NOW(),              -- end_time is the current timestamp
+            0                   -- Safety score initialized to 0
+        );
+    END IF;
+
+    -- Calculate scores for each category
+    helmet_score := calculate_score(NEW.Helmet, NEW.No_Helmet, NEW.Person);
+    footwear_score := calculate_score(NEW.Shoe, NEW.No_Shoe, NEW.Person);
+    vest_score := calculate_score(NEW.Vest, NEW.No_Vest, NEW.Person);
+    gloves_score := calculate_score(NEW.Glove, NEW.No_Glove, NEW.Person);
+
+    -- Insert the new record into the records table
+    INSERT INTO records (
+        session_id, Timestamp, helmet_score, footwear_score, vest_score, gloves_score, scaffolding_score, guardrail_score, harness_score
+    )
+    VALUES (
+        phase1_session_id,  -- Use the hardcoded session_id
+        NEW.Timestamp,      -- Use the same timestamp from phase_1_detections
+        helmet_score,
+        footwear_score,
+        vest_score,
+        gloves_score,
+        NULL,  -- Placeholder for scaffolding_score
+        NULL,  -- Placeholder for guardrail_score
+        NULL   -- Placeholder for harness_score
+    )
+    RETURNING recordID INTO record_id;  -- Capture the generated recordID
+
+    -- Log incidents based on detection values
+    PERFORM log_incidents(
+        phase1_session_id,
+        record_id,
+        NEW.No_Helmet,
+        NEW.No_Shoe,
+        NEW.No_Vest,
+        NEW.No_Glove,
+        0,
+        0,
+        0
+    );
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Modify the existing trigger function for phase 2 detections
+CREATE OR REPLACE FUNCTION update_records_from_phase2()
+RETURNS TRIGGER AS $$
+DECLARE
+    helmet_score DECIMAL(5, 2);
+    scaffolding_score DECIMAL(5, 2);
+    guardrail_score DECIMAL(5, 2);
+    harness_score DECIMAL(5, 2);
+    phase2_session_id VARCHAR := 'S0100';  -- Hardcoded session ID for phase 2
+    record_id INT;
+BEGIN
+    -- Check if the session_id already exists in the sessions table
+    IF NOT EXISTS (SELECT 1 FROM sessions WHERE session_id = phase2_session_id) THEN
+        -- If it doesn't exist, insert a new session with a safety score of 0
+        INSERT INTO sessions (
+            session_id, site_id, camera_id, mode, start_time, end_time, safety_score
+        )
+        VALUES (
+            phase2_session_id,  -- Use the hardcoded session_id
+            NULL,               -- site_id is NULL
+            NULL,               -- camera_id is NULL
+            'General',          -- mode is 'General'
+            NOW(),              -- start_time is the current timestamp
+            NOW(),              -- end_time is the current timestamp
+            0                   -- Safety score initialized to 0
+        );
+    END IF;
+
+    -- Calculate scores for each category
+    harness_score := calculate_score(NEW.Harness, NEW.No_Harness, NEW.Person);
+
+    -- Calculate scaffolding_score with a check to avoid division by zero
+    IF (NEW.Good_Scaffolding + NEW.Bad_Scaffolding) > 0 THEN
+        scaffolding_score := (NEW.Good_Scaffolding::DECIMAL / (NEW.Good_Scaffolding + NEW.Bad_Scaffolding)) * 100;
+    ELSE
+        scaffolding_score := 0;  -- or 0, depending on your preference
+    END IF;
+
+    -- Calculate guardrail_score with a check to avoid division by zero
+    IF (NEW.Guardrail + NEW.No_Guardrail) > 0 THEN
+        guardrail_score := (NEW.Guardrail::DECIMAL / (NEW.Guardrail + NEW.No_Guardrail)) * 100;
+    ELSE
+        guardrail_score := 0;  -- or 0, depending on your preference
+    END IF;
+
+    -- Insert the new record into the records table
+    INSERT INTO records (
+        session_id, Timestamp, helmet_score, scaffolding_score, guardrail_score, harness_score
+    )
+    VALUES (
+        phase2_session_id,  -- Use the hardcoded session_id
+        NEW.Timestamp,      -- Use the same timestamp from phase_2_detections
+        harness_score,
+        scaffolding_score,
+        guardrail_score,
+        harness_score
+    )
+    RETURNING recordID INTO record_id;  -- Capture the generated recordID
+
+    -- Log incidents based on detection values
+    PERFORM log_incidents(
+        phase2_session_id,
+        record_id,
+        NEW.No_Helmet,  -- No helmet count (not applicable for phase 2)
+        0,  -- No footwear count (not applicable for phase 2)
+        0,  -- No vest count (not applicable for phase 2)
+        0,  -- No gloves count (not applicable for phase 2)
+        NEW.Bad_Scaffolding,
+        NEW.No_Guardrail,
+        NEW.No_Harness
+    );
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to update sessions tables based on inserting new record
+CREATE OR REPLACE FUNCTION update_sessions_on_record_insert()
+RETURNS TRIGGER AS $$
+DECLARE
+    avg_safety_score DECIMAL(5, 2);
+BEGIN
+    -- Calculate the average safety score for all records associated with the session
+    avg_safety_score := average_scores(NEW.recordID);  -- Assuming recordID is the primary key of the records table
+
+    -- Update the session's safety score using the average of all records
+    UPDATE sessions
+    SET safety_score = (
+        SELECT AVG(safety_score) FROM (
+            SELECT average_scores(recordID) AS safety_score
+            FROM records
+            WHERE session_id = NEW.session_id
+        ) AS avg_scores
+    ),
+	end_time=NEW.timestamp
+    WHERE session_id = NEW.session_id;
+
+    RETURN NEW;  -- Return the new record
+END;
+$$ LANGUAGE plpgsql;
+
+-- Attach the trigger to the 'phase_1_detections' table
+CREATE TRIGGER phase_1_detections_trigger
+AFTER INSERT ON phase_1_detections
+FOR EACH ROW
+EXECUTE FUNCTION update_records_from_phase1();
+
+-- Attach the trigger to the 'phase_2_detections' table
+CREATE TRIGGER phase_2_detections_trigger
+AFTER INSERT ON phase_2_detections FOR EACH ROW
+EXECUTE FUNCTION update_records_from_phase2();
+
+-- Create the trigger for updating sessions based on records
+CREATE TRIGGER records_insert_trigger
+AFTER INSERT ON records
+FOR EACH ROW
+EXECUTE FUNCTION update_sessions_on_record_insert();
+
+
+-- Cleanup: Drop existing triggers and functions if needed
+DROP TRIGGER IF EXISTS phase_1_detections_trigger ON phase_1_detections;
+DROP TRIGGER IF EXISTS phase_2_detections_trigger ON phase_2_detections;
+DROP TRIGGER IF EXISTS records_insert_trigger ON records;
+
+DROP FUNCTION IF EXISTS average_scores(INT);
+DROP FUNCTION IF EXISTS calculate_score(INTEGER, INTEGER, INTEGER);
+DROP FUNCTION IF EXISTS update_records_from_phase1();
+DROP FUNCTION IF EXISTS update_records_from_phase2();
+DROP FUNCTION IF EXISTS update_sessions_on_record_insert();
+DROP FUNCTION IF EXISTS log_incidents();
