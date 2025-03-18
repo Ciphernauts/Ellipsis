@@ -1,4 +1,5 @@
-const getAllSessions = `SELECT
+const getAllSessions = `
+SELECT
 JSON_BUILD_OBJECT(
     'constructionSites', (
         SELECT
@@ -22,18 +23,20 @@ JSON_BUILD_OBJECT(
     ),
     'sessions', (
         SELECT
-            JSON_AGG(
-                JSON_BUILD_OBJECT(
-                    'sessionId', session_id,
-                    'safetyScore', safety_score,
-                    'mode', mode,
-                    'startTime', TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS'), -- Format start_time
-                    'endTime', TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') -- Format end_time
-                )
-            )
-        FROM sessions
+            JSON_AGG(session_data)
+        FROM (
+            SELECT
+                session_id as sessionid,
+                safety_score as safetyscore,
+                mode,
+                TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS') AS starttime,
+                TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') AS endtime
+            FROM sessions
+            ORDER BY session_id DESC
+        ) AS session_data
     )
-) AS response_data;`;
+) AS response_data;
+ `;
 
 const getSessionById = `
 WITH latest_scores AS (
@@ -70,9 +73,7 @@ safety_score_distribution AS (
 trends AS (
     SELECT 
         to_char(timestamp, 'YYYY-MM-DD HH24:00') AS time,
-        ROUND(AVG(
-            (helmet_score + footwear_score + vest_score + gloves_score + scaffolding_score + guardrail_score + harness_score) / 7.0
-        )::numeric, 2) AS score
+        ROUND(AVG(average_scores(recordid))::numeric, 2) AS score
     FROM 
         records
     WHERE 
@@ -86,12 +87,9 @@ growth_calculation AS (
     SELECT 
         session_id,
         safety_score,
-        LAG(safety_score) OVER (ORDER BY start_time ASC) AS previous_score,
-        COALESCE(safety_score - LAG(safety_score) OVER (ORDER BY start_time ASC), NULL) AS growth
+        LAG(safety_score) OVER (ORDER BY start_time ASC) AS previous_score
     FROM 
         sessions
-    WHERE 
-        session_id = $1  -- Use parameterized session ID
 )
 SELECT json_build_object(
     'sessionId', s.session_id,
@@ -115,9 +113,9 @@ SELECT json_build_object(
     'safetyScore', s.safety_score,
     'progress', COALESCE(
         CASE 
-            WHEN gc.growth IS NULL THEN '0.00%'
-            WHEN gc.growth >= 0 THEN '+' || TO_CHAR(gc.growth, 'FM999999999.00%')
-            ELSE TO_CHAR(gc.growth, 'FM999999999.00%')
+            WHEN gc.safety_score - gc.previous_score IS NULL THEN '0.00%'
+            WHEN gc.safety_score - gc.previous_score >= 0 THEN '+' || TO_CHAR(gc.safety_score - gc.previous_score, 'FM999999999.00%')
+            ELSE TO_CHAR(gc.safety_score - gc.previous_score, 'FM999999999.00%')
         END, '0.00%'
     ),
     'totalIncidents', COUNT(i.*),
@@ -129,15 +127,15 @@ SELECT json_build_object(
         'vest', (SELECT avg_vest_score FROM safety_score_distribution),
         'gloves', (SELECT avg_gloves_score FROM safety_score_distribution),
         'scaffolding', (SELECT avg_scaffolding_score FROM safety_score_distribution),
-        'guardrails ', (SELECT avg_guardrail_score FROM safety_score_distribution),
+        'guardrails', (SELECT avg_guardrail_score FROM safety_score_distribution),
         'harness', (SELECT avg_harness_score FROM safety_score_distribution)
     )
 )
 FROM 
     sessions s
-JOIN 
-    construction_sites cs ON s.site_id = cs.site_id
-JOIN 
+LEFT JOIN 
+    construction_sites cs ON s .site_id = cs.site_id
+LEFT JOIN 
     cameras c ON c.camera_id = s.camera_id
 LEFT JOIN 
     incidents i ON i.session_id = s.session_id
@@ -148,7 +146,7 @@ LEFT JOIN
 WHERE 
     s.session_id = $1  -- Filter for the specific session ID
 GROUP BY 
-    s.session_id, cs.site_id, c.camera_id, gc.growth
+    s.session_id, cs.site_id, c.camera_id, gc.safety_score, gc.previous_score
 ORDER BY 
     s.start_time ASC;
 `;
