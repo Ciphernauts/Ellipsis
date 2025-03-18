@@ -41,12 +41,10 @@ CREATE TABLE IF NOT EXISTS phase_2_detections (
     Person INTEGER,
     Helmet INTEGER,
     No_Helmet INTEGER,
-    Good_Scaffolding INTEGER,
-    Bad_Scaffolding INTEGER,
-    Guardrail INTEGER,
-    No_Guardrail INTEGER,
-    Harness INTEGER,
+	Harness INTEGER,
     No_Harness INTEGER
+    Scaffolding INTEGER,
+    Guardrail INTEGER,
 );
 
 -- Create the 'construction_sites' table
