@@ -207,6 +207,7 @@ export default function TimelineSessions({ isPWA = false }) {
           `http://localhost:3000/api/timeline/sessions/${id}`
         );
         const sessionDetails = response.data;
+        console.log('Session details:', sessionDetails);
 
         if (sessionDetails) {
           setPaneData({

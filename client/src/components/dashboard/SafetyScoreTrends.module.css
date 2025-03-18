@@ -159,6 +159,7 @@
 }
 
 .mobile .timeOption {
+  width: auto;
   padding: 5px 9px;
   font-size: 10px;
 }

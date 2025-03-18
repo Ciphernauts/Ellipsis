@@ -30,9 +30,9 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
   useEffect(() => {
     if (data) {
       // Set selectedSite to the construction site ID if it exists, otherwise null
-      setSelectedSite(data.sessiondetails?.constructionSite?.id || null);
+      setSelectedSite(data.constructionSite?.id || null);
       // Set selectedCamera to the camera ID if it exists, otherwise null
-      setSelectedCamera(data.sessiondetails?.camera?.id || null);
+      setSelectedCamera(data.camera?.id || null);
     }
   }, [data]);
 
@@ -41,11 +41,10 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
   const cameras = data?.cameras || [];
 
   // Check if required data exists, use defaults if not
-  const safetyScoreDistribution =
-    data?.sessiondetails?.safetyScoreDistribution || {};
-  const trends = data?.sessiondetails?.trends || [];
-  const snapshots = data?.sessiondetails?.snapshots || [];
-  const duration = data?.sessiondetails?.duration || {
+  const safetyScoreDistribution = data?.safetyScoreDistribution || {};
+  const trends = data?.trends || [];
+  const snapshots = data?.snapshots || [];
+  const duration = data?.duration || {
     hours: 0,
     minutes: 0,
     seconds: 0,
@@ -66,12 +65,8 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
     return isoString.replace('T', ' ').replace('Z', '');
   };
 
-  const startTime = data?.sessiondetails?.startTime
-    ? formatTimestamp(data.sessiondetails.startTime)
-    : '';
-  const endTime = data?.sessiondetails?.endTime
-    ? formatTimestamp(data.sessiondetails.endTime)
-    : '';
+  const startTime = data?.startTime ? formatTimestamp(data.startTime) : '';
+  const endTime = data?.endTime ? formatTimestamp(data.endTime) : '';
 
   const trendsData = trends.map((trend) => ({
     interval: trend.time,
@@ -94,7 +89,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
       await updateSession(newSite, selectedCamera);
     } catch (error) {
       console.error('Error updating site:', error);
-      setSelectedSite(data.sessiondetails?.constructionSite?.id || null); // Revert to the previous site in case of an error
+      setSelectedSite(data.constructionSite?.id || null); // Revert to the previous site in case of an error
       alert('Error updating site. Please try again.');
     } finally {
       setUpdating(false);
@@ -110,7 +105,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
       await updateSession(selectedSite, newCamera);
     } catch (error) {
       console.error('Error updating camera:', error);
-      setSelectedCamera(data.sessiondetails?.camera?.id || null); // Revert to the previous camera in case of an error
+      setSelectedCamera(data.camera?.id || null); // Revert to the previous camera in case of an error
       alert('Error updating camera. Please try again.');
     } finally {
       setUpdating(false);
@@ -120,7 +115,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
   const updateSession = async (siteId, cameraId) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/timeline/sessions/${data.sessiondetails.sessionId}`,
+        `http://localhost:3000/api/timeline/sessions/${data.sessionId}`,
         {
           constructionSiteId: siteId,
           cameraId: cameraId,
@@ -129,12 +124,10 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
 
       if (response.data) {
         // Update the local state directly
-        data.sessiondetails.constructionSite = constructionSites.find(
+        data.constructionSite = constructionSites.find(
           (site) => site.id === siteId
         );
-        data.sessiondetails.camera = cameras.find(
-          (camera) => camera.id === cameraId
-        );
+        data.camera = cameras.find((camera) => camera.id === cameraId);
       }
     } catch (error) {
       console.error('Failed to update session:', error);
@@ -152,7 +145,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
 
   return (
     <div className={`${styles.pane} ${isPWA ? styles.mobile : ''}`}>
-      <h1>{data?.sessiondetails?.sessionId || 'Session Details'}</h1>
+      <h1>{data?.sessionId || 'Session Details'}</h1>
       <div className={styles.content}>
         <div className={styles.dropdowns}>
           <PaneInfoPiece
@@ -216,10 +209,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
         </div>
         <div className={styles.infoBlock}>
           <div className={styles.row}>
-            <PaneInfoPiece
-              name='Mode'
-              value={data?.sessiondetails?.mode || 'N/A'}
-            />
+            <PaneInfoPiece name='Mode' value={data?.mode || 'N/A'} />
             <PaneInfoPiece
               name='Duration'
               value={
@@ -254,21 +244,21 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
           <div className={styles.row}>
             <PaneInfoPiece
               name='Safety score'
-              value={data?.sessiondetails?.safetyScore || 'N/A'}
+              value={data?.safetyScore || 'N/A'}
             />
             <PaneInfoPiece
               name='Session Progress'
-              value={data?.sessiondetails?.progress || 'N/A'}
+              value={data?.progress || 'N/A'}
             />
           </div>
           <div className={styles.row}>
             <PaneInfoPiece
               name='Total incidents'
-              value={data?.sessiondetails?.totalIncidents || 0}
+              value={data?.totalIncidents || 0}
             />
             <PaneInfoPiece
               name='Critical incidents'
-              value={data?.sessiondetails?.criticalIncidents || 0}
+              value={data?.criticalIncidents || 0}
             />
           </div>
         </div>

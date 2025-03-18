@@ -14,7 +14,7 @@ export default function PieChartCard({
       <h2>{title}</h2>
       <div>
         <Percentage
-          number={averageScore}
+          number={averageScore.toFixed(1)}
           numberSize={24}
           symbolSize={12}
           className={styles.percentage}
