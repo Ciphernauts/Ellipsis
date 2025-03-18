@@ -1,6 +1,10 @@
 # Ellipsis
 
+!![Ellipsis Logo](https://i.postimg.cc/mZ9y1TqR/Screenshot-2025-03-18-211910.png)
+
 A real-time safety compliance monitoring system designed to detect and address construction site hazards using computer vision developed by The Ciphernauts. The system features a website and mobile app, both equipped with dashboards, for real-time monitoring and reporting.
+
+
 
 ### YOLOv11x Object Detection Classes By Phase:
 
