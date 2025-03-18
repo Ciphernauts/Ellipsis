@@ -84,11 +84,11 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
 
 - Mariah Khalifa  \
 **LinkedIn**: https://www.linkedin.com/in/mariah-khalifa  \
-**GitHub**: https://github.com/Mariah0-0
+**GitHub**: https://github.com/Mariah0-0  \
 **Email**: mak873@uowmail.edu.au
 
 - Nuraiman Hisham  \
 **LinkedIn**: https://www.linkedin.com/in/nuraiman-hisham-266022253  \
-**GitHub**: https://github.com/nuramnz
+**GitHub**: https://github.com/nuramnz  \
 **Email**: nbmh634@uowmail.edu.au 
 
