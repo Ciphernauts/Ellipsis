@@ -68,27 +68,27 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
 ## The Team
 
 - Aryan Malhotra
-**LinkedIn**: https://www.linkedin.com/in/aryan-malhotra-a64008279
-**GitHub**: https://github.com/Aryan-M-10
-**Email**: am407@uowmail.edu.au
+**LinkedIn**: https://www.linkedin.com/in/aryan-malhotra-a64008279  \
+**GitHub**: https://github.com/Aryan-M-10  \
+**Email**: am407@uowmail.edu.au  
 
 - Hadiyya Mattumathodi
-**LinkedIn**: https://www.linkedin.com/in/hadiyya-s-mattummathodi-b345831a9
-**GitHub**: https://github.com/HadiyyaMattummathodi
+**LinkedIn**: https://www.linkedin.com/in/hadiyya-s-mattummathodi-b345831a9  \
+**GitHub**: https://github.com/HadiyyaMattummathodi  \
 **Email**: hsshh999@uowmail.edu.au
 
 - Laxmi Biju
-**LinkedIn**: https://www.linkedin.com/in/laxmi-b-iu732/
-**GitHub**: https://github.com/Lemoneybaee
+**LinkedIn**: https://www.linkedin.com/in/laxmi-b-iu732/  \
+**GitHub**: https://github.com/Lemoneybaee  \
 **Email**: lb898@uowmail.edu.au
 
 - Mariah Khalifa
-**LinkedIn**: https://www.linkedin.com/in/mariah-khalifa
+**LinkedIn**: https://www.linkedin.com/in/mariah-khalifa  \
 **GitHub**: https://github.com/Mariah0-0
 **Email**: mak873@uowmail.edu.au
 
 - Nuraiman Hisham
-**LinkedIn**: https://www.linkedin.com/in/nuraiman-hisham-266022253
+**LinkedIn**: https://www.linkedin.com/in/nuraiman-hisham-266022253  \
 **GitHub**: https://github.com/nuramnz
 **Email**: nbmh634@uowmail.edu.au 
 
