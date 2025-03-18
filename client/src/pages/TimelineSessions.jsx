@@ -19,7 +19,7 @@ export default function TimelineSessions({ isPWA = false }) {
   const fetchSessions = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/api/timeline/sessions'
+        'https://ellipsis-1.onrender.com/api/timeline/sessions'
       );
 
       if (response.data) {
@@ -204,7 +204,7 @@ export default function TimelineSessions({ isPWA = false }) {
       try {
         // Fetch detailed session data dynamically
         const response = await axios.get(
-          `http://localhost:3000/api/timeline/sessions/${id}`
+          `https://ellipsis-1.onrender.com/api/timeline/sessions/${id}`
         );
         const sessionDetails = response.data;
 
