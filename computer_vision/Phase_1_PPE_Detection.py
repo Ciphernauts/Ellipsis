@@ -43,6 +43,7 @@ print("Connected to PostgreSQL.")
 # # Create table if it doesn't exist
 # cur.execute("""
 # CREATE TABLE IF NOT EXISTS object_detections (
+#     frameID SERIAL PRIMARY KEY,
 #     Timestamp TIMESTAMP,
 #     Person INTEGER,
 #     Helmet INTEGER,
