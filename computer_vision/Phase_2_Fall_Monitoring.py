@@ -16,7 +16,7 @@ db_user = "postgres"  # Replace with your username
 db_password = "root"  # Replace with your password
 
 # Initialize YOLO model
-model = YOLO("best.pt")  # Replace with your model path
+model = YOLO("best2.pt")  # Replace with your model path
 
 def check_db_connection():
     """
@@ -42,18 +42,16 @@ print("Connected to PostgreSQL.")
 
 # # Create table if it doesn't exist
 # cur.execute("""
-# CREATE TABLE IF NOT EXISTS object_detections (
-#     frameID SERIAL PRIMARY KEY,
-#     Timestamp TIMESTAMP,
-#     Person INTEGER,
-#     Helmet INTEGER,
-#     No_Helmet INTEGER,
-#     Vest INTEGER,
-#     No_Vest INTEGER,
-#     Glove INTEGER,
-#     No_Glove INTEGER,
-#     Shoe INTEGER,
-#     No_Shoe INTEGER
+# CREATE TABLE IF NOT EXISTS phase_2_detections (
+#   frameID SERIAL PRIMARY KEY,  
+#   Timestamp TIMESTAMP,    
+#   Person INTEGER,
+#   Helmet INTEGER,
+#   No_Helmet INTEGER,
+#   Harness INTEGER,
+#   No_Harness INTEGER,
+#   Scaffolding INTEGER,
+#   Guardrail INTEGER,
 # )
 # """)
 # conn.commit()
@@ -73,12 +71,10 @@ def process_frame(frame):
         "Person": 0,
         "Helmet": 0,
         "No Helmet": 0,
-        "Vest": 0,
-        "No Vest": 0, 
-        "Glove": 0,
-        "No Glove": 0,
-        "Shoe": 0,
-        "No Shoe": 0
+        "Harness": 0,
+        "No Harness": 0, 
+        "Scaffolding": 0,
+        "Guardrail": 0
     }
 
     # Count detected objects
@@ -92,10 +88,10 @@ def process_frame(frame):
 
     # Insert data into the database
     cur.execute("""
-    INSERT INTO phase_1_detections (Timestamp, Person, Helmet, No_Helmet, Vest, No_Vest, Glove, No_Glove, Shoe, No_Shoe)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """, (timestamp, counts["Person"], counts["Helmet"], counts["No Helmet"], counts["Vest"], counts["No Vest"],
-          counts["Glove"], counts["No Glove"], counts["Shoe"], counts["No Shoe"]))
+    INSERT INTO phase_2_detections (Timestamp, Person, Helmet, No_Helmet, Harness, No_Harness, Scaffolding, Guardrail)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """, (timestamp, counts["Person"], counts["Helmet"], counts["No Helmet"], counts["Harness"], counts["No Harness"],
+          counts["Scaffolding"], counts["Guardrail"]))
     conn.commit()
     print("Processed frame and updated database.")
 
