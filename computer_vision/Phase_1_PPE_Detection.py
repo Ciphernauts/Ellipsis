@@ -1,3 +1,8 @@
+import subprocess
+
+# Run all cells in the YOLO_Initialization_Commands.ipynb notebook
+subprocess.run(["jupyter", "nbconvert", "--to", "notebook", "--execute", "--inplace", "c:/Ellipsis/server/YOLO_Initialization_Commands.ipynb"])
+
 from ultralytics import YOLO
 from datetime import datetime
 import psycopg2
