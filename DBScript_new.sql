@@ -1208,16 +1208,3 @@ CREATE TRIGGER records_insert_trigger
 AFTER INSERT ON records
 FOR EACH ROW
 EXECUTE FUNCTION update_sessions_on_record_insert();
-
-
--- Cleanup: Drop existing triggers and functions if needed
-DROP TRIGGER IF EXISTS phase_1_detections_trigger ON phase_1_detections;
-DROP TRIGGER IF EXISTS phase_2_detections_trigger ON phase_2_detections;
-DROP TRIGGER IF EXISTS records_insert_trigger ON records;
-
-DROP FUNCTION IF EXISTS average_scores(INT);
-DROP FUNCTION IF EXISTS calculate_score(INTEGER, INTEGER, INTEGER);
-DROP FUNCTION IF EXISTS update_records_from_phase1();
-DROP FUNCTION IF EXISTS update_records_from_phase2();
-DROP FUNCTION IF EXISTS update_sessions_on_record_insert();
-DROP FUNCTION IF EXISTS log_incidents();
