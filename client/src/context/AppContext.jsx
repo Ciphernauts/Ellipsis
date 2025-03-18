@@ -48,7 +48,7 @@ export function AppProvider({ children }) {
   // Fetch user profile from the server
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/users', {
+      const response = await axios.get('https://ellipsis-yxv0.onrender.com/api/users', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       console.log("fetchProfile API response:", response);
@@ -80,7 +80,7 @@ export function AppProvider({ children }) {
   const login = async (email, password) => {
     try {
         const response = await axios.post(
-            'http://localhost:3000/api/users/login',
+            'https://ellipsis-1.onrender.com/api/users/login',
             { email, password }
         );
         localStorage.setItem('token', response.data.token);
@@ -103,7 +103,7 @@ export function AppProvider({ children }) {
   const updateUserInfo = async (updatedData) => {
     try {
         const response = await axios.put(
-            `http://localhost:3000/api/users/${user.uid}`,
+            `https://ellipsis-1.onrender.com/api/users/${user.uid}`,
             updatedData,
             {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -141,7 +141,7 @@ export function AppProvider({ children }) {
   const deleteUserAccount = async () => {
     try {
       const response = await axios.delete(
-        'http://localhost:3000/api/users/delete-account',
+        'https://ellipsis-1.onrender.com/api/users/delete-account',
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
@@ -195,7 +195,7 @@ export function AppProvider({ children }) {
   const updateMode = async (newMode) => {
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/update-mode',
+        'https://ellipsis-1.onrender.com/api/update-mode',
         {
           mode: newMode,
         }
@@ -254,7 +254,7 @@ export function AppProvider({ children }) {
   const updateSettings = async (newSettings) => {
     try {
       const response = await axios.put(
-        'http://localhost:3000/api/users/settings',
+        'https://ellipsis-1.onrender.com/api/users/settings',
         newSettings,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

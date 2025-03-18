@@ -53,7 +53,7 @@ export default function IncidentHistory({ isPWA = false }) {
   const fetchIncidents = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/api/incidents/incident-history'
+        'https://ellipsis-1.onrender.com/api/incidents/incident-history'
       );
       console.log(response.data);
       if (response.data) {
