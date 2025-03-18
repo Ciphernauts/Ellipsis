@@ -29,7 +29,7 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
 ### Clone
 
    ```bash
-   git clone https://github.com/Mariah0-0/Ellipsis.git
+   git clone https://github.com/Ciphernauts/Ellipsis.git
    cd Ellipsis
    ```
 
