@@ -49,6 +49,13 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
    npm install
    ```
 
+3. **Computer Vision**
+
+   ```bash
+   cd computer_vision
+   pip install -r requirements.txt
+   ```
+
 ### Run
 
 1. **Frontend**
@@ -63,6 +70,22 @@ More details about YOLOv11x: https://docs.ultralytics.com/models/yolo11/#perform
    ```bash
    cd server
    npm run dev
+   ```
+
+3. **Computer Vision**
+
+   - **Phase 1**
+
+   ```bash
+   cd computer_vision
+   python Phase_1_PPE_Detection.py
+   ```
+
+   - **Phase 2**
+
+   ```bash
+   cd computer_vision
+   python Phase_2_Fall_Monitoring.py
    ```
 
 ## The Team

@@ -1,7 +1,7 @@
-import subprocess
+# import subprocess
 
-# Run all cells in the YOLO_Initialization_Commands.ipynb notebook
-subprocess.run(["jupyter", "nbconvert", "--to", "notebook", "--execute", "--inplace", "c:/Ellipsis/server/YOLO_Initialization_Commands.ipynb"])
+# # Run all cells in the YOLO_Initialization_Commands.ipynb notebook
+# subprocess.run(["jupyter", "nbconvert", "--to", "notebook", "--execute", "--inplace", "c:/Ellipsis/server/YOLO_Initialization_Commands.ipynb"])
 
 from ultralytics import YOLO
 from datetime import datetime
@@ -11,12 +11,12 @@ import cv2
 # Database credentials
 db_host = "localhost"
 db_port = 5432
-db_name = "ObjectDetection"  # Replace with your database name
+db_name = "postgres"  # Replace with your database name
 db_user = "postgres"  # Replace with your username
 db_password = "root"  # Replace with your password
 
 # Initialize YOLO model
-model = YOLO("server/best.pt")  # Replace with your model path
+model = YOLO("best.pt")  # Replace with your model path
 
 def check_db_connection():
     """
@@ -99,7 +99,7 @@ def process_frame(frame):
     print("Processed frame and updated database.")
 
 # Example usage with manual frame extraction
-video_path = "server/011_15fps.mp4"  # Replace with your video path
+video_path = "011_15fps.mp4"  # Replace with your video path
 cap = cv2.VideoCapture(video_path)
 print("Opened video file.")
 
