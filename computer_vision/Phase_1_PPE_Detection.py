@@ -1,3 +1,4 @@
+import os
 # import subprocess
 
 # # Run all cells in the YOLO_Initialization_Commands.ipynb notebook
@@ -99,20 +100,42 @@ def process_frame(frame):
     conn.commit()
     print("Processed frame and updated database.")
 
-# Example usage with manual frame extraction
-video_path = "011_15fps.mp4"  # Replace with your video path
-cap = cv2.VideoCapture(video_path)
-print("Opened video file.")
+def get_video_files(directory):
+    """
+    Get a list of video files in the specified directory.
 
-while(cap.isOpened()):
-    ret, frame = cap.read()
-    if ret == True:
-        process_frame(frame)
-    else:
-        break
+    Args:
+        directory: The directory to search for video files.
 
-cap.release()
-print("Released video capture.")
+    Returns:
+        A list of video file paths.
+    """
+    video_files = []
+    for file in os.listdir(directory):
+        if file.endswith(".mp4"):  # Add other video file extensions if needed
+            video_files.append(os.path.join(directory, file))
+    return video_files
+
+# Directory containing the videos
+video_directory = "./phase_1_videos"
+
+# Get the list of video files
+video_files = get_video_files(video_directory)
+
+while True:
+    for video_path in video_files:
+        cap = cv2.VideoCapture(video_path)
+        print(f"Opened video file: {video_path}")
+
+        while(cap.isOpened()):
+            ret, frame = cap.read()
+            if ret == True:
+                process_frame(frame)
+            else:
+                break
+
+        cap.release()
+        print(f"Released video capture for: {video_path}")
 
 # Close the database connection
 cur.close()
