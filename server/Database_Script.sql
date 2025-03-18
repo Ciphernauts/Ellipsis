@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS phase_2_detections (
     Helmet INTEGER,
     No_Helmet INTEGER,
 	Harness INTEGER,
-    No_Harness INTEGER
+    No_Harness INTEGER,
     Scaffolding INTEGER,
     Guardrail INTEGER,
 );
