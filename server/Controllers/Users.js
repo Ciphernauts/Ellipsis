@@ -168,8 +168,14 @@ const loginUser = async (req, res) => {
 
   email = email.trim().toLowerCase();
 
+  // Debugging: Log the JWT_SECRET
+  console.log('JWT_SECRET:', process.env.JWT_SECRET);
+
+  // Fallback value for JWT_SECRET
+  const jwtSecret = process.env.JWT_SECRET || 'fallback-secret-key';
+
   if (email === 'admin@pejman-jouzi.com' && password === 'Admin@123') {
-    const token = jwt.sign({ email, role: 'admin' }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ email, role: 'admin' }, jwtSecret, {
       expiresIn: '1h',
     });
     return res.status(200).json({
@@ -195,7 +201,7 @@ const loginUser = async (req, res) => {
 
     const token = jwt.sign(
       { uid: user.uid, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
+      jwtSecret,
       { expiresIn: '1h' }
     );
 
