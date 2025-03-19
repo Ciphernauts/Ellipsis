@@ -20,7 +20,7 @@ const SafetyTrendGraph = ({ data, isPWA = false }) => {
   // Function to find the first timeframe with non-empty data
   const findFirstValidTimeframe = () => {
     for (const timeframe of timeframes) {
-      if (data.trends[timeframe] && data.trends[timeframe].length > 0) {
+      if (data.trends[timeframe] && data.trends[timeframe].length > 1) {
         return timeframe;
       }
     }

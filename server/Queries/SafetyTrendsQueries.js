@@ -301,9 +301,7 @@ next_sync AS (
 trends_24_hours AS (
     SELECT
         to_char(date_trunc('hour', r.timestamp), 'HH24:00') AS name,
-        ROUND(AVG(
-            (r.helmet_score + r.footwear_score + r.vest_score + r.gloves_score + r.scaffolding_score + r.guardrail_score + r.harness_score) / 7.0
-        )::numeric, 0) AS value,
+        ROUND(AVG((average_scores(r.recordid))), 0) AS value,
         date_trunc('hour', r.timestamp) AS timestamp
     FROM
         records r
@@ -316,9 +314,7 @@ trends_24_hours AS (
 trends_7_days AS (
     SELECT
         to_char(date_trunc('day', r.timestamp), 'DD Mon') AS name,
-        ROUND(AVG(
-            (r.helmet_score + r.footwear_score + r.vest_score + r.gloves_score + r.scaffolding_score + r.guardrail_score + r.harness_score) / 7.0
-        )::numeric, 0) AS value,
+        ROUND(AVG((average_scores(r.recordid))), 0) AS value,
         date_trunc('day', r.timestamp) AS timestamp
     FROM
         records r
@@ -331,9 +327,7 @@ trends_7_days AS (
 trends_30_days AS (
     SELECT
         to_char(date_trunc('day', r.timestamp), 'DD Mon') AS name,
-        ROUND(AVG(
-            (r.helmet_score + r.footwear_score + r.vest_score + r.gloves_score + r.scaffolding_score + r.guardrail_score + r.harness_score) / 7.0
-        )::numeric, 0) AS value,
+        ROUND(AVG((average_scores(r.recordid))), 0) AS value,
         date_trunc('day', r.timestamp) AS timestamp
     FROM
         records r
@@ -346,9 +340,7 @@ trends_30_days AS (
 trends_12_months AS (
     SELECT
         to_char(date_trunc('month', r.timestamp), 'Mon') AS name,
-        ROUND(AVG(
-            (r.helmet_score + r.footwear_score + r.vest_score + r.gloves_score + r.scaffolding_score + r.guardrail_score + r.harness_score) / 7.0
-        )::numeric, 0) AS value,
+        ROUND(AVG((average_scores(r.recordid))), 0) AS value,
         date_trunc('month', r.timestamp) AS timestamp
     FROM
         records r
@@ -393,17 +385,13 @@ latest_record AS (
 latest_records AS (
     SELECT
         to_char(r.timestamp, 'YYYY-MM-DD HH12:MI AM') AS timestamp,
-        ROUND(
-            (r.helmet_score + r.footwear_score + r.vest_score + r.gloves_score + r.scaffolding_score + r.guardrail_score + r.harness_score) / 7.0, 2
-        ) AS safetyScore,
+        average_scores(r.recordid) AS safetyScore,
         ROUND(
             COALESCE(
-                (r.helmet_score + r.footwear_score + r.vest_score + r.gloves_score + r.scaffolding_score + r.guardrail_score + r.harness_score) / 7.0 - 
-                LEAD(
-                    (r.helmet_score + r.footwear_score + r.vest_score + r.gloves_score + r.scaffolding_score + r.guardrail_score + r.harness_score) / 7.0
-                ) OVER (ORDER BY r.timestamp DESC), 0
+                (average_scores(r.recordid)) - 
+                LEAD(average_scores(r.recordid)) OVER (ORDER BY r.timestamp DESC), 0
             ), 1
-        ) AS growth,  -- Round growth to 1 decimal point
+        ) AS growth, -- Round growth to 1 decimal point
         COUNT(i.incident_id) AS alertCount
     FROM
         records r

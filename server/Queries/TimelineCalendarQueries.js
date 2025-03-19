@@ -137,9 +137,9 @@ SELECT JSON_BUILD_OBJECT(
         'totalIncidents', COALESCE(SUM(md.total_incidents), 0),
         'criticalIncidents', COALESCE(SUM(md.critical_incidents), 0),
         'duration', JSON_BUILD_OBJECT(
-            'hours', COALESCE(SUM(md.total_duration) / 3600, 0),
-            'minutes', COALESCE((SUM(md.total_duration) % 3600) / 60, 0 ),
-            'seconds', COALESCE(SUM(md.total_duration) % 60, 0)
+            'hours', COALESCE(ROUND(SUM(md.total_duration) / 3600, 0), 0),
+            'minutes', COALESCE(ROUND((SUM(md.total_duration) % 3600) / 60, 0), 0 ),
+            'seconds', COALESCE(ROUND(SUM(md.total_duration) % 60, 0), 0)
         ),
         'trends', (SELECT JSON_AGG(
             JSON_BUILD_OBJECT('date', record_date, 'score', ROUND(daily_avg_safety_score, 0))
@@ -318,9 +318,9 @@ SELECT JSON_BUILD_OBJECT(
     'totalIncidents', COALESCE(SUM(dd.total_incidents), 0),
     'criticalIncidents', COALESCE(SUM(dd.critical_incidents), 0),
     'duration', JSON_BUILD_OBJECT(
-        'hours', COALESCE(SUM(dd.total_duration) / 3600, 0),
-        'minutes', COALESCE((SUM(dd.total_duration) % 3600) / 60, 0),
-        'seconds', COALESCE(SUM(dd.total_duration) % 60, 0)
+        'hours', COALESCE(ROUND(SUM(dd.total_duration) / 3600, 0), 0),
+        'minutes', COALESCE(ROUND((SUM(dd.total_duration) % 3600) / 60, 0), 0),
+        'seconds', COALESCE(ROUND(SUM(dd.total_duration) % 60, 0), 0)
     ),
     'trends', (
         SELECT JSON_AGG(
