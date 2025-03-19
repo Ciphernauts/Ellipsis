@@ -10,11 +10,11 @@ import psycopg2
 import cv2
 
 # Database credentials
-db_host = "dpg-cvaugf2n91rc739bco30-a"
-db_port = 5432
-db_name = "ELLIPSIS"  # Replace with your database name
-db_user = "ellipsis_user"  # Replace with your username
-db_password = "ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak"  # Replace with your password
+# db_host = "dpg-cvaugf2n91rc739bco30-a"
+# db_port = 5432
+# db_name = "ELLIPSIS"  # Replace with your database name
+# db_user = "ellipsis_user"  # Replace with your username
+# db_password = "ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak"  # Replace with your password
 
 # const pool = new Pool({
 #   //connectionString: 'postgresql://ellipsis_user:ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak@dpg-cvaugf2n91rc739bco30-a/ellipsis'
