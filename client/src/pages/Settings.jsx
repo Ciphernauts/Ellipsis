@@ -145,7 +145,12 @@ const Settings = ({ isPWA = false }) => {
     }
   };
 
-  const handleLogout = () => logout();
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+        logout();
+    }
+  };
 
   const handleSave = async () => {
     const activeTab = getTabFromHash();

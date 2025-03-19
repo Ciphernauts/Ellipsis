@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 // Create the AppContext
@@ -13,6 +14,7 @@ export function AppProvider({ children }) {
   const [user, setUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const previousUser = useRef(null);
+  const navigate = useNavigate();
 
 
   // Mode state
@@ -48,11 +50,11 @@ export function AppProvider({ children }) {
   // Fetch user profile from the server
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('https://ellipsis-yxv0.onrender.com/api/users', {
+      const response = await axios.get('https://ellipsis-1.onrender.com/api/users', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       console.log("fetchProfile API response:", response);
-      if (previousUser.current !== JSON.stringify(response.data[0])) { // Compare the first element
+      if (previousUser.current == JSON.stringify(response.data[0])) { // Compare the first element
           setUser(response.data[0]); // Set user to the first element
           previousUser.current = JSON.stringify(response.data[0]); // Update ref
           console.log("User data set in AppContext (API):", response.data[0]);
@@ -97,6 +99,7 @@ export function AppProvider({ children }) {
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    navigate('/login')
   };
 
   // Update user profile (username, email, password, profile picture)
