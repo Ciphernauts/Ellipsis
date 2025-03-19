@@ -15,6 +15,8 @@ export default function Header({ showRightPane = false, className }) {
     fetchProfile();
   }, []);
 
+  console.log('header user: ', user);
+
   return (
     <div className={`${styles.header} ${className}`}>
       <div className={styles.modes}>

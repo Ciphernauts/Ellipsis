@@ -202,14 +202,20 @@ const loginUser = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { uid: user.uid, email: user.email, role: user.role },
+      { uid: user.uid, email: user.uemail, role: user.role },
       jwtSecret,
       { expiresIn: '1h' }
     );
 
+    // Include username in the response
     res.status(200).json({
       message: 'Login successful',
-      user: { uid: user.uid, email: user.email, role: user.role },
+      user: {
+        uid: user.uid,
+        email: user.uemail,
+        role: user.role,
+        username: user.username,
+      }, // Add username here
       token,
     });
   } catch (error) {

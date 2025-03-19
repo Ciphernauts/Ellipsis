@@ -25,7 +25,7 @@ export default function ConstructionSitesInfoPane({
     try {
       // Make API call to update the status
       const response = await axios.put(
-        `http://localhost:3000/api/construction-sites/${data.id}`, // Use the correct API endpoint
+        `https://ellipsis-1.onrender.com/api/construction-sites/${data.id}`, // Use the correct API endpoint
         {
           isActive: !isActive, // Toggle the active status
         }

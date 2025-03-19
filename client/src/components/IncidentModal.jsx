@@ -19,7 +19,7 @@ const IncidentModal = ({ incident, onClose }) => {
     setUpdating(true);
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/incidents/incident-history/${incident.incident_id}/${newStatus}`
+        `https://ellipsis-1.onrender.com/api/incidents/incident-history/${incident.incident_id}/${newStatus}`
       );
       const updatedIncidentFromServer = response.data;
       console.log('Incident updated:', updatedIncidentFromServer);

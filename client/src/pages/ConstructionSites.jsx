@@ -27,7 +27,7 @@ export default function ConstructionSites({ isPWA = false }) {
   const fetchConstructionSites = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/api/construction-sites',
+        'https://ellipsis-1.onrender.com/api/construction-sites',
         {
           headers: {
             Accept: 'application/json', // Ensure the server knows we expect JSON
@@ -169,7 +169,7 @@ export default function ConstructionSites({ isPWA = false }) {
         try {
           // Send only the site name as a URL parameter
           const response = await axios.post(
-            `http://localhost:3000/api/construction-sites/${newSiteName.trim()}`
+            `https://ellipsis-1.onrender.com/api/construction-sites/${newSiteName.trim()}`
           );
           if (response.data) {
             setData((prevData) => [...prevData, response.data]); // Add new site to the array
@@ -192,7 +192,9 @@ export default function ConstructionSites({ isPWA = false }) {
   // Function to handle deleting a site
   const handleDeleteSite = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/construction-sites/${id}`);
+      await axios.delete(
+        `https://ellipsis-1.onrender.com/api/construction-sites/${id}`
+      );
       setData((prevData) => prevData.filter((site) => site.id !== id));
     } catch (error) {
       console.error('Error deleting site:', error);
