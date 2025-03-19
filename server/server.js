@@ -44,6 +44,7 @@ app.use(express.urlencoded({ extended: true })); // For parsing application/x-ww
 // Handle preflight requests
 app.options('*', cors()); // Enable pre-flight across-the-board
 app.options('/api/users/login', cors()); // Enable pre-flight for the login route
+app.options('/api/users/register', cors()); // Enable pre-flight for the login route
 
 app.use((req, res, next) => {
   console.log('Request Origin:', req.headers.origin);

@@ -174,6 +174,8 @@ const loginUser = async (req, res) => {
   // Fallback value for JWT_SECRET
   const jwtSecret = process.env.JWT_SECRET || 'fallback-secret-key';
 
+  console.log('jwtSecret var:', jwtSecret);
+
   if (email === 'admin@pejman-jouzi.com' && password === 'Admin@123') {
     const token = jwt.sign({ email, role: 'admin' }, jwtSecret, {
       expiresIn: '1h',
@@ -232,6 +234,8 @@ const registerUser = async (req, res) => {
 */
 
 const registerUser = async (req, res) => {
+  console.log('Request Body:', req.body); // Log the request body
+
   const { email, username, password } = req.body;
 
   if (!email || !username || !password) {
