@@ -25,7 +25,7 @@ import Login from './pages/Login';
 import SafetyTrends from './pages/SafetyTrends';
 import OverallSafetyTrend from './pages/OverallSafetyTrend';
 import AdminDashboard from './pages/AdminDashboard';
-import IncidentListener from './components/IncidentListener';
+// import IncidentListener from './components/IncidentListener';
 import PrivateRoute from './components/PrivateRoute';
 
 // Create a wrapper component to handle fetching the profile
@@ -50,7 +50,7 @@ const App = () => {
   return (
     <AppProvider>
       <AppWrapper />
-      <IncidentListener />
+      {/* <IncidentListener /> */}
       <Routes>
         {/* Route without nav pane */}
         <Route
