@@ -20,9 +20,9 @@ const getUserById = (req,res) => {
 
 /*
 const addUser = (req, res) => {
-    const { username, uemail, password } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!username || !uemail || !password) {
+    if (!username || !email || !password) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -33,7 +33,7 @@ const addUser = (req, res) => {
             return res.status(500).json({ message: "Error resetting user ID sequence" });
         }
 
-    pool.query(queries.checkEmailExists, [uemail], (error, results) => {
+    pool.query(queries.checkEmailExists, [email], (error, results) => {
         if (error) {
             console.error(error);
             return res.status(500).json({ message: "Server error" });
@@ -43,7 +43,7 @@ const addUser = (req, res) => {
             return res.status(400).json({ message: "Email already exists" });
         }
 
-        pool.query(queries.addUser, [Date.now(), username, uemail, password, "standard"], (error, results) => {
+        pool.query(queries.addUser, [Date.now(), username, email, password, "standard"], (error, results) => {
             if (error) {
                 console.error(error);
                 return res.status(500).json({ message: "Error inserting user" });
@@ -56,23 +56,23 @@ const addUser = (req, res) => {
 */
 
 const addUser = async (req, res) => {
-    const { username, uemail, password } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!username || !uemail || !password) {
+    if (!username || !email || !password) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        pool.query(queries.checkEmailExists, [uemail], (error, results) => {
+        pool.query(queries.checkEmailExists, [email], (error, results) => {
             if (error) throw error;
 
             if (results.rows.length) {
                 return res.status(400).json({ message: "Email already exists" });
             }
 
-            pool.query(queries.addUser, [username, uemail, hashedPassword], (error, results) => {
+            pool.query(queries.addUser, [username, email, hashedPassword], (error, results) => {
                 if (error) throw error;
                 res.status(201).json({ message: "User Created Successfully!", user: results.rows[0] });
             });
@@ -123,7 +123,7 @@ const updateUser = (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-    const { username, uemail, password } = req.body;
+    const { username, email, password } = req.body;
     const uid = req.user.uid;  // Extract UID from JWT token
 
     try {
@@ -134,7 +134,7 @@ const updateUserProfile = async (req, res) => {
 
         pool.query(
             queries.updateUserProfile,
-            [username, uemail, hashedPassword, uid],
+            [username, email, hashedPassword, uid],
             (error, results) => {
                 if (error) {
                     return res.status(500).json({ message: 'Error updating profile' });
@@ -172,29 +172,29 @@ const loginUser = (req, res) => {
 */
 
 const loginUser = async (req, res) => {
-    let { uemail, password } = req.body;
+    let { email, password } = req.body;
 
-    if (!uemail || !password) {
+    if (!email || !password) {
         return res.status(400).json({ message: "Email and password are required" });
     }
 
-    uemail = uemail.trim().toLowerCase();
+    email = email.trim().toLowerCase();
 
-    if (uemail === "admin@pejman-jouzi.com" && password === "Admin@123") {
+    if (email === "admin@pejman-jouzi.com" && password === "Admin@123") {
         const token = jwt.sign(
-            { uemail, role: 'admin' },
+            { email, role: 'admin' },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
         return res.status(200).json({
             message: "Login successful",
-            user: { uemail, role: 'admin' },
+            user: { email, role: 'admin' },
             token
         });
     }
 
     try {
-        const result = await pool.query(queries.getUserByEmail, [uemail]);
+        const result = await pool.query(queries.getUserByEmail, [email]);
 
         if (result.rows.length === 0) {
             return res.status(404).json({ message: "User Not Found" });
@@ -208,14 +208,14 @@ const loginUser = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { uid: user.uid, uemail: user.uemail, role: user.role },
+            { uid: user.uid, email: user.email, role: user.role },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
 
         res.status(200).json({
             message: "Login successful",
-            user: { uid: user.uid, uemail: user.uemail, role: user.role },
+            user: { uid: user.uid, email: user.email, role: user.role },
             token
         });
     } catch (error) {
@@ -227,12 +227,12 @@ const loginUser = async (req, res) => {
 /*
 
 const registerUser = async (req, res) => {
-    const { username, uemail, password } = req.body;
+    const { username, email, password } = req.body;
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    pool.query(queries.addUser, [username, uemail, hashedPassword], (error, results) => {
+    pool.query(queries.addUser, [username, email, hashedPassword], (error, results) => {
         if (error) throw error;
         res.status(201).json({ message: "User registered successfully", user: results.rows[0] });
     });
@@ -240,16 +240,16 @@ const registerUser = async (req, res) => {
 */
 
 const registerUser = async (req, res) => {
-    const { uemail, username, password } = req.body;
+    const { email, username, password } = req.body;
 
-    if (!uemail || !username || !password) {
+    if (!email || !username || !password) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const result = await pool.query(queries.addUser, [uemail, username, hashedPassword]);
+        const result = await pool.query(queries.addUser, [email, username, hashedPassword]);
         res.status(201).json({ message: "User registered successfully", user: result.rows[0] });
     } catch (error) {
         console.error(error);
