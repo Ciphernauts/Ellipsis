@@ -246,6 +246,7 @@ WITH latest_scores AS (
         records
     WHERE 
         Timestamp = (SELECT MAX(Timestamp) FROM records)
+	LIMIT 1
 ),
 trends_24_hours AS (
     SELECT

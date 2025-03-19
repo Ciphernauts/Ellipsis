@@ -1079,8 +1079,6 @@ BEGIN
         NEW.No_Shoe,
         NEW.No_Vest,
         NEW.No_Glove,
-        0,
-        0,
         0
     );
 
@@ -1139,10 +1137,10 @@ BEGIN
     PERFORM log_incidents(
         phase2_session_id,
         record_id,
-        NEW.No_Helmet,  -- No helmet count (not applicable for phase 2)
-        0,  -- No footwear count (not applicable for phase 2)
-        0,  -- No vest count (not applicable for phase 2)
-        0,  -- No gloves count (not applicable for phase 2)
+        NEW.No_Helmet,
+        0,
+        0,
+        0,
         NEW.No_Harness
     );
 
@@ -1191,3 +1189,54 @@ CREATE TRIGGER records_insert_trigger
 AFTER INSERT ON records
 FOR EACH ROW
 EXECUTE FUNCTION update_sessions_on_record_insert();
+
+
+
+
+
+CREATE OR REPLACE FUNCTION notify_new_incident() 
+RETURNS TRIGGER AS $$
+DECLARE
+    camera_name VARCHAR(255);
+BEGIN
+    -- Get the camera name by joining the sessions and cameras tables
+    SELECT c.name INTO camera_name
+    FROM sessions s
+    JOIN cameras c ON s.camera_id = c.camera_id
+    WHERE s.session_id = NEW.session_id;
+
+    -- Send the notification with the incident details and camera name
+    PERFORM pg_notify('new_incident', json_build_object(
+        'incident_id', NEW.incident_id,
+        'session_id', NEW.session_id,
+        'category', NEW.category,
+        'severity', NEW.severity,
+        'incident_time', NEW.incident_time,
+        'camera_name', camera_name  -- Include the camera name
+    )::text);
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER new_incident_trigger
+AFTER INSERT ON incidents
+FOR EACH ROW EXECUTE FUNCTION notify_new_incident();
+
+
+
+
+
+-- Cleanup: Drop existing triggers and functions if needed
+DROP TRIGGER IF EXISTS phase_1_detections_trigger ON phase_1_detections;
+DROP TRIGGER IF EXISTS phase_2_detections_trigger ON phase_2_detections;
+DROP TRIGGER IF EXISTS records_insert_trigger ON records;
+DROP TRIGGER IF EXISTS new_incident_trigger ON incidents;
+
+DROP FUNCTION IF EXISTS average_scores(INT);
+DROP FUNCTION IF EXISTS calculate_score(INTEGER, INTEGER, INTEGER);
+DROP FUNCTION IF EXISTS update_records_from_phase1();
+DROP FUNCTION IF EXISTS update_records_from_phase2();
+DROP FUNCTION IF EXISTS update_sessions_on_record_insert();
+DROP FUNCTION IF EXISTS log_incidents();
+DROP FUNCTION IF EXISTS notify_new_incident();
