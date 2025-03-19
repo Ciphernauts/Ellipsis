@@ -5,6 +5,7 @@ import UserDefaultImage from '../assets/UserDefaultImage.png';
 import Button from '../components/Button';
 import { useApp } from '../context/AppContext';
 import styles from './Settings.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const TABS = ['profile', 'notifications', 'system'];
 
@@ -24,6 +25,7 @@ const Settings = ({ isPWA = false }) => {
   const usernameInputRef = useRef(null);
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [editableFields, setEditableFields] = useState({
@@ -89,18 +91,16 @@ const Settings = ({ isPWA = false }) => {
   }, []);
 
   useEffect(() => {
-    console.log("Settings useEffect triggered, user:", user);
-    if (user && (user.username !== updatedProfile.username || user.email !== updatedProfile.email)) {
-        console.log("User data found, setting updatedProfile:", user);
-        setUpdatedProfile({
-            username: user.username,
-            email: user.uemail,
-            password: '',
-            confirmPassword: '',
-            profilePicture: user.profilePicture || UserDefaultImage,
-        });
+    if (user) {
+      setUpdatedProfile({
+        username: user.username,
+        email: user.uemail,
+        password: '',
+        confirmPassword: '',
+        profilePicture: user.profilePicture || UserDefaultImage,
+      });
     }
-}, [user]);
+  }, [user]);
 
   useEffect(() => {
     if (settings) {
@@ -118,19 +118,6 @@ const Settings = ({ isPWA = false }) => {
     }
   }, [settings]);
 
-  // Focus the username input field when it becomes editable
-  useEffect(() => {
-    if (editableFields.username && usernameInputRef.current) {
-      usernameInputRef.current.focus();
-    }
-    if (editableFields.email && emailInputRef.current) {
-      emailInputRef.current.focus();
-    }
-    if (editableFields.password && passwordInputRef.current) {
-      passwordInputRef.current.focus();
-    }
-  }, [editableFields.username, editableFields.email, editableFields.password]);
-
   const handleDeleteAccount = async () => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete your account? This action cannot be undone.'
@@ -147,8 +134,10 @@ const Settings = ({ isPWA = false }) => {
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
+    
     if (confirmLogout) {
-        logout();
+      logout(); // Clear user state and token
+      navigate('/login'); // Redirect to login page
     }
   };
 
@@ -157,7 +146,6 @@ const Settings = ({ isPWA = false }) => {
     setErrorMessage(''); // Clear any previous error messages
 
     try {
-        // Validation checks for each tab
         if (activeTab === 'profile') {
             if (updatedProfile.password !== updatedProfile.confirmPassword) {
                 setErrorMessage('Passwords do not match.');
@@ -181,11 +169,9 @@ const Settings = ({ isPWA = false }) => {
                 return;
             }
 
-            // Check if any profile data has changed before saving
             const hasProfileChanged = Object.keys(updatedProfile).some(
                 (key) =>
                     updatedProfile[key] !== user[key] &&
-                    // Exclude 'confirmPassword' from change check
                     key !== 'confirmPassword'
             );
 
@@ -205,14 +191,13 @@ const Settings = ({ isPWA = false }) => {
 
             if (response?.success) {
                 alert(response.message || 'Settings saved successfully!');
-                await fetchProfile(); // Fetch the updated profile
-                await fetchSettings(); // Fetch the updated settings
-                setEditableFields({ username: false, email: false, password: false }); // Disable edit mode
+                await fetchProfile();
+                await fetchSettings();
+                setEditableFields({ username: false, email: false, password: false });
             } else {
                 setErrorMessage(response?.message || 'Failed to update profile.');
             }
         } else if (activeTab === 'system') {
-            // Check if any system settings have changed before saving
             const hasSystemChanged = Object.keys(updatedSystem).some(
                 (key) => updatedSystem[key] !== settings[key]
             );
@@ -226,13 +211,12 @@ const Settings = ({ isPWA = false }) => {
 
             if (response?.success) {
                 alert(response.message || 'Settings saved successfully!');
-                await fetchProfile(); // Fetch the updated profile
-                await fetchSettings(); // Fetch the updated settings
+                await fetchProfile();
+                await fetchSettings();
             } else {
                 setErrorMessage(response?.message || 'Failed to update system settings.');
             }
         } else if (activeTab === 'notifications') {
-            // Check if any notification settings have changed before saving
             const hasNotificationsChanged = Object.keys(updatedNotifications).some(
                 (key) => updatedNotifications[key] !== settings[key]
             );
@@ -246,8 +230,8 @@ const Settings = ({ isPWA = false }) => {
 
             if (response?.success) {
                 alert(response.message || 'Settings saved successfully!');
-                await fetchProfile(); // Fetch the updated profile
-                await fetchSettings(); // Fetch the updated settings
+                await fetchProfile();
+                await fetchSettings();
             } else {
                 setErrorMessage(response?.message || 'Failed to update notification settings.');
             }

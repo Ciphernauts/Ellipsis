@@ -85,21 +85,21 @@ export function AppProvider({ children }) {
             'https://ellipsis-1.onrender.com/api/users/login',
             { email, password }
         );
-        localStorage.setItem('token', response.data.token);
-        setUser(response.data.user); // Store user data from the response
-        console.log("User data in AppContext:", response.data.user); // Added console log
+  
+        const { token, user } = response.data;
+        localStorage.setItem('token', token);
+        setUser(user); 
         return response.data;
     } catch (error) {
         console.error('Login failed:', error);
         throw error;
     }
-};
+  };
 
   // Logout function
   const logout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-    navigate('/login')
+    localStorage.removeItem('token'); // Clear JWT token
+    setUser(null); // Reset user state
   };
 
   // Update user profile (username, email, password, profile picture)
@@ -123,7 +123,7 @@ export function AppProvider({ children }) {
                     console.log('Username updated in context:', updatedData.username);
                 }
                 if (updatedData.email) {
-                    setUser((prevUser) => ({ ...prevUser, uemail: updatedData.email }));
+                    setUser((prevUser) => ({ ...prevUser, email: updatedData.email }));
                     console.log('Email updated in context:', updatedData.email);
                 }
             }
