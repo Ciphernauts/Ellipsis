@@ -10,21 +10,30 @@ import psycopg2
 import cv2
 
 # Database credentials
-db_host = "localhost"
+db_host = "dpg-cvaugf2n91rc739bco30-a"
 db_port = 5432
-db_name = "postgres"  # Replace with your database name
-db_user = "postgres"  # Replace with your username
-db_password = "root"  # Replace with your password
+db_name = "ELLIPSIS"  # Replace with your database name
+db_user = "ellipsis_user"  # Replace with your username
+db_password = "ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak"  # Replace with your password
+
+# const pool = new Pool({
+#   //connectionString: 'postgresql://ellipsis_user:ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak@dpg-cvaugf2n91rc739bco30-a/ellipsis'
+#   user: "ellipsis_user",
+#   host: "dpg-cvaugf2n91rc739bco30-a",
+#   database: "ellipsis",
+#   password: "ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak",
+#   port: 5432,
+# });
 
 # Initialize YOLO model
-model = YOLO("./best2.pt")  # Replace with your relative model path
+model = YOLO("computer_vision/best2.pt")  # Replace with your relative model path
 
 def check_db_connection():
     """
     Checks if the connection to the database is successful.
     """
     try:
-        conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password)
+        conn = psycopg2.connect("postgresql://ellipsis_user:ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak@dpg-cvaugf2n91rc739bco30-a.singapore-postgres.render.com/ellipsis")
         cur = conn.cursor()
         cur.execute("SELECT 1")
         conn.close()
@@ -37,7 +46,7 @@ check_db_connection()
 print("Checked database connection.")
 
 # Connect to PostgreSQL
-conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password)
+conn = psycopg2.connect("postgresql://ellipsis_user:ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak@dpg-cvaugf2n91rc739bco30-a.singapore-postgres.render.com/ellipsis")
 cur = conn.cursor()
 print("Connected to PostgreSQL.")
 
@@ -97,7 +106,7 @@ def process_frame(frame):
     print("Processed frame and updated database.")
 
 # Directory containing the videos
-video_directory = "./phase_2_videos"
+video_directory = "computer_vision\Phase_2_Videos"
 
 def get_video_files(directory):
     """
