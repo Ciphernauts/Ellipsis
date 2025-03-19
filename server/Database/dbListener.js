@@ -1,5 +1,5 @@
 // dblistener.js
-const { Client } = require("pg");
+const { Client } = require('pg');
 
 const setupDbListener = (io) => {
   const client = new Client({
@@ -7,16 +7,16 @@ const setupDbListener = (io) => {
   });
 
   client.connect();
-  client.query("LISTEN new_incident");
+  client.query('LISTEN new_incident');
 
-  client.on("notification", (msg) => {
+  client.on('notification', (msg) => {
     const payload = JSON.parse(msg.payload);
     console.log(`New incident added: ${JSON.stringify(payload)}`);
-    io.emit("newIncident", { message: JSON.stringify(payload) });
+    io.emit('newIncident', { message: JSON.stringify(payload) });
   });
 
-  client.on("error", (err) => {
-    console.error("Error in PostgreSQL client", err);
+  client.on('error', (err) => {
+    console.error('Error in PostgreSQL client', err);
   });
 };
 

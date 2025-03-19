@@ -61,7 +61,7 @@ export function AppProvider({ children }) {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
-      console.log('fetchProfile API response:', response);
+      // console.log('fetchProfile API response:', response);
       if (previousUser.current == JSON.stringify(response.data[0])) {
         // Compare the first element
         setUser(response.data[0]); // Set user to the first element
