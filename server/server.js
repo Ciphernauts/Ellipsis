@@ -20,7 +20,7 @@ const camerasRoutes = require('./Routes/CamerasRouter');
 dotenv.config({ path: path.resolve(__dirname, './.env') });
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Define allowed origins
 const allowedOrigins = [
@@ -28,19 +28,26 @@ const allowedOrigins = [
   'https://ellipsis.netlify.app', // Deployed frontend
 ];
 
+// Enable CORS for all routes
 app.use(
   cors({
     origin: allowedOrigins, // Allow requests from specified origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Add all necessary methods
-    credentials: true, // Allow credentials if needed
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow necessary HTTP methods
+    credentials: true, // Allow credentials (e.g., cookies, authorization headers)
   })
 );
 
+// Handle preflight requests
 app.options('*', cors()); // Enable pre-flight across-the-board
+app.options('/api/users/login', cors()); // Enable pre-flight for the login route
 
 app.use((req, res, next) => {
   console.log('Request Origin:', req.headers.origin);
   next();
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 // Create HTTP server and Socket.io instance
@@ -72,4 +79,4 @@ app.use('/api', camerasRoutes);
 // setupDbListener(io); // Pass the Socket.io instance to the listener setup
 
 // Start the server
-server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+// server.listen(PORT, () => console.log(`Server started on port ${PORT}`));

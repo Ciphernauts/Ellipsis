@@ -90,12 +90,18 @@ export function AppProvider({ children }) {
   // Login function
   const login = async (email, password) => {
     try {
-      console.log('logging in from appcontext');
+      console.log('Logging in from AppContext');
       const response = await axios.post(
         'https://ellipsis-1.onrender.com/api/users/login',
-        { email, password }
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true, // Include credentials (if needed)
+        }
       );
-      console.log('login response: ', response);
+      console.log('Login response:', response);
 
       const { token, user } = response.data;
       localStorage.setItem('token', token);
