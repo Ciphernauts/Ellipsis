@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import IncidentModal from './IncidentModal';
 
 const socket = io('https://ellipsis-1.onrender.com');
+console.log('Socket:', socket);
 const IncidentListener = () => {
   const [incident, setIncident] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);

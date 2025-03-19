@@ -47,11 +47,11 @@ app.use(express.urlencoded({ extended: true }));
 // Handle preflight requests
 app.options('*', cors());
 
-// // Log request origins (optional)
-// app.use((req, res, next) => {
-//   console.log('Request Origin:', req.headers.origin);
-//   next();
-// });
+// Log request origins (optional)
+app.use((req, res, next) => {
+  console.log('Request Origin:', req.headers.origin);
+  next();
+});
 
 // Define your API routes
 app.use('/api', userRoutes);
