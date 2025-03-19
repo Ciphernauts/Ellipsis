@@ -1,3 +1,0 @@
-# YOLOv11 by Ultralytics dependencies
-ultralytics
-psycopg2-binary
