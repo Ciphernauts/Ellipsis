@@ -1,4 +1,5 @@
-const getAllSessions = `SELECT
+const getAllSessions = `
+SELECT
 JSON_BUILD_OBJECT(
     'constructionSites', (
         SELECT
@@ -22,104 +23,133 @@ JSON_BUILD_OBJECT(
     ),
     'sessions', (
         SELECT
-            JSON_AGG(
-                JSON_BUILD_OBJECT(
-                    'sessionId', session_id,
-                    'safetyScore', safety_score,
-                    'mode', mode,
-                    'startTime', TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS'), -- Format start_time
-                    'endTime', TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') -- Format end_time
-                )
-            )
-        FROM sessions
+            JSON_AGG(session_data)
+        FROM (
+            SELECT
+                session_id as sessionid,
+                safety_score as safetyscore,
+                mode,
+                TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS') AS starttime,
+                TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') AS endtime
+            FROM sessions
+            ORDER BY session_id DESC
+        ) AS session_data
     )
-) AS response_data;`
+) AS response_data;
+ `;
 
-const getSessionById = `WITH SessionData AS (
-  SELECT
-    s.session_id,
-    s.mode,
-    s.start_time,
-    s.end_time,
-    s.safety_score,
-    s.progress,
-    cs.site_id AS construction_site_id,
-    cs.name AS construction_site_name,
-    c.camera_id,
-    c.name AS camera_name,
-    (
-      SELECT
-        COUNT(*)
-      FROM incidents
-      WHERE
-        session_id = s.session_id
-    ) AS total_incidents,
-    (
-      SELECT
-        COUNT(*)
-      FROM incidents
-      WHERE
-        session_id = s.session_id AND severity = 'Critical'
-    ) AS critical_incidents
-  FROM sessions AS s
-  JOIN construction_sites AS cs
-    ON s.site_id = cs.site_id
-  JOIN cameras AS c
-    ON s.camera_id = c.camera_id
-  WHERE
-    s.session_id = $1 -- Use a parameter for session_id
-), Snapshots AS (
-  SELECT
-    JSON_AGG(image_url) AS snapshots
-  FROM snapshots
-  WHERE
-    session_id = $1 -- Use the same parameter for session_id
-), Trends AS (
-  SELECT
-    JSON_AGG(
-      JSON_BUILD_OBJECT(
-        'time', TO_CHAR("timestamp", 'HH24:MI'),
-        'score', score
-      )
-    ) AS trends
-  FROM safety_score_trends
-  WHERE
-    session_id = $1 -- Use the same parameter for session_id
-), Distribution AS (
-  SELECT
-    helmet_score,
-    footwear_score,
-    vest_score
-  FROM safety_score_distribution
-  WHERE
-    session_id = $1 -- Use the same parameter for session_id
+const getSessionById = `
+WITH latest_scores AS (
+    SELECT 
+        helmet_score,
+        vest_score,
+        footwear_score,
+        gloves_score,
+        scaffolding_score,
+        guardrail_score,
+        harness_score
+    FROM 
+        records
+    WHERE 
+        session_id = $1  -- Use parameterized session ID
+    ORDER BY 
+        timestamp DESC
+    LIMIT 1
+),
+safety_score_distribution AS (
+    SELECT
+        ROUND(AVG(helmet_score), 1) AS avg_helmet_score,
+        ROUND(AVG(footwear_score), 1) AS avg_footwear_score,
+        ROUND(AVG(vest_score), 1) AS avg_vest_score,
+        ROUND(AVG(gloves_score), 1) AS avg_gloves_score,
+        ROUND(AVG(scaffolding_score), 1) AS avg_scaffolding_score,
+        ROUND(AVG(guardrail_score), 1) AS avg_guardrail_score,
+        ROUND(AVG(harness_score), 1) AS avg_harness_score
+    FROM 
+        records
+    WHERE 
+        session_id = $1  -- Use parameterized session ID
+),
+trends AS (
+    SELECT 
+        to_char(timestamp, 'YYYY-MM-DD HH24:00') AS time,
+        ROUND(AVG(average_scores(recordid))::numeric, 2) AS score
+    FROM 
+        records
+    WHERE 
+        session_id = $1
+    GROUP BY 
+        to_char(timestamp, 'YYYY-MM-DD HH24:00')  -- Group by date and hour
+    ORDER BY 
+        to_char(timestamp, 'YYYY-MM-DD HH24:00')
+),
+growth_calculation AS (
+    SELECT 
+        session_id,
+        safety_score,
+        LAG(safety_score) OVER (ORDER BY start_time ASC) AS previous_score
+    FROM 
+        sessions
 )
-SELECT
-  JSON_BUILD_OBJECT(
-    'sessionId', sd.session_id,
-    'constructionSite', JSON_BUILD_OBJECT('id', sd.construction_site_id, 'name', sd.construction_site_name),
-    'camera', JSON_BUILD_OBJECT('id', sd.camera_id, 'name', sd.camera_name),
-    'snapshots', sn.snapshots,
-    'mode', sd.mode,
-    'duration', JSON_BUILD_OBJECT(
-      'hours', EXTRACT(HOUR FROM (sd.end_time - sd.start_time)),
-      'minutes', EXTRACT(MINUTE FROM (sd.end_time - sd.start_time)),
-      'seconds', EXTRACT(SECOND FROM (sd.end_time - sd.start_time))
+SELECT json_build_object(
+    'sessionId', s.session_id,
+    'constructionSite', json_build_object(
+        'id', cs.site_id,
+        'name', cs.name
     ),
-    'startTime', TO_CHAR(sd.start_time, 'YYYY-MM-DD HH24:MI:SS'),
-    'endTime', TO_CHAR(sd.end_time, 'YYYY-MM-DD HH24:MI:SS'),
-    'safetyScore', sd.safety_score,
-    'progress', sd.progress,
-    'totalIncidents', sd.total_incidents,
-    'criticalIncidents', sd.critical_incidents,
-    'trends', t.trends,
-    'safetyScoreDistribution', JSON_BUILD_OBJECT(
-      'helmet', d.helmet_score,
-      'footwear', d.footwear_score,
-      'vest', d.vest_score
+    'camera', json_build_object(
+        'id', c.camera_id,
+        'name', c.name
+    ),
+    'snapshots', (SELECT array_agg(ss.image_url) FROM snapshots ss WHERE ss.session_id = s.session_id),
+    'mode', s.mode,
+    'duration', json_build_object(
+        'hours', EXTRACT(HOUR FROM (s.end_time - s.start_time)),
+        'minutes', EXTRACT(MINUTE FROM (s.end_time - s.start_time)),
+        'seconds', EXTRACT(SECOND FROM (s.end_time - s.start_time))
+    ),
+    'startTime', s.start_time,
+    'endTime', s.end_time,
+    'safetyScore', s.safety_score,
+    'progress', COALESCE(
+        CASE 
+            WHEN gc.safety_score - gc.previous_score IS NULL THEN '0.00%'
+            WHEN gc.safety_score - gc.previous_score >= 0 THEN '+' || TO_CHAR(gc.safety_score - gc.previous_score, 'FM999999999.00%')
+            ELSE TO_CHAR(gc.safety_score - gc.previous_score, 'FM999999999.00%')
+        END, '0.00%'
+    ),
+    'totalIncidents', COUNT(i.*),
+    'criticalIncidents', COUNT(CASE WHEN i.severity = 'Critical' THEN 1 END),
+    'trends', json_agg(json_build_object('time', t.time, 'score', t.score)),
+    'safetyScoreDistribution', json_build_object(
+        'helmet', (SELECT avg_helmet_score FROM safety_score_distribution),
+        'footwear', (SELECT avg_footwear_score FROM safety_score_distribution),
+        'vest', (SELECT avg_vest_score FROM safety_score_distribution),
+        'gloves', (SELECT avg_gloves_score FROM safety_score_distribution),
+        'scaffolding', (SELECT avg_scaffolding_score FROM safety_score_distribution),
+        'guardrails', (SELECT avg_guardrail_score FROM safety_score_distribution),
+        'harness', (SELECT avg_harness_score FROM safety_score_distribution)
     )
-  ) AS sessionDetails
-FROM SessionData AS sd, Snapshots AS sn, Trends AS t, Distribution AS d;`
+)
+FROM 
+    sessions s
+LEFT JOIN 
+    construction_sites cs ON s .site_id = cs.site_id
+LEFT JOIN 
+    cameras c ON c.camera_id = s.camera_id
+LEFT JOIN 
+    incidents i ON i.session_id = s.session_id
+LEFT JOIN 
+    growth_calculation gc ON gc.session_id = s.session_id
+LEFT JOIN 
+    trends t ON t.time IS NOT NULL
+WHERE 
+    s.session_id = $1  -- Filter for the specific session ID
+GROUP BY 
+    s.session_id, cs.site_id, c.camera_id, gc.safety_score, gc.previous_score
+ORDER BY 
+    s.start_time ASC;
+`;
 
 const updateSessionById = `WITH UpdatedSession AS (
   UPDATE sessions
@@ -217,8 +247,9 @@ SELECT
       JOIN cameras AS c
         ON us.camera_id = c.camera_id
     )
-  );`
+  );`;
+
 module.exports = {
-    getAllSessions,
-    getSessionById
+  getAllSessions,
+  getSessionById,
 };

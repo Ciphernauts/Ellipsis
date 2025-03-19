@@ -48,6 +48,10 @@
   margin: 0 -32px 0 -32px; /* 32px is default react-sliding-pane padding */
 }
 
+.sliderContainer p {
+  margin-left: 32px;
+}
+
 .snapshotsSection h2 {
   /* margin-left: 50px; also this */
   margin-left: 32px; /* deafault padding as well */
