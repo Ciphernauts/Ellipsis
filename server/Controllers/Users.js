@@ -1,6 +1,7 @@
 const pool = require('../Database/database');
 const queries = require('../Queries/UserQueries');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const getUsers = (req, res) => {
     pool.query(queries.getUsers, (error,results) => {
@@ -122,22 +123,10 @@ const updateUser = (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-    const uid = parseInt(req.params.uid);
-    const { username, email, password } = req.body;
-
-    console.log('Updating user profile for uid:', uid);
-    console.log('Request body:', req.body);
-
+    const { username, uemail, password } = req.body;
+    const uid = req.user.uid;  // Extract UID from JWT token
 
     try {
-        // Check if email is being updated and if it already exists
-        if (email) {
-            const emailCheckResult = await pool.query(queries.checkEmailExists, [email]);
-            if (emailCheckResult.rows.length > 0 && emailCheckResult.rows[0].uid !== uid) {
-                return res.status(400).json({ message: "Email already exists" });
-            }
-        }
-
         let hashedPassword = null;
         if (password) {
             hashedPassword = await bcrypt.hash(password, 10);
@@ -145,17 +134,15 @@ const updateUserProfile = async (req, res) => {
 
         pool.query(
             queries.updateUserProfile,
-            [username, email, hashedPassword, uid],
+            [username, uemail, hashedPassword, uid],
             (error, results) => {
                 if (error) {
-                    console.error(error);
-                    return res.status(500).json({ message: 'Error updating user profile' });
+                    return res.status(500).json({ message: 'Error updating profile' });
                 }
                 res.status(200).json({ message: 'Profile updated successfully!' });
             }
         );
     } catch (error) {
-        console.error('Error in updateUserProfile:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -185,20 +172,29 @@ const loginUser = (req, res) => {
 */
 
 const loginUser = async (req, res) => {
-    let { email, password } = req.body;
+    let { uemail, password } = req.body;
 
-    if (!email || !password) {
+    if (!uemail || !password) {
         return res.status(400).json({ message: "Email and password are required" });
     }
 
-    email = email.trim().toLowerCase(); // ✅ Trim spaces & ensure case-insensitivity
+    uemail = uemail.trim().toLowerCase();
 
-    if (email === "admin@pejman-jouzi.com" && password === "Admin@123") {
-        return res.status(200).json({message: "Login successful"});
+    if (uemail === "admin@pejman-jouzi.com" && password === "Admin@123") {
+        const token = jwt.sign(
+            { uemail, role: 'admin' },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+        return res.status(200).json({
+            message: "Login successful",
+            user: { uemail, role: 'admin' },
+            token
+        });
     }
 
     try {
-        const result = await pool.query(queries.getUserByEmail, [email]);
+        const result = await pool.query(queries.getUserByEmail, [uemail]);
 
         if (result.rows.length === 0) {
             return res.status(404).json({ message: "User Not Found" });
@@ -206,13 +202,22 @@ const loginUser = async (req, res) => {
 
         const user = result.rows[0];
 
-        // Compare hashed password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid password" });
         }
 
-        res.status(200).json({ message: "Login successful", user });
+        const token = jwt.sign(
+            { uid: user.uid, uemail: user.uemail, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        res.status(200).json({
+            message: "Login successful",
+            user: { uid: user.uid, uemail: user.uemail, role: user.role },
+            token
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });

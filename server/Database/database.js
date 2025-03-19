@@ -8,12 +8,13 @@ const pool = new Pool ({
     //connectionString: 'postgres://postgres:root@localhost:5432/postgres'
     user:"postgres",
     host:"localhost",
-    database:"Ellipsis",
-    password:"Post",
-    port:5433
+    database:"postgres",
+    password:"root",
+    port:5432
 });
 
 module.exports = pool;
+
 */
 
 const { Pool } = require("pg");
