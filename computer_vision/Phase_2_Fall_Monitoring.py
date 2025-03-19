@@ -17,7 +17,7 @@ db_user = "postgres"  # Replace with your username
 db_password = "root"  # Replace with your password
 
 # Initialize YOLO model
-model = YOLO("best2.pt")  # Replace with your model path
+model = YOLO("./best2.pt")  # Replace with your relative model path
 
 def check_db_connection():
     """
