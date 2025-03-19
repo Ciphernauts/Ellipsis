@@ -1,16 +1,31 @@
 export const capitalizeFirstLetter = (string) =>
   string.charAt(0).toUpperCase() + string.slice(1);
 
+export const capitalizeWords = (str) => {
+  return str
+    .split(' ')
+    .map((word) => {
+      return capitalizeFirstLetter(word);
+    })
+    .join(' ');
+};
+
 export const calculateAverageScore = (data) => {
   if (Array.isArray(data)) {
-    return data.reduce((acc, item) => acc + item.value, 0) / data.length;
+    // Filter out null or undefined values from the array
+    const filteredData = data.filter((item) => item.value != null);
+    return filteredData.length > 0
+      ? filteredData.reduce((acc, item) => acc + item.value, 0) /
+          filteredData.length
+      : 0; // Return 0 if no valid values
   } else if (typeof data === 'object' && data !== null) {
-    const values = Object.values(data);
-    return values.reduce((acc, value) => acc + value, 0) / values.length;
+    const values = Object.values(data).filter((value) => value != null); // Filter out null or undefined values
+    return values.length > 0
+      ? values.reduce((acc, value) => acc + value, 0) / values.length
+      : 0; // Return 0 if no valid values
   }
   return 0; // Fallback for invalid data
 };
-
 export const mapToPieData = (data) =>
   data.map((item) => ({
     name: item.name,
@@ -98,4 +113,15 @@ export const incidentCategoryToNameMap = {
   scaffolding: 'Improper scaffolding',
   guardrail: 'Missing guardrails',
   harness: 'Missing harness',
+};
+
+export const incidentCategoryToDescMap = {
+  Helmet: 'Head protection missing or not worn properly.',
+  Footwear: 'Unsafe or improper footwear detected.',
+  Vest: 'High-visibility vest missing or not worn.',
+  Gloves: 'Hand protection missing or inadequate.',
+  Scaffolding:
+    'Scaffolding structure detected with instability or improper assembly.',
+  Guardrail: 'Safety guardrails missing or improperly installed.',
+  Harness: 'Fall protection harness missing or improperly secured.',
 };

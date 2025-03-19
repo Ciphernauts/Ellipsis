@@ -36,7 +36,7 @@ SELECT
                         'category', category,
                         'snapshot', snapshot,
                         'site', site_name,
-                        'time', incident_time,
+                        'time', TO_CHAR(incident_time, 'YYYY-MM-DD HH24:MI:SS'),
                         'status', status,
                         'isCritical', (
                             CASE WHEN severity = 'Critical' THEN TRUE ELSE FALSE END

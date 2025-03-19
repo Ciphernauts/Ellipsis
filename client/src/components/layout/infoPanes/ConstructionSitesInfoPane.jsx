@@ -18,8 +18,6 @@ export default function ConstructionSitesInfoPane({
     }
   }, [data]);
 
-  console.log(data);
-
   const handleToggleChange = async () => {
     setUpdating(true);
     const previousIsActive = isActive; // Store the previous state
