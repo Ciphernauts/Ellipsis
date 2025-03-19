@@ -30,6 +30,10 @@ main {
     gap: 20px;
   }
 
+  .complianceBreakdown {
+    order: 2;
+  }
+
   .column {
     width: 100%;
     max-width: none;
@@ -63,16 +67,12 @@ main {
 .mobile .column {
   width: 100%;
   min-width: 100%;
-  /* height: 84px;
-  flex-direction: row;
-  gap: 0;
-  justify-content: space-between;
-  order: 1; */
+  height: auto;
+  flex-direction: column;
 }
 
 .mobile .column .row {
-  /* height: 100%; */
-  /* height: 84px; */
+  width: 100%;
   flex-direction: row;
   gap: 0;
   justify-content: space-between;

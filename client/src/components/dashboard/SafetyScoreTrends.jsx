@@ -19,7 +19,7 @@ export default function SafetyScoreTrends({ data, isPWA = false }) {
   // Function to find the first timeframe with non-empty data
   const findFirstValidTimeframe = () => {
     for (const timeframe of timeframes) {
-      if (data.chart[timeframe] && data.chart[timeframe].length > 0) {
+      if (data.chart[timeframe] && data.chart[timeframe].length > 1) {
         return timeframe;
       }
     }
