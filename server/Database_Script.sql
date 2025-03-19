@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------------------
 -- ----------------------------------------------------------------------
--- ELLIPSIS DATABASE CREATION SCRIPT
+-- ELLIPSIS DATABASE CREATION SCRIPT (DDL ONLY)
 -- ----------------------------------------------------------------------
 -- ----------------------------------------------------------------------
 
@@ -1168,7 +1168,7 @@ BEGIN
             WHERE session_id = NEW.session_id
         ) AS avg_scores
     ),
-	end_time=NEW.timestamp
+	end_time=NOW()
     WHERE session_id = NEW.session_id;
 
     RETURN NEW;  -- Return the new record
