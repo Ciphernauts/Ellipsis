@@ -25,6 +25,7 @@ import Login from './pages/Login';
 import SafetyTrends from './pages/SafetyTrends';
 import OverallSafetyTrend from './pages/OverallSafetyTrend';
 import AdminDashboard from './pages/AdminDashboard';
+import PrivateRoute from './components/PrivateRoute';
 
 // Create a wrapper component to handle fetching the profile
 const AppWrapper = () => {
@@ -62,7 +63,7 @@ const App = () => {
           <Route path='/admin-dashboard' element={<AdminDashboard />} />
           <Route
             path='/dashboard'
-            element={<Dashboard isPWA={isStandalone} />}
+            element={<PrivateRoute> <Dashboard isPWA={isStandalone} /> </PrivateRoute>}
           />
           <Route
             path='/safety-trends'

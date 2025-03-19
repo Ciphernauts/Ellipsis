@@ -318,7 +318,7 @@ export default function NavPane({ isPWA = false, toggle, className }) {
             )}
           </NavLink>
           <NavLink
-            to='/logout'
+            to='/login'
             onClick={handleLinkClick}
             className={styles.lastLink}
           >
