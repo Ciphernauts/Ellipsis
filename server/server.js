@@ -37,6 +37,10 @@ app.use(
   })
 );
 
+// Parse JSON and URL-encoded request bodies
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+
 // Handle preflight requests
 app.options('*', cors()); // Enable pre-flight across-the-board
 app.options('/api/users/login', cors()); // Enable pre-flight for the login route
