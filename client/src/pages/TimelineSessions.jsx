@@ -19,7 +19,7 @@ export default function TimelineSessions({ isPWA = false }) {
   const fetchSessions = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/api/timeline/sessions'
+        'https://ellipsis-1.onrender.com/api/timeline/sessions'
       );
 
       if (response.data) {
@@ -54,130 +54,130 @@ export default function TimelineSessions({ isPWA = false }) {
         ],
         sessions: [
           {
-            sessionId: 'S0028',
-            safetyScore: '87.5',
+            sessionid: 'S0028',
+            safetyscore: '87.5',
             mode: 'General',
-            startTime: '2024-12-20 15:40:34',
-            endTime: '2024-12-20 17:32:18',
+            starttime: '2024-12-20 15:40:34',
+            endtime: '2024-12-20 17:32:18',
           },
           {
-            sessionId: 'S0027',
-            safetyScore: '86.2',
+            sessionid: 'S0027',
+            safetyscore: '86.2',
             mode: 'Height',
-            startTime: '2024-12-20 14:30:24',
-            endTime: '2024-12-20 15:40:33',
+            starttime: '2024-12-20 14:30:24',
+            endtime: '2024-12-20 15:40:33',
           },
           {
-            sessionId: 'S0026',
-            safetyScore: '90.1',
+            sessionid: 'S0026',
+            safetyscore: '90.1',
             mode: 'Entry',
-            startTime: '2024-12-20 14:04:02',
-            endTime: '2024-12-20 14:04:02',
+            starttime: '2024-12-20 14:04:02',
+            endtime: '2024-12-20 14:04:02',
           },
           {
-            sessionId: 'S0025',
-            safetyScore: '82',
+            sessionid: 'S0025',
+            safetyscore: '82',
             mode: 'General',
-            startTime: '2024-12-19 15:40:34',
-            endTime: '2024-12-19 17:32:18',
+            starttime: '2024-12-19 15:40:34',
+            endtime: '2024-12-19 17:32:18',
           },
           {
-            sessionId: 'S0024',
-            safetyScore: '87.4',
+            sessionid: 'S0024',
+            safetyscore: '87.4',
             mode: 'Entry',
-            startTime: '2024-12-19 14:30:24',
-            endTime: '2024-12-19 15:40:33',
+            starttime: '2024-12-19 14:30:24',
+            endtime: '2024-12-19 15:40:33',
           },
           {
-            sessionId: 'S0023',
-            safetyScore: '89.8',
+            sessionid: 'S0023',
+            safetyscore: '89.8',
             mode: 'Entry',
-            startTime: '2024-12-19 15:40:34',
-            endTime: '2024-12-19 17:32:18',
+            starttime: '2024-12-19 15:40:34',
+            endtime: '2024-12-19 17:32:18',
           },
           {
-            sessionId: 'S0022',
-            safetyScore: '91.3',
+            sessionid: 'S0022',
+            safetyscore: '91.3',
             mode: 'Workshop',
-            startTime: '2024-12-18 14:04:02',
-            endTime: '2024-12-18 14:30:23',
+            starttime: '2024-12-18 14:04:02',
+            endtime: '2024-12-18 14:30:23',
           },
           {
-            sessionId: 'S0021',
-            safetyScore: '86',
+            sessionid: 'S0021',
+            safetyscore: '86',
             mode: 'General',
-            startTime: '2024-12-17 14:04:02',
-            endTime: '2024-12-17 14:30:23',
+            starttime: '2024-12-17 14:04:02',
+            endtime: '2024-12-17 14:30:23',
           },
           {
-            sessionId: 'S0020',
-            safetyScore: '84.4',
+            sessionid: 'S0020',
+            safetyscore: '84.4',
             mode: 'General',
-            startTime: '2024-12-16 14:30:24',
-            endTime: '2024-12-16 15:40:33',
+            starttime: '2024-12-16 14:30:24',
+            endtime: '2024-12-16 15:40:33',
           },
           {
-            sessionId: 'S0019',
-            safetyScore: '84.4',
+            sessionid: 'S0019',
+            safetyscore: '84.4',
             mode: 'Height',
-            startTime: '2024-12-15 14:30:24',
-            endTime: '2024-12-15 15:40:33',
+            starttime: '2024-12-15 14:30:24',
+            endtime: '2024-12-15 15:40:33',
           },
           {
-            sessionId: 'S0018',
-            safetyScore: '83.7',
+            sessionid: 'S0018',
+            safetyscore: '83.7',
             mode: 'General',
-            startTime: '2024-12-15 14:04:02',
-            endTime: '2024-12-15 14:30:23',
+            starttime: '2024-12-15 14:04:02',
+            endtime: '2024-12-15 14:30:23',
           },
           {
-            sessionId: 'S0017',
-            safetyScore: '83.3',
+            sessionid: 'S0017',
+            safetyscore: '83.3',
             mode: 'General',
-            startTime: '2024-12-15 14:31:00',
-            endTime: '2024-12-15 17:32:34',
+            starttime: '2024-12-15 14:31:00',
+            endtime: '2024-12-15 17:32:34',
           },
           {
-            sessionId: 'S0016',
-            safetyScore: '81.6',
+            sessionid: 'S0016',
+            safetyscore: '81.6',
             mode: 'Entry',
-            startTime: '2024-12-14 08:32:34',
-            endTime: '2024-12-14 10:45:18',
+            starttime: '2024-12-14 08:32:34',
+            endtime: '2024-12-14 10:45:18',
           },
           {
-            sessionId: 'S0015',
-            safetyScore: '85.2',
+            sessionid: 'S0015',
+            safetyscore: '85.2',
             mode: 'General',
-            startTime: '2024-12-14 07:41:59',
-            endTime: '2024-12-14 08:32:34',
+            starttime: '2024-12-14 07:41:59',
+            endtime: '2024-12-14 08:32:34',
           },
           {
-            sessionId: 'S0014',
-            safetyScore: '85.2',
+            sessionid: 'S0014',
+            safetyscore: '85.2',
             mode: 'General',
-            startTime: '2024-12-14 07:41:59',
-            endTime: '2024-12-14 08:32:34',
+            starttime: '2024-12-14 07:41:59',
+            endtime: '2024-12-14 08:32:34',
           },
           {
-            sessionId: 'S0013',
-            safetyScore: '84.2',
+            sessionid: 'S0013',
+            safetyscore: '84.2',
             mode: 'General',
-            startTime: '2024-12-14 07:41:59',
-            endTime: '2024-12-14 08:32:34',
+            starttime: '2024-12-14 07:41:59',
+            endtime: '2024-12-14 08:32:34',
           },
           {
-            sessionId: 'S0012',
-            safetyScore: '83.1',
+            sessionid: 'S0012',
+            safetyscore: '83.1',
             mode: 'General',
-            startTime: '2024-12-14 07:41:59',
-            endTime: '2024-12-14 08:32:34',
+            starttime: '2024-12-14 07:41:59',
+            endtime: '2024-12-14 08:32:34',
           },
           {
-            sessionId: 'S0011',
-            safetyScore: '84.8',
+            sessionid: 'S0011',
+            safetyscore: '84.8',
             mode: 'General',
-            startTime: '2024-12-14 07:41:59',
-            endTime: '2024-12-14 08:32:34',
+            starttime: '2024-12-14 07:41:59',
+            endtime: '2024-12-14 08:32:34',
           },
         ],
       });
@@ -204,9 +204,10 @@ export default function TimelineSessions({ isPWA = false }) {
       try {
         // Fetch detailed session data dynamically
         const response = await axios.get(
-          `http://localhost:3000/api/timeline/sessions/${id}`
+          `https://ellipsis-1.onrender.com/api/timeline/sessions/${id}`
         );
         const sessionDetails = response.data;
+        console.log('Session details:', sessionDetails);
 
         if (sessionDetails) {
           setPaneData({
@@ -220,7 +221,7 @@ export default function TimelineSessions({ isPWA = false }) {
         console.error('Error fetching session details:', error);
         // Fallback to placeholder data if API fails
         const placeholderSessionDetails = {
-          sessionId: 'S0027',
+          sessionid: 'S0027',
           constructionSite: { id: 1, name: 'Riverside Apartments Project' }, // Updated to match expected structure
           camera: { id: 1, name: 'DJI Matrice 300 RTK' }, // Updated to match expected structure
           snapshots: [
@@ -230,9 +231,9 @@ export default function TimelineSessions({ isPWA = false }) {
           ],
           mode: 'General',
           duration: { hours: 1, minutes: 10, seconds: 9 },
-          startTime: '2024-12-20T14:30:24Z',
-          endTime: '2024-12-20T15:40:33Z',
-          safetyScore: 87.5,
+          starttime: '2024-12-20T14:30:24Z',
+          endtime: '2024-12-20T15:40:33Z',
+          safetyscore: 87.5,
           progress: '+2.3%',
           totalIncidents: 12,
           criticalIncidents: 0,
@@ -286,22 +287,22 @@ export default function TimelineSessions({ isPWA = false }) {
             {sessionData.sessions.length > 0 ? (
               sessionData.sessions.map((session) => (
                 <tr
-                  key={session.sessionId}
-                  className={`${styles.row} ${selectedSessionId === session.sessionId ? styles.active : ''}`}
-                  onClick={() => handleSessionClick(session.sessionId)}
+                  key={session.sessionid}
+                  className={`${styles.row} ${selectedSessionId === session.sessionid ? styles.active : ''}`}
+                  onClick={() => handleSessionClick(session.sessionid)}
                 >
-                  <td className={styles.sessionId}>{session.sessionId}</td>
+                  <td className={styles.sessionId}>{session.sessionid}</td>
                   {isPaneOpen ||
                     (!isPWA && (
                       <>
-                        <td>{session.safetyScore}</td>
+                        <td>{session.safetyscore}</td>
                         {!isPWA && <td>{session.mode}</td>}
                       </>
                     ))}
                   <td>
                     <div className={styles.timeValues}>
-                      <span>{session.startTime}</span>
-                      <span>{session.endTime}</span>
+                      <span>{session.starttime}</span>
+                      <span>{session.endtime}</span>
                     </div>
                   </td>
                 </tr>

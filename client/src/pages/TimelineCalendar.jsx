@@ -257,7 +257,7 @@ export default function TimelineCalendar({ isPWA = false }) {
   const fetchMonthData = async (month, year) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/timeline/calendar/month/${month + 1}/${year}`
+        `https://ellipsis-1.onrender.com/api/timeline/calendar/month/${month + 1}/${year}`
       );
       if (response.data) {
         return response.data.json_build_object;
@@ -274,7 +274,7 @@ export default function TimelineCalendar({ isPWA = false }) {
   const fetchDayData = async (day, month, year) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/timeline/calendar/day/${day}/${month + 1}/${year}`
+        `https://ellipsis-1.onrender.com/api/timeline/calendar/day/${day}/${month + 1}/${year}`
       );
       if (response.data) {
         return response.data; // Return fetched day data

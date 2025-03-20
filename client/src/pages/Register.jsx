@@ -32,7 +32,7 @@ function Register({ isPWA = false }) {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post('http://localhost:3000/api/users/register', {
+      const res = await axios.post('https://ellipsis-1.onrender.com/api/users/register', {
         username: data.username,
         uemail: data.email,
         password: data.password,

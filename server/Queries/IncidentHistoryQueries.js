@@ -1,53 +1,63 @@
-const getAllIncidentHistory = `SELECT
-JSON_BUILD_OBJECT(
-  'incidents', (
+const getAllIncidentHistory = `
+WITH incident_data AS (
     SELECT
-      JSON_AGG(
-        JSON_BUILD_OBJECT(
-          'id', i.incident_id,
-          'category', i.category,
-          'snapshot', (
+        i.incident_id,
+        i.category,
+        i.incident_time,
+        i.status,
+        i.severity,
+        i.session_id,
+        s.mode,
+        cs.name AS site_name,
+        c.name AS camera_name,
+        c.type AS camera_type,
+        (
             SELECT
-              image_url
+                image_url
             FROM snapshots
-            WHERE
-              session_id = i.session_id
+            WHERE session_id = i.session_id
             ORDER BY
-              "timestamp" DESC
+              RANDOM()
             LIMIT 1
-          ),
-          'site', cs.name,
-          'time', i.incident_time,
-          'status', i.status,
-          'isCritical', (
-            CASE WHEN i.severity = 'Critical'
-            THEN TRUE
-            ELSE FALSE
-            END
-          ),
-          'sessionId', i.session_id,
-          'mode', s.mode,
-          'device', JSON_BUILD_OBJECT(
-            'name', c.name,
-            'type', c.type
-          )
-        )
-      )
+        ) AS snapshot
     FROM incidents AS i
-    JOIN sessions AS s
-      ON i.session_id = s.session_id
-    JOIN construction_sites AS cs
-      ON s.site_id = cs.site_id
-    JOIN cameras AS c
-      ON s.camera_id = c.camera_id
-  ),
-  'constructionSites', (
-    SELECT
-      JSON_AGG(name)
-    FROM construction_sites
-  )
-) AS response_data;`
-
+    LEFT JOIN sessions AS s ON i.session_id = s.session_id
+    LEFT JOIN construction_sites AS cs ON s.site_id = cs.site_id
+    LEFT JOIN cameras AS c ON s.camera_id = c.camera_id
+	order by i.incident_time desc
+)
+SELECT
+    JSON_BUILD_OBJECT(
+        'incidents', (
+            SELECT
+                JSON_AGG(
+                    JSON_BUILD_OBJECT(
+                        'id', incident_id,
+                        'category', category,
+                        'snapshot', snapshot,
+                        'site', site_name,
+                        'time', TO_CHAR(incident_time, 'YYYY-MM-DD HH24:MI:SS'),
+                        'status', status,
+                        'isCritical', (
+                            CASE WHEN severity = 'Critical' THEN TRUE ELSE FALSE END
+                        ),
+                        'sessionId', session_id,
+                        'mode', mode,
+                        'device', JSON_BUILD_OBJECT(
+                            'name', camera_name,
+                            'type', camera_type
+                        )
+                    )
+                )
+            FROM incident_data
+        ),
+        'constructionSites', (
+            SELECT
+                JSON_AGG(name)
+            FROM construction_sites
+        )
+    ) AS response_data;
+ `;
 
 const updateIncidentStatus = `WITH UpdatedIncident AS (
     UPDATE incidents
@@ -56,9 +66,9 @@ const updateIncidentStatus = `WITH UpdatedIncident AS (
     RETURNING status  -- Return the updated status
 )
 SELECT JSON_BUILD_OBJECT('status', status)  -- Build a JSON object with the status
-FROM UpdatedIncident;`
+FROM UpdatedIncident;`;
 
 module.exports = {
-    getAllIncidentHistory,
-    updateIncidentStatus
+  getAllIncidentHistory,
+  updateIncidentStatus,
 };

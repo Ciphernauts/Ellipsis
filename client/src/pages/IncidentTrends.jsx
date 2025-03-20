@@ -14,7 +14,7 @@ export default function IncidentTrends({ isPWA = false }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3000/api/incidents/incident-trends'
+          'https://ellipsis-1.onrender.com/api/incidents/incident-trends'
         );
         console.log(response.data);
         if (response.data) {
