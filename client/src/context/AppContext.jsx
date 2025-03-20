@@ -1,5 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // Create the AppContext
@@ -15,7 +21,6 @@ export function AppProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const previousUser = useRef(null);
   const navigate = useNavigate();
-
 
   // Mode state
   const [mode, setMode] = useState('General');
@@ -50,14 +55,18 @@ export function AppProvider({ children }) {
   // Fetch user profile from the server
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('https://ellipsis-1.onrender.com/api/users', {
+      const response = await axios.get(
+        'https://ellipsis-1.onrender.com/api/users',
+        {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      console.log("fetchProfile API response:", response);
-      if (previousUser.current == JSON.stringify(response.data[0])) { // Compare the first element
-          setUser(response.data[0]); // Set user to the first element
-          previousUser.current = JSON.stringify(response.data[0]); // Update ref
-          console.log("User data set in AppContext (API):", response.data[0]);
+        }
+      );
+      // console.log('fetchProfile API response:', response);
+      if (previousUser.current == JSON.stringify(response.data[0])) {
+        // Compare the first element
+        setUser(response.data[0]); // Set user to the first element
+        previousUser.current = JSON.stringify(response.data[0]); // Update ref
+        console.log('User data set in AppContext (API):', response.data[0]);
       }
       return response;
     } catch (error) {
@@ -81,18 +90,26 @@ export function AppProvider({ children }) {
   // Login function
   const login = async (email, password) => {
     try {
-        const response = await axios.post(
-            'https://ellipsis-1.onrender.com/api/users/login',
-            { email, password }
-        );
-  
-        const { token, user } = response.data;
-        localStorage.setItem('token', token);
-        setUser(user); 
-        return response.data;
+      console.log('Logging in from AppContext');
+      const response = await axios.post(
+        'https://ellipsis-1.onrender.com/api/users/login',
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true, // Include credentials (if needed)
+        }
+      );
+      console.log('Login response:', response);
+
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
+      setUser(user);
+      return response.data;
     } catch (error) {
-        console.error('Login failed:', error);
-        throw error;
+      console.error('Login failed:', error);
+      throw error;
     }
   };
 
@@ -105,40 +122,45 @@ export function AppProvider({ children }) {
   // Update user profile (username, email, password, profile picture)
   const updateUserInfo = async (updatedData) => {
     try {
-        const response = await axios.put(
-            `https://ellipsis-1.onrender.com/api/users/${user.uid}`,
-            updatedData,
-            {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            }
-        );
-
-        console.log('Update User Info Response:', response); // Log the entire response
-
-        if (response.data.message) {
-            // If the update was successful, update the user context
-            if (response.status === 200) {
-                if (updatedData.username) {
-                    setUser((prevUser) => ({ ...prevUser, username: updatedData.username }));
-                    console.log('Username updated in context:', updatedData.username);
-                }
-                if (updatedData.email) {
-                    setUser((prevUser) => ({ ...prevUser, email: updatedData.email }));
-                    console.log('Email updated in context:', updatedData.email);
-                }
-            }
-            return { success: true, message: response.data.message };
-        } else {
-            return { success: false, message: 'Failed to update user info.' };
+      const response = await axios.put(
+        `https://ellipsis-1.onrender.com/api/users/${user.uid}`,
+        updatedData,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
+      );
+
+      console.log('Update User Info Response:', response); // Log the entire response
+
+      if (response.data.message) {
+        // If the update was successful, update the user context
+        if (response.status === 200) {
+          if (updatedData.username) {
+            setUser((prevUser) => ({
+              ...prevUser,
+              username: updatedData.username,
+            }));
+            console.log('Username updated in context:', updatedData.username);
+          }
+          if (updatedData.email) {
+            setUser((prevUser) => ({ ...prevUser, email: updatedData.email }));
+            console.log('Email updated in context:', updatedData.email);
+          }
+        }
+        return { success: true, message: response.data.message };
+      } else {
+        return { success: false, message: 'Failed to update user info.' };
+      }
     } catch (error) {
-        console.error('Failed to update user info:', error);
-        return {
-            success: false,
-            message: error.response?.data?.message || 'An error occurred while updating user info.',
-        };
+      console.error('Failed to update user info:', error);
+      return {
+        success: false,
+        message:
+          error.response?.data?.message ||
+          'An error occurred while updating user info.',
+      };
     }
-};
+  };
 
   // Delete user account
   const deleteUserAccount = async () => {

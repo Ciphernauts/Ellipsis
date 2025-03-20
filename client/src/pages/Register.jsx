@@ -32,11 +32,15 @@ function Register({ isPWA = false }) {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post('https://ellipsis-1.onrender.com/api/users/register', {
-        username: data.username,
-        uemail: data.email,
-        password: data.password,
-      });
+      console.log('registering user in appcontext...');
+      const res = await axios.post(
+        'https://ellipsis-1.onrender.com/api/users/register',
+        {
+          username: data.username,
+          email: data.email, // <-- Fix: Use 'email' instead of 'uemail'
+          password: data.password,
+        }
+      );
 
       alert(res.data.message);
       navigate('/login');

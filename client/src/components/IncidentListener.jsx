@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import IncidentModal from './IncidentModal';
 
-const socket = io('http://localhost:3000'); // Adjust the URL as needed
-
+const socket = io('https://ellipsis-1.onrender.com');
+console.log('Socket:', socket);
 const IncidentListener = () => {
   const [incident, setIncident] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);

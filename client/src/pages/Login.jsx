@@ -31,20 +31,20 @@ function Login({ isPWA = false }) {
 
   const onSubmit = async (data) => {
     try {
-        console.log("Form data:", data);
-        const response = await login(data.email, data.password);
-        console.log("Login response:", response);
+      console.log('Form data:', data);
+      const response = await login(data.email, data.password);
+      console.log('Login response:', response);
 
-        if (response && response.message === 'Login successful') {
-            navigate('/dashboard');
-        } else {
-            setApiError(response?.message || 'Login failed');
-        }
+      if (response && response.message === 'Login successful') {
+        navigate('/dashboard');
+      } else {
+        setApiError(response?.message || 'Login failed');
+      }
     } catch (error) {
-        console.error("Login Error:", error);
-        setApiError(error.response?.data?.message || 'Login failed');
+      console.error('Login Error:', error);
+      setApiError(error.response?.data?.message || 'Login failed');
     }
-};
+  };
 
   return (
     <div className={`${styles.registerPage} ${isPWA ? styles.mobile : ''}`}>

@@ -26,29 +26,19 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
   const [selectedCamera, setSelectedCamera] = useState(null);
   const [updating, setUpdating] = useState(false);
 
-  // Set default values for selectedSite and selectedCamera when data changes
   useEffect(() => {
     if (data) {
-      // Set selectedSite to the construction site ID if it exists, otherwise null
       setSelectedSite(data.constructionSite?.id || null);
-      // Set selectedCamera to the camera ID if it exists, otherwise null
       setSelectedCamera(data.camera?.id || null);
     }
   }, [data]);
 
-  // Provide default values for constructionSites and cameras
   const constructionSites = data?.constructionSites || [];
   const cameras = data?.cameras || [];
-
-  // Check if required data exists, use defaults if not
   const safetyScoreDistribution = data?.safetyScoreDistribution || {};
   const trends = data?.trends || [];
   const snapshots = data?.snapshots || [];
-  const duration = data?.duration || {
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  };
+  const duration = data?.duration || { hours: 0, minutes: 0, seconds: 0 };
 
   const settings = {
     arrows: !isPWA,
@@ -68,17 +58,21 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
   const startTime = data?.startTime ? formatTimestamp(data.startTime) : '';
   const endTime = data?.endTime ? formatTimestamp(data.endTime) : '';
 
-  const trendsData = trends.map((trend) => ({
-    interval: trend.time,
-    score: trend.score,
-  }));
+  // Filter trends data to remove null values
+  const trendsData = trends
+    .filter((trend) => trend.time !== null && trend.score !== null)
+    .map((trend) => ({
+      interval: trend.time,
+      score: trend.score,
+    }));
 
-  const safetyDistributionData = Object.entries(safetyScoreDistribution).map(
-    ([key, value]) => ({
+  // Filter safety score distribution to remove null values
+  const safetyDistributionData = Object.entries(safetyScoreDistribution)
+    .filter(([key, value]) => value !== null)
+    .map(([key, value]) => ({
       name: capitalizeFirstLetter(key),
       value: value,
-    })
-  );
+    }));
 
   const handleSiteChange = async (event) => {
     const newSite = parseInt(event.target.value, 10);
@@ -89,7 +83,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
       await updateSession(newSite, selectedCamera);
     } catch (error) {
       console.error('Error updating site:', error);
-      setSelectedSite(data.constructionSite?.id || null); // Revert to the previous site in case of an error
+      setSelectedSite(data.constructionSite?.id || null);
       alert('Error updating site. Please try again.');
     } finally {
       setUpdating(false);
@@ -105,7 +99,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
       await updateSession(selectedSite, newCamera);
     } catch (error) {
       console.error('Error updating camera:', error);
-      setSelectedCamera(data.camera?.id || null); // Revert to the previous camera in case of an error
+      setSelectedCamera(data.camera?.id || null);
       alert('Error updating camera. Please try again.');
     } finally {
       setUpdating(false);
@@ -115,7 +109,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
   const updateSession = async (siteId, cameraId) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/timeline/sessions/${data.sessionId}`,
+        `https://ellipsis-1.onrender.com/api/timeline/sessions/${data.sessionId}`,
         {
           constructionSiteId: siteId,
           cameraId: cameraId,
@@ -123,7 +117,6 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
       );
 
       if (response.data) {
-        // Update the local state directly
         data.constructionSite = constructionSites.find(
           (site) => site.id === siteId
         );
@@ -285,7 +278,7 @@ export default function SessionsInfoPane({ data, isPWA = false }) {
                       stopOpacity={1}
                     />
                     <stop
-                      offset='100%'
+                      offset=' 100%'
                       stopColor='var(--primary)'
                       stopOpacity={0}
                     />

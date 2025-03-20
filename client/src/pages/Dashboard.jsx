@@ -13,11 +13,24 @@ export default function Dashboard({ isPWA = false }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const fetchDashboardData = async () => {
+    try {
+      const response = await axios.get(
+        'https://ellipsis-1.onrender.com/api/dashboard'
+      );
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  };
+
   useEffect(() => {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://ellipsis-1.onrender.com/api/dashboard');
+        const response = await axios.get(
+          'https://ellipsis-1.onrender.com/api/dashboard'
+        );
         if (response.data) {
           setData(response.data);
         } else {
@@ -186,6 +199,14 @@ export default function Dashboard({ isPWA = false }) {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchDashboardData();
+    }, 3000); // Poll every 3 seconds
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {

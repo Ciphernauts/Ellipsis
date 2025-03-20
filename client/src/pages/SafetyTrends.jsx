@@ -38,7 +38,7 @@ const SafetyTrends = ({ isPWA = false }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/safety-trends/${subcategory}`
+          `https://ellipsis-1.onrender.com/api/safety-trends/${subcategory}`
         );
         setData(response.data);
       } catch (error) {

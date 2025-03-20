@@ -27,7 +27,7 @@ export default function IncidentsInfoPane({
     try {
       // Use the correct API endpoint to update the incident status
       const response = await axios.put(
-        `http://localhost:3000/api/incidents/incident-history/${data.id}/${newStatus}`
+        `https://ellipsis-1.onrender.com/api/incidents/incident-history/${data.id}/${newStatus}`
       );
       const updatedIncidentFromServer = response.data;
 

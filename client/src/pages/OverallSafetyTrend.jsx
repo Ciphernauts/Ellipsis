@@ -16,7 +16,7 @@ const OverallSafetyTrend = ({ isPWA = false }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/safety-trends`
+          `https://ellipsis-1.onrender.com/api/safety-trends`
         );
         setData(response.data);
       } catch (error) {
