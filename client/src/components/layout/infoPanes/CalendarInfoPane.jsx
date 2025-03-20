@@ -9,6 +9,8 @@ import PaneInfoPiece from '../../PaneInfoPiece';
 import ArrowIcon from '../../icons/ArrowIcon';
 import Percentage from '../../Percentage';
 import Button from '../../Button';
+import { generateSafetyReport } from '../../TimelineReports/DownloadReport';
+
 import {
   AreaChart,
   Area,
@@ -25,6 +27,10 @@ import CustomTooltip from '../../CustomTooltip';
 
 export default function CalendarInfoPane({ data, isPWA = false, className }) {
   if (!data) return <div className={styles.pane}>Loading...</div>;
+
+  const snapshotRef = useRef(null);
+  const trendsRef = useRef(null);
+  const distributionRef = useRef(null);
 
   // Provide default handleFunctions if not provided
   const handleFunctions = data.handleFunctions || {
@@ -90,7 +96,7 @@ export default function CalendarInfoPane({ data, isPWA = false, className }) {
       </div>
       <div className={styles.content}>
         {/* Snapshots Section */}
-        <div className={styles.snapshotsSection}>
+        <div className={styles.snapshotsSection} ref={snapshotRef}>
           <h2>Snapshot Gallery</h2>
           {data.snapshots && data.snapshots.length > 0 ? (
             <div className={styles.sliderContainer}>
@@ -145,7 +151,7 @@ export default function CalendarInfoPane({ data, isPWA = false, className }) {
         </div>
 
         {/* Trends Section */}
-        <div className={styles.trendsSection}>
+        <div className={styles.trendsSection} ref={trendsRef}>
           <h2>Trends</h2>
           {trendsData && trendsData.length > 0 ? (
             <ResponsiveContainer
@@ -208,7 +214,7 @@ export default function CalendarInfoPane({ data, isPWA = false, className }) {
         </div>
 
         {/* Safety Score Distribution Section */}
-        <div className={styles.distributionSection}>
+        <div className={styles.distributionSection} ref={distributionRef}>
           <h2>Safety Score Distribution</h2>
           {safetyDistributionData && safetyDistributionData.length > 0 ? (
             <ResponsiveContainer width='100%' height={300}>
@@ -303,6 +309,14 @@ export default function CalendarInfoPane({ data, isPWA = false, className }) {
           <Button
             text='Download Report'
             size='large'
+            onClick={() => {
+              generateSafetyReport(
+                data,
+                snapshotRef,
+                trendsRef,
+                distributionRef
+              );
+            }}
             icon={
               <svg
                 width='28'

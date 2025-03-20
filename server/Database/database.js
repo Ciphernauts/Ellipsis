@@ -17,14 +17,14 @@ module.exports = pool;
 
 */
 
-const { Pool } = require("pg");
+const { Pool } = require('pg');
 
 const pool = new Pool({
   //connectionString: 'postgresql://ellipsis_user:ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak@dpg-cvaugf2n91rc739bco30-a/ellipsis'
-  user: "ellipsis_user",
-  host: "dpg-cvaugf2n91rc739bco30-a",
-  database: "ellipsis",
-  password: "ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak",
+  user: 'ellipsis_user',
+  host: 'dpg-cvaugf2n91rc739bco30-a',
+  database: 'ellipsis',
+  password: 'ffgJTH7dmIRWHgHcdFJLZBRUGR2Kc0Ak',
   port: 5432,
 });
 
