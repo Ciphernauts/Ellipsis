@@ -1,15 +1,28 @@
-const { Pool } = require('pg');
+const { Pool } = require("pg");
 
-const host= process.env.PG_HOST;
-const port= process.env.PG_PORT;
-
-const pool = new Pool ({
-    //connectionString: 'postgres://postgres:root@localhost:5432/postgres'
-    user:"postgres",
-    host:"localhost",
-    database:"Ellipsis",
-    password:"Post",
-    port:5433
+const pool = new Pool({
+  //connectionString: 'postgres://postgres:root@localhost:5432/postgres'
+  user: "postgres",
+  host: "localhost",
+  database: "postgres",
+  password: "root",
+  port: 5432,
 });
 
 module.exports = pool;
+
+// const { Pool } = require('pg');
+
+// const host= process.env.PG_HOST;
+// const port= process.env.PG_PORT;
+
+// const pool = new Pool ({
+//     //connectionString: 'postgres://postgres:root@localhost:5432/postgres'
+//     user:"postgres",
+//     host:"localhost",
+//     database:"Ellipsis",
+//     password:"Post",
+//     port:5433
+// });
+
+// module.exports = pool;
