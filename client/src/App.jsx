@@ -50,7 +50,7 @@ const App = () => {
   return (
     <AppProvider>
       <AppWrapper />
-      <IncidentListener />
+      {!isStandalone && <IncidentListener />}
       <Routes>
         {/* Route without nav pane */}
         <Route
