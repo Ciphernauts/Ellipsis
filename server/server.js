@@ -48,10 +48,10 @@ app.use(express.urlencoded({ extended: true }));
 app.options('*', cors());
 
 // Log request origins (optional)
-app.use((req, res, next) => {
-  console.log('Request Origin:', req.headers.origin);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Request Origin:', req.headers.origin);
+//   next();
+// });
 
 // Define your API routes
 app.use('/api', userRoutes);
