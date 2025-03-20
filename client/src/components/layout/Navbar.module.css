@@ -23,8 +23,9 @@
 }
 
 .brand img {
-  width: 59px;
-  height: 59px;
+  width: 145px;
+  height: 145px;
+  margin-top: 4px;
 }
 
 .navlinks {
