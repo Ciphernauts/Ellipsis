@@ -4,3 +4,4 @@ ph1env/
 # Ignore environment variables file
 server/.env
 #added  production
+client/.husky/*
