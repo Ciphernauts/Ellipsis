@@ -23,7 +23,6 @@ const IncidentModal = ({ incident, onClose }) => {
       );
       const updatedIncidentFromServer = response.data;
       console.log('Incident updated:', updatedIncidentFromServer);
-      alert(`Incident status updated to: ${newStatus}`);
     } catch (error) {
       console.error('Error updating status:', error);
       alert('Error updating status. Please try again.');
