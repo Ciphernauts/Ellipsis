@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link
 import styles from './Navbar.module.css';
-import img from '../../assets/Icon_black_png.png';
+import img from '../../assets/Full_line_black_png.png';
 import Button from '../Button';
 
 const Navbar = ({ scrollToSection, refs, homepage = true }) => {
@@ -9,7 +9,6 @@ const Navbar = ({ scrollToSection, refs, homepage = true }) => {
     <div className={`${styles.navbar} ${!homepage && styles.bgTransparent}`}>
       <a href='/' className={styles.brand}>
         <img src={img} alt='' />
-        <p className={styles.logoName}>Ellipsis</p>
       </a>
       <div className={styles.navlinks}>
         {homepage ? (
